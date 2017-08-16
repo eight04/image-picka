@@ -1,0 +1,14 @@
+{
+	"env": {
+		"es6": true,
+		"browser": true,
+		"webextensions": true
+	},
+	"rules": {
+		"no-use-before-define": [2, "nofunc"],
+		"semi": [2, "always"]
+	},
+	"extends": [
+		"eslint:recommended"
+	]
+}

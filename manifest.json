@@ -1,0 +1,38 @@
+{
+	"manifest_version": 2,
+	"version": "0.0.0",
+	"name": "Image Picka",
+	
+	"description": "An image picker written in webextensions",
+	
+	"author": "eight",
+	"homepage_url": "https://github.com/eight04/image-picka",
+	
+	"permissions": [
+		"downloads"
+	],
+	
+	"background": {
+		"scripts": [
+			"background/background.js"
+		]
+	},
+	
+	"content_scripts": [
+		{
+			"all_frames": true,
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"content/dragndrop.js"
+			],
+			"run_at": "document_start"
+		}
+	],
+	
+	"web_accessible_resources": [
+		"public/*.js",
+		"public/*.css"
+	]
+}
