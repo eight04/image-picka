@@ -9,11 +9,13 @@
 	"homepage_url": "https://github.com/eight04/image-picka",
 	
 	"permissions": [
-		"downloads"
+		"downloads",
+		"storage"
 	],
 	
 	"background": {
 		"scripts": [
+			"lib/pref.js",
 			"background/background.js"
 		]
 	},
@@ -31,8 +33,8 @@
 		}
 	],
 	
-	"web_accessible_resources": [
-		"public/*.js",
-		"public/*.css"
-	]
+	"options_ui": {
+		"page": "options/options.html",
+		"browser_style": true
+	}
 }
