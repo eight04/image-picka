@@ -7,8 +7,10 @@ document.addEventListener("dragend", e => {
 	
 	browser.runtime.sendMessage({
 		method: "downloadImage",
-		url: img.src,
-		pageTitle: document.title,
-		pageUrl: location.href
+		env: {
+			url: img.src,
+			pageTitle: document.title,
+			pageUrl: location.href
+		}
 	});
 }, true);

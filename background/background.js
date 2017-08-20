@@ -1,3 +1,5 @@
+/* global pref */
+
 browser.runtime.onMessage.addListener(message => {
 	switch (message.method) {
 		case "downloadImage":
@@ -7,13 +9,12 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
-function downloadImage({url, pageTitle}) {
-	var env = parsePath(url);
-	env.pageTitle = pageTitle;
+function downloadImage({env}) {
+	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
 		
-	return browser.downloads.download({url, filename});
+	return browser.downloads.download({url: env.url, filename});
 }
 
 var escapeTable = {
@@ -39,24 +40,27 @@ function buildFilename(pattern, env) {
 	return pattern.replace(/\${(\w+?)}/g, (m, key) => env[key] ? env[key] : m);
 }
 
-function parsePath(url) {
-	url = new URL(url);
-	var base = url.pathname.match(/[^/]+$/)[0];
+function expandEnv(env) {
+	// image url
+	var url = new URL(env.url);
+	env.hostname = url.hostname;
 	
-	// split name, ext
-	var name, ext;
+	// image filename
+	var base = url.pathname.match(/[^/]+$/)[0],
+		name, ext;
 	try {
 		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg))\b/i);
 	} catch (err) {
 		name = base;
 		ext = pref.get("defaultExt");
 	}
+	env.base = nestDecodeURIComponent(base);
+	env.name = nestDecodeURIComponent(name);
+	env.ext = nestDecodeURIComponent(ext);
 	
-	return {
-		base,
-		name: nestDecodeURIComponent(name),
-		ext: ext.toLowerCase()
-	};
+	// page url
+	url = new URL(env.pageUrl);
+	env.pageHostname = url.hostname;
 }
 
 function nestDecodeURIComponent(s) {
