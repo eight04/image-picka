@@ -9,12 +9,12 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
-function downloadImage({env}) {
+function downloadImage({url, env}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
 		
-	return browser.downloads.download({url: env.url, filename});
+	return browser.downloads.download({url, filename});
 }
 
 var escapeTable = {
