@@ -10,7 +10,7 @@ browser.runtime.onMessage.addListener(message => {
 function downloadImage({url, pageTitle}) {
 	var env = parsePath(url);
 	env.pageTitle = pageTitle;
-	var filePattern = "Image Picker/${pageTitle}/${name}${ext}",
+	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
 		
 	return browser.downloads.download({url, filename});
@@ -39,8 +39,6 @@ function buildFilename(pattern, env) {
 	return pattern.replace(/\${(\w+?)}/g, (m, key) => env[key] ? env[key] : m);
 }
 
-var DEFAULT_EXT = ".jpg";
-
 function parsePath(url) {
 	url = new URL(url);
 	var base = url.pathname.match(/[^/]+$/)[0];
@@ -51,7 +49,7 @@ function parsePath(url) {
 		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg))\b/i);
 	} catch (err) {
 		name = base;
-		ext = DEFAULT_EXT;
+		ext = pref.get("defaultExt");
 	}
 	
 	return {
