@@ -66,10 +66,14 @@ function initFilter(container, images) {
 		}
 	});
 	
+	// some images are still loading
 	container.addEventListener("imageLoad", e => {
 		var {image} = e.detail;
 		filter(image);
 	});
+	
+	// some images are already loaded
+	filterAll();
 	
 	function buildRe(re) {
 		try {
