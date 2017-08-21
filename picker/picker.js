@@ -8,20 +8,21 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 function init({images: urls, env}) {
-	var container = document.createDocumentFragment(),
+	var container = document.querySelector("#image-container"),
+		frag = document.createDocumentFragment(),
 		images = [];
 	for (var url of urls) {
 		var image = createImageCheckbox(url);
 		images.push(image);
-		container.appendChild(image.el);
+		frag.appendChild(image.el);
 	}
-	document.querySelector("#image-container").appendChild(container);
+	container.appendChild(frag);
 	
 	var form = document.forms[0],
 		inputs = form.querySelectorAll(".toolbar input");
 	pref.bindElement(form, inputs, true);
 	
-	pref.ready().then(() => initFilter(images));
+	pref.ready().then(() => initFilter(container, images));
 	
 	var handler = {
 		invert() {
@@ -35,19 +36,20 @@ function init({images: urls, env}) {
 				images: images.filter(i => i.selected()).map(i => i.imgEl.src),
 				env
 			});
-			window.close();
+			browser.runtime.sendMessage({method: "closeTab"});
 		},
 		cancel() {
-			window.close();
+			browser.runtime.sendMessage({method: "closeTab"});
 		}
 	};
 	
+	var actions = document.querySelector(".actions");
 	for (var [cls, cb] of Object.entries(handler)) {
-		document.querySelector(cls).onclick = cb;
+		actions.querySelector(`.${cls}`).onclick = cb;
 	}
 }
 
-function initFilter(images) {
+function initFilter(container, images) {
 	var conf = pref.get(),
 		FILTER_OPTIONS = ["minWidth", "minHeight", "matchUrl"];
 	if (conf.matchUrl) {
@@ -60,11 +62,14 @@ function initFilter(images) {
 			if (conf.matchUrl && typeof conf.matchUrl == "string") {
 				conf.matchUrl = buildRe(conf.matchUrl);
 			}
-			filter();
+			filterAll();
 		}
 	});
 	
-	filter();
+	container.addEventListener("imageLoad", e => {
+		var {image} = e.detail;
+		filter(image);
+	});
 	
 	function buildRe(re) {
 		try {
@@ -76,15 +81,18 @@ function initFilter(images) {
 	}
 	
 	function valid({naturalWidth, naturalHeight, src}) {
-		console.log(naturalWidth, naturalHeight, src);
-		return naturalWidth >= conf.minWidth &&
-			naturalHeight >= conf.minHeight && 
+		return (!naturalWidth || naturalWidth >= conf.minWidth) &&
+			(!naturalHeight || naturalHeight >= conf.minHeight) && 
 			(!conf.matchUrl || conf.matchUrl.test(src));
 	}
+	
+	function filter(image) {
+		image.toggleEnable(valid(image.imgEl));
+	}
 
-	function filter() {
+	function filterAll() {
 		for (var image of images) {
-			image.toggleEnable(valid(image.imgEl));
+			filter(image);
 		}
 	}
 }
@@ -93,7 +101,8 @@ function createImageCheckbox(url) {
 	var label = document.createElement("label"),
 		img = new Image,
 		input = document.createElement("input"),
-		enable = true;	
+		enable = true,
+		ctrl;	
 	img.src = url;
 	img.title = url;
 	img.onload = () => {
@@ -101,6 +110,10 @@ function createImageCheckbox(url) {
 		if (!img.naturalWidth) {
 			img.style.width = "200px";
 		}
+		img.dispatchEvent(new CustomEvent("imageLoad", {
+			bubbles: true,
+			detail: {image: ctrl}
+		}));
 	};
 	input.type = "checkbox";
 	input.checked = true;
@@ -110,7 +123,7 @@ function createImageCheckbox(url) {
 	label.appendChild(img);
 	label.appendChild(input);
 	label.className = "image-checkbox checked";
-	return {
+	return ctrl = {
 		el: label,
 		imgEl: img,
 		toggleEnable(_enable) {
@@ -119,6 +132,7 @@ function createImageCheckbox(url) {
 			input.disabled = !enable;
 		},
 		toggleCheck() {
+			label.classList.toggle("checked");
 			input.checked = !input.checked;
 		},
 		selected() {

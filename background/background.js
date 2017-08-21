@@ -1,9 +1,13 @@
 /* global pref */
 
-browser.runtime.onMessage.addListener(message => {
+browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
 		case "downloadImage":
 			return downloadImage(message);
+		case "batchDownload":
+			return batchDownload(message);
+		case "closeTab":
+			return closeTab(sender.tab.id);
 		default:
 			throw new Error("Unknown method");
 	}
@@ -36,6 +40,12 @@ browser.contextMenus.create({
 		});
 	}
 });
+
+function batchDownload() {}
+
+function closeTab(tabId) {
+	browser.tabs.remove(tabId);
+}
 
 function tabReady(tabId) {
 	return new Promise((resolve, reject) => {
