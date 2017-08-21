@@ -14,19 +14,21 @@ browser.contextMenus.create({
 	onclick(info, tab) {
 		browser.tabs.executeScript(tab.id, {
 			file: "/content/pick-images.js",
-			frameId: info.frameId
+			frameId: info.frameId,
+			runAt: "document_start"
 		}).then(([result]) => {
 			if (!result) return;
 		
 			browser.tabs.create({
-				url: "/picker/picker.html"
+				url: "/picker/picker.html",
 				// openerTabId: tab.id
 			}).then(tab => {
 				result.method = "init";
-				if (tab.status == "complete") {
-					browser.tabs.sendMessage(tab.id, result);
-					return;
-				}
+				// FIXME: tab.status is always complete in this callback?
+				// if (tab.status == "complete") {
+					// browser.tabs.sendMessage(tab.id, result);
+					// return;
+				// }
 				tabReady(tab.id).then(() => {
 					browser.tabs.sendMessage(tab.id, result);
 				});
@@ -39,18 +41,23 @@ function tabReady(tabId) {
 	return new Promise((resolve, reject) => {
 		browser.tabs.onUpdated.addListener(onUpdate);
 		browser.tabs.onRemoved.addListener(onRemove);
+		
+		function unbind() {
+			browser.tabs.onUpdated.removeListener(onUpdate);
+			browser.tabs.onRemoved.removeListener(onRemove);
+		}
 	
 		function onUpdate(_tabId, changes) {
 			if (_tabId != tabId) return;
 			if (changes.status != "complete") return;		
 			resolve();
-			browser.tabs.onUpdated.removeListener(onUpdate);
+			unbind();
 		}
 		
 		function onRemove(_tabId) {
 			if (_tabId != tabId) return;
 			reject();
-			browser.tabs.onRemoved.removeListener(onRemove);
+			unbind();
 		}
 	});
 }

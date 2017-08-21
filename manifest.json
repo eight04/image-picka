@@ -8,6 +8,12 @@
 	"author": "eight",
 	"homepage_url": "https://github.com/eight04/image-picka",
 	
+	"applications": {
+		"gecko": {
+			"id": "image-picka@eight04.blogspot.com"
+		}
+	},
+	
 	"permissions": [
 		"downloads",
 		"storage",

@@ -10,8 +10,11 @@
 
 /* image container */
 #image-container {
-  flex-grow: 1;
+	flex-grow: 1;
 	padding: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 }
 .image-checkbox {
   border: 1px solid skyblue;

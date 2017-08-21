@@ -1,3 +1,5 @@
+/* global pref */
+
 browser.runtime.onMessage.addListener(message => {
 	switch (message.method) {
 		case "init":
@@ -15,6 +17,9 @@ function init({images: urls}) {
 	}
 	document.querySelector("#image-container").appendChild(container);
 	
+	var form = document.forms[0],
+		inputs = form.querySelectorAll(".toolbar input");
+	pref.bindElement(form, inputs);
 	
 }
 
@@ -23,6 +28,12 @@ function createImageCheckbox(url) {
 		img = new Image,
 		input = document.createElement("input");	
 	img.src = url;
+	img.onload = () => {
+		img.onload = null;
+		if (!img.naturalWidth) {
+			img.style.width = "200px";
+		}
+	};
 	input.type = "checkbox";
 	input.checked = true;
 	input.onchange = () => {
