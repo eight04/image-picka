@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Pick Iamges</title>
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="picker.css">
+	<script src="picker.js"></script>
+</head>
+<body>
+	<form id="container">
+		<div class="toolbar">
+			<label>
+				<span>Min width</span>
+				<input type="number" id="minWidth">
+			</label>
+			<label>
+				<span>Min height</span>
+				<input type="number" id="minWidth">
+			</label>
+			<label class="match-url flex-stretch">
+				<span>Match url</span>
+				<input type="text" id="matchUrl" class="flex-stretch">
+			</label>
+		</div>
+		<div id="image-container"></div>
+		<div class="toolbar">
+			<label class="flex-stretch">
+				<span>Filename pattern</span>
+				<input type="text" id="filePatternBatch" class="flex-stretch">
+			</label>
+			<div class="actions">
+				<button type="button" class="save">Save</button>
+				<button type="button" class="cancel">Cancel</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

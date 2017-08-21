@@ -1,15 +1,8 @@
 body {
-	font-size: 16px;
 	background-color: #FBFBFB;
 }
 input[type=text] {
-	display: block;
-	width: 100%;
-	box-sizing: border-box;
 	margin: 0.3em 0;
-	font-family: inherit;
-	font-size: 0.9em;
-	padding: 0.3em;
 }
 input[type=checkbox] {
 	margin-left: 0;

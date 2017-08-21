@@ -9,6 +9,52 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
+browser.contextMenus.create({
+	title: "Image Picka",
+	onclick(info, tab) {
+		browser.tabs.executeScript(tab.id, {
+			file: "/content/pick-images.js",
+			frameId: info.frameId
+		}).then(([result]) => {
+			if (!result) return;
+		
+			browser.tabs.create({
+				url: "/picker/picker.html"
+				// openerTabId: tab.id
+			}).then(tab => {
+				result.method = "init";
+				if (tab.status == "complete") {
+					browser.tabs.sendMessage(tab.id, result);
+					return;
+				}
+				tabReady(tab.id).then(() => {
+					browser.tabs.sendMessage(tab.id, result);
+				});
+			});
+		});
+	}
+});
+
+function tabReady(tabId) {
+	return new Promise((resolve, reject) => {
+		browser.tabs.onUpdated.addListener(onUpdate);
+		browser.tabs.onRemoved.addListener(onRemove);
+	
+		function onUpdate(_tabId, changes) {
+			if (_tabId != tabId) return;
+			if (changes.status != "complete") return;		
+			resolve();
+			browser.tabs.onUpdated.removeListener(onUpdate);
+		}
+		
+		function onRemove(_tabId) {
+			if (_tabId != tabId) return;
+			reject();
+			browser.tabs.onRemoved.removeListener(onRemove);
+		}
+	});
+}
+
 function downloadImage({url, env}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),

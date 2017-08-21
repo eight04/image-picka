@@ -1,0 +1,24 @@
+* {
+	box-sizing: border-box;
+}
+html, body {
+	margin: 0;
+	height: 100%;
+}
+body {
+	font-size: 16px;
+}
+input[type=text],
+input[type=number] {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	padding: 0.3em;
+}
+input[type=number] {
+	text-align: right;
+}
+input, button {
+	font-family: inherit;
+	font-size: 0.9em;
+}

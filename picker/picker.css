@@ -1,0 +1,61 @@
+/* container */
+#container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+#container > * + * {
+	border-top: 2px solid whitesmoke;
+}
+
+/* image container */
+#image-container {
+  flex-grow: 1;
+	padding: 1em;
+}
+.image-checkbox {
+  border: 1px solid skyblue;
+  float: left;
+  margin: 0.5em;
+}
+.image-checkbox.checked {
+	background: skyblue;
+}
+.image-checkbox.disable {
+	opacity: 0.2;
+}
+.image-checkbox img {
+	display: block;
+	max-height: 200px;
+	margin: 0.5em;
+}
+.image-checkbox input[type=checkbox] {
+  display: block;
+  margin: 0.5em auto;
+}
+
+/* toolbar */
+.toolbar {
+	display: flex;
+	padding: 0 1.5em;
+}
+.toolbar input[type=number] {
+	width: 5em;
+}
+.toolbar > * {
+	display: flex;
+	align-items: center;
+}
+.toolbar > * + * {
+	margin-left: 1em;
+}
+.toolbar label > * {
+	margin: 0.7em 0;
+}
+.toolbar label > * + * {
+	margin-left: 0.5em;
+}
+.flex-stretch {
+	width: auto;
+	flex: 1;
+}
