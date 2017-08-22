@@ -11,7 +11,7 @@
     "start": "web-ext run",
     "preversion": "npm test",
     "version": "sync-version manifest.json && git add .",
-    "build": "web-ext build --ignore-files **/*.log",
+    "build": "web-ext build --ignore-files **/*.log package.json package-lock.json --overwrite-dest",
     "postversion": "npm run build && git push --follow-tags"
   },
   "devDependencies": {
