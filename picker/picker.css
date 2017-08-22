@@ -10,7 +10,6 @@
 
 /* image container */
 #image-container {
-	flex-grow: 1;
 	padding: 1em;
 	display: flex;
 	flex-wrap: wrap;

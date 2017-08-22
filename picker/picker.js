@@ -33,7 +33,7 @@ function init({images: urls, env}) {
 		save() {
 			browser.runtime.sendMessage({
 				method: "batchDownload",
-				images: images.filter(i => i.selected()).map(i => i.imgEl.src),
+				urls: images.filter(i => i.selected()).map(i => i.imgEl.src),
 				env
 			});
 			browser.runtime.sendMessage({method: "closeTab"});

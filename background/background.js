@@ -41,7 +41,30 @@ browser.contextMenus.create({
 	}
 });
 
-function batchDownload() {}
+function batchDownload({urls, env}) {
+	console.log(urls, env);
+	var i = 1,
+		filePattern = pref.get("filePatternBatch");
+	for (var url of urls) {
+		env.url = url;
+		env.index = String(i++);
+		expandEnv(env);
+		var filename = buildFilename(filePattern, env);
+		download(url, filename);
+	}
+}
+
+function download(url, filename) {
+	if (url.startsWith("data:")) {
+		return fetch(url).then(r => r.blob()).then(b => {
+			browser.downloads({
+				url: URL.createObjectURL(b),
+				filename
+			});
+		});
+	}
+	return browser.downloads.download({url, filename});
+}
 
 function closeTab(tabId) {
 	browser.tabs.remove(tabId);
@@ -76,8 +99,7 @@ function downloadImage({url, env}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
-		
-	return browser.downloads.download({url, filename});
+	download(url, filename);
 }
 
 var escapeTable = {
@@ -97,10 +119,7 @@ function escapeFilename(name) {
 }
 
 function buildFilename(pattern, env) {
-	for (var [key, value] of Object.entries(env)) {
-		env[key] = escapeFilename(value);
-	}
-	return pattern.replace(/\${(\w+?)}/g, (m, key) => env[key] ? env[key] : m);
+	return pattern.replace(/\${(\w+?)}/g, (m, key) => env[key] ? escapeFilename(env[key]) : m);
 }
 
 function expandEnv(env) {
@@ -112,7 +131,7 @@ function expandEnv(env) {
 	var base = url.pathname.match(/[^/]+$/)[0],
 		name, ext;
 	try {
-		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg))\b/i);
+		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg|svg))\b/i);
 	} catch (err) {
 		name = base;
 		ext = pref.get("defaultExt");
