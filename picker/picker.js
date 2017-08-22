@@ -7,7 +7,7 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
-function init({images: urls, env}) {
+function init({images: urls, env, opener}) {
 	var container = document.querySelector("#image-container"),
 		frag = document.createDocumentFragment(),
 		images = [];
@@ -36,10 +36,10 @@ function init({images: urls, env}) {
 				urls: images.filter(i => i.selected()).map(i => i.imgEl.src),
 				env
 			});
-			browser.runtime.sendMessage({method: "closeTab"});
+			browser.runtime.sendMessage({method: "closeTab", opener});
 		},
 		cancel() {
-			browser.runtime.sendMessage({method: "closeTab"});
+			browser.runtime.sendMessage({method: "closeTab", opener});
 		}
 	};
 	

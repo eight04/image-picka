@@ -7,7 +7,10 @@ browser.runtime.onMessage.addListener((message, sender) => {
 		case "batchDownload":
 			return batchDownload(message);
 		case "closeTab":
-			return closeTab(sender.tab.id);
+			if (!message.tabId) {
+				message.tabId = sender.tab.id;
+			}
+			return closeTab(message);
 		default:
 			throw new Error("Unknown method");
 	}
@@ -22,9 +25,12 @@ browser.contextMenus.create({
 			runAt: "document_start"
 		}).then(([result]) => {
 			if (!result) return;
+			
+			result.opener = tab.id;
 		
 			browser.tabs.create({
 				url: "/picker/picker.html",
+				// FIXME: still can't use opener yet
 				// openerTabId: tab.id
 			}).then(tab => {
 				result.method = "init";
@@ -42,7 +48,6 @@ browser.contextMenus.create({
 });
 
 function batchDownload({urls, env}) {
-	console.log(urls, env);
 	var i = 1,
 		filePattern = pref.get("filePatternBatch");
 	for (var url of urls) {
@@ -66,7 +71,10 @@ function download(url, filename) {
 	return browser.downloads.download({url, filename});
 }
 
-function closeTab(tabId) {
+function closeTab({tabId, opener}) {
+	if (opener) {
+		browser.tabs.update(opener, {active: true});
+	}
 	browser.tabs.remove(tabId);
 }
 
