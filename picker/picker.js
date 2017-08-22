@@ -19,7 +19,7 @@ function init({images: urls, env, opener}) {
 	container.appendChild(frag);
 	
 	var form = document.forms[0],
-		inputs = form.querySelectorAll(".toolbar input");
+		inputs = form.querySelectorAll(".toolbar input, .toolbar select");
 	pref.bindElement(form, inputs, true);
 	
 	pref.ready().then(() => initFilter(container, images));
@@ -51,7 +51,7 @@ function init({images: urls, env, opener}) {
 
 function initFilter(container, images) {
 	var conf = pref.get(),
-		FILTER_OPTIONS = ["minWidth", "minHeight", "matchUrl"];
+		FILTER_OPTIONS = ["minWidth", "minHeight", "matchUrl", "matchType"];
 	if (conf.matchUrl) {
 		conf.matchUrl = buildRe(conf.matchUrl);
 	}
@@ -79,7 +79,7 @@ function initFilter(container, images) {
 		try {
 			return new RegExp(re, "i");
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 		return null;
 	}
@@ -87,7 +87,8 @@ function initFilter(container, images) {
 	function valid({naturalWidth, naturalHeight, src}) {
 		return (!naturalWidth || naturalWidth >= conf.minWidth) &&
 			(!naturalHeight || naturalHeight >= conf.minHeight) && 
-			(!conf.matchUrl || conf.matchUrl.test(src));
+			(!conf.matchUrl || 
+				(conf.matchUrl.test(src) == (conf.matchType == "include")));
 	}
 	
 	function filter(image) {

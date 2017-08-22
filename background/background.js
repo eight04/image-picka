@@ -17,7 +17,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 browser.contextMenus.create({
-	title: "Image Picka",
+	title: "Pick Images",
 	onclick(info, tab) {
 		browser.tabs.executeScript(tab.id, {
 			file: "/content/pick-images.js",

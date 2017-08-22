@@ -7,7 +7,7 @@
 	"rules": {
 		"no-use-before-define": [2, "nofunc"],
 		"semi": [2, "always"],
-		"no-console": 0
+		"no-console": ["error", {"allow": ["warn", "error"]}]
 	},
 	"extends": [
 		"eslint:recommended"

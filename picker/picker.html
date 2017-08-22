@@ -21,9 +21,15 @@
 				<span>Min height</span>
 				<input type="number" id="minHeight">
 			</label>
+			<div>
+				<select id="matchType">
+					<option value="include">Include</option>
+					<option value="exclude">Exclude</option>
+				</select>
+			</div>
 			<label class="match-url flex-stretch">
-				<span>Match url</span>
-				<input type="text" id="matchUrl" class="flex-stretch">
+				<span>URL</span>
+				<input type="text" id="matchUrl" class="flex-stretch" placeholder="Regular expression">
 			</label>
 		</div>
 		<div class="flex-stretch">

@@ -13,12 +13,12 @@ input[type=number] {
 	display: block;
 	width: 100%;
 	min-width: 0;
-	padding: 0.3em;
 }
 input[type=number] {
 	text-align: right;
 }
-input, button {
+input, button, select {
+	padding: 0.3em;
 	font-family: inherit;
 	font-size: 0.9em;
 }

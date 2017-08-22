@@ -61,3 +61,6 @@
 	width: auto;
 	flex: 1;
 }
+.match-url {
+	margin-left: 0.5em;
+}
