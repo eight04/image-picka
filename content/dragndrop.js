@@ -42,17 +42,21 @@
 			}
 			if (!img || img.nodeName != "IMG") return;
 			
-			browser.runtime.sendMessage({
-				method: "downloadImage",
-				url: img.src,
-				env: window.top == window ? getEnv() : null
-			});
+			downloadImage(img.src);
 		}
+	}
+	
+	function downloadImage(url) {
+		browser.runtime.sendMessage({
+			method: "downloadImage",
+			url: url,
+			env: window.top == window ? getEnv() : null
+		});
 	}
 	
 	function initDownloadButton() {
 		var timer,
-			cache,
+			image,
 			button,
 			closeTimer;
 			
@@ -76,39 +80,45 @@
 		}
 	
 		function decideShowButton(e) {
-			var img = e.target;
-			if (img.nodeName != "IMG") {
+			var el = e.target;
+			if (el.nodeName != "IMG") {
 				if (timer != null) {
 					clearTimeout(timer);
 				}
 				timer = null;
-				cache = null;
+				image = null;
 				return;
 			}
 			if (timer != null) {
-				if (img == cache) return;
+				if (el == image) return;
 				clearTimeout(timer);
 			}
 			timer = setTimeout(
 				showDownloadButton,
 				pref.get("downloadButtonDelay")
 			);
-			cache = img;
+			image = el;
 		}
 		
 		function decideHideButton(e) {
 			var el = e.target;
-			if (el == cache || el.closest(".image-picka-download-button")) {
+			if (el == image || el.closest(".image-picka-download-button")) {
 				if (closeTimer != null) {
 					clearTimeout(closeTimer);
 					closeTimer = null;
 				}
 				return;
 			}
-			if (closeTimer != null) {
+			if (el.nodeName == "IMG") {
+				// directly move to new image
+				hideDownloadButton();
+				image = el;
+				showDownloadButton();
 				return;
 			}
-			closeTimer = setTimeout(hideDownloadButton, pref.get("downloadButtonDelayHide"));
+			if (closeTimer == null) {
+				closeTimer = setTimeout(hideDownloadButton, pref.get("downloadButtonDelayHide"));
+			}
 		}
 		
 		function hideDownloadButton() {
@@ -120,14 +130,17 @@
 		function showDownloadButton() {
 			uninit();
 			document.addEventListener("mousemove", decideHideButton);
-			var rect = cache.getBoundingClientRect();
+			var rect = image.getBoundingClientRect();
 			button = new Image;
 			button.className = "image-picka-download-button";
 			button.style = "width:64px;height:64px;cursor:pointer;position:fixed;z-index:2147483647";
 			button.style.top = rect.top - 64 >= 0 ? rect.top - 64 + "px" : "0";
 			button.style.left = rect.left ? rect.left + "px" : "0";
 			button.src = browser.runtime.getURL("/public/download-button.svg");
-			cache.after(button);
+			button.onclick = () => {
+				downloadImage(image.src);
+			};
+			image.after(button);
 		}
 	}
 	
