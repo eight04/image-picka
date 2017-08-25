@@ -7,6 +7,7 @@ Features
 --------
 
 * Drag-n-drop to download an image.
+* Show download button on hover.
 * Batch download all images on a page.
 	- Filter images according to
 		- min width
@@ -37,8 +38,19 @@ Some notes for iframe:
 
 Feel free to open an issue to discuss this behavior if you think this is not right.
 
+Similar addons
+--------------
+
+* [Image Picker](https://addons.mozilla.org/zh-TW/firefox/addon/image-picker/)
+* [Double-click Image Downloader](https://addons.mozilla.org/en-US/firefox/addon/double-click-image-download/?src=ss)
+
 Changelog
 ---------
+
+* 0.2.0 (Aug 26, 2017)
+
+	- Add: option to enable/disable drag-n-drop.
+	- Add: show download button on hover.
 
 * 0.1.2 (Aug 25, 2017)
 
