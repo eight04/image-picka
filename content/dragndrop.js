@@ -78,10 +78,18 @@
 		function uninit() {
 			document.removeEventListener("mousemove", decideShowButton);
 		}
+		
+		function isImage(el) {
+			if (el.nodeName != "IMG") return false;
+			var rect = el.getBoundingClientRect();
+			if (rect.width < pref.get("downloadButtonMinWidth")) return false;
+			if (rect.height < pref.get("downloadButtonMinHeight")) return false;
+			return true;
+		}
 	
 		function decideShowButton(e) {
 			var el = e.target;
-			if (el.nodeName != "IMG") {
+			if (!isImage(el)) {
 				// not an image
 				clearTimeout(timer);
 				timer = image = null;
