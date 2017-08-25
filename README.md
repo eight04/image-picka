@@ -28,8 +28,21 @@ Filename may contains following `${variable}`s:
 * `pageUrl`: URL of the page.
 * `pageHostname`: hostname extracted from `pageUrl`.
 
+Some notes for iframe:
+
+* When downloading with drag-n-drop
+	- `pageTitle`, `pageUrl`, etc, are grabbed from the top window.
+* When batch downloading
+	- `pageTitle`, `pageUrl`, etc, are grabbed from the window of the iframe.
+
+Feel free to open an issue to discuss this behavior if you think this is not right.
+
 Changelog
 ---------
+
+* 0.1.2 (Aug 25, 2017)
+
+	- Fix: env is unavailable inside an iframe.
 
 * 0.1.1 (Aug 25, 2017)
 
