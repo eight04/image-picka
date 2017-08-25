@@ -8,10 +8,21 @@ document.addEventListener("dragend", e => {
 	browser.runtime.sendMessage({
 		method: "downloadImage",
 		url: img.src,
-		env: {
-			url: img.src,
-			pageTitle: window.top.document.title,
-			pageUrl: window.top.location.href
-		}
+		env: window.top == window ? getEnv() : null
 	});
 }, true);
+
+if (window.top == window) {
+	browser.runtime.onMessage.addListener(message => {
+		if (message.method == "getEnv") {
+			return Promise.resolve(getEnv());
+		}
+	});
+}
+
+function getEnv() {
+	return {
+		pageTitle: document.title,
+		pageUrl: location.href
+	};
+}

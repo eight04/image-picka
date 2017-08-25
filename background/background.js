@@ -3,6 +3,7 @@
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
 		case "downloadImage":
+			message.tabId = sender.tab.id;
 			return downloadImage(message);
 		case "batchDownload":
 			return batchDownload(message);
@@ -103,7 +104,12 @@ function tabReady(tabId) {
 	});
 }
 
-function downloadImage({url, env}) {
+function downloadImage({url, env, tabId}) {
+	if (!env) {
+		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
+			.then(env => downloadImage({url, env}));
+	}
+	env.url = url;
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
