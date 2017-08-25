@@ -1,8 +1,10 @@
 /* globals pref */
 
 (function() {
-	initDragndrop();
-	initDownloadButton();
+	pref.ready().then(() => {
+		initDragndrop();
+		initDownloadButton();
+	});
 	
 	if (window.top == window) {
 		browser.runtime.onMessage.addListener(message => {
