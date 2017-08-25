@@ -82,65 +82,84 @@
 		function decideShowButton(e) {
 			var el = e.target;
 			if (el.nodeName != "IMG") {
-				if (timer != null) {
-					clearTimeout(timer);
-				}
-				timer = null;
-				image = null;
+				// not an image
+				clearTimeout(timer);
+				timer = image = null;
 				return;
 			}
-			if (timer != null) {
-				if (el == image) return;
+			if (image && image != el) {
+				// jump to a new image
 				clearTimeout(timer);
+				timer = image = null;
 			}
-			timer = setTimeout(
-				showDownloadButton,
-				pref.get("downloadButtonDelay")
-			);
-			image = el;
+			if (timer == null) {
+				// start countdown
+				timer = setTimeout(() => {
+					timer = null;
+					showDownloadButton();
+				}, pref.get("downloadButtonDelay"));
+				image = el;
+				return;
+			}
 		}
 		
 		function decideHideButton(e) {
 			var el = e.target;
-			if (el == image || el.closest(".image-picka-download-button")) {
-				if (closeTimer != null) {
-					clearTimeout(closeTimer);
-					closeTimer = null;
+			if (e.type == "mousemove") {
+				if (el == image || el.closest(".image-picka-download-button")) {
+					if (closeTimer != null) {
+						clearTimeout(closeTimer);
+						closeTimer = null;
+					}
+					return;
 				}
-				return;
-			}
-			if (el.nodeName == "IMG") {
-				// directly move to new image
-				hideDownloadButton();
-				image = el;
-				showDownloadButton();
-				return;
+				if (el.nodeName == "IMG") {
+					// directly move to new image
+					hideDownloadButton();
+					image = el;
+					showDownloadButton();
+					return;
+				}
 			}
 			if (closeTimer == null) {
-				closeTimer = setTimeout(hideDownloadButton, pref.get("downloadButtonDelayHide"));
+				closeTimer = setTimeout(() => {
+					closeTimer = null;
+					hideDownloadButton();
+				}, pref.get("downloadButtonDelayHide"));
 			}
 		}
 		
 		function hideDownloadButton() {
 			document.removeEventListener("mousemove", decideHideButton);
+			image.removeEventListener("mouseout", decideHideButton);
 			button.remove();
+			image = button = null;
 			init();
 		}
 		
 		function showDownloadButton() {
 			uninit();
 			document.addEventListener("mousemove", decideHideButton);
+			image.addEventListener("mouseout", decideHideButton);
 			var rect = image.getBoundingClientRect();
-			button = new Image;
+			button = document.createElement("div");
 			button.className = "image-picka-download-button";
-			button.style = "width:64px;height:64px;cursor:pointer;position:fixed;z-index:2147483647";
+			button.style = `
+				width: 64px;
+				height: 64px;
+				cursor: pointer;
+				position: fixed;
+				z-index: 2147483647;
+				background-image: url(${browser.runtime.getURL("/public/download-button.svg")});
+				background-size: cover;
+			`;
 			button.style.top = rect.top - 64 >= 0 ? rect.top - 64 + "px" : "0";
 			button.style.left = rect.left ? rect.left + "px" : "0";
-			button.src = browser.runtime.getURL("/public/download-button.svg");
 			button.onclick = () => {
 				downloadImage(image.src);
 			};
-			image.after(button);
+			button.onmouseout = decideHideButton;
+			document.body.appendChild(button);
 		}
 	}
 	
