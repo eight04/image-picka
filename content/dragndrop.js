@@ -10,8 +10,8 @@ document.addEventListener("dragend", e => {
 		url: img.src,
 		env: {
 			url: img.src,
-			pageTitle: document.title,
-			pageUrl: location.href
+			pageTitle: window.top.document.title,
+			pageUrl: window.top.location.href
 		}
 	});
 }, true);
