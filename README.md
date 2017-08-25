@@ -31,6 +31,10 @@ Filename may contains following `${variable}`s:
 Changelog
 ---------
 
+* 0.1.1 (Aug 25, 2017)
+
+	- Fix: use window.top when getting document title.
+
 * 0.1.0
 
     - First release.
