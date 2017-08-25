@@ -1,7 +1,8 @@
 body {
 	background-color: #FBFBFB;
 }
-input[type=text] {
+input[type=text],
+input[type=number] {
 	margin: 0.3em 0;
 }
 input[type=checkbox] {

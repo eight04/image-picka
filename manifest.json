@@ -29,6 +29,7 @@
 				"<all_urls>"
 			],
 			"js": [
+				"lib/pref.js",
 				"content/dragndrop.js"
 			],
 			"run_at": "document_start"
@@ -37,5 +38,6 @@
 	"options_ui": {
 		"page": "options/options.html",
 		"browser_style": true
-	}
+	},
+	"web_accessible_resources": ["public/*"]
 }
