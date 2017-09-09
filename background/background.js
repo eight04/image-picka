@@ -132,8 +132,17 @@ function escapeFilename(name) {
 	return name.replace(/[/\\?|<>:"*]/g, m => escapeTable[m]);
 }
 
+function escapeTrailingDots(path) {
+	return path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
+}
+
 function buildFilename(pattern, env) {
-	return pattern.replace(/\${(\w+?)}/g, (m, key) => env[key] ? escapeFilename(env[key]) : m);
+	return escapeTrailingDots(
+		pattern.replace(
+			/\${(\w+?)}/g,
+			(m, key) => env[key] ? escapeFilename(env[key]) : m
+		)
+	);
 }
 
 function expandEnv(env) {
