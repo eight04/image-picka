@@ -47,6 +47,10 @@ Similar addons
 Changelog
 ---------
 
+* 0.2.1 (Sep 10, 2017)
+
+	- Fix: escape trailing dots in the filename.
+
 * 0.2.0 (Aug 26, 2017)
 
 	- Add: option to enable/disable drag-n-drop.
