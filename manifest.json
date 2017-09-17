@@ -39,5 +39,12 @@
 		"page": "options/options.html",
 		"browser_style": true
 	},
-	"web_accessible_resources": ["public/*"]
+	"web_accessible_resources": ["public/*"],
+	"browser_action": {
+		"default_title": "Pick Images",
+		"default_icon": "icon.svg"
+	},
+	"icons": {
+		"32": "icon.svg"
+	}
 }

@@ -17,36 +17,89 @@ browser.runtime.onMessage.addListener((message, sender) => {
 	}
 });
 
-browser.contextMenus.create({
-	title: "Pick Images",
-	onclick(info, tab) {
-		browser.tabs.executeScript(tab.id, {
-			file: "/content/pick-images.js",
-			frameId: info.frameId,
-			runAt: "document_start"
-		}).then(([result]) => {
-			if (!result) return;
-			
-			result.opener = tab.id;
-		
-			browser.tabs.create({
-				url: "/picker/picker.html",
-				// FIXME: still can't use opener yet
-				// openerTabId: tab.id
-			}).then(tab => {
-				result.method = "init";
-				// FIXME: tab.status is always complete in this callback?
-				// if (tab.status == "complete") {
-					// browser.tabs.sendMessage(tab.id, result);
-					// return;
-				// }
-				tabReady(tab.id).then(() => {
-					browser.tabs.sendMessage(tab.id, result);
-				});
+browser.browserAction.onClicked.addListener(tab => {
+	pickImages(tab.id);
+});
+
+initContextMenu();
+
+function initContextMenu() {
+	var menuId,
+		isInit = false,
+		pending;
+	
+	if (pref.get("contextMenu")) {
+		pending = init().catch(console.error);
+	} else {
+		pending = Promise.resolve();
+	}
+
+	pref.onChange(change => {
+		if (change.contextMenu == null) return;
+		pending = pending.then(() => {
+			if (isInit != change.contextMenu) {
+				return isInit ? uninit() : init();
+			}
+		}).catch(console.error);
+	});
+	
+	function init() {
+		return new Promise((resolve, reject) => {
+			menuId = browser.contextMenus.create({
+				title: "Pick Images",
+				onclick(info, tab) {
+					pickImages(tab.id, info.frameId);
+				}
+			}, () => {
+				if (browser.runtime.lastError) {
+					reject(browser.runtime.lastError);
+				} else {
+					isInit = true;
+					resolve();
+				}
 			});
 		});
 	}
-});
+	
+	function uninit() {
+		return browser.contextMenus.remove(menuId)
+			.then(() => {
+				isInit = false;
+			});
+	}
+}
+
+// inject content/pick-images.js to the page
+function pickImages(tabId, frameId = 0) {
+	browser.tabs.executeScript(tabId, {
+		file: "/content/pick-images.js",
+		frameId: frameId,
+		runAt: "document_start"
+	}).then(([result]) => {
+		if (result) {
+			result.opener = tabId;
+			openPicker(result);
+		}
+	});
+}
+
+function openPicker(req) {
+	browser.tabs.create({
+		url: "/picker/picker.html",
+		// FIXME: still can't use opener yet
+		// openerTabId: tab.id
+	}).then(tab => {
+		req.method = "init";
+		// FIXME: tab.status is always complete in this callback?
+		// if (tab.status == "complete") {
+			// browser.tabs.sendMessage(tab.id, result);
+			// return;
+		// }
+		tabReady(tab.id).then(() => {
+			browser.tabs.sendMessage(tab.id, req);
+		});
+	});
+}
 
 function batchDownload({urls, env}) {
 	var i = 1,
