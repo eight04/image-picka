@@ -14,6 +14,16 @@
 		});
 	}
 	
+	var EVENT_OPTIONS = {passive: true};
+	
+	function addListener(name, callback, el = document) {
+		el.addEventListener(name, callback, EVENT_OPTIONS);
+	}
+	
+	function removeListener(name, callback, el = document) {
+		el.removeEventListener(name, callback, EVENT_OPTIONS);
+	}
+	
 	function initDragndrop() {
 		pref.onChange(change => {
 			if (change.dragndrop == null) return;
@@ -58,7 +68,8 @@
 		var timer,
 			image,
 			button,
-			closeTimer;
+			closeTimer,
+			decideHideTimer;
 			
 		init();
 		pref.onChange(change => {
@@ -72,11 +83,11 @@
 		
 		function init() {
 			if (!pref.get("downloadButton")) return;
-			document.addEventListener("mousemove", decideShowButton);
+			addListener("mouseover", decideShowButton);
 		}
 		
 		function uninit() {
-			document.removeEventListener("mousemove", decideShowButton);
+			removeListener("mouseover", decideShowButton);
 		}
 		
 		function isImage(el) {
@@ -89,16 +100,14 @@
 	
 		function decideShowButton(e) {
 			var el = e.target;
+			if (image && image != el) {
+				// move out
+				clearTimeout(timer);
+				timer = image = null;
+			}
 			if (!isImage(el)) {
 				// not an image
-				clearTimeout(timer);
-				timer = image = null;
 				return;
-			}
-			if (image && image != el) {
-				// jump to a new image
-				clearTimeout(timer);
-				timer = image = null;
 			}
 			if (timer == null) {
 				// start countdown
@@ -111,23 +120,29 @@
 			}
 		}
 		
+		function decideHideButtonThrottled(e) {
+			if (decideHideTimer) {
+				return;
+			}
+			decideHideTimer = setTimeout(() => {
+				decideHideTimer = null;
+				decideHideButton(e);
+			}, 0);
+		}
+		
 		function decideHideButton(e) {
-			var el = e.target;
-			if (e.type == "mousemove") {
-				if (el == image || el.closest(".image-picka-download-button")) {
-					if (closeTimer != null) {
-						clearTimeout(closeTimer);
-						closeTimer = null;
-					}
-					return;
+			var el = e.type == "mouseover" ? e.target : e.relatedTarget,
+				_isImage = el && isImage(el);
+			if (_isImage || el && el.closest(".image-picka-download-button")) {
+				if (closeTimer != null) {
+					clearTimeout(closeTimer);
+					closeTimer = null;
 				}
-				if (el.nodeName == "IMG") {
-					// directly move to new image
-					hideDownloadButton();
+				if (_isImage && el != image) {
 					image = el;
-					showDownloadButton();
-					return;
+					updateButtonPosition();
 				}
+				return;
 			}
 			if (closeTimer == null) {
 				closeTimer = setTimeout(() => {
@@ -138,8 +153,9 @@
 		}
 		
 		function hideDownloadButton() {
-			document.removeEventListener("mousemove", decideHideButton);
-			image.removeEventListener("mouseout", decideHideButton);
+			removeListener("mouseout", decideHideButtonThrottled);
+			removeListener("mouseover", decideHideButtonThrottled);
+			
 			button.remove();
 			image = button = null;
 			init();
@@ -147,9 +163,11 @@
 		
 		function showDownloadButton() {
 			uninit();
-			document.addEventListener("mousemove", decideHideButton);
-			image.addEventListener("mouseout", decideHideButton);
-			var rect = image.getBoundingClientRect();
+			// detect mouse leaving from the image to outside window
+			addListener("mouseout", decideHideButtonThrottled);
+			// detect mouse entering to the image from outside window
+			addListener("mouseover", decideHideButtonThrottled);
+			
 			button = document.createElement("div");
 			button.className = "image-picka-download-button";
 			button.style = `
@@ -161,13 +179,17 @@
 				background-image: url(${browser.runtime.getURL("/public/download-button.svg")});
 				background-size: cover;
 			`;
-			button.style.top = rect.top - 64 >= 0 ? rect.top - 64 + "px" : "0";
-			button.style.left = rect.left ? rect.left + "px" : "0";
+			updateButtonPosition();
 			button.onclick = () => {
 				downloadImage(image.src);
 			};
-			button.onmouseout = decideHideButton;
 			document.body.appendChild(button);
+		}
+		
+		function updateButtonPosition() {
+			var rect = image.getBoundingClientRect();
+			button.style.top = rect.top - 64 >= 0 ? rect.top - 64 + "px" : "0";
+			button.style.left = rect.left ? rect.left + "px" : "0";
 		}
 	}
 	
