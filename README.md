@@ -44,8 +44,21 @@ Similar addons
 * [Image Picker](https://addons.mozilla.org/zh-TW/firefox/addon/image-picker/)
 * [Double-click Image Downloader](https://addons.mozilla.org/en-US/firefox/addon/double-click-image-download/?src=ss)
 
+Icon color
+----------
+
+If you are using a dark theme and the icon color doesn't fit your theme, try setting `svg.context-properties.content.enabled` to true in `about:config`.
+
+Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
+
 Changelog
 ---------
+
+* 0.3.0 (Sep 19, 2017)
+
+	- Change: use `mouseover`, `mouseout` events to replace `mousemove`.
+	- Add icon.
+	- Add toolbar button to pick images.
 
 * 0.2.1 (Sep 10, 2017)
 
