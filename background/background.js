@@ -116,7 +116,7 @@ function batchDownload({urls, env}) {
 function download(url, filename) {
 	if (url.startsWith("data:")) {
 		return fetch(url).then(r => r.blob()).then(b => {
-			browser.downloads({
+			browser.downloads.download({
 				url: URL.createObjectURL(b),
 				filename
 			});
