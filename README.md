@@ -54,6 +54,10 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 Changelog
 ---------
 
+* 0.3.1 (Sep 26, 2017)
+
+	- Fix: unable to download dataurl.
+
 * 0.3.0 (Sep 19, 2017)
 
 	- Change: use `mouseover`, `mouseout` events to replace `mousemove`.
