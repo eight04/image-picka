@@ -113,16 +113,14 @@ function batchDownload({urls, env}) {
 	}
 }
 
-function download(url, filename) {
+function download(url, filename, saveAs = false) {
 	if (url.startsWith("data:")) {
-		return fetch(url).then(r => r.blob()).then(b => {
-			browser.downloads.download({
-				url: URL.createObjectURL(b),
-				filename
-			});
-		});
+		return fetch(url)
+			.then(r => r.blob())
+			.then(URL.createObjectURL)
+			.then(url => download(url, filename, saveAs));
 	}
-	return browser.downloads.download({url, filename});
+	return browser.downloads.download({url, filename, saveAs});
 }
 
 function closeTab({tabId, opener}) {
@@ -166,7 +164,7 @@ function downloadImage({url, env, tabId}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
-	download(url, filename);
+	download(url, filename, pref.get("saveAs"));
 }
 
 var escapeTable = {
