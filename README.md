@@ -54,6 +54,10 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 Changelog
 ---------
 
+* 0.3.2 (Oct 12, 2017)
+
+	- Add: saveAs option.
+
 * 0.3.1 (Sep 26, 2017)
 
 	- Fix: unable to download dataurl.
