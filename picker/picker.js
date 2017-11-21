@@ -112,7 +112,9 @@ function createImageCheckbox(url) {
 	img.title = url;
 	img.onload = () => {
 		img.onload = null;
-		if (!img.naturalWidth) {
+		if (img.naturalWidth) {
+			img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+		} else {
 			img.style.width = "200px";
 		}
 		img.dispatchEvent(new CustomEvent("imageLoad", {
