@@ -8,7 +8,7 @@ Features
 
 * Drag-n-drop to download an image.
 * Show download button on hover.
-* Batch download all images on a page.
+* Batch download all images from current tab or tabs to the right.
 	- Filter images according to
 		- min width
 		- min height
