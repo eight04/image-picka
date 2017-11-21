@@ -1,13 +1,48 @@
 body {
-	background-color: #FBFBFB;
+	font-size: 14px;
+	padding: 0 4px;
+	line-height: 1.5;
 }
-input[type=text],
-input[type=number] {
-	margin: 0.3em 0;
+
+a {
+	color: #0a84ff;
+	text-decoration: none;
 }
-input[type=checkbox] {
-	margin-left: 0;
+
+a:hover {
+	color: #0060df;
+	text-decoration: underline;
 }
-.form-row {
-	margin: 0.5em;
+
+.form-group:not(:first-child) {
+	margin-top: 32px;
+}
+.form-group-head {
+	margin: 4px 0;
+}
+
+.form-help {
+	margin: 4px 0 8px;
+	color: #737373;
+}
+
+.checkbox input,
+.checkbox label::before,
+.checkbox label > span {
+	vertical-align: middle;
+}
+
+.checkbox {
+	margin: 4px 0;
+}
+.checkbox-supplement {
+	margin-left: 27px;
+}
+
+.text:not(:first-child) {
+	margin-top: 8px;
+}
+.text > input {
+	height: 28px;
+	margin: 4px 0;
 }

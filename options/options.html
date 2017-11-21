@@ -11,65 +11,69 @@
 </head>
 <body>
 	<form>
-		<div class="form-row">
-			<label>
+		<div class="form-group">
+			<h3 class="form-group-head">General</h3>
+			<div class="checkbox browser-style">
 				<input type="checkbox" id="contextMenu">
-				Add "Pick Images" command to contextmenu
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				<input type="checkbox" id="dragndrop">
-				Drag-n-drop to download image
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				<input type="checkbox" id="downloadButton">
-				Show download button on hover
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Delay before showing the button (millisecond)
-				<input type="number" id="downloadButtonDelay">
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Delay before hiding the button (millisecond)
-				<input type="number" id="downloadButtonDelayHide">
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Min width to trigger download button
-				<input type="number" id="downloadButtonMinWidth">
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Min height to trigger download button
-				<input type="number" id="downloadButtonMinHeight">
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Filename pattern
-				<input type="text" id="filePattern">
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				<input type="checkbox" id="saveAs">
-				Ask me where to save the image
-			</label>
-		</div>
-		<div class="form-row">
-			<label>
-				Default extension
+				<label for="contextMenu">
+					<span>Add "Pick Images" command to contextmenu</span>
+				</label>
+			</div>
+			<div class="checkbox-supplement">
+				<p class="form-help">Commands can also be accessed from toolbar button and its contextmenu.</p>
+			</div>
+			<div class="text browser-style">
+				<label for="defaultExt">Default extension</label>
 				<input type="text" id="defaultExt">
-			</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<h3 class="form-group-head">Download Single Image</h3>
+			<p class="form-help">These settings don't apply to batch download. Batch download settings are configured in batch download UI.</p>
+			<div class="text browser-style">
+				<label for="filePattern">Filename pattern, relative to default download folder in Firefox.</label> <a href="https://github.com/eight04/image-picka#filename-pattern" target="_blank">Learn more</a>
+				<input type="text" id="filePattern">
+			</div>
+			<p class="form-help">The pattern may include subfolder (separated with <code>/</code>).</p>
+			<div class="checkbox browser-style">
+				<input type="checkbox" id="saveAs">
+				<label for="saveAs">
+					<span>Ask me where to save the image instead of using default download folder.</span>
+				</label>
+			</div>
+			<div class="checkbox-supplement">
+				<p class="form-help">You should remove subfolder part in the filename pattern if this option is checked.</p>
+			</div>
+			<div class="checkbox browser-style">
+				<input type="checkbox" id="dragndrop">
+				<label for="dragndrop">
+					<span>Drag-n-drop to download image</span>
+				</label>
+			</div>
+			<div class="checkbox browser-style">
+				<input type="checkbox" id="downloadButton">
+				<label for="downloadButton">
+					<span>Show a download button on hover</span>
+				</label>
+			</div>
+			<div class="checkbox-supplement">
+				<div class="text browser-style">
+					<label for="downloadButtonDelay">Delay before showing the button (millisecond)</label>
+					<input type="number" id="downloadButtonDelay">
+				</div>
+				<div class="text browser-style">
+					<label for="downloadButtonDelayHide">Delay before hiding the button (millisecond)</label>
+					<input type="number" id="downloadButtonDelayHide">
+				</div>
+				<div class="text browser-style">
+					<label for="downloadButtonMinWidth">Min width to trigger download button</label>
+					<input type="number" id="downloadButtonMinWidth">
+				</div>
+				<div class="text browser-style">
+					<label for="downloadButtonMinHeight">Min height to trigger download button</label>
+					<input type="number" id="downloadButtonMinHeight">
+				</div>
+			</div>
 		</div>
 	</form>
 	<script src="options.js"></script>
