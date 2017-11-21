@@ -18,9 +18,9 @@
 				<label for="contextMenu">
 					<span>Add "Pick Images" command to contextmenu</span>
 				</label>
-			</div>
-			<div class="checkbox-supplement">
-				<p class="form-help">Commands can also be accessed from toolbar button and its contextmenu.</p>
+				<div class="checkbox-supplement">
+					<p class="form-help">Commands can also be accessed from toolbar button and its contextmenu.</p>
+				</div>
 			</div>
 			<div class="text browser-style">
 				<label for="defaultExt">Default extension</label>
@@ -40,9 +40,9 @@
 				<label for="saveAs">
 					<span>Ask me where to save the image instead of using default download folder.</span>
 				</label>
-			</div>
-			<div class="checkbox-supplement">
-				<p class="form-help">You should remove subfolder part in the filename pattern if this option is checked.</p>
+				<div class="checkbox-supplement">
+					<p class="form-help">You should remove subfolder part in the filename pattern if this option is checked.</p>
+				</div>
 			</div>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="dragndrop">
@@ -55,24 +55,24 @@
 				<label for="downloadButton">
 					<span>Show a download button on hover</span>
 				</label>
-			</div>
-			<div class="checkbox-supplement">
-				<div class="text browser-style">
-					<label for="downloadButtonDelay">Delay before showing the button (millisecond)</label>
-					<input type="number" id="downloadButtonDelay">
-				</div>
-				<div class="text browser-style">
-					<label for="downloadButtonDelayHide">Delay before hiding the button (millisecond)</label>
-					<input type="number" id="downloadButtonDelayHide">
-				</div>
-				<div class="text browser-style">
-					<label for="downloadButtonMinWidth">Min width to trigger download button</label>
-					<input type="number" id="downloadButtonMinWidth">
-				</div>
-				<div class="text browser-style">
-					<label for="downloadButtonMinHeight">Min height to trigger download button</label>
-					<input type="number" id="downloadButtonMinHeight">
-				</div>
+				<fieldset class="checkbox-supplement">
+					<div class="text browser-style">
+						<label for="downloadButtonDelay">Delay before showing the button (millisecond)</label>
+						<input type="number" id="downloadButtonDelay">
+					</div>
+					<div class="text browser-style">
+						<label for="downloadButtonDelayHide">Delay before hiding the button (millisecond)</label>
+						<input type="number" id="downloadButtonDelayHide">
+					</div>
+					<div class="text browser-style">
+						<label for="downloadButtonMinWidth">Min width to trigger download button</label>
+						<input type="number" id="downloadButtonMinWidth">
+					</div>
+					<div class="text browser-style">
+						<label for="downloadButtonMinHeight">Min height to trigger download button</label>
+						<input type="number" id="downloadButtonMinHeight">
+					</div>
+				</fieldset>
 			</div>
 		</div>
 	</form>

@@ -1,5 +1,7 @@
 body {
-	font-size: 14px;
+	color: #0c0c0d;
+	font-size: 15px;
+	font-weight: 400;
 	padding: 0 4px;
 	line-height: 1.5;
 }
@@ -18,6 +20,8 @@ a:hover {
 	margin-top: 32px;
 }
 .form-group-head {
+	font-size: 17px;
+	font-weight: 600;
 	margin: 4px 0;
 }
 
@@ -26,17 +30,25 @@ a:hover {
 	color: #737373;
 }
 
-.checkbox input,
-.checkbox label::before,
-.checkbox label > span {
-	vertical-align: middle;
-}
-
 .checkbox {
 	margin: 4px 0;
+	padding-left: 27px;
+}
+.checkbox > input,
+.checkbox > label::before {
+	margin-left: -27px;
+}
+.checkbox > input,
+.checkbox > label,
+.checkbox > label::before,
+.checkbox > label > span {
+	vertical-align: middle;
 }
 .checkbox-supplement {
-	margin-left: 27px;
+	/* reset fieldset */
+	margin: 4px 0 0 0;
+	padding: 0;
+	border: none;
 }
 
 .text:not(:first-child) {
