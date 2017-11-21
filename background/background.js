@@ -105,11 +105,7 @@ function pickImages(tabId, frameId = 0) {
 
 function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
-		.then(result => {
-			if (result) {
-				openPicker(result, tab.id);
-			}
-		});
+		.then(result => openPicker(result, tab.id));
 }
 
 function pickImagesToRight(tab) {
@@ -142,7 +138,7 @@ function openPicker(req, openerTabId) {
 		browser.notifications.create({
 			type: "basic",
 			title: "Image Picka",
-			message: "No image found"
+			message: "No images found"
 		});
 		return;
 	}
