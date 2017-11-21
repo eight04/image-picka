@@ -19,7 +19,7 @@ Features
 Filename pattern
 ----------------
 
-Filename may contains following `${variable}`s:
+Filename may contain following `${variable}`s:
 
 * `url`: entire URL of the image.
 * `hostname`: hostname extracted from `url`. (e.g. `http://example.com/abc.jpg` -> `example.com`)
