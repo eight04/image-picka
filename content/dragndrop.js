@@ -38,21 +38,39 @@
 		}
 		
 		function init() {
-			document.addEventListener("dragend", download, true);
+			document.addEventListener("dragstart", onDragStart);
+			document.addEventListener("dragover", onDragOver);
+			document.addEventListener("drop", onDrop);
 		}
 		
 		function uninit() {
-			document.removeEventListener("dragend", download, true);
+			document.removeEventListener("dragstart", onDragStart);
+			document.removeEventListener("dragover", onDragOver);
+			document.removeEventListener("drop", onDrop);
 		}
 		
-		function download(e) {
+		function onDragStart(e) {
 			var img = e.target;
 			if (img.nodeName == "A") {
 				img = img.querySelector("img");
 			}
 			if (!img || img.nodeName != "IMG") return;
-			
-			downloadImage(img.src);
+			e.dataTransfer.setData("imageSrc", img.src);
+		}
+		
+		function onDragOver(e) {
+			if (e.dataTransfer.getData("imageSrc")) {
+				e.dataTransfer.dropEffect = "copy";
+				e.preventDefault();
+			}
+		}
+		
+		function onDrop(e) {
+			const imageSrc = e.dataTransfer.getData("imageSrc");
+			if (imageSrc) {
+				downloadImage(imageSrc);
+				e.preventDefault();
+			}
 		}
 	}
 	
