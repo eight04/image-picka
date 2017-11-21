@@ -14,7 +14,9 @@
 		"downloads",
 		"storage",
 		"contextMenus",
-		"activeTab"
+		"activeTab",
+		"notifications",
+		"<all_urls>"
 	],
 	"background": {
 		"scripts": [

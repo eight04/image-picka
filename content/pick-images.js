@@ -5,11 +5,6 @@
 		.filter(u => !u.startsWith("moz-extension://"));
 	images = [...new Set(images)];
 	
-	if (!images.length) {
-		alert("No images found");
-		return;
-	}
-
 	return {
 		images,
 		env: {

@@ -18,15 +18,24 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(tab => {
-	pickImages(tab.id);
+	pickImagesFromCurrent(tab);
 });
 
 initContextMenu();
 
 function initContextMenu() {
-	var menuId,
+	var menuIds,
 		isInit = false,
 		pending;
+		
+	// create contextmenu on browser action
+	createContextMenu({
+		title: "From Tabs to The Right",
+		onclick(info, tab) {
+			pickImagesToRight(tab);
+		},
+		contexts: ["browser_action"]
+	});
 	
 	if (pref.get("contextMenu")) {
 		pending = init().catch(console.error);
@@ -44,57 +53,104 @@ function initContextMenu() {
 	});
 	
 	function init() {
-		return new Promise((resolve, reject) => {
-			menuId = browser.contextMenus.create({
-				title: "Pick Images",
+		return Promise.all([
+			createContextMenu({
+				title: "From Current Tab",
 				onclick(info, tab) {
-					pickImages(tab.id, info.frameId);
-				}
-			}, () => {
-				if (browser.runtime.lastError) {
-					reject(browser.runtime.lastError);
-				} else {
-					isInit = true;
-					resolve();
-				}
-			});
+					pickImagesFromCurrent(tab, info.frameId);
+				},
+				contexts: ["page"]
+			}),
+			createContextMenu({
+				title: "From Tabs to The Right",
+				onclick(info, tab) {
+					pickImagesToRight(tab);
+				},
+				contexts: ["page"]
+			})
+		]).then(ids => {
+			menuIds = ids;
+			isInit = true;
 		});
 	}
 	
 	function uninit() {
-		return browser.contextMenus.remove(menuId)
+		return Promise.all(menuIds.map(i => browser.contextMenus.remove(i)))
 			.then(() => {
 				isInit = false;
 			});
 	}
 }
 
-// inject content/pick-images.js to the page
-function pickImages(tabId, frameId = 0) {
-	browser.tabs.executeScript(tabId, {
-		file: "/content/pick-images.js",
-		frameId: frameId,
-		runAt: "document_start"
-	}).then(([result]) => {
-		if (result) {
-			result.opener = tabId;
-			openPicker(result);
-		}
+function createContextMenu(options) {
+	return new Promise((resolve, reject) => {
+		const menuId = browser.contextMenus.create(options, () => {
+			if (browser.runtime.lastError) {
+				reject(browser.runtime.lastError);
+			} else {
+				resolve(menuId);
+			}
+		});
 	});
 }
 
-function openPicker(req) {
+// inject content/pick-images.js to the page
+function pickImages(tabId, frameId = 0) {
+	return browser.tabs.executeScript(tabId, {
+		file: "/content/pick-images.js",
+		frameId: frameId,
+		runAt: "document_start"
+	}).then(([result]) => result);
+}
+
+function pickImagesFromCurrent(tab, frameId) {
+	pickImages(tab.id, frameId)
+		.then(result => {
+			if (result) {
+				openPicker(result, tab.id);
+			}
+		});
+}
+
+function pickImagesToRight(tab) {
+	browser.windows.getCurrent({populate: true})
+		.then(({tabs}) => {
+			const tabsToRight = tabs.filter(
+				t => t.index > tab.index && !t.discarded && !t.pinned
+			);
+			return Promise.all([
+				pickImages(tab.id),
+				...tabsToRight.map(t => pickImages(t.id).catch(err => {
+					// can't inject to about:, moz-extension:, etc
+					console.error(err, t);
+					return {images: []};
+				}))
+			]);
+		})
+		.then(results => {
+			const result = results.reduce((output, curr) => {
+				output.images = output.images.concat(curr.images);
+				return output;
+			});
+			result.images = [...new Set(result.images)];
+			openPicker(result, tab.id);
+		});
+}
+
+function openPicker(req, openerTabId) {
+	if (!req.images.length) {
+		browser.notifications.create({
+			type: "basic",
+			title: "Image Picka",
+			message: "No image found"
+		});
+		return;
+	}
 	browser.tabs.create({
 		url: "/picker/picker.html",
-		// FIXME: still can't use opener yet
-		// openerTabId: tab.id
+		openerTabId
 	}).then(tab => {
 		req.method = "init";
-		// FIXME: tab.status is always complete in this callback?
-		// if (tab.status == "complete") {
-			// browser.tabs.sendMessage(tab.id, result);
-			// return;
-		// }
 		tabReady(tab.id).then(() => {
 			browser.tabs.sendMessage(tab.id, req);
 		});
