@@ -5,6 +5,9 @@ body {
 	padding: 0 4px;
 	line-height: 1.5;
 }
+body.version-lt-57 {
+	background-color: #fbfbfb;
+}
 
 a {
 	color: #0a84ff;
