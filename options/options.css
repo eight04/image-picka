@@ -58,6 +58,12 @@ fieldset[disabled] input {
 	padding: 0;
 	border: none;
 }
+.form-inline .checkbox {
+	display: inline-block;
+}
+.form-inline .checkbox:not(:last-child) {
+	margin-right: 16px;
+}
 
 .text:not(:first-child) {
 	margin-top: 8px;
