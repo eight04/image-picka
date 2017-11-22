@@ -4,6 +4,7 @@
 	pref.ready().then(() => {
 		initDragndrop();
 		initDownloadButton();
+		initSingleClick();
 	});
 	
 	if (window.top == window) {
@@ -22,6 +23,48 @@
 	
 	function removeListener(name, callback, el = document) {
 		el.removeEventListener(name, callback, EVENT_OPTIONS);
+	}
+	
+	function initSingleClick() {
+		const conf = pref.get();
+		
+		if (conf.singleClick) {
+			init();
+		}
+
+		pref.onChange(change => {
+			Object.assign(conf, change);
+			if (change.singleClick != null) {
+				if (change.singleClick) {
+					init();
+				} else {
+					uninit();
+				}
+			}
+		});
+		
+		function init() {
+			document.addEventListener("click", onClick);
+		}
+		
+		function uninit() {
+			document.removeEventListener("click", onClick);
+		}
+		
+		function onClick(e) {
+			if (e.target.nodeName !== "IMG" || !e.target.src || !testEvent(e)) {
+				return;
+			}
+			downloadImage(e.target.src);
+			e.preventDefault();
+		}
+		
+		function testEvent(e) {
+			return conf.singleClick &&
+				e.ctrlKey === conf.singleClickCtrl &&
+				e.altKey === conf.singleClickAlt &&
+				e.shiftKey === conf.singleClickShift;
+		}
 	}
 	
 	function initDragndrop() {
