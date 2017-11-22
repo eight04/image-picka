@@ -6,7 +6,7 @@ An image picker written in webextensions.
 Features
 --------
 
-* Drag-n-drop to download an image.
+* Download an image with drag-n-drop or ctrl/shift/alt + click.
 * Show download button on hover.
 * Batch download all images from current tab or tabs to the right.
 	- Filter images according to
@@ -53,6 +53,15 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 
 Changelog
 ---------
+
+* 0.4.0 (Nov 22, 2017)
+
+	- Add: Download image with ctrl/shift/alt + click.
+	- Add: Close tabs after batch download.
+	- Add: Display image size when hover on the image in batch download.
+	- Add: Pick images from tabs to the right.
+	- Fix: Download won't be triggered if the image is dropped outside of the window.
+	- Improve option page.
 
 * 0.3.2 (Oct 12, 2017)
 
