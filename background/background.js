@@ -142,15 +142,23 @@ function openPicker(req, openerTabId) {
 		});
 		return;
 	}
-	browser.tabs.create({
+	const options = {
 		url: "/picker/picker.html",
 		openerTabId
-	}).then(tab => {
-		req.method = "init";
-		tabReady(tab.id).then(() => {
-			browser.tabs.sendMessage(tab.id, req);
+	};
+	browser.runtime.getBrowserInfo()
+		.then(({version}) => {
+			if (+version.split(".")[0] < 57) {
+				delete options.openerTabId;
+				req.opener = openerTabId;
+			}
+			browser.tabs.create(options).then(tab => {
+				req.method = "init";
+				tabReady(tab.id).then(() => {
+					browser.tabs.sendMessage(tab.id, req);
+				});
+			});
 		});
-	});
 }
 
 function batchDownload({urls, env}) {
