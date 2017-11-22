@@ -13,10 +13,15 @@ a {
 	color: #0a84ff;
 	text-decoration: none;
 }
-
 a:hover {
 	color: #0060df;
 	text-decoration: underline;
+}
+
+fieldset[disabled] label,
+fieldset[disabled] input {
+  color: #999;
+  opacity: .5;
 }
 
 .form-group:not(:first-child) {
