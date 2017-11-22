@@ -7,7 +7,7 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
-function init({images: urls, env, opener}) {
+function init({images: urls, env, opener, tabIds}) {
 	var container = document.querySelector("#image-container"),
 		frag = document.createDocumentFragment(),
 		images = [];
@@ -34,7 +34,8 @@ function init({images: urls, env, opener}) {
 			browser.runtime.sendMessage({
 				method: "batchDownload",
 				urls: images.filter(i => i.selected()).map(i => i.imgEl.src),
-				env
+				env,
+				tabIds
 			});
 			browser.runtime.sendMessage({method: "closeTab", opener});
 		},

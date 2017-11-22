@@ -100,12 +100,18 @@ function pickImages(tabId, frameId = 0) {
 		file: "/content/pick-images.js",
 		frameId: frameId,
 		runAt: "document_start"
-	}).then(([result]) => result);
+	}).then(([result]) => {
+		result.tabId = tabId;
+		return result;
+	});
 }
 
 function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
-		.then(result => openPicker(result, tab.id));
+		.then(result => {
+			result.tabIds = [result.tabId];
+			openPicker(result, tab.id);
+		});
 }
 
 function pickImagesToRight(tab) {
@@ -116,16 +122,17 @@ function pickImagesToRight(tab) {
 			);
 			return Promise.all([
 				pickImages(tab.id),
-				...tabsToRight.map(t => pickImages(t.id).catch(err => {
-					// can't inject to about:, moz-extension:, etc
-					console.error(err, t);
-					return {images: []};
-				}))
+				// can't pickImages from about:, moz-extension:, etc
+				...tabsToRight.map(t => pickImages(t.id).catch(console.error))
 			]);
 		})
 		.then(results => {
+			results[0].tabIds = [results[0].tabId];
 			const result = results.reduce((output, curr) => {
-				output.images = output.images.concat(curr.images);
+				if (curr) {
+					output.tabIds.push(curr.tabId);
+					output.images = output.images.concat(curr.images);
+				}
 				return output;
 			});
 			result.images = [...new Set(result.images)];
@@ -161,7 +168,7 @@ function openPicker(req, openerTabId) {
 		});
 }
 
-function batchDownload({urls, env}) {
+function batchDownload({urls, env, tabIds}) {
 	var i = 1,
 		filePattern = pref.get("filePatternBatch");
 	for (var url of urls) {
@@ -170,6 +177,9 @@ function batchDownload({urls, env}) {
 		expandEnv(env);
 		var filename = buildFilename(filePattern, env);
 		download(url, filename);
+	}
+	if (pref.get("closeTabsAfterSave")) {
+		tabIds.forEach(i => browser.tabs.remove(i));
 	}
 }
 
