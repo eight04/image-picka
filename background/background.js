@@ -171,7 +171,6 @@ function pickImagesToRight(tab) {
 				}
 				return output;
 			});
-			result.images = [...new Set(result.images)];
 			openPicker(result, tab.id);
 		});
 }
