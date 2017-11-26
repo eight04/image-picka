@@ -72,3 +72,7 @@ fieldset[disabled] input {
 	height: 28px;
 	margin: 4px 0;
 }
+
+.textarea-code {
+	font-family: monospace;
+}

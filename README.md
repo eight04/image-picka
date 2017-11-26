@@ -38,6 +38,27 @@ Some notes for iframe:
 
 Feel free to open an issue to discuss this behavior if you think this is not right.
 
+Transform URL with regexp
+-------------------------
+
+If the site displays a thumbnail image, you can transform the URL to its full size URL with this feature, by defining multiple replace rules in the code box. For example:
+
+```
+# baidu
+imgsa\.baidu\.com/.+/(\w+\.\w+)$
+imgsrc.baidu.com/forum/pic/item/$1
+
+# twitter
+pbs\.twimg\.com/media/(.+\.\w+)$
+pbs.twimg.com/media/$1:orig
+```
+
+* Each replace rule includes:
+	- A line of regex.
+	- A line of replacement.
+* Lines starting with `#` are ignored.
+* Empty lines are ignored.
+
 Similar addons
 --------------
 

@@ -2,7 +2,7 @@
 
 (function(){
 	var form = document.forms[0];
-	var inputs = form.querySelectorAll("input");
+	var inputs = form.querySelectorAll("input, textarea");
 	
 	pref.bindElement(form, inputs);
 	
