@@ -10,7 +10,8 @@ body {
 	font-size: 16px;
 }
 input[type=text],
-input[type=number] {
+input[type=number],
+textarea {
 	display: block;
 	width: 100%;
 	min-width: 0;
