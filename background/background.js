@@ -58,7 +58,6 @@ const urlMap = function () {
 
 initContextMenu();
 
-
 function initContextMenu() {
 	var menuIds,
 		isInit = false,
