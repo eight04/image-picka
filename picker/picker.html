@@ -12,7 +12,7 @@
 </head>
 <body>
 	<form id="container">
-		<div class="toolbar">
+		<div class="toolbar toolbar-top">
 			<label>
 				<span>Min width</span>
 				<input type="number" id="minWidth">
@@ -27,19 +27,23 @@
 					<option value="exclude">Exclude</option>
 				</select>
 			</div>
-			<label class="match-url flex-stretch">
-				<span>URL</span>
-				<input type="text" id="matchUrl" class="flex-stretch" placeholder="Regular expression">
-			</label>
+			<div class="flex-stretch toolbar-control">
+				<label for="matchUrl">URL</label>
+				<div class="history-container flex-stretch">
+					<input type="text" id="matchUrl" placeholder="Regular expression" history="3">
+				</div>
+			</div>
 		</div>
-		<div class="flex-stretch">
+		<div>
 			<div id="image-container"></div>
 		</div>
-		<div class="toolbar">
-			<label class="flex-stretch">
-				<span>Filename pattern</span>
-				<input type="text" id="filePatternBatch" class="flex-stretch">
-			</label>
+		<div class="toolbar toolbar-bottom">
+			<div class="flex-stretch toolbar-control">
+				<label for="filePatternBatch">Filename pattern</label>
+				<div class="history-container history-at-top flex-stretch">
+					<input type="text" id="filePatternBatch" history="5">
+				</div>
+			</div>
 			<label>
 				<input type="checkbox" id="closeTabsAfterSave">
 				<span>Close tabs</span>

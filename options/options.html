@@ -32,7 +32,9 @@
 			<p class="form-help">These settings don't apply to batch download. Batch download settings are configured in batch download UI.</p>
 			<div class="text browser-style">
 				<label for="filePattern">Filename pattern, relative to default download folder in Firefox.</label> <a href="https://github.com/eight04/image-picka#filename-pattern" target="_blank">Learn more</a>
-				<input type="text" id="filePattern">
+				<div class="history-container browser-style">
+					<input type="text" id="filePattern" history="5">
+				</div>
 			</div>
 			<p class="form-help">The pattern may include subfolder (separated with <code>/</code>).</p>
 			<div class="checkbox browser-style">

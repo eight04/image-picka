@@ -1,11 +1,6 @@
 /* container */
 #container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-#container > * + * {
-	border-top: 2px solid whitesmoke;
+  padding: 60px 0;
 }
 
 /* image container */
@@ -40,6 +35,17 @@
 .toolbar {
 	display: flex;
 	padding: 0 1.5em;
+	position: fixed;
+	width: 100%;
+	background: white;
+}
+.toolbar-top {
+	top: 0;
+	border-bottom: 2px solid whitesmoke;
+}
+.toolbar-bottom {
+	bottom: 0;
+	border-top: 2px solid whitesmoke;
 }
 .toolbar input[type=number] {
 	width: 5em;
@@ -51,10 +57,12 @@
 .toolbar > * + * {
 	margin-left: 1em;
 }
-.toolbar label > * {
+.toolbar label > *,
+.toolbar-control > * {
 	margin: 0.7em 0;
 }
-.toolbar label > * + * {
+.toolbar label > * + *,
+.toolbar-control > :not(:first-child) {
 	margin-left: 0.5em;
 }
 .flex-stretch {

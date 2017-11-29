@@ -24,3 +24,38 @@ input, button, select {
 	font-family: inherit;
 	font-size: 0.9em;
 }
+
+.history-container {
+	position: relative;
+}
+.history-list {
+	position: absolute;
+	width: 100%;
+	top: 100%;
+	max-height: 100vh;
+	border: 1px solid #737373;
+	background: white;
+	overflow-x: hidden;
+	overflow-y: auto;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	box-shadow: 0 0 5px #737373;
+	z-index: 1;
+}
+.history-at-top .history-list {
+	top: auto;
+	bottom: 100%;
+}
+.history-item {
+	cursor: default;
+	font-size: 0.9em;
+	padding: 0.3em;
+	min-height: 2em;
+}
+.history-item:not(:first-child) {
+	border-top: 1px solid #737373;
+}
+.history-item:hover {
+	background: #0a84ff;
+	color: white;
+}
