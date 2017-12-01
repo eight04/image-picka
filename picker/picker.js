@@ -33,11 +33,32 @@ function init({images: urls, env, opener, tabIds}) {
 		save() {
 			browser.runtime.sendMessage({
 				method: "batchDownload",
-				urls: images.filter(i => i.selected()).map(i => i.imgEl.src),
+				urls: getUrls(),
 				env,
 				tabIds
 			});
 			browser.runtime.sendMessage({method: "closeTab", opener});
+		},
+		copyUrl() {
+			const input = document.createElement("textarea");
+			input.value = getUrls().join("\n");
+			document.body.appendChild(input);
+			input.select();
+			document.execCommand("copy");
+			input.remove();
+			if (!this.originalTextContent) {
+				this.originalTextContent = this.textContent;
+			}
+			this.style.width = this.offsetWidth + "px";
+			this.textContent = "Copied!";
+			if (this.timer != null) {
+				clearTimeout(this.timer);
+			}
+			this.timer = setTimeout(() => {
+				this.textContent = this.originalTextContent;
+				this.style.width = "";
+				this.timer = null;
+			}, 1000);
 		},
 		cancel() {
 			browser.runtime.sendMessage({method: "closeTab", opener});
@@ -47,6 +68,10 @@ function init({images: urls, env, opener, tabIds}) {
 	var actions = document.querySelector(".actions");
 	for (var [cls, cb] of Object.entries(handler)) {
 		actions.querySelector(`.${cls}`).onclick = cb;
+	}
+	
+	function getUrls() {
+		return images.filter(i => i.selected()).map(i => i.imgEl.src);
 	}
 }
 
