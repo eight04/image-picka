@@ -37,7 +37,6 @@ input, button, select {
 	background: white;
 	overflow: auto;
 	box-shadow: 0 0 5px #737373;
-	z-index: 1;
 }
 .history-at-top .history-list {
 	top: auto;

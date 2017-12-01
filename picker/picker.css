@@ -38,6 +38,7 @@
 	position: fixed;
 	width: 100%;
 	background: white;
+	z-index: 1;
 }
 .toolbar-top {
 	top: 0;
