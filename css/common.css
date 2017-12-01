@@ -38,6 +38,17 @@ input, button, select {
 	overflow: auto;
 	box-shadow: 0 0 5px #737373;
 }
+.history-list::before {
+	content: "Recently used:";
+	display: block;
+	color: #737373;
+	font-size: 0.8em;
+	padding: 0 0.3em;
+	background: whitesmoke;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 .history-at-top .history-list {
 	top: auto;
 	bottom: 100%;
