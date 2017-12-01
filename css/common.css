@@ -35,10 +35,7 @@ input, button, select {
 	max-height: 100vh;
 	border: 1px solid #737373;
 	background: white;
-	overflow-x: hidden;
-	overflow-y: auto;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	overflow: auto;
 	box-shadow: 0 0 5px #737373;
 	z-index: 1;
 }
@@ -51,6 +48,9 @@ input, button, select {
 	font-size: 0.9em;
 	padding: 0.3em;
 	min-height: 2em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .history-item:not(:first-child) {
 	border-top: 1px solid #737373;
