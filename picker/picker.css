@@ -62,7 +62,7 @@
 .toolbar-control > * {
 	margin: 0.7em 0;
 }
-.toolbar label > * + *,
+.toolbar label > :not(:first-child),
 .toolbar-control > :not(:first-child) {
 	margin-left: 0.5em;
 }
