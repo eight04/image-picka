@@ -77,7 +77,7 @@ function init({images: urls, env, opener, tabIds}) {
 
 function initFilter(container, images) {
 	var conf = pref.get(),
-		FILTER_OPTIONS = ["minWidth", "minHeight", "matchUrl", "matchType"];
+		FILTER_OPTIONS = ["minFileSize", "minWidth", "minHeight", "matchUrl", "matchType"];
 	if (conf.matchUrl) {
 		conf.matchUrl = buildRe(conf.matchUrl);
 	}
@@ -110,11 +110,13 @@ function initFilter(container, images) {
 		return null;
 	}
 	
-	function valid({naturalWidth, naturalHeight, src}) {
-		return (!naturalWidth || naturalWidth >= conf.minWidth) &&
+	function valid({naturalWidth, naturalHeight, src, error, fileSize}) {
+		return !error && 
+			(!naturalWidth || naturalWidth >= conf.minWidth) &&
 			(!naturalHeight || naturalHeight >= conf.minHeight) && 
 			(!conf.matchUrl || 
-				(conf.matchUrl.test(src) == (conf.matchType == "include")));
+				(conf.matchUrl.test(src) == (conf.matchType == "include"))) &&
+			fileSize >= conf.minFileSize * 1024;
 	}
 	
 	function filter(image) {
@@ -133,21 +135,48 @@ function createImageCheckbox(url) {
 		img = new Image,
 		input = document.createElement("input"),
 		enable = true,
-		ctrl;	
+		ctrl;
+		
 	img.src = url;
 	img.title = url;
-	img.onload = () => {
-		img.onload = null;
-		if (img.naturalWidth) {
-			img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
-		} else {
-			img.style.width = "200px";
-		}
-		img.dispatchEvent(new CustomEvent("imageLoad", {
-			bubbles: true,
-			detail: {image: ctrl}
-		}));
-	};
+	
+	Promise.all([loadImage(), loadFileSize()])
+		.then(() => {
+			if (img.naturalWidth) {
+				img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+			} else {
+				img.style.width = "200px";
+			}
+			img.title += ` [${formatFileSize(img.fileSize)}]`;
+		})
+		.catch(err => {
+			console.error(err);
+			img.error = true;
+		})
+		.then(() => {
+			img.dispatchEvent(new CustomEvent("imageLoad", {
+				bubbles: true,
+				detail: {image: ctrl}
+			}));
+		});
+		
+	function loadImage() {
+		return new Promise((resolve, reject) => {
+			img.onload = () => {
+				img.onload = img.onerror = null;
+				resolve();
+			};
+			img.onerror = err => {
+				img.onload = img.onerror = null;
+				reject(err);
+			};
+		});
+	}
+	
+	function loadFileSize() {
+		return fetchBlob(url).then(b => img.fileSize = b.size);
+	}
+		
 	input.type = "checkbox";
 	input.checked = true;
 	input.onchange = () => {
@@ -156,6 +185,7 @@ function createImageCheckbox(url) {
 	label.appendChild(img);
 	label.appendChild(input);
 	label.className = "image-checkbox checked";
+	
 	return ctrl = {
 		el: label,
 		imgEl: img,
@@ -172,4 +202,26 @@ function createImageCheckbox(url) {
 			return enable && input.checked;
 		}
 	};
+}
+
+function formatFileSize(size) {
+	return `${(size / 1024).toFixed(2)} KB`;
+}
+
+function fetchBlob(url) {
+	// seems that we can access cache with XMLHttpRequest
+	return new Promise((resolve, reject) => {
+		const r = new XMLHttpRequest;
+		r.open("GET", url);
+		r.responseType = "blob";
+		r.onload = () => {
+			r.onload = r.onerror = null;
+			resolve(r.response);
+		};
+		r.onerror = err => {
+			r.onload = r.onerror = null;
+			reject(err);
+		};
+		r.send();
+	});
 }
