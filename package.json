@@ -12,11 +12,13 @@
     "start": "web-ext run",
     "preversion": "npm test",
     "version": "sync-version manifest.json && git add .",
-    "build": "web-ext build --ignore-files **/*.log package.json package-lock.json --overwrite-dest",
-    "postversion": "npm run build && git push --follow-tags"
+    "build": "web-ext build --ignore-files **/*.log package*.json test --overwrite-dest",
+    "postversion": "npm run build && git push --follow-tags",
+    "server": "node test/server.js"
   },
   "devDependencies": {
     "eslint": "^4.12.1",
+    "node-sigint": "0.0.1",
     "npm-build-tools": "^2.2.5",
     "sync-version": "^1.0.1",
     "web-ext": "^2.0.0"
