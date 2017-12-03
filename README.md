@@ -12,9 +12,13 @@ Features
 	- Filter images according to
 		- min width
 		- min height
+		- file size
 		- image URL
+	- Copy URLs of selected images.
 * Customized filename.
 * Handle invalid characters in filename.
+* Download from browser cache.
+* Transform URLs with find-and-replace.
 
 Filename pattern
 ----------------
