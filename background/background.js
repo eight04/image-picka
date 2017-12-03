@@ -1,4 +1,4 @@
-/* global pref fetchBlob */
+/* global pref fetchBlob webextMenus */
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -18,7 +18,24 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(tab => {
-	pickImagesFromCurrent(tab);
+	switch (pref.get("browserAction")) {
+		case "PICK_FROM_CURRENT_TAB":
+			pickImagesFromCurrent(tab);
+			break;
+			
+		case "PICK_FROM_RIGHT_TABS":
+			pickImagesToRight(tab);
+			break;
+	}
+});
+
+pref.ready().then(() => {
+	updateBrowserAction();
+	pref.onChange(change => {
+		if (change.browserAction) {
+			updateBrowserAction();
+		}
+	});
 });
 
 const download = function() {
@@ -110,77 +127,60 @@ const urlMap = function () {
 	return {transform};
 }();
 
-initContextMenu();
+const menus = webextMenus([{
+	title: "From Current Tab",
+	onclick(info, tab) {
+		pickImagesFromCurrent(tab);
+	},
+	contexts: ["browser_action"],
+	oncontext: () => pref.get("browserAction") !== "PICK_FROM_CURRENT_TAB"
+}, {
+	title: "From Tabs to The Right",
+	onclick(info, tab) {
+		pickImagesToRight(tab);
+	},
+	contexts: ["browser_action"],
+	oncontext: () => pref.get("browserAction") !== "PICK_FROM_RIGHT_TABS"
+}, {
+	title: "From Current Tab",
+	onclick(info, tab) {
+		pickImagesFromCurrent(tab, info.frameId);
+	},
+	contexts: ["page"],
+	oncontext: () => pref.get("contextMenu")
+}, {
+	title: "From Tabs to The Right",
+	onclick(info, tab) {
+		pickImagesToRight(tab);
+	},
+	contexts: ["page"],
+	oncontext: () => pref.get("contextMenu")
+}]);
 
-function initContextMenu() {
-	var menuIds,
-		isInit = false,
-		pending;
-		
-	// create contextmenu on browser action
-	createContextMenu({
-		title: "From Tabs to The Right",
-		onclick(info, tab) {
-			pickImagesToRight(tab);
-		},
-		contexts: ["browser_action"]
-	});
-	
-	if (pref.get("contextMenu")) {
-		pending = init().catch(console.error);
-	} else {
-		pending = Promise.resolve();
-	}
-
+// setup dynamic menus
+pref.ready().then(() => {
+	menus.update();
 	pref.onChange(change => {
-		if (change.contextMenu == null) return;
-		pending = pending.then(() => {
-			if (isInit != change.contextMenu) {
-				return isInit ? uninit() : init();
-			}
-		}).catch(console.error);
+		if (change.contextMenu != null || change.browserAction != null) {
+			menus.update();
+		}
 	});
-	
-	function init() {
-		return Promise.all([
-			createContextMenu({
-				title: "From Current Tab",
-				onclick(info, tab) {
-					pickImagesFromCurrent(tab, info.frameId);
-				},
-				contexts: ["page"]
-			}),
-			createContextMenu({
-				title: "From Tabs to The Right",
-				onclick(info, tab) {
-					pickImagesToRight(tab);
-				},
-				contexts: ["page"]
-			})
-		]).then(ids => {
-			menuIds = ids;
-			isInit = true;
-		});
-	}
-	
-	function uninit() {
-		return Promise.all(menuIds.map(i => browser.contextMenus.remove(i)))
-			.then(() => {
-				isInit = false;
-			});
-	}
-}
+});
 
-function createContextMenu(options) {
-	return new Promise((resolve, reject) => {
-		const menuId = browser.contextMenus.create(options, () => {
-			if (browser.runtime.lastError) {
-				reject(browser.runtime.lastError);
-			} else {
-				resolve(menuId);
-			}
-		});
-	});
+function updateBrowserAction() {
+	switch (pref.get("browserAction")) {
+		case "PICK_FROM_CURRENT_TAB":
+			browser.browserAction.setTitle({
+				title: "Pick Images from Current Tab"
+			});
+			break;
+			
+		case "PICK_FROM_RIGHT_TABS":
+			browser.browserAction.setTitle({
+				title: "Pick Images from Tabs to The Right"
+			});
+			break;
+	}
 }
 
 // inject content/pick-images.js to the page

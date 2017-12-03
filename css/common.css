@@ -11,7 +11,8 @@ body {
 }
 input[type=text],
 input[type=number],
-textarea {
+textarea,
+select {
 	display: block;
 	width: 100%;
 	min-width: 0;
