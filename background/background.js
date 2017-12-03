@@ -48,10 +48,10 @@ const download = function() {
 	}
 	
 	function download(url, filename, saveAs = false) {
-		if (url.startsWith("data:")) {
-			return fetchBlob(url).then(b => {
-				const objUrl = URL.createObjectURL(b);
-				return download(objUrl, filename, saveAs)
+		return tryFetchCache().then(blob => {
+			if (blob) {
+				const objUrl = URL.createObjectURL(blob);
+				return browser.downloads.download({url: objUrl, filename, saveAs})
 					.catch(err => {
 						URL.revokeObjectURL(objUrl);
 						throw err;
@@ -60,9 +60,21 @@ const download = function() {
 						objUrls.set(id, objUrl);
 						return id;
 					});
-			});
+			}
+			return browser.downloads.download({url, filename, saveAs});
+		});
+		
+		function tryFetchCache() {
+			if (url.startsWith("data:")) {
+				return fetchBlob(url);
+			}
+			if (pref.get("useCache")) {
+				return fetchBlob(url, 100).catch(err => {
+					console.log("cache miss", err);
+				});
+			}
+			return Promise.resolve();
 		}
-		return browser.downloads.download({url, filename, saveAs});
 	}
 	
 	return download;
@@ -221,13 +233,17 @@ function pickImagesToRight(tab) {
 		});
 }
 
+function notifyError(message) {
+	browser.notifications.create({
+		type: "basic",
+		title: "Image Picka",
+		message
+	});
+}
+
 function openPicker(req, openerTabId) {
 	if (!req.images.length) {
-		browser.notifications.create({
-			type: "basic",
-			title: "Image Picka",
-			message: "No images found"
-		});
+		notifyError("No images found");
 		return;
 	}
 	req.images = [...new Set(req.images.map(urlMap.transform))];
@@ -307,7 +323,10 @@ function downloadImage({url, env, tabId}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
-	download(url, filename, pref.get("saveAs"));
+	download(url, filename, pref.get("saveAs"))
+		.catch(err => {
+			notifyError(String(err));
+		});
 }
 
 var escapeTable = {
