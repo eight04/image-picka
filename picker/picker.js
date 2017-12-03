@@ -7,6 +7,9 @@ browser.runtime.onMessage.addListener(message => {
 	}
 });
 
+// tell background that the tab is ready
+browser.runtime.sendMessage({method: "ping"});
+
 function init({images: urls, env, opener, tabIds}) {
 	var container = document.querySelector("#image-container"),
 		frag = document.createDocumentFragment(),
