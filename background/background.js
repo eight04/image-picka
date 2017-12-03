@@ -199,8 +199,9 @@ function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
 		.then(result => {
 			result.tabIds = [result.tabId];
-			openPicker(result, tab.id);
-		});
+			return openPicker(result, tab.id);
+		})
+		.catch(notifyError);
 }
 
 function pickImagesToRight(tab) {
@@ -224,37 +225,37 @@ function pickImagesToRight(tab) {
 				}
 				return output;
 			});
-			openPicker(result, tab.id);
-		});
+			return openPicker(result, tab.id);
+		})
+		.catch(notifyError);
 }
 
 function notifyError(message) {
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",
-		message
+		message: String(message)
 	});
 }
 
 function openPicker(req, openerTabId) {
 	if (!req.images.length) {
-		notifyError("No images found");
-		return;
+		throw new Error("No images found");
 	}
 	req.images = [...new Set(req.images.map(urlMap.transform))];
 	const options = {
 		url: "/picker/picker.html",
 		openerTabId
 	};
-	browser.runtime.getBrowserInfo()
+	return browser.runtime.getBrowserInfo()
 		.then(({version}) => {
 			if (+version.split(".")[0] < 57) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
-			browser.tabs.create(options).then(tab => {
+			return browser.tabs.create(options).then(tab => {
 				req.method = "init";
-				tabReady(tab.id).then(() => {
+				return tabReady(tab.id).then(() => {
 					browser.tabs.sendMessage(tab.id, req);
 				});
 			});
