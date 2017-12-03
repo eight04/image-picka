@@ -65,13 +65,8 @@ const download = function() {
 		});
 		
 		function tryFetchCache() {
-			if (url.startsWith("data:")) {
+			if (url.startsWith("data:") || pref.get("useCache")) {
 				return fetchBlob(url);
-			}
-			if (pref.get("useCache")) {
-				return fetchBlob(url, 100).catch(err => {
-					console.log("cache miss", err);
-				});
 			}
 			return Promise.resolve();
 		}
