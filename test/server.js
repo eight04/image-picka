@@ -1,11 +1,14 @@
 const http = require("http");
 const fs = require("fs");
+const {Throttle} = require("stream-throttle");
 const server = http.createServer((req, res) => {
 	console.log(`${new Date} ${req.method} ${req.url}`);
-	setTimeout(() => {
-		res.setHeader("Cache-Control", "public, max-age=31536000");
-		res.end(fs.readFileSync(__dirname + "/test.png"), "image/png");
-	}, 1000);
+	const image = fs.createReadStream(__dirname + "/test.png");
+	res.writeHead(200, {
+		"Content-Type": "image/png",
+		"Cache-Control": "public, max-age=31536000"
+	});
+	image.pipe(new Throttle({rate: 100})).pipe(res);
 });
 server.listen(8080);
 process.on("SIGINT", () => {
