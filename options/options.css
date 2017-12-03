@@ -76,3 +76,8 @@ fieldset[disabled] input {
 .textarea-code {
 	font-family: monospace;
 }
+
+.select select {
+	height: auto;
+	margin: 4px 0;
+}

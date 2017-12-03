@@ -13,14 +13,19 @@
 	<form>
 		<div class="form-group">
 			<h3 class="form-group-head">General</h3>
+			<div class="select browser-style">
+				<label for="browserAction">Default action of the toolbar button</label>
+				<select id="browserAction" class="browser-style">
+					<option value="PICK_FROM_CURRENT_TAB">Pick images from current tab</option>
+					<option value="PICK_FROM_RIGHT_TABS">Pick images from tabs to the right</option>
+				</select>
+			</div>
+			<p class="form-help">Right click on the toolbar button for other actions.</p>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="contextMenu">
 				<label for="contextMenu">
-					<span>Add "Pick Images" command to contextmenu</span>
+					<span>Also add "Pick Images..." actions to contextmenu</span>
 				</label>
-				<div class="checkbox-supplement">
-					<p class="form-help">Commands can also be accessed from toolbar button and its contextmenu.</p>
-				</div>
 			</div>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="useCache">
@@ -28,7 +33,7 @@
 					<span>Try to download images from browser cache</span>
 				</label>
 				<div class="checkbox-supplement">
-					<p class="form-help">The extension would try to get the image from cache before sending the image to download manager, which causes noticeable delay before download manager starts if the image is not cached.</p>
+					<p class="form-help">The extension would try to get the image from cache before sending the image to download manager, which causes a noticeable delay before download manager starts if the image is not cached.</p>
 				</div>
 			</div>
 			<div class="text browser-style">

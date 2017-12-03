@@ -22,6 +22,7 @@
 		"scripts": [
 			"lib/pref.js",
 			"lib/fetch.js",
+			"lib/webext-menus.js",
 			"background/background.js"
 		]
 	},

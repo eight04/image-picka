@@ -1,4 +1,15 @@
-/* global pref fetchBlob */
+/* global pref fetchBlob webextMenus */
+
+const MENU_ACTIONS = {
+	PICK_FROM_CURRENT_TAB: {
+		label: "Pick Images from Current Tab",
+		handler: pickImagesFromCurrent
+	},
+	PICK_FROM_RIGHT_TABS: {
+		label: "Pick Images from Tabs to the Right",
+		handler: pickImagesToRight
+	}
+};
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -18,7 +29,22 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(tab => {
-	pickImagesFromCurrent(tab);
+	MENU_ACTIONS[pref.get("browserAction")].handler(tab);
+});
+
+pref.ready().then(() => {
+	updateBrowserAction();
+	pref.onChange(change => {
+		if (change.browserAction) {
+			updateBrowserAction();
+		}
+	});
+	
+	function updateBrowserAction() {
+		browser.browserAction.setTitle({
+			title: MENU_ACTIONS[pref.get("browserAction")].label
+		});
+	}
 });
 
 const download = function() {
@@ -110,78 +136,34 @@ const urlMap = function () {
 	return {transform};
 }();
 
-initContextMenu();
-
-function initContextMenu() {
-	var menuIds,
-		isInit = false,
-		pending;
-		
-	// create contextmenu on browser action
-	createContextMenu({
-		title: "From Tabs to The Right",
+const menus = webextMenus([
+	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
+		title: label,
 		onclick(info, tab) {
-			pickImagesToRight(tab);
+			handler(tab);
 		},
-		contexts: ["browser_action"]
-	});
-	
-	if (pref.get("contextMenu")) {
-		pending = init().catch(console.error);
-	} else {
-		pending = Promise.resolve();
-	}
+		contexts: ["browser_action"],
+		oncontext: () => pref.get("browserAction") !== key
+	})),
+	...[...Object.values(MENU_ACTIONS)].map(({label, handler}) => ({
+		title: label,
+		onclick(info, tab) {
+			handler(tab, info.frameId);
+		},
+		contexts: ["page", "image"],
+		oncontext: () => pref.get("contextMenu")
+	}))
+]);
 
+// setup dynamic menus
+pref.ready().then(() => {
+	menus.update();
 	pref.onChange(change => {
-		if (change.contextMenu == null) return;
-		pending = pending.then(() => {
-			if (isInit != change.contextMenu) {
-				return isInit ? uninit() : init();
-			}
-		}).catch(console.error);
+		if (change.contextMenu != null || change.browserAction != null) {
+			menus.update();
+		}
 	});
-	
-	function init() {
-		return Promise.all([
-			createContextMenu({
-				title: "From Current Tab",
-				onclick(info, tab) {
-					pickImagesFromCurrent(tab, info.frameId);
-				},
-				contexts: ["page"]
-			}),
-			createContextMenu({
-				title: "From Tabs to The Right",
-				onclick(info, tab) {
-					pickImagesToRight(tab);
-				},
-				contexts: ["page"]
-			})
-		]).then(ids => {
-			menuIds = ids;
-			isInit = true;
-		});
-	}
-	
-	function uninit() {
-		return Promise.all(menuIds.map(i => browser.contextMenus.remove(i)))
-			.then(() => {
-				isInit = false;
-			});
-	}
-}
-
-function createContextMenu(options) {
-	return new Promise((resolve, reject) => {
-		const menuId = browser.contextMenus.create(options, () => {
-			if (browser.runtime.lastError) {
-				reject(browser.runtime.lastError);
-			} else {
-				resolve(menuId);
-			}
-		});
-	});
-}
+});
 
 // inject content/pick-images.js to the page
 function pickImages(tabId, frameId = 0) {
@@ -199,8 +181,9 @@ function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
 		.then(result => {
 			result.tabIds = [result.tabId];
-			openPicker(result, tab.id);
-		});
+			return openPicker(result, tab.id);
+		})
+		.catch(notifyError);
 }
 
 function pickImagesToRight(tab) {
@@ -224,41 +207,40 @@ function pickImagesToRight(tab) {
 				}
 				return output;
 			});
-			openPicker(result, tab.id);
-		});
+			return openPicker(result, tab.id);
+		})
+		.catch(notifyError);
 }
 
 function notifyError(message) {
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",
-		message
+		message: String(message)
 	});
 }
 
 function openPicker(req, openerTabId) {
 	if (!req.images.length) {
-		notifyError("No images found");
-		return;
+		throw new Error("No images found");
 	}
+	req.method = "init";
 	req.images = [...new Set(req.images.map(urlMap.transform))];
 	const options = {
 		url: "/picker/picker.html",
 		openerTabId
 	};
-	browser.runtime.getBrowserInfo()
+	return browser.runtime.getBrowserInfo()
 		.then(({version}) => {
 			if (+version.split(".")[0] < 57) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
-			browser.tabs.create(options).then(tab => {
-				req.method = "init";
-				tabReady(tab.id).then(() => {
-					browser.tabs.sendMessage(tab.id, req);
-				});
-			});
-		});
+			return browser.tabs.create(options);
+		})
+		.then(tab => tabReady(tab.id).then(() => 
+			browser.tabs.sendMessage(tab.id, req)
+		));
 }
 
 function batchDownload({urls, env, tabIds}) {
