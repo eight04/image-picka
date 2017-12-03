@@ -361,7 +361,7 @@ function expandEnv(env) {
 	// image filename
 	var base, name, ext;
 	try {
-		base = url.pathname.match(/[^/]+$/)[0]
+		base = url.href.match(/([^/]+)\/?$/)[1];
 	} catch (err) {
 		base = pref.get("defaultName");
 	}
