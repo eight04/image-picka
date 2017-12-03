@@ -1,4 +1,4 @@
-/* global pref */
+/* global pref fetchBlob */
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -20,6 +20,53 @@ browser.runtime.onMessage.addListener((message, sender) => {
 browser.browserAction.onClicked.addListener(tab => {
 	pickImagesFromCurrent(tab);
 });
+
+const download = function() {
+	const objUrls = new Map;
+	
+	browser.downloads.onChanged.addListener(onChanged);
+	browser.downloads.onErased.addListener(onErased);
+	
+	function onChanged(delta) {
+		if (!objUrls.has(delta.id)) return;
+		if (delta.canResume && !delta.canResume.current ||
+			delta.state && delta.state.current === "complete"
+		) {
+			cleanUp(delta.id);
+		}
+	}
+	
+	function onErased(id) {
+		if (!objUrls.has(id)) return;
+		cleanUp(id);
+	}
+	
+	function cleanUp(id) {
+		const objUrl = objUrls.get(id);
+		URL.revokeObjectURL(objUrl);
+		objUrls.delete(id);
+	}
+	
+	function download(url, filename, saveAs = false) {
+		if (url.startsWith("data:")) {
+			return fetchBlob(url).then(b => {
+				const objUrl = URL.createObjectURL(b);
+				return download(objUrl, filename, saveAs)
+					.catch(err => {
+						URL.revokeObjectURL(objUrl);
+						throw err;
+					})
+					.then(id => {
+						objUrls.set(id, objUrl);
+						return id;
+					});
+			});
+		}
+		return browser.downloads.download({url, filename, saveAs});
+	}
+	
+	return download;
+}();
 
 const urlMap = function () {
 	let map = [];
@@ -216,16 +263,6 @@ function batchDownload({urls, env, tabIds}) {
 	if (pref.get("closeTabsAfterSave")) {
 		tabIds.forEach(i => browser.tabs.remove(i));
 	}
-}
-
-function download(url, filename, saveAs = false) {
-	if (url.startsWith("data:")) {
-		return fetch(url)
-			.then(r => r.blob())
-			.then(URL.createObjectURL)
-			.then(url => download(url, filename, saveAs));
-	}
-	return browser.downloads.download({url, filename, saveAs});
 }
 
 function closeTab({tabId, opener}) {
