@@ -364,8 +364,12 @@ function expandEnv(env) {
 	env.hostname = url.hostname;
 	
 	// image filename
-	var base = url.pathname.match(/[^/]+$/)[0],
-		name, ext;
+	var base, name, ext;
+	try {
+		base = url.pathname.match(/[^/]+$/)[0]
+	} catch (err) {
+		base = pref.get("defaultName");
+	}
 	try {
 		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg|svg))\b/i);
 	} catch (err) {
