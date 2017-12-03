@@ -1,3 +1,6 @@
+/* eslint-env node */
+/* eslint no-console: 0 */
+
 const http = require("http");
 const fs = require("fs");
 const {Throttle} = require("stream-throttle");
