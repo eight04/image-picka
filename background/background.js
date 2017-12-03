@@ -39,6 +39,12 @@ pref.ready().then(() => {
 			updateBrowserAction();
 		}
 	});
+	
+	function updateBrowserAction() {
+		browser.browserAction.setTitle({
+			title: MENU_ACTIONS[pref.get("browserAction")].label
+		});
+	}
 });
 
 const download = function() {
@@ -158,12 +164,6 @@ pref.ready().then(() => {
 		}
 	});
 });
-
-function updateBrowserAction() {
-	browser.browserAction.setTitle({
-		title: MENU_ACTIONS[pref.get("browserAction")].label
-	});
-}
 
 // inject content/pick-images.js to the page
 function pickImages(tabId, frameId = 0) {
