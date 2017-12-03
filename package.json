@@ -16,6 +16,7 @@
     "postversion": "npm run build && git push --follow-tags"
   },
   "devDependencies": {
+    "eslint": "^4.12.1",
     "npm-build-tools": "^2.2.5",
     "sync-version": "^1.0.1",
     "web-ext": "^2.0.0"
