@@ -1,4 +1,4 @@
-/* global pref */
+/* global pref fetchBlob */
 
 browser.runtime.onMessage.addListener(message => {
 	switch (message.method) {
@@ -206,22 +206,4 @@ function createImageCheckbox(url) {
 
 function formatFileSize(size) {
 	return `${(size / 1024).toFixed(2)} KB`;
-}
-
-function fetchBlob(url) {
-	// seems that we can access cache with XMLHttpRequest
-	return new Promise((resolve, reject) => {
-		const r = new XMLHttpRequest;
-		r.open("GET", url);
-		r.responseType = "blob";
-		r.onload = () => {
-			r.onload = r.onerror = null;
-			resolve(r.response);
-		};
-		r.onerror = err => {
-			r.onload = r.onerror = null;
-			reject(err);
-		};
-		r.send();
-	});
 }
