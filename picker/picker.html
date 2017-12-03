@@ -8,18 +8,23 @@
 	<link rel="stylesheet" href="/css/common.css">
 	<link rel="stylesheet" href="picker.css">
 	<script src="/lib/pref.js"></script>
+	<script src="/lib/fetch.js"></script>
 	<script src="picker.js"></script>
 </head>
 <body>
 	<form id="container">
 		<div class="toolbar toolbar-top">
-			<label>
-				<span>Min width</span>
+			<label title="Minimum width (px)">
+				<span>Width</span>
 				<input type="number" id="minWidth">
 			</label>
-			<label>
-				<span>Min height</span>
+			<label title="Minimum height (px)">
+				<span>Height</span>
 				<input type="number" id="minHeight">
+			</label>
+			<label title="Minimum file size (KB)">
+				<span>File Size</span>
+				<input type="number" id="minFileSize">
 			</label>
 			<div>
 				<select id="matchType">

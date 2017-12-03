@@ -22,9 +22,26 @@
 					<p class="form-help">Commands can also be accessed from toolbar button and its contextmenu.</p>
 				</div>
 			</div>
+			<div class="checkbox browser-style">
+				<input type="checkbox" id="useCache">
+				<label for="useCache">
+					<span>Try to download images from browser cache</span>
+				</label>
+				<div class="checkbox-supplement">
+					<p class="form-help">The extension would try to get the image from cache before sending the image to download manager, which causes noticeable delay before download manager starts if the image is not cached.</p>
+				</div>
+			</div>
+			<div class="text browser-style">
+				<label for="defaultName">Default filename</label>
+				<input type="text" id="defaultName">
+			</div>
 			<div class="text browser-style">
 				<label for="defaultExt">Default extension</label>
 				<input type="text" id="defaultExt">
+			</div>
+			<div class="text browser-style">
+				<label for="filenameMaxLength">Max length of the filename</label>
+				<input type="number" id="filenameMaxLength">
 			</div>
 		</div>
 		<div class="form-group">

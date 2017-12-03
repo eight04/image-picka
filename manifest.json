@@ -21,6 +21,7 @@
 	"background": {
 		"scripts": [
 			"lib/pref.js",
+			"lib/fetch.js",
 			"background/background.js"
 		]
 	},

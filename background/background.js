@@ -1,4 +1,4 @@
-/* global pref */
+/* global pref fetchBlob */
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -20,6 +20,60 @@ browser.runtime.onMessage.addListener((message, sender) => {
 browser.browserAction.onClicked.addListener(tab => {
 	pickImagesFromCurrent(tab);
 });
+
+const download = function() {
+	const objUrls = new Map;
+	
+	browser.downloads.onChanged.addListener(onChanged);
+	browser.downloads.onErased.addListener(onErased);
+	
+	function onChanged(delta) {
+		if (!objUrls.has(delta.id)) return;
+		if (delta.canResume && !delta.canResume.current ||
+			delta.state && delta.state.current === "complete"
+		) {
+			cleanUp(delta.id);
+		}
+	}
+	
+	function onErased(id) {
+		if (!objUrls.has(id)) return;
+		cleanUp(id);
+	}
+	
+	function cleanUp(id) {
+		const objUrl = objUrls.get(id);
+		URL.revokeObjectURL(objUrl);
+		objUrls.delete(id);
+	}
+	
+	function download(url, filename, saveAs = false) {
+		return tryFetchCache().then(blob => {
+			if (blob) {
+				const objUrl = URL.createObjectURL(blob);
+				return browser.downloads.download({url: objUrl, filename, saveAs})
+					.catch(err => {
+						URL.revokeObjectURL(objUrl);
+						throw err;
+					})
+					.then(id => {
+						objUrls.set(id, objUrl);
+						return id;
+					});
+			}
+			return browser.downloads.download({url, filename, saveAs});
+		});
+		
+		function tryFetchCache() {
+			if (url.startsWith("data:") || pref.get("useCache")) {
+				return fetchBlob(url);
+			}
+			return Promise.resolve();
+		}
+	}
+	
+	return download;
+}();
 
 const urlMap = function () {
 	let map = [];
@@ -174,13 +228,17 @@ function pickImagesToRight(tab) {
 		});
 }
 
+function notifyError(message) {
+	browser.notifications.create({
+		type: "basic",
+		title: "Image Picka",
+		message
+	});
+}
+
 function openPicker(req, openerTabId) {
 	if (!req.images.length) {
-		browser.notifications.create({
-			type: "basic",
-			title: "Image Picka",
-			message: "No images found"
-		});
+		notifyError("No images found");
 		return;
 	}
 	req.images = [...new Set(req.images.map(urlMap.transform))];
@@ -216,16 +274,6 @@ function batchDownload({urls, env, tabIds}) {
 	if (pref.get("closeTabsAfterSave")) {
 		tabIds.forEach(i => browser.tabs.remove(i));
 	}
-}
-
-function download(url, filename, saveAs = false) {
-	if (url.startsWith("data:")) {
-		return fetch(url)
-			.then(r => r.blob())
-			.then(URL.createObjectURL)
-			.then(url => download(url, filename, saveAs));
-	}
-	return browser.downloads.download({url, filename, saveAs});
 }
 
 function closeTab({tabId, opener}) {
@@ -270,7 +318,10 @@ function downloadImage({url, env, tabId}) {
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
-	download(url, filename, pref.get("saveAs"));
+	download(url, filename, pref.get("saveAs"))
+		.catch(err => {
+			notifyError(String(err));
+		});
 }
 
 var escapeTable = {
@@ -286,7 +337,7 @@ var escapeTable = {
 };
 
 function escapeFilename(name) {
-	return name.replace(/[/\\?|<>:"*]/g, m => escapeTable[m]);
+	return name.replace(/[/\\?|<>:"*]/g, m => escapeTable[m]).slice(0, pref.get("filenameMaxLength"));
 }
 
 function escapeTrailingDots(path) {
@@ -308,8 +359,12 @@ function expandEnv(env) {
 	env.hostname = url.hostname;
 	
 	// image filename
-	var base = url.pathname.match(/[^/]+$/)[0],
-		name, ext;
+	var base, name, ext;
+	try {
+		base = url.href.match(/([^/]+)\/?$/)[1];
+	} catch (err) {
+		base = pref.get("defaultName");
+	}
 	try {
 		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg|svg))\b/i);
 	} catch (err) {
