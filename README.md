@@ -75,6 +75,20 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 Changelog
 ---------
 
+* 0.5.0 (Dec 4, 2017)
+
+	- Add: copy URLs of selected images in batch download UI.
+	- Add: filter images according to its file size.
+	- Add: download images from cache.
+	- Add: record recently used values for filename pattern and URL match pattern.
+	- Add: transform URLs with find and replace (uses regular expressions).
+	- Add: an option to customize default action of toolbar button.
+	- Add: an option to set max characters in the filename. This limit only applies to variables.
+	- Add: an option to set default filename, although it is rarely used.
+	- Fix: context menu is not shown when clicking on an image.
+	- Fix: permission error is not handled.
+	- Fix: downloading data URI images may cause memory leak.
+
 * 0.4.0 (Nov 22, 2017)
 
 	- Add: Download image with ctrl/shift/alt + click.
