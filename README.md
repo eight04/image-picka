@@ -75,6 +75,10 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 Changelog
 ---------
 
+* 0.5.1 (Dec 4, 2017)
+
+	- Fix: sometime the image picker doesn't load.
+
 * 0.5.0 (Dec 4, 2017)
 
 	- Add: copy URLs of selected images in batch download UI.
