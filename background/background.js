@@ -224,6 +224,7 @@ function openPicker(req, openerTabId) {
 	if (!req.images.length) {
 		throw new Error("No images found");
 	}
+	req.method = "init";
 	req.images = [...new Set(req.images.map(urlMap.transform))];
 	const options = {
 		url: "/picker/picker.html",
@@ -235,13 +236,11 @@ function openPicker(req, openerTabId) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
-			return browser.tabs.create(options).then(tab => {
-				req.method = "init";
-				return tabReady(tab.id).then(() => {
-					browser.tabs.sendMessage(tab.id, req);
-				});
-			});
-		});
+			return browser.tabs.create(options);
+		})
+		.then(tab => tabReady(tab.id).then(() => 
+			browser.tabs.sendMessage(tab.id, req)
+		));
 }
 
 function batchDownload({urls, env, tabIds}) {
