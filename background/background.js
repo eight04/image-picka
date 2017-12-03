@@ -145,7 +145,7 @@ const menus = webextMenus([
 		contexts: ["browser_action"],
 		oncontext: () => pref.get("browserAction") !== key
 	})),
-	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
+	...[...Object.entries(MENU_ACTIONS)].map(([, {label, handler}]) => ({
 		title: label,
 		onclick(info, tab) {
 			handler(tab, info.frameId);
