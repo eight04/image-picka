@@ -1,5 +1,16 @@
 /* global pref fetchBlob webextMenus */
 
+const MENU_ACTIONS = {
+	PICK_FROM_CURRENT_TAB: {
+		label: "Pick Images from Current Tab",
+		handler: pickImagesFromCurrent
+	},
+	PICK_FROM_RIGHT_TABS: {
+		label: "Pick Images from Tabs to the Right",
+		handler: pickImagesToRight
+	}
+};
+
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
 		case "downloadImage":
@@ -18,15 +29,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 browser.browserAction.onClicked.addListener(tab => {
-	switch (pref.get("browserAction")) {
-		case "PICK_FROM_CURRENT_TAB":
-			pickImagesFromCurrent(tab);
-			break;
-			
-		case "PICK_FROM_RIGHT_TABS":
-			pickImagesToRight(tab);
-			break;
-	}
+	MENU_ACTIONS[pref.get("browserAction")].handler(tab);
 });
 
 pref.ready().then(() => {
@@ -127,35 +130,24 @@ const urlMap = function () {
 	return {transform};
 }();
 
-const menus = webextMenus([{
-	title: "From Current Tab",
-	onclick(info, tab) {
-		pickImagesFromCurrent(tab);
-	},
-	contexts: ["browser_action"],
-	oncontext: () => pref.get("browserAction") !== "PICK_FROM_CURRENT_TAB"
-}, {
-	title: "From Tabs to The Right",
-	onclick(info, tab) {
-		pickImagesToRight(tab);
-	},
-	contexts: ["browser_action"],
-	oncontext: () => pref.get("browserAction") !== "PICK_FROM_RIGHT_TABS"
-}, {
-	title: "From Current Tab",
-	onclick(info, tab) {
-		pickImagesFromCurrent(tab, info.frameId);
-	},
-	contexts: ["page"],
-	oncontext: () => pref.get("contextMenu")
-}, {
-	title: "From Tabs to The Right",
-	onclick(info, tab) {
-		pickImagesToRight(tab);
-	},
-	contexts: ["page"],
-	oncontext: () => pref.get("contextMenu")
-}]);
+const menus = webextMenus([
+	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
+		title: label,
+		onclick(info, tab) {
+			handler(tab);
+		},
+		contexts: ["browser_action"],
+		oncontext: () => pref.get("browserAction") !== key
+	})),
+	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
+		title: label,
+		onclick(info, tab) {
+			handler(tab, info.frameId);
+		},
+		contexts: ["page", "image"],
+		oncontext: () => pref.get("contextMenu")
+	}))
+]);
 
 // setup dynamic menus
 pref.ready().then(() => {
@@ -168,19 +160,9 @@ pref.ready().then(() => {
 });
 
 function updateBrowserAction() {
-	switch (pref.get("browserAction")) {
-		case "PICK_FROM_CURRENT_TAB":
-			browser.browserAction.setTitle({
-				title: "Pick Images from Current Tab"
-			});
-			break;
-			
-		case "PICK_FROM_RIGHT_TABS":
-			browser.browserAction.setTitle({
-				title: "Pick Images from Tabs to The Right"
-			});
-			break;
-	}
+	browser.browserAction.setTitle({
+		title: MENU_ACTIONS[pref.get("browserAction")].label
+	});
 }
 
 // inject content/pick-images.js to the page
