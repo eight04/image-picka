@@ -23,8 +23,6 @@ browser.runtime.onMessage.addListener((message, sender) => {
 				message.tabId = sender.tab.id;
 			}
 			return closeTab(message);
-		default:
-			throw new Error("Unknown method");
 	}
 });
 
@@ -236,11 +234,9 @@ function openPicker(req, openerTabId) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
-			return browser.tabs.create(options);
+			return loadTab(options);
 		})
-		.then(tab => tabReady(tab.id).then(() => 
-			browser.tabs.sendMessage(tab.id, req)
-		));
+		.then(tabId => browser.tabs.sendMessage(tabId, req));
 }
 
 function batchDownload({urls, env, tabIds}) {
@@ -265,29 +261,50 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-function tabReady(tabId) {
-	return new Promise((resolve, reject) => {
-		browser.tabs.onUpdated.addListener(onUpdate);
-		browser.tabs.onRemoved.addListener(onRemove);
-		
-		function unbind() {
-			browser.tabs.onUpdated.removeListener(onUpdate);
-			browser.tabs.onRemoved.removeListener(onRemove);
-		}
+function loadTab(options) {
+	const pings = fillingSet();
 	
-		function onUpdate(_tabId, changes) {
-			if (_tabId != tabId) return;
-			if (changes.status != "complete") return;		
-			resolve();
-			unbind();
-		}
+	browser.runtime.onMessage.addListener(onMessage);
+	return browser.tabs.create(options)
+		.then(tab => pings.filledWith(tab.id).then(() => {
+			browser.runtime.onMessage.removeListener(onMessage);
+			return tab.id;
+		}));
 		
-		function onRemove(_tabId) {
-			if (_tabId != tabId) return;
-			reject();
-			unbind();
+	function onMessage(message, sender) {
+		if (message.method === "ping") {
+			pings.add(sender.tab.id);
 		}
-	});
+	}
+}
+
+function fillingSet() {
+	const set = new Set;
+	const onChanges = new Set;
+	
+	function add(item) {
+		set.add(item);
+		for (const onChange of onChanges) {
+			onChange();
+		}
+	}
+	
+	function filledWith(item) {
+		return new Promise(resolve => {
+			if (set.has(item)) {
+				resolve();
+				return;
+			}
+			onChanges.add(function _() {
+				if (set.has(item)) {
+					resolve();
+					onChanges.delete(_);
+				}
+			});
+		});
+	}
+	
+	return {add, filledWith};
 }
 
 function downloadImage({url, env, tabId}) {
