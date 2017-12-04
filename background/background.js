@@ -281,24 +281,30 @@ function loadTab(options) {
 }
 
 function condition() {
-	const pendings = new Map;
+	const pendings = new Set;
 	
 	function check() {
-		for (const [testFn, resolve] of pendings.entries()) {
-			if (testFn()) {
-				resolve();
-				pendings.delete(testFn);
+		for (const cond of pendings) {
+			if (cond.success()) {
+				cond.resolve();
+			} else if (cond.error && cond.error()) {
+				cond.reject();
+			} else {
+				continue;
 			}
+			pendings.delete(cond);
 		}
 	}
 	
-	function once(testFn) {
-		return new Promise(resolve => {
-			if (testFn()) {
+	function once(success, error) {
+		return new Promise((resolve, reject) => {
+			if (success()) {
 				resolve();
-				return;
+			} else if (error && error()) {
+				reject();
+			} else {
+				pendings.add({success, error, resolve, reject});
 			}
-			pendings.set(testFn, resolve);
 		});
 	}
 	
