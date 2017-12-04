@@ -262,11 +262,12 @@ function closeTab({tabId, opener}) {
 }
 
 function loadTab(options) {
-	const pings = fillingSet();
+	const cond = condition();
+	const pings = new Set;
 	
 	browser.runtime.onMessage.addListener(onMessage);
 	return browser.tabs.create(options)
-		.then(tab => pings.filledWith(tab.id).then(() => {
+		.then(tab => cond.once(() => pings.has(tab.id)).then(() => {
 			browser.runtime.onMessage.removeListener(onMessage);
 			return tab.id;
 		}));
@@ -274,37 +275,34 @@ function loadTab(options) {
 	function onMessage(message, sender) {
 		if (message.method === "ping") {
 			pings.add(sender.tab.id);
+			cond.check();
 		}
 	}
 }
 
-function fillingSet() {
-	const set = new Set;
-	const onChanges = new Set;
+function condition() {
+	const pendings = new Map;
 	
-	function add(item) {
-		set.add(item);
-		for (const onChange of onChanges) {
-			onChange();
+	function check() {
+		for (const [testFn, resolve] of pendings.entries()) {
+			if (testFn()) {
+				resolve();
+				pendings.delete(testFn);
+			}
 		}
 	}
 	
-	function filledWith(item) {
+	function once(testFn) {
 		return new Promise(resolve => {
-			if (set.has(item)) {
+			if (testFn()) {
 				resolve();
 				return;
 			}
-			onChanges.add(function _() {
-				if (set.has(item)) {
-					resolve();
-					onChanges.delete(_);
-				}
-			});
+			pendings.set(testFn, resolve);
 		});
 	}
 	
-	return {add, filledWith};
+	return {check, once};
 }
 
 function downloadImage({url, env, tabId}) {
