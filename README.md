@@ -25,6 +25,7 @@ Filename pattern
 
 Filename may contain following `${variable}`s:
 
+* `index`: an increasing number represent the index of the image. Only available in batch download.
 * `url`: entire URL of the image.
 * `hostname`: hostname extracted from `url`. (e.g. `http://example.com/abc.jpg` -> `example.com`)
 * `name`: filename extracted from `url`. (e.g. `http://example.com/abc.jpg` -> `abc`)
