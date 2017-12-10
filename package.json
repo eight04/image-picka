@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "lint": "eslint **/*.js",
+    "lint": "eslint **/*.js --cache",
     "test": "npm run lint && web-ext lint",
     "start": "web-ext run",
     "preversion": "npm test",
