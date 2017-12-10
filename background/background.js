@@ -323,7 +323,7 @@ function downloadImage({url, env, tabId}) {
 		filename = buildFilename(filePattern, env);
 	download(url, filename, pref.get("saveAs"))
 		.catch(err => {
-			notifyError(String(err));
+			notifyError([String(err), `url: ${url}`, `filename: ${filename}`].join("\n"));
 		});
 }
 
