@@ -51,6 +51,9 @@
 .toolbar input[type=number] {
 	width: 5em;
 }
+.toolbar input[type=range] {
+	width: 7em;
+}
 .toolbar > * {
 	display: flex;
 	align-items: center;
