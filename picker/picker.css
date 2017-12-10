@@ -23,7 +23,7 @@
 }
 .image-checkbox img {
 	display: block;
-	max-height: 200px;
+	max-height: calc(var(--previewMaxHeight, 200) * 1px);
 	margin: 0.5em;
 }
 .image-checkbox input[type=checkbox] {
