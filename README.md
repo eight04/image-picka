@@ -80,9 +80,17 @@ Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 Changelog
 ---------
 
+* 0.5.2 (Dec 11, 2017)
+
+	- Add: a slider to control the height of image preview in batch download UI.
+	- Add: an option to use alternative attributes for image URL.
+	- Fix: catch download error in batch download.
+	- Fix: `index` is not documented.
+	- Fix: whitespaces surrounding variable should be trimmed.
+
 * 0.5.1 (Dec 4, 2017)
 
-	- Fix: sometime the image picker doesn't load.
+	- Fix: sometimes the image picker doesn't load.
 
 * 0.5.0 (Dec 4, 2017)
 
