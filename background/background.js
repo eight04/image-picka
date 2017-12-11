@@ -96,7 +96,16 @@ const download = function() {
 		}
 	}
 	
-	return download;
+	function wrapError(fn) {
+		return (...args) => {
+			return fn(...args).catch(err => {
+				err.args = args;
+				throw err;
+			});
+		};
+	}
+	
+	return wrapError(download);
 }();
 
 const urlMap = function () {
@@ -218,6 +227,14 @@ function notifyError(message) {
 	});
 }
 
+function notifyDownloadError(err) {
+	if (err.args) {
+		notifyError(`${String(err)}\nurl: ${err.args[0]}\nfilename: ${err.args[1]}`);
+	} else {
+		notifyError(String(err));
+	}
+}
+
 function openPicker(req, openerTabId) {
 	if (!req.images.length) {
 		throw new Error("No images found");
@@ -240,17 +257,19 @@ function openPicker(req, openerTabId) {
 }
 
 function batchDownload({urls, env, tabIds}) {
-	var i = 1,
-		filePattern = pref.get("filePatternBatch");
-	for (var url of urls) {
+	var filePattern = pref.get("filePatternBatch");
+	Promise.all(urls.map(doDownload)).then(() => {
+		if (pref.get("closeTabsAfterSave")) {
+			tabIds.forEach(i => browser.tabs.remove(i));
+		}
+	}, notifyDownloadError);
+
+	function doDownload(url, i) {
 		env.url = url;
-		env.index = String(i++);
+		env.index = String(i + 1);
 		expandEnv(env);
 		var filename = buildFilename(filePattern, env);
-		download(url, filename);
-	}
-	if (pref.get("closeTabsAfterSave")) {
-		tabIds.forEach(i => browser.tabs.remove(i));
+		return download(url, filename);
 	}
 }
 
@@ -322,9 +341,7 @@ function downloadImage({url, env, tabId}) {
 	var filePattern = pref.get("filePattern"),
 		filename = buildFilename(filePattern, env);
 	download(url, filename, pref.get("saveAs"))
-		.catch(err => {
-			notifyError([String(err), `url: ${url}`, `filename: ${filename}`].join("\n"));
-		});
+		.catch(notifyDownloadError);
 }
 
 var escapeTable = {
