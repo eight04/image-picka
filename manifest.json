@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"version": "0.5.2",
 	"name": "Image Picka",
-	"description": "An image picker written in webextensions",
+	"description": "__MSG_extensionDescription__",
 	"author": "eight",
 	"homepage_url": "https://github.com/eight04/image-picka",
 	"applications": {
@@ -50,5 +50,6 @@
 	},
 	"icons": {
 		"32": "icon.svg"
-	}
+	},
+	"default_locale": "en"
 }

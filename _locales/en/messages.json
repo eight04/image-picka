@@ -1,0 +1,200 @@
+{
+	"commandPickFromCurrentTab": {
+		"message": "Pick Images from Current Tab",
+		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "Pick Images from Tabs to the Right",
+		"description": "'Pick images from tabs to the right' command"
+	},
+	"extensionName": {
+		"message": "Image Picka",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "An image picker built with webextensions",
+		"description": "Description of the extension"
+	},
+	"optionGeneralTitle": {
+		"message": "General",
+		"description": "Title of general options"
+	},
+	"optionBrowserActionLabel": {
+		"message": "Default action of the toolbar button",
+		"description": "Label of browserAction option"
+	},
+	"optionBrowserActionHelp": {
+		"message": "Right click on the toolbar button for other actions.",
+		"description": "Help text of browserAction option"
+	},
+	"optionContextMenuLabel": {
+		"message": "Also add \"Pick Images...\" actions to contextmenu",
+		"description": "Label of contextMenu option"
+	},
+	"optionUseCacheLabel": {
+		"message": "Try to download images from browser cache",
+		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "The extension would try to get the image from cache before sending the image to download manager, which causes a noticeable delay before download manager starts if the image is not cached.",
+		"description": "Help text of useCache option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "Default filename",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "Default extension",
+		"description": "Label of defaultExt"
+	},
+	"optionFilenameMaxLengthLabel": {
+		"message": "Max length of the filename",
+		"description": "Label of filenameMaxLength option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "Download Single Image",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "These settings don't apply to batch download. Batch download settings are configured in batch download UI.",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "Filename pattern, relative to default download folder in Firefox.",
+		"description": "Label of filenamePattern option"
+	},
+	"optionFilenamePatternHelpHTML": {
+		"message": "The pattern may include subfolder (separated with $SEPARATOR$).",
+		"description": "Help text of filenamePattern option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>/</code>"
+			}
+		}
+	},
+	"optionLearnMoreLink": {
+		"message": "Learn more",
+		"description": "'Learn more' link in option page"
+	},
+	"optionSaveAsLabel": {
+		"message": "Ask me where to save the image instead of using default download folder.",
+		"description": "Label of saveAs option"
+	},
+	"optionSaveAsHelp": {
+		"message": "You should remove subfolder part in the filename pattern if this option is checked.",
+		"description": "Help text of saveAs option"
+	},
+	"optionDragndropLabel": {
+		"message": "Download with drag-n-drop",
+		"description": "Label of dragndrop option"
+	},
+	"optionSingleClickLabel": {
+		"message": "Download with single click",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "Show a download button on hover",
+		"description": "Label of downloadButton option"
+	},
+	"optionDownloadButtonDelayLabel": {
+		"message": "Delay before showing the button (millisecond)",
+		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "Delay before hiding the button (millisecond)",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinWidth": {
+		"message": "Min width to trigger download button",
+		"description": "Label of downloadButtonMinWidth option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "Min height to trigger download button",
+		"description": "Label of downloadButtonMinHeight option"
+	},
+	"optionAdvancedTitle": {
+		"message": "Advanced",
+		"description": "Title of advanced options"
+	},
+	"optionSrcAlternativeLabelHTML": {
+		"message": "Other HTML attributes containing image URL (Separated with $SEPARATOR$)",
+		"description": "Label of srcAlternative option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>,</code>"
+			}
+		}
+	},
+	"optionUrlMapLabel": {
+		"message": "Transform URL with regexp",
+		"description": "Label of urlMap option"
+	},
+	"pickerMinWidthLabel": {
+		"message": "Width",
+		"description": "Label of minWith filter in image picker"
+	},
+	"pickerMinWidthHelp": {
+		"message": "Minimum width (px)",
+		"description": "Help text of minWidth filter in image picker"
+	},
+	"pickerMinHeightLabel": {
+		"message": "Height",
+		"description": "Label of minHeight filter in image picker"
+	},
+	"pickerMinHeightHelp": {
+		"message": "Minimum height (px)",
+		"description": "Help text of minHeight filter in image picker"
+	},
+	"pickerMinFileSizeLabel": {
+		"message": "File Size",
+		"description": "Label of minFileSize filter in image picker"
+	},
+	"pickerMinFileSizeHelp": {
+		"message": "Minimum file size (KB)",
+		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeIncludeLabel": {
+		"message": "Include",
+		"description": "Label of 'include' option of matchType filter in image picker"
+	},
+	"pickerMatchTypeExcludeLabel": {
+		"message": "Exclude",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerMatchUrlLabel": {
+		"message": "URL",
+		"description": "Label of matchUrl filter in image picker"
+	},
+	"pickerMatchUrlHelp": {
+		"message": "Regular expression",
+		"description": "Help text of matchUrl filter in image picker"
+	},
+	"pickerPreviewMaxHeightHelp": {
+		"message": "Max height of image preview",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "Filename pattern",
+		"description": "Label of filenamePatternBatch option in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "Close tabs",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "Invert selection",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "Save",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "Copy URLs",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCancel": {
+		"message": "Cancel",
+		"description": "'Cancel' button in image picker"
+	}
+}

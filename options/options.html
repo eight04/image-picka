@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,72 +12,72 @@
 <body>
 	<form>
 		<div class="form-group">
-			<h3 class="form-group-head">General</h3>
+			<h3 class="form-group-head" data-i18n="optionGeneralTitle"></h3>
 			<div class="select browser-style">
-				<label for="browserAction">Default action of the toolbar button</label>
+				<label for="browserAction" data-i18n="optionBrowserActionLabel"></label>
 				<select id="browserAction" class="browser-style">
-					<option value="PICK_FROM_CURRENT_TAB">Pick images from current tab</option>
-					<option value="PICK_FROM_RIGHT_TABS">Pick images from tabs to the right</option>
+					<option value="PICK_FROM_CURRENT_TAB" data-i18n="commandPickFromCurrentTab"></option>
+					<option value="PICK_FROM_RIGHT_TABS" data-i18n="commandPickFromRightTabs"></option>
 				</select>
 			</div>
-			<p class="form-help">Right click on the toolbar button for other actions.</p>
+			<p class="form-help" data-i18n="optionBrowserActionHelp"></p>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="contextMenu">
 				<label for="contextMenu">
-					<span>Also add "Pick Images..." actions to contextmenu</span>
+					<span data-i18n="optionContextMenuLabel"></span>
 				</label>
 			</div>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="useCache">
 				<label for="useCache">
-					<span>Try to download images from browser cache</span>
+					<span data-i18n="optionUseCacheLabel"></span>
 				</label>
 				<div class="checkbox-supplement">
-					<p class="form-help">The extension would try to get the image from cache before sending the image to download manager, which causes a noticeable delay before download manager starts if the image is not cached.</p>
+					<p class="form-help" data-i18n="optionUseCacheHelp"></p>
 				</div>
 			</div>
 			<div class="text browser-style">
-				<label for="defaultName">Default filename</label>
+				<label for="defaultName" data-i18n="optionDefaultNameLabel"></label>
 				<input type="text" id="defaultName">
 			</div>
 			<div class="text browser-style">
-				<label for="defaultExt">Default extension</label>
+				<label for="defaultExt" data-i18n="optionDefaultExtLabel"></label>
 				<input type="text" id="defaultExt">
 			</div>
 			<div class="text browser-style">
-				<label for="filenameMaxLength">Max length of the filename</label>
+				<label for="filenameMaxLength" data-i18n="optionFilenameMaxLengthLabel"></label>
 				<input type="number" id="filenameMaxLength">
 			</div>
 		</div>
 		<div class="form-group">
-			<h3 class="form-group-head">Download Single Image</h3>
-			<p class="form-help">These settings don't apply to batch download. Batch download settings are configured in batch download UI.</p>
+			<h3 class="form-group-head" data-i18n="optionDownloadSingleImageTitle"></h3>
+			<p class="form-help" data-i18n="optionDownloadSingleImageHelp"></p>
 			<div class="text browser-style">
-				<label for="filePattern">Filename pattern, relative to default download folder in Firefox.</label> <a href="https://github.com/eight04/image-picka#filename-pattern" target="_blank">Learn more</a>
+				<label for="filePattern" data-i18n="optionFilenamePatternLabel"></label> <a href="https://github.com/eight04/image-picka#filename-pattern" target="_blank" data-i18n="optionLearnMoreLink"></a>
 				<div class="history-container browser-style">
 					<input type="text" id="filePattern" history="5">
 				</div>
 			</div>
-			<p class="form-help">The pattern may include subfolder (separated with <code>/</code>).</p>
+			<p class="form-help" data-i18n="optionFilenamePatternHelpHTML|innerHTML"></p>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="saveAs">
 				<label for="saveAs">
-					<span>Ask me where to save the image instead of using default download folder.</span>
+					<span data-i18n="optionSaveAsLabel"></span>
 				</label>
 				<div class="checkbox-supplement">
-					<p class="form-help">You should remove subfolder part in the filename pattern if this option is checked.</p>
+					<p class="form-help" data-i18n="optionSaveAsHelp"></p>
 				</div>
 			</div>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="dragndrop">
 				<label for="dragndrop">
-					<span>Download with drag-n-drop</span>
+					<span data-i18n="optionDragndropLabel"></span>
 				</label>
 			</div>
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="singleClick">
 				<label for="singleClick">
-					<span>Download with single click</span>
+					<span data-i18n="optionSingleClickLabel"></span>
 				</label>
 				<fieldset class="checkbox-supplement form-inline">
 					<div class="checkbox browser-style">
@@ -103,40 +103,41 @@
 			<div class="checkbox browser-style">
 				<input type="checkbox" id="downloadButton">
 				<label for="downloadButton">
-					<span>Show a download button on hover</span>
+					<span data-i18n="optionDownloadButtonLabel"></span>
 				</label>
 				<fieldset class="checkbox-supplement">
 					<div class="text browser-style">
-						<label for="downloadButtonDelay">Delay before showing the button (millisecond)</label>
+						<label for="downloadButtonDelay" data-i18n="optionDownloadButtonDelayLabel"></label>
 						<input type="number" id="downloadButtonDelay">
 					</div>
 					<div class="text browser-style">
-						<label for="downloadButtonDelayHide">Delay before hiding the button (millisecond)</label>
+						<label for="downloadButtonDelayHide" data-i18n="optionDownloadButtonDelayHideLabel"></label>
 						<input type="number" id="downloadButtonDelayHide">
 					</div>
 					<div class="text browser-style">
-						<label for="downloadButtonMinWidth">Min width to trigger download button</label>
+						<label for="downloadButtonMinWidth" data-i18n="optionDownloadButtonMinWidth"></label>
 						<input type="number" id="downloadButtonMinWidth">
 					</div>
 					<div class="text browser-style">
-						<label for="downloadButtonMinHeight">Min height to trigger download button</label>
+						<label for="downloadButtonMinHeight" data-i18n="optionDownloadButtonMinHeight"></label>
 						<input type="number" id="downloadButtonMinHeight">
 					</div>
 				</fieldset>
 			</div>
 		</div>
 		<div class="form-group">
-			<h3 class="form-group-head">Advanced</h3>
+			<h3 class="form-group-head" data-i18n="optionAdvancedTitle"></h3>
 			<div class="text browser-style">
-				<label for="srcAlternative">Other HTML attributes containing image URL (Separated with <code>,</code>)</label>
+				<label for="srcAlternative" data-i18n="optionSrcAlternativeLabelHTML|innerHTML"></label>
 				<input type="text" id="srcAlternative">
 			</div>
 			<div class="textarea browser-style">
-				<label for="urlMap">Transform URL with regexp <a href="https://github.com/eight04/image-picka#transform-url-with-regexp">Learn more</a></label>
+				<label for="urlMap" data-i18n="optionUrlMapLabel"></label> <a href="https://github.com/eight04/image-picka#transform-url-with-regexp" data-i18n="optionLearnMoreLink"></a>
 				<textarea id="urlMap" class="browser-style textarea-code" rows="8"></textarea>
 			</div>
 		</div>
 	</form>
+	<script src="/lib/internationalization.js"></script>
 	<script src="options.js"></script>
 </body>
 </html>

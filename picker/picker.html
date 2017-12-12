@@ -14,54 +14,55 @@
 <body>
 	<form id="container">
 		<div class="toolbar toolbar-top">
-			<label title="Minimum width (px)">
-				<span>Width</span>
+			<label data-i18n="pickerMinWidthHelp|title">
+				<span data-i18n="pickerMinWidthLabel"></span>
 				<input type="number" id="minWidth">
 			</label>
-			<label title="Minimum height (px)">
-				<span>Height</span>
+			<label data-i18n="pickerMinHeightHelp|title">
+				<span data-i18n="pickerMinHeightLabel"></span>
 				<input type="number" id="minHeight">
 			</label>
-			<label title="Minimum file size (KB)">
-				<span>File Size</span>
+			<label data-i18n="pickerMinFileSizeHelp|title">
+				<span data-i18n="pickerMinFileSizeLabel"></span>
 				<input type="number" id="minFileSize">
 			</label>
 			<div>
 				<select id="matchType">
-					<option value="include">Include</option>
-					<option value="exclude">Exclude</option>
+					<option value="include" data-i18n="pickerMatchTypeIncludeLabel"></option>
+					<option value="exclude" data-i18n="pickerMatchTypeExcludeLabel"></option>
 				</select>
 			</div>
 			<div class="flex-stretch toolbar-control">
-				<label for="matchUrl">URL</label>
+				<label for="matchUrl" data-i18n="pickerMatchUrlLabel"></label>
 				<div class="history-container flex-stretch">
-					<input type="text" id="matchUrl" placeholder="Regular expression" history="3">
+					<input type="text" id="matchUrl" history="3" data-i18n="pickerMatchUrlHelp|placeholder">
 				</div>
 			</div>
 			<div class="form-control">
 				<!-- <label for="previewMaxHeight">Preview size</label> -->
-				<input id="previewMaxHeight" type="range" min="0" max="200" css-variable title="Max height of image preview">
+				<input id="previewMaxHeight" type="range" min="0" max="200" css-variable data-i18n="pickerPreviewMaxHeightHelp|title">
 			</div>
 		</div>
 		<div id="image-container"></div>
 		<div class="toolbar toolbar-bottom">
 			<div class="flex-stretch toolbar-control">
-				<label for="filePatternBatch">Filename pattern</label>
+				<label for="filePatternBatch" data-i18n="pickerFilenamePatternBatchLabel"></label>
 				<div class="history-container history-at-top flex-stretch">
 					<input type="text" id="filePatternBatch" history="5">
 				</div>
 			</div>
 			<label>
 				<input type="checkbox" id="closeTabsAfterSave">
-				<span>Close tabs</span>
+				<span data-i18n="pickerCloseTabsAfterSaveLabel"></span>
 			</label>
 			<div class="actions">
-				<button type="button" class="invert">Invert selection</button>
-				<button type="button" class="save">Save</button>
-				<button type="button" class="copyUrl">Copy URLs</button>
-				<button type="button" class="cancel">Cancel</button>
+				<button type="button" class="invert" data-i18n="pickerActionInvert"></button>
+				<button type="button" class="save" data-i18n="pickerActionSave"></button>
+				<button type="button" class="copyUrl" data-i18n="pickerActionCopyUrl"></button>
+				<button type="button" class="cancel" data-i18n="pickerActionCancel"></button>
 			</div>
 		</div>
 	</form>
+	<script src="/lib/internationalization.js"></script>
 </body>
 </html>

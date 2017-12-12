@@ -2,11 +2,11 @@
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
-		label: "Pick Images from Current Tab",
+		label: browser.i18n.getMessage("commandPickFromCurrentTab"),
 		handler: pickImagesFromCurrent
 	},
 	PICK_FROM_RIGHT_TABS: {
-		label: "Pick Images from Tabs to the Right",
+		label: browser.i18n.getMessage("commandPickFromRightTabs"),
 		handler: pickImagesToRight
 	}
 };
