@@ -1,0 +1,204 @@
+{
+	"commandPickFromCurrentTab": {
+		"message": "抓取当前标签页的图像",
+		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "抓取右侧标签页的图像",
+		"description": "'Pick images from tabs to the right' command"
+	},
+	"extensionName": {
+		"message": "Image Picka",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
+		"description": "Description of the extension"
+	},
+	"optionGeneralTitle": {
+		"message": "常规",
+		"description": "Title of general options"
+	},
+	"optionBrowserActionLabel": {
+		"message": "工具栏按钮的默认动作",
+		"description": "Label of browserAction option"
+	},
+	"optionBrowserActionHelp": {
+		"message": "右击工具栏按钮访问其他动作。",
+		"description": "Help text of browserAction option"
+	},
+	"optionContextMenuLabel": {
+		"message": "添加“抓取图像...”到右键菜单",
+		"description": "Label of contextMenu option"
+	},
+	"optionUseCacheLabel": {
+		"message": "尝试从浏览器缓存下载图像",
+		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "本扩展将在将图像发送到下载管理器前尝试从缓存获取图像，如果图像没有被缓存，这会使图像开始下载有一个明显的延迟。",
+		"description": "Help text of useCache option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "默认文件名",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "默认扩展名",
+		"description": "Label of defaultExt"
+	},
+	"optionFilenameMaxLengthLabel": {
+		"message": "文件名最大长度",
+		"description": "Label of filenameMaxLength option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "下载单张图像",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "这些设置不适用批量下载。批量下载设置在批量下载界面中配置。",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "文件名模式，相对于 Firefox 的默认下载文件夹。",
+		"description": "Label of filenamePattern option"
+	},
+	"optionFilenamePatternHelpHTML": {
+		"message": "该模式可以指定子文件夹（分隔符为 $SEPARATOR$）。",
+		"description": "Help text of filenamePattern option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>/</code>"
+			}
+		}
+	},
+	"optionLearnMoreLink": {
+		"message": "详细了解",
+		"description": "'Learn more' link in option page"
+	},
+	"optionSaveAsLabel": {
+		"message": "询问我保存图像到哪里，而非使用默认的下载文件夹。",
+		"description": "Label of saveAs option"
+	},
+	"optionSaveAsHelp": {
+		"message": "如果选中此选项，您应该移除文件名模式中的子目录部分。",
+		"description": "Help text of saveAs option"
+	},
+	"optionDragndropLabel": {
+		"message": "拖放下载",
+		"description": "Label of dragndrop option"
+	},
+	"optionSingleClickLabel": {
+		"message": "单击下载",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "悬停时显示下载按钮",
+		"description": "Label of downloadButton option"
+	},
+	"optionDownloadButtonDelayLabel": {
+		"message": "显示下载按钮的延迟（毫秒）",
+		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "隐藏下载按钮的延迟（毫秒）",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinWidth": {
+		"message": "触发下载按钮的最小宽度",
+		"description": "Label of downloadButtonMinWidth option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "触发下载按钮的最小高度",
+		"description": "Label of downloadButtonMinHeight option"
+	},
+	"optionAdvancedTitle": {
+		"message": "高级",
+		"description": "Title of advanced options"
+	},
+	"optionSrcAlternativeLabelHTML": {
+		"message": "其他包含图像网址的 HTML 属性（用 $SEPARATOR$ 分隔）",
+		"description": "Label of srcAlternative option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>,</code>"
+			}
+		}
+	},
+	"optionUrlMapLabel": {
+		"message": "用正则表达式转换网址",
+		"description": "Label of urlMap option"
+	},
+	"pickerMinWidthLabel": {
+		"message": "宽度",
+		"description": "Label of minWith filter in image picker"
+	},
+	"pickerMinWidthHelp": {
+		"message": "最小宽度（px，像素）",
+		"description": "Help text of minWidth filter in image picker"
+	},
+	"pickerMinHeightLabel": {
+		"message": "高度",
+		"description": "Label of minHeight filter in image picker"
+	},
+	"pickerMinHeightHelp": {
+		"message": "最小高度（px，像素）",
+		"description": "Help text of minHeight filter in image picker"
+	},
+	"pickerMinFileSizeLabel": {
+		"message": "文件大小",
+		"description": "Label of minFileSize filter in image picker"
+	},
+	"pickerMinFileSizeHelp": {
+		"message": "最小文件大小（KB）",
+		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeIncludeLabel": {
+		"message": "包括",
+		"description": "Label of 'include' option of matchType filter in image picker"
+	},
+	"pickerMatchTypeExcludeLabel": {
+		"message": "排除",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerMatchUrlLabel": {
+		"message": "网址",
+		"description": "Label of matchUrl filter in image picker"
+	},
+	"pickerMatchUrlHelp": {
+		"message": "正则表达式",
+		"description": "Help text of matchUrl filter in image picker"
+	},
+	"pickerPreviewMaxHeightHelp": {
+		"message": "图像预览最大高度",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "文件名模式",
+		"description": "Label of filenamePatternBatch option in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "关闭标签页",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "反转选择",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "保存",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "复制网址",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCopyUrlCopied": {
+		"message": "已复制!",
+		"description": "'Copied!' button shown after successfully copied"
+	},
+	"pickerActionCancel": {
+		"message": "取消",
+		"description": "'Cancel' button in image picker"
+	}
+}
