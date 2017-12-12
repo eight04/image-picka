@@ -11,9 +11,11 @@
     "test": "npm run lint && web-ext lint",
     "start": "web-ext run",
     "preversion": "npm test",
-    "version": "sync-version manifest.json && git add .",
-    "build": "web-ext build --ignore-files **/*.log package*.json test --overwrite-dest",
-    "postversion": "npm run build && git push --follow-tags",
+    "version": "npm run build && git add .",
+    "build": "npm run build-locales && sync-version manifest.json",
+    "build-locales": "tx pull -a --mode=developer && webext-tx-fix",
+    "postversion": "npm run build-zip && git push --follow-tags",
+    "build-zip": "web-ext build --ignore-files **/*.log package*.json test --overwrite-dest",
     "server": "node test/server.js"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "npm-build-tools": "^2.2.5",
     "stream-throttle": "^0.1.3",
     "sync-version": "^1.0.1",
-    "web-ext": "^2.0.0"
+    "web-ext": "^2.0.0",
+    "webext-tx-fix": "^0.1.0"
   }
 }
