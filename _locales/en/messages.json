@@ -193,6 +193,10 @@
 		"message": "Copy URLs",
 		"description": "'Copy URLs' button in image picker"
 	},
+	"pickerActionCopyUrlCopied": {
+		"message": "Copied!",
+		"description": "'Copied!' button shown after successfully copied"
+	},
 	"pickerActionCancel": {
 		"message": "Cancel",
 		"description": "'Cancel' button in image picker"

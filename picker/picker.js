@@ -53,7 +53,7 @@ function init({images: urls, env, opener, tabIds}) {
 				this.originalTextContent = this.textContent;
 			}
 			this.style.width = this.offsetWidth + "px";
-			this.textContent = "Copied!";
+			this.textContent = browser.i18n.getMessage("pickerActionCopyUrlCopied");
 			if (this.timer != null) {
 				clearTimeout(this.timer);
 			}
