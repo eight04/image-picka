@@ -52,14 +52,14 @@ function init({images: urls, env, opener, tabIds}) {
 			if (!this.originalTextContent) {
 				this.originalTextContent = this.textContent;
 			}
-			this.style.width = this.offsetWidth + "px";
+			this.style.minWidth = this.offsetWidth + "px";
 			this.textContent = browser.i18n.getMessage("pickerActionCopyUrlCopied");
 			if (this.timer != null) {
 				clearTimeout(this.timer);
 			}
 			this.timer = setTimeout(() => {
 				this.textContent = this.originalTextContent;
-				this.style.width = "";
+				this.style.minWidth = "";
 				this.timer = null;
 			}, 1000);
 		},
