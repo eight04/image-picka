@@ -172,6 +172,85 @@ pref.ready().then(() => {
 	});
 });
 
+// setup dynamic icon
+const icon = createDynamicIcon({
+	file: "/icon.svg",
+	enabled: () => pref.get("customIcon"),
+	onupdate: svg => svg.replace(/context-fill(?!-)/g, pref.get("customIconColor"))
+});
+pref.ready().then(() => {
+	icon.update();
+	pref.onChange(change => {
+		if (change.customIcon != null || change.customIconColor != null) {
+			icon.update();
+		}
+	});
+});
+
+function createDynamicIcon({file, enabled, onupdate}) {
+	const SIZES = [16, 32, 64];
+	let pendingSVG;
+	let context;
+	let cache;
+	
+	function getSVG() {
+		if (!pendingSVG) {
+			pendingSVG = fetch(file).then(r => r.text());
+		}
+		return pendingSVG;
+	}
+	
+	function getContext() {
+		if (!context) {
+			const canvas = document.createElement("canvas");
+			context = canvas.getContext("2d");
+		}
+		return context;
+	}
+	
+	function update() {
+		if (!enabled()) {
+			cache = null;
+			browser.browserAction.setIcon({path: file});
+			return;
+		}
+		getSVG().then(svg => {
+			svg = onupdate(svg);
+			if (svg === cache) {
+				return;
+			}
+			cache = svg;
+			loadImage(svg).then(setIcon);
+		});
+	}
+	
+	function setIcon(img) {
+		const ctx = getContext();
+		const imageData = {};
+		for (const size of SIZES) {
+			ctx.clearRect(0, 0, size, size);
+			ctx.drawImage(img, 0, 0, size, size);
+			imageData[size] = ctx.getImageData(0, 0, size, size);
+		}
+		browser.browserAction.setIcon({imageData});
+	}
+	
+	function loadImage(svg) {
+		return new Promise((resolve, reject) => {
+			const img = new Image;
+			img.src = `data:image/svg+xml;charset=utf8;base64,${btoa(svg)}`;
+			img.onload = () => {
+				resolve(img);
+			};
+			img.onerror = () => {
+				reject();
+			};
+		});
+	}
+	
+	return {update};
+}
+
 // inject content/pick-images.js to the page
 function pickImages(tabId, frameId = 0) {
 	return browser.tabs.executeScript(tabId, {

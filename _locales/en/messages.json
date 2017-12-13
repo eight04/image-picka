@@ -31,6 +31,14 @@
 		"message": "Also add \"Pick Images...\" actions to contextmenu",
 		"description": "Label of contextMenu option"
 	},
+	"optionCustomIconLabel": {
+		"message": "Customize the color of toolbar button",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "Icon color",
+		"description": "Label of customIconColor option"
+	},
 	"optionUseCacheLabel": {
 		"message": "Try to download images from browser cache",
 		"description": "Label of useCache option"
