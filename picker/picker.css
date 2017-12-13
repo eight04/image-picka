@@ -76,3 +76,17 @@
 .match-url {
 	margin-left: 0.5em;
 }
+
+/* images counter */
+#image-container {
+	counter-reset: images-selected images-total;
+}
+.image-checkbox {
+	counter-increment: images-total;
+}
+.image-checkbox.checked:not(.disable) {
+	counter-increment: images-total images-selected;
+}
+.save::after {
+	content: " (" counter(images-selected) "/" counter(images-total) ")"
+}
