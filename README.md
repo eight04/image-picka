@@ -73,7 +73,10 @@ Similar addons
 Icon color
 ----------
 
-If you are using a dark theme and the icon color doesn't fit your theme, try setting `svg.context-properties.content.enabled` to true in `about:config`.
+If you are using a dark theme and the icon color doesn't fit your theme, or the icon is completely transparent, try:
+
+1. Set `svg.context-properties.content.enabled` to `true` in `about:config`.
+2. If the config doesn't exist (e.g. in Firefox ESR 52), you have to specify a proper color manually.
 
 Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 
