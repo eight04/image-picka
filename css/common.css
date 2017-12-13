@@ -40,7 +40,7 @@ input, button, select {
 	box-shadow: 0 0 5px #737373;
 }
 .history-list::before {
-	content: "Recently used:";
+	content: "__MSG_formHistoryRecentlyUsedLabel__";
 	display: block;
 	color: #737373;
 	font-size: 0.8em;

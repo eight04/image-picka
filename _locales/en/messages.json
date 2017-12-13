@@ -15,6 +15,10 @@
 		"message": "An image picker built with webextensions",
 		"description": "Description of the extension"
 	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "Recently used:",
+		"description": "'Recently used:' label of form history"
+	},
 	"optionGeneralTitle": {
 		"message": "General",
 		"description": "Title of general options"
