@@ -12,7 +12,7 @@
     "start": "web-ext run",
     "preversion": "npm test",
     "version": "npm run build && git add .",
-    "build": "npm run build-locales && sync-version manifest.json",
+    "build": "sync-version manifest.json",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix",
     "postversion": "npm run build-zip && git push --follow-tags",
     "build-zip": "web-ext build --ignore-files **/*.log package*.json test --overwrite-dest",
