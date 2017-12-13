@@ -77,6 +77,11 @@ If you are using a dark theme and the icon color doesn't fit your theme, try set
 
 Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 
+Translation
+-----------
+
+You can help translating the extension by joining Image Picka team on [Transifex](https://www.transifex.com/image-picka/image-picka/dashboard/). If you work on GitHub, you can also send a PR containing `messages.json` file, which would be pushed to Transifex after merging.
+
 Changelog
 ---------
 
