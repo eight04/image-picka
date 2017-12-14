@@ -88,6 +88,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.6.0 (Dec 14, 2017)
+
+	- Add: zh-TW, zh-CN translation.
+	- Add: a counter to show the number of selected/total images in batch download UI.
+	- Add: options to change the color of toolbar button.
+
 * 0.5.2 (Dec 11, 2017)
 
 	- Add: a slider to control the height of image preview in batch download UI.
