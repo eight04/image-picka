@@ -8,7 +8,7 @@
   "dependencies": {},
   "scripts": {
     "lint": "eslint **/*.js --cache",
-    "test": "npm run lint && web-ext lint",
+    "test": "npm run lint",
     "start": "web-ext run",
     "preversion": "npm test",
     "version": "npm run build && git add .",
