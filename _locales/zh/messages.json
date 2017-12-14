@@ -1,23 +1,75 @@
 {
-	"optionDownloadButtonMinHeight": {
-		"message": "顯示下載按鈕所需的最小高度",
-		"description": "Label of downloadButtonMinHeight option"
-	},
-	"optionSaveAsLabel": {
-		"message": "每次詢問我要將圖片儲存至何處",
-		"description": "Label of saveAs option"
-	},
 	"commandPickFromCurrentTab": {
 		"message": "從當前分頁拾圖",
 		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "從右方分頁拾圖",
+		"description": "'Pick images from tabs to the right' command"
+	},
+	"extensionDescription": {
+		"message": "以 Webextensions 打造的拾圖工具",
+		"description": "Description of the extension"
+	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "最近使用︰",
+		"description": "'Recently used:' label of form history"
+	},
+	"optionGeneralTitle": {
+		"message": "一般",
+		"description": "Title of general options"
+	},
+	"optionBrowserActionLabel": {
+		"message": "工具列按鈕的預設指令",
+		"description": "Label of browserAction option"
+	},
+	"optionBrowserActionHelp": {
+		"message": "在工具列按鈕上點擊右鍵以顯示其它指令。",
+		"description": "Help text of browserAction option"
 	},
 	"optionContextMenuLabel": {
 		"message": "將拾圖指令加到頁面上的右鍵選單。",
 		"description": "Label of contextMenu option"
 	},
-	"pickerMatchTypeExcludeLabel": {
-		"message": "排除",
-		"description": "Label of 'exclude' option of matchType filter in image picker"
+	"optionCustomIconLabel": {
+		"message": "自訂工具列按鈕的顏色",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "圖示顏色",
+		"description": "Label of customIconColor option"
+	},
+	"optionUseCacheLabel": {
+		"message": "試著從快取中下載圖片",
+		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "在把圖片傳送給瀏覽器的下載管理員之前，這個套件會試著先從快取下載圖片。如果圖片並沒有被快取，在下載管理員啟動前會有一段不短的延遲時間。",
+		"description": "Help text of useCache option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "預設的檔名",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "預設的副檔名",
+		"description": "Label of defaultExt"
+	},
+	"optionFilenameMaxLengthLabel": {
+		"message": "檔案名稱的最大長度",
+		"description": "Label of filenameMaxLength option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "下載單一圖片",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "這些設定不會應用於批次下載。批次下載的設定可以在批次下載的介面中更改。",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "檔案名稱格式，必須為基於預設下載目錄的相對路徑。",
+		"description": "Label of filenamePattern option"
 	},
 	"optionFilenamePatternHelpHTML": {
 		"message": "格式可包含子資料夾（以$SEPARATOR$分隔）",
@@ -28,29 +80,49 @@
 			}
 		}
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "檔案名稱的最大長度",
-		"description": "Label of filenameMaxLength option"
+	"optionLearnMoreLink": {
+		"message": "瞭解詳情",
+		"description": "'Learn more' link in option page"
 	},
-	"extensionDescription": {
-		"message": "以 Webextensions 打造的拾圖工具",
-		"description": "Description of the extension"
-	},
-	"pickerMinHeightHelp": {
-		"message": "最小高度（像素）",
-		"description": "Help text of minHeight filter in image picker"
-	},
-	"pickerMinFileSizeHelp": {
-		"message": "最小檔案大小",
-		"description": "Help text of minFileSize filter in image picker"
+	"optionSaveAsLabel": {
+		"message": "每次詢問我要將圖片儲存至何處",
+		"description": "Label of saveAs option"
 	},
 	"optionSaveAsHelp": {
 		"message": "若選擇了這個選項，你應該將檔案名稱格式中「資料夾」的部份刪除。",
 		"description": "Help text of saveAs option"
 	},
+	"optionDragndropLabel": {
+		"message": "拖曳下載",
+		"description": "Label of dragndrop option"
+	},
+	"optionSingleClickLabel": {
+		"message": "點擊下載",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "游標指在圖片上面時，顯示一個下載按鈕",
+		"description": "Label of downloadButton option"
+	},
 	"optionDownloadButtonDelayLabel": {
 		"message": "顯示按鈕前的延遲（毫秒）",
 		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "隱藏按鈕前的延遲（毫秒）",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinWidth": {
+		"message": "顯示下載按鈕所需的最小寬度",
+		"description": "Label of downloadButtonMinWidth option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "顯示下載按鈕所需的最小高度",
+		"description": "Label of downloadButtonMinHeight option"
+	},
+	"optionAdvancedTitle": {
+		"message": "進階",
+		"description": "Title of advanced options"
 	},
 	"optionSrcAlternativeLabelHTML": {
 		"message": "從其它的 HTML 屬性取得圖片網址（以$SEPARATOR$分隔）",
@@ -61,144 +133,80 @@
 			}
 		}
 	},
-	"optionUseCacheLabel": {
-		"message": "試著從快取中下載圖片",
-		"description": "Label of useCache option"
-	},
-	"pickerFilenamePatternBatchLabel": {
-		"message": "檔案名稱格式",
-		"description": "Label of filenamePatternBatch option in image picker"
-	},
-	"optionDefaultNameLabel": {
-		"message": "預設的檔名",
-		"description": "Label of defaultName"
-	},
-	"pickerMatchUrlLabel": {
-		"message": "網址",
-		"description": "Label of matchUrl filter in image picker"
+	"optionUrlMapLabel": {
+		"message": "以正規表達式置換網址",
+		"description": "Label of urlMap option"
 	},
 	"pickerMinWidthLabel": {
 		"message": "寬度",
 		"description": "Label of minWith filter in image picker"
 	},
-	"optionUrlMapLabel": {
-		"message": "以正規表達式置換網址",
-		"description": "Label of urlMap option"
-	},
-	"optionBrowserActionHelp": {
-		"message": "在工具列按鈕上點擊右鍵以顯示其它指令。",
-		"description": "Help text of browserAction option"
-	},
-	"optionDownloadButtonMinWidth": {
-		"message": "顯示下載按鈕所需的最小寬度",
-		"description": "Label of downloadButtonMinWidth option"
-	},
-	"optionDownloadButtonDelayHideLabel": {
-		"message": "隱藏按鈕前的延遲（毫秒）",
-		"description": "Label of downloadButtonDelayHide option"
-	},
-	"optionDownloadButtonLabel": {
-		"message": "游標指在圖片上面時，顯示一個下載按鈕",
-		"description": "Label of downloadButton option"
-	},
 	"pickerMinWidthHelp": {
 		"message": "最小寬度（像素）",
 		"description": "Help text of minWidth filter in image picker"
-	},
-	"optionAdvancedTitle": {
-		"message": "進階",
-		"description": "Title of advanced options"
-	},
-	"commandPickFromRightTabs": {
-		"message": "從右方分頁拾圖",
-		"description": "'Pick images from tabs to the right' command"
-	},
-	"pickerMatchTypeIncludeLabel": {
-		"message": "包括",
-		"description": "Label of 'include' option of matchType filter in image picker"
-	},
-	"optionBrowserActionLabel": {
-		"message": "工具列按鈕的預設指令",
-		"description": "Label of browserAction option"
-	},
-	"pickerPreviewMaxHeightHelp": {
-		"message": "預覽圖片的最大高度",
-		"description": "Help text of previewMaxHeight option in image picker"
-	},
-	"optionDownloadSingleImageTitle": {
-		"message": "下載單一圖片",
-		"description": "Title of download single image options"
-	},
-	"optionGeneralTitle": {
-		"message": "一般",
-		"description": "Title of general options"
 	},
 	"pickerMinHeightLabel": {
 		"message": "高度",
 		"description": "Label of minHeight filter in image picker"
 	},
-	"optionDefaultExtLabel": {
-		"message": "預設的副檔名",
-		"description": "Label of defaultExt"
-	},
-	"optionLearnMoreLink": {
-		"message": "瞭解詳情",
-		"description": "'Learn more' link in option page"
-	},
-	"pickerActionInvert": {
-		"message": "反轉選擇",
-		"description": "'Invert selection' button in image picker"
-	},
-	"pickerActionCancel": {
-		"message": "取消",
-		"description": "'Cancel' button in image picker"
-	},
-	"optionDownloadSingleImageHelp": {
-		"message": "這些設定不會應用於批次下載。批次下載的設定可以在批次下載的介面中更改。",
-		"description": "Help text of download single image option"
-	},
-	"pickerActionSave": {
-		"message": "儲存",
-		"description": "'Save' button in image picker"
-	},
-	"pickerActionCopyUrlCopied": {
-		"message": "已複製！",
-		"description": "'Copied!' button shown after successfully copied"
-	},
-	"pickerActionCopyUrl": {
-		"message": "複製網址",
-		"description": "'Copy URLs' button in image picker"
+	"pickerMinHeightHelp": {
+		"message": "最小高度（像素）",
+		"description": "Help text of minHeight filter in image picker"
 	},
 	"pickerMinFileSizeLabel": {
 		"message": "檔案大小",
 		"description": "Label of minFileSize filter in image picker"
 	},
-	"extensionName": {
-		"message": "Image Picka",
-		"description": "Name of the extension"
+	"pickerMinFileSizeHelp": {
+		"message": "最小檔案大小",
+		"description": "Help text of minFileSize filter in image picker"
 	},
-	"pickerCloseTabsAfterSaveLabel": {
-		"message": "關閉分頁",
-		"description": "Label of closeTabsAfterSave option in image picker"
+	"pickerMatchTypeIncludeLabel": {
+		"message": "包括",
+		"description": "Label of 'include' option of matchType filter in image picker"
 	},
-	"optionDragndropLabel": {
-		"message": "拖曳下載",
-		"description": "Label of dragndrop option"
+	"pickerMatchTypeExcludeLabel": {
+		"message": "排除",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
 	},
-	"optionFilenamePatternLabel": {
-		"message": "檔案名稱格式，必須為基於預設下載目錄的相對路徑。",
-		"description": "Label of filenamePattern option"
-	},
-	"optionSingleClickLabel": {
-		"message": "點擊下載",
-		"description": "Label of singleClick option"
+	"pickerMatchUrlLabel": {
+		"message": "網址",
+		"description": "Label of matchUrl filter in image picker"
 	},
 	"pickerMatchUrlHelp": {
 		"message": "正規表達式",
 		"description": "Help text of matchUrl filter in image picker"
 	},
-	"optionUseCacheHelp": {
-		"message": "在把圖片傳送給瀏覽器的下載管理員之前，這個套件會試著先從快取下載圖片。如果圖片並沒有被快取，在下載管理員啟動前會有一段不短的延遲時間。",
-		"description": "Help text of useCache option"
+	"pickerPreviewMaxHeightHelp": {
+		"message": "預覽圖片的最大高度",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "檔案名稱格式",
+		"description": "Label of filenamePatternBatch option in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "關閉分頁",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "反轉選擇",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "儲存",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "複製網址",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCopyUrlCopied": {
+		"message": "已複製！",
+		"description": "'Copied!' button shown after successfully copied"
+	},
+	"pickerActionCancel": {
+		"message": "取消",
+		"description": "'Cancel' button in image picker"
 	}
 }
