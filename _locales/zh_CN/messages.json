@@ -11,6 +11,10 @@
 		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
 		"description": "Description of the extension"
 	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "最近使用：",
+		"description": "'Recently used:' label of form history"
+	},
 	"optionGeneralTitle": {
 		"message": "常规",
 		"description": "Title of general options"
@@ -26,6 +30,14 @@
 	"optionContextMenuLabel": {
 		"message": "添加“抓取图像...”到右键菜单",
 		"description": "Label of contextMenu option"
+	},
+	"optionCustomIconLabel": {
+		"message": "自定义工具栏按钮的颜色",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "图标颜色",
+		"description": "Label of customIconColor option"
 	},
 	"optionUseCacheLabel": {
 		"message": "尝试从浏览器缓存下载图像",
