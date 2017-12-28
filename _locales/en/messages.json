@@ -51,6 +51,10 @@
 		"message": "The extension would try to get the image from cache before sending the image to download manager, which causes a noticeable delay before download manager starts if the image is not cached.",
 		"description": "Help text of useCache option"
 	},
+	"optionUseExpressionLabel": {
+		"message": "Use simple expression in the filename pattern",
+		"description": "Label of useExpression option"
+	},
 	"optionDefaultNameLabel": {
 		"message": "Default filename",
 		"description": "Label of defaultName"
