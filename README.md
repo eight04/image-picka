@@ -46,7 +46,7 @@ Feel free to open an issue to discuss this behavior if you think this is not rig
 Use expression in filename
 --------------------------
 
-If this option is checked, you can use some simple expressions in `${}` placeholder.
+If this option is checked, the extension would evaluate the content inside `${}` as simple expressions, by using [expression-eval](https://github.com/donmccurdy/expression-eval).
 
 Here are some examples:
 
@@ -63,8 +63,8 @@ Here are some examples:
 	Image Picka/${pageTitle}/${index} - ${name.slice(-6)}${ext}
 	```
 	
-Image Picka uses [expression-eval](https://github.com/donmccurdy/expression-eval) to evaluate the expression.
-
+The expression can access variable methods and global object `String`, `Number`, and `Math`.
+	
 Transform URL with regexp
 -------------------------
 
