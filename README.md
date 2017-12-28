@@ -43,6 +43,28 @@ Some notes for iframe:
 
 Feel free to open an issue to discuss this behavior if you think this is not right.
 
+Use expression in filename
+--------------------------
+
+If this option is checked, you can use some simple expressions in `${}` placeholder.
+
+Here are some examples:
+
+* Make `index` start from `0`:
+	```
+	Image Picka/${pageTitle}/${index - 1} - ${name}${ext}
+	```
+* Zero-pad `index`:
+	```
+	Image Picka/${pageTitle}/${String(index).padStart(3, "0")} - ${name}${ext}
+	```
+* Slice the filename:
+	```
+	Image Picka/${pageTitle}/${index} - ${name.slice(-6)}${ext}
+	```
+	
+Image Picka uses [expression-eval](https://github.com/donmccurdy/expression-eval) to evaluate the expression.
+
 Transform URL with regexp
 -------------------------
 
