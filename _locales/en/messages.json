@@ -16,7 +16,7 @@
 		"description": "Description of the extension"
 	},
 	"filenameConflictActionUniquify": {
-		"message": "Rename automatically",
+		"message": "Automatically rename",
 		"description": "Label of uniquify keyword of filenameConflictAction"
 	},
 	"filenameConflictActionOverwrite": {
