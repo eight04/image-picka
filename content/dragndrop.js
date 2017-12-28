@@ -250,7 +250,13 @@
 			// detect mouse entering to the image from outside window
 			addListener("mouseover", decideHideButtonThrottled);
 			
-			button = document.createElement("div");
+			button = createButton();
+			document.body.appendChild(button);
+			state.update();
+		}
+		
+		function createButton() {
+			const button = document.createElement("div");
 			button.className = "image-picka-download-button";
 			button.style = `
 				width: 64px;
@@ -265,8 +271,7 @@
 			button.onclick = () => {
 				downloadImage(image.src);
 			};
-			document.body.appendChild(button);
-			state.update();
+			return button;
 		}
 		
 		function updateButtonPosition() {
