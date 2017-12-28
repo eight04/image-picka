@@ -15,6 +15,14 @@
 		"message": "An image picker built with webextensions",
 		"description": "Description of the extension"
 	},
+	"filenameConflictActionUniquify": {
+		"message": "Rename automatically",
+		"description": "Label of uniquify keyword of filenameConflictAction"
+	},
+	"filenameConflictActionOverwrite": {
+		"message": "Overwrite the old one",
+		"description": "Label of overwrite keyword of filenameConflictAction"
+	},
 	"formHistoryRecentlyUsedLabel": {
 		"message": "Recently used:",
 		"description": "'Recently used:' label of form history"
@@ -66,6 +74,14 @@
 	"optionFilenameMaxLengthLabel": {
 		"message": "Max length of the filename",
 		"description": "Label of filenameMaxLength option"
+	},
+	"optionFilenameConflictActionLabel": {
+		"message": "Handle filename conflict",
+		"description": "Label of filenameConflictAction option"
+	},
+	"optionFilenameConflictActionHelp": {
+		"message": "Download may fail if there are multiple files downloaded with the same name at the same time. It is best to avoid filename conflict by using proper filename pattern, especially during batch download.",
+		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
 		"message": "Download Single Image",
