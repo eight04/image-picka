@@ -1,5 +1,33 @@
 /* globals pref */
 
+const getImageSrc = (() => {
+	let SRC_PROP = [];
+	
+	update();
+	pref.onChange(change => {
+		if (change.srcAlternative != null) {
+			update();
+		}
+	});
+		
+	function update() {
+		SRC_PROP = pref.get("srcAlternative")
+			.split(",")
+			.map(p => p.trim())
+			.filter(Boolean);
+	}
+		
+	return img => {
+		for (const prop of SRC_PROP) {
+			const src = img.getAttribute(prop);
+			if (src) {
+				return new URL(src, location.href).href;
+			}
+		}
+		return img.src;
+	};
+})();
+
 (function() {
 	const EVENT_OPTIONS = {passive: true};	
 	let IS_BLACKLISTED = false;
@@ -81,10 +109,14 @@
 		}
 		
 		function onClick(e) {
-			if (e.target.nodeName !== "IMG" || !e.target.src || !testEvent(e)) {
+			if (e.target.nodeName !== "IMG" || !testEvent(e)) {
 				return;
 			}
-			downloadImage(e.target.src);
+			const imageSrc = getImageSrc(e.target);
+			if (!imageSrc) {
+				return;
+			}
+			downloadImage(imageSrc);
 			e.preventDefault();
 		}
 		
@@ -123,7 +155,7 @@
 				img = img.querySelector("img");
 			}
 			if (!img || img.nodeName != "IMG") return;
-			e.dataTransfer.setData("imageSrc", img.src);
+			e.dataTransfer.setData("imageSrc", getImageSrc(img));
 		}
 		
 		function onDragOver(e) {
@@ -270,7 +302,7 @@
 			`;
 			updateButtonPosition();
 			button.onclick = () => {
-				downloadImage(image.src);
+				downloadImage(getImageSrc(image));
 			};
 		}
 		
