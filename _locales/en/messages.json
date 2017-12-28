@@ -124,6 +124,54 @@
 		"message": "Min height to trigger download button",
 		"description": "Label of downloadButtonMinHeight option"
 	},
+	"optionDownloadButtonPositionHorizontalLabel": {
+		"message": "Horizontal position",
+		"description": "Label of downloadButtonPositionHorizontal option"
+	},
+	"optionDownloadButtonPositionHorizontalLeftOutside": {
+		"message": "Left, outside the image",
+		"description": "Label of LEFT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalLeftInside": {
+		"message": "Left, inside the image",
+		"description": "Label of LEFT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalCenter": {
+		"message": "Center",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionHorizontalRightInside": {
+		"message": "Right, inside the image",
+		"description": "Label of RIGHT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalRightOutside": {
+		"message": "Right, outside the image",
+		"description": "Label of RIGHT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalLabel": {
+		"message": "Vertical position",
+		"description": "Label of downloadButtonPositionVertical option"
+	},
+	"optionDownloadButtonPositionVerticalTopOutside": {
+		"message": "Top, outside the image",
+		"description": "Label of TOP_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalTopInside": {
+		"message": "Top, inside the image",
+		"description": "Label of TOP_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalCenter": {
+		"message": "Center",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionVerticalBottomInside": {
+		"message": "Bottom, inside the image",
+		"description": "Label of BOTTOM_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalBottomOutside": {
+		"message": "Bottom, outside the image",
+		"description": "Label of BOTTOM_OUTSIDE position"
+	},
 	"optionAdvancedTitle": {
 		"message": "Advanced",
 		"description": "Title of advanced options"

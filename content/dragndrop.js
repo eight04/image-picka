@@ -266,6 +266,7 @@
 				z-index: 2147483647;
 				background-image: url(${browser.runtime.getURL("/public/download-button.svg")});
 				background-size: cover;
+				opacity: 0.85;
 			`;
 			updateButtonPosition();
 			button.onclick = () => {
@@ -273,10 +274,30 @@
 			};
 		}
 		
+		function calcPos(base, size, tag, low, high) {
+			if (tag.startsWith(low)) {
+				if (tag.endsWith("OUTSIDE")) {
+					return base - 64;
+				} else {
+					return base;
+				}
+			} else if (tag.startsWith(high)) {
+				if (tag.endsWith("INSIDE")) {
+					return base + size - 64;
+				} else {
+					return base + size;
+				}
+			} else {
+				return base + (size - 64) / 2;
+			}
+		}
+		
 		function updateButtonPosition() {
-			var rect = image.getBoundingClientRect();
-			button.style.top = rect.top - 64 >= 0 ? rect.top - 64 + "px" : "0";
-			button.style.left = rect.left ? rect.left + "px" : "0";
+			const rect = image.getBoundingClientRect();
+			const left = calcPos(rect.left, rect.width, pref.get("downloadButtonPositionHorizontal"), "LEFT", "RIGHT");
+			const top = calcPos(rect.top, rect.height, pref.get("downloadButtonPositionVertical"), "TOP", "BOTTOM");
+			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - 64), 0) + "px";
+			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - 64), 0) + "px";
 		}
 	}
 	
