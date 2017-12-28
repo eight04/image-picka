@@ -1,4 +1,4 @@
-/* global pref fetchBlob webextMenus */
+/* global pref fetchBlob webextMenus expressionEval */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -336,7 +336,7 @@ function openPicker(req, openerTabId) {
 }
 
 function batchDownload({urls, env, tabIds}) {
-	var filePattern = pref.get("filePatternBatch");
+	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
 	Promise.all(urls.map(doDownload)).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
 			tabIds.forEach(i => browser.tabs.remove(i));
@@ -345,9 +345,9 @@ function batchDownload({urls, env, tabIds}) {
 
 	function doDownload(url, i) {
 		env.url = url;
-		env.index = String(i + 1);
+		env.index = i + 1;
 		expandEnv(env);
-		var filename = buildFilename(filePattern, env);
+		var filename = renderFilename(env);
 		return download(url, filename);
 	}
 }
@@ -418,7 +418,7 @@ function downloadImage({url, env, tabId}) {
 	env.url = url;
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
-		filename = buildFilename(filePattern, env);
+		filename = compileStringTemplate(filePattern)(env);
 	download(url, filename, pref.get("saveAs"))
 		.catch(notifyDownloadError);
 }
@@ -443,12 +443,43 @@ function escapeTrailingDots(path) {
 	return path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
 }
 
-function buildFilename(pattern, env) {
-	return escapeTrailingDots(
-		pattern.replace(
-			/\${(\w+?)}/g,
-			(m, key) => env[key] ? escapeFilename(env[key]) : m
-		)
+function propGetter(prop) {
+	return ctx => ctx[prop];
+}
+
+function exprGetter(expr) {
+	const render = expressionEval.compile(expr);
+	const defaultCtx = {String, Number, Math};
+	return ctx => render(Object.assign({}, defaultCtx, ctx));
+}
+
+function compileStringTemplate(template) {
+	const USE_EXPRESSION = pref.get("useExpression");
+	const re = /\${(.+?)}/g;
+	let match, lastIndex = 0;
+	const output = [];
+	while ((match = re.exec(template))) {
+		if (match.index !== lastIndex) {
+			output.push(template.slice(lastIndex, match.index));
+		}
+		if (USE_EXPRESSION) {
+			output.push(exprGetter(match[1]));
+		} else {
+			output.push(propGetter(match[1]));
+		}
+		lastIndex = re.lastIndex;
+	}
+	if (lastIndex !== template.length) {
+		const text = template.slice(lastIndex);
+		output.push(text);
+	}
+	return context => escapeTrailingDots(
+		output.map(text => {
+			if (typeof text === "string") {
+				return text;
+			}
+			return escapeFilename(String(text(context)));
+		}).join("")
 	);
 }
 
