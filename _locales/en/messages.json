@@ -141,6 +141,10 @@
 		"message": "Transform URL with regexp",
 		"description": "Label of urlMap option"
 	},
+	"optionBlacklistLabel": {
+		"message": "Disable Image Picka in following domains. (One domain per line)",
+		"description": "Label of blacklist option"
+	},
 	"pickerMinWidthLabel": {
 		"message": "Width",
 		"description": "Label of minWith filter in image picker"
