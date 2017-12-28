@@ -448,7 +448,7 @@ function propGetter(prop) {
 }
 
 function exprGetter(expr) {
-	const render = essionEval.compile(expr);
+	const render = expressionEval.compile(expr);
 	const defaultCtx = {String, Number, Math};
 	return ctx => render(Object.assign({}, defaultCtx, ctx));
 }
