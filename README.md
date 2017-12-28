@@ -110,6 +110,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.6.1 (Dec 29, 2017)
+
+	- Add: an option to overwrite old file on filename conflict.
+	- Add: ability to avaluate simple expression in filename pattern.
+	- Add: customize the position of the download button.
+	- Add: an option to blacklist multiple domains so Image Picka won't apply download single image feature on those sites.
+	- Fix: use extra HTML attributes when downloading single image.
+
 * 0.6.0 (Dec 14, 2017)
 
 	- Add: zh-TW, zh-CN translation.
