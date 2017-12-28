@@ -447,6 +447,12 @@ function propGetter(prop) {
 	return ctx => ctx[prop];
 }
 
+function exprGetter(expr) {
+	const render = essionEval.compile(expr);
+	const defaultCtx = {String, Number, Math};
+	return ctx => render(Object.assign({}, defaultCtx, ctx));
+}
+
 function compileStringTemplate(template) {
 	const USE_EXPRESSION = pref.get("useExpression");
 	const re = /\${(.+?)}/g;
@@ -457,7 +463,7 @@ function compileStringTemplate(template) {
 			output.push(template.slice(lastIndex, match.index));
 		}
 		if (USE_EXPRESSION) {
-			output.push(expressionEval.compile(match[1]));
+			output.push(exprGetter(match[1]));
 		} else {
 			output.push(propGetter(match[1]));
 		}
