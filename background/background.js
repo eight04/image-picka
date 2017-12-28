@@ -72,20 +72,24 @@ const download = function() {
 	}
 	
 	function download(url, filename, saveAs = false) {
+		const options = {
+			url, filename, saveAs, conflictAction: pref.get("filenameConflictAction")
+		};
 		return tryFetchCache().then(blob => {
-			if (blob) {
-				const objUrl = URL.createObjectURL(blob);
-				return browser.downloads.download({url: objUrl, filename, saveAs})
-					.catch(err => {
-						URL.revokeObjectURL(objUrl);
-						throw err;
-					})
-					.then(id => {
-						objUrls.set(id, objUrl);
-						return id;
-					});
+			if (!blob) {
+				return browser.downloads.download(options);
 			}
-			return browser.downloads.download({url, filename, saveAs});
+			const objUrl = URL.createObjectURL(blob);
+			options.url = objUrl;
+			return browser.downloads.download(options)
+				.catch(err => {
+					URL.revokeObjectURL(objUrl);
+					throw err;
+				})
+				.then(id => {
+					objUrls.set(id, objUrl);
+					return id;
+				});
 		});
 		
 		function tryFetchCache() {
