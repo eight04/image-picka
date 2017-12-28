@@ -20,6 +20,7 @@
 	],
 	"background": {
 		"scripts": [
+			"vendor/expression-eval/expression-eval.min.js",
 			"lib/pref.js",
 			"lib/fetch.js",
 			"lib/webext-menus.js",
