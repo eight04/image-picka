@@ -1,7 +1,11 @@
 /* globals pref */
 
 (function() {
+	const EVENT_OPTIONS = {passive: true};	
+	let IS_BLACKLISTED = false;
+	
 	pref.ready().then(() => {
+		initBlackList();
 		initDragndrop();
 		initDownloadButton();
 		initSingleClick();
@@ -15,7 +19,37 @@
 		});
 	}
 	
-	var EVENT_OPTIONS = {passive: true};
+	function createSwitch(test, on, off) {
+		let state = false;
+		
+		function update() {
+			const newState = test();
+			if (newState === state) return;
+			if (newState) {
+				on();
+			} else {
+				off();
+			}
+			state = newState;
+		}
+		
+		return {update};
+	}
+	
+	function initBlackList() {
+		update();
+		pref.onChange(change => {
+			if (change.blacklist != null) {
+				update();
+			}
+		});
+		
+		function update() {
+			const blacklist = pref.get("blacklist");
+			IS_BLACKLISTED = blacklist.split("\n")
+				.some(d => d === location.hostname);
+		}
+	}
 	
 	function addListener(name, callback, el = document) {
 		el.addEventListener(name, callback, EVENT_OPTIONS);
@@ -27,20 +61,15 @@
 	
 	function initSingleClick() {
 		const conf = pref.get();
+		const state = createSwitch(
+			() => pref.get("singleClick") && !IS_BLACKLISTED,
+			init, uninit
+		);
 		
-		if (conf.singleClick) {
-			init();
-		}
-
+		state.update();
 		pref.onChange(change => {
 			Object.assign(conf, change);
-			if (change.singleClick != null) {
-				if (change.singleClick) {
-					init();
-				} else {
-					uninit();
-				}
-			}
+			state.update();
 		});
 		
 		function init() {
@@ -68,17 +97,13 @@
 	}
 	
 	function initDragndrop() {
-		pref.onChange(change => {
-			if (change.dragndrop == null) return;
-			if (change.dragndrop) {
-				init();
-			} else {
-				uninit();
-			}
-		});
-		if (pref.get("dragndrop")) {
-			init();
-		}
+		const state = createSwitch(
+			() => pref.get("dragndrop") && !IS_BLACKLISTED,
+			init, uninit
+		);
+		
+		state.update();
+		pref.onChange(state.update);
 		
 		function init() {
 			document.addEventListener("dragstart", onDragStart);
@@ -132,18 +157,15 @@
 			closeTimer,
 			decideHideTimer;
 			
-		init();
-		pref.onChange(change => {
-			if (change.downloadButton == null) return;
-			if (change.downloadButton) {
-				init();
-			} else {
-				uninit();
-			}
-		});
+		const state = createSwitch(
+			() => pref.get("downloadButton") && !IS_BLACKLISTED && !button,
+			init, uninit
+		);
+
+		state.update();
+		pref.onChange(state.update);
 		
 		function init() {
-			if (!pref.get("downloadButton")) return;
 			addListener("mouseover", decideShowButton);
 		}
 		
@@ -219,16 +241,21 @@
 			
 			button.remove();
 			image = button = null;
-			init();
+			state.update();
 		}
 		
 		function showDownloadButton() {
-			uninit();
 			// detect mouse leaving from the image to outside window
 			addListener("mouseout", decideHideButtonThrottled);
 			// detect mouse entering to the image from outside window
 			addListener("mouseover", decideHideButtonThrottled);
 			
+			createButton();
+			document.body.appendChild(button);
+			state.update();
+		}
+		
+		function createButton() {
 			button = document.createElement("div");
 			button.className = "image-picka-download-button";
 			button.style = `
@@ -244,7 +271,6 @@
 			button.onclick = () => {
 				downloadImage(image.src);
 			};
-			document.body.appendChild(button);
 		}
 		
 		function updateButtonPosition() {
