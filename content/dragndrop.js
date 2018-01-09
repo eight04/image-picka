@@ -159,10 +159,8 @@ const getImageSrc = (() => {
 		}
 		
 		function onDragOver(e) {
-			if (e.dataTransfer.getData("imageSrc")) {
-				e.dataTransfer.dropEffect = "copy";
-				e.preventDefault();
-			}
+			// https://stackoverflow.com/questions/9534677/html5-drag-and-drop-getdata-only-works-on-drop-event-in-chrome
+			e.preventDefault();
 		}
 		
 		function onDrop(e) {
