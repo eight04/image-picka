@@ -1,4 +1,5 @@
 /* globals pref */
+/* exported pickImages */
 
 const getImageSrc = (() => {
 	let SRC_PROP = [];
@@ -27,6 +28,27 @@ const getImageSrc = (() => {
 		return img.src;
 	};
 })();
+
+function pickImages(ignoreImages = false) {
+	let images;
+	if (ignoreImages) {
+		images = [];
+	} else {
+		images = [...document.images]
+			.map(getImageSrc)
+			.filter(Boolean)
+			.filter(u => !u.startsWith("moz-extension://"));
+		images = [...new Set(images)];
+	}
+	
+	return {
+		images,
+		env: {
+			pageUrl: location.href,
+			pageTitle: document.title
+		}
+	};
+}
 
 (function() {
 	const EVENT_OPTIONS = {passive: true};	

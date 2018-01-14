@@ -4,8 +4,12 @@
 		"description": "'Pick images from current tab' command"
 	},
 	"commandPickFromRightTabs": {
-		"message": "Pick Images from Tabs to the Right",
-		"description": "'Pick images from tabs to the right' command"
+		"message": "Pick Images from Current Tab + Right Tabs",
+		"description": "'Pick images from curent tab + right tabs' command"
+	},
+	"commandPickFromRightTabsExcludeCurrent": {
+		"message": "Pick Images from Right Tabs",
+		"description": "'Pick images from right tabs' command"
 	},
 	"extensionName": {
 		"message": "Image Picka",
