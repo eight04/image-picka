@@ -8,6 +8,10 @@ const MENU_ACTIONS = {
 	PICK_FROM_RIGHT_TABS: {
 		label: browser.i18n.getMessage("commandPickFromRightTabs"),
 		handler: pickImagesToRight
+	},
+	PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT: {
+		label: browser.i18n.getMessage("commandPickFromRightTabsExcludeCurrent"),
+		handler: pickImagesToRightNoCurrent
 	}
 };
 
@@ -256,15 +260,19 @@ function createDynamicIcon({file, enabled, onupdate}) {
 }
 
 // inject content/pick-images.js to the page
-function pickImages(tabId, frameId = 0) {
+function pickImages(tabId, frameId = 0, ignoreImages = false) {
 	return browser.tabs.executeScript(tabId, {
-		file: "/content/pick-images.js",
+		code: `pickImages(${ignoreImages})`,
 		frameId: frameId,
 		runAt: "document_start"
 	}).then(([result]) => {
 		result.tabId = tabId;
 		return result;
 	});
+}
+
+function pickEnv(tabId, frameId = 0) {
+	return pickImages(tabId, frameId, true);
 }
 
 function pickImagesFromCurrent(tab, frameId) {
@@ -276,14 +284,14 @@ function pickImagesFromCurrent(tab, frameId) {
 		.catch(notifyError);
 }
 
-function pickImagesToRight(tab) {
-	browser.windows.getCurrent({populate: true})
+function pickImagesToRight(tab, excludeCurrent = false) {
+	browser.windows.get(tab.windowId, {populate: true})
 		.then(({tabs}) => {
 			const tabsToRight = tabs.filter(
 				t => t.index > tab.index && !t.discarded && !t.pinned
 			);
 			return Promise.all([
-				pickImages(tab.id),
+				excludeCurrent ? pickEnv(tab.id) : pickImages(tab.id),
 				// can't pickImages from about:, moz-extension:, etc
 				...tabsToRight.map(t => pickImages(t.id).catch(console.error))
 			]);
@@ -300,6 +308,10 @@ function pickImagesToRight(tab) {
 			return openPicker(result, tab.id);
 		})
 		.catch(notifyError);
+}
+
+function pickImagesToRightNoCurrent(tab) {
+	return pickImagesToRight(tab, true);
 }
 
 function notifyError(message) {

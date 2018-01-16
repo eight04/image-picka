@@ -21,9 +21,9 @@
 	"background": {
 		"scripts": [
 			"vendor/expression-eval/expression-eval.min.js",
+			"vendor/webext-menus/webext-menus.min.js",
 			"lib/pref.js",
 			"lib/fetch.js",
-			"lib/webext-menus.js",
 			"background/background.js"
 		]
 	},
