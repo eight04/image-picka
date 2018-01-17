@@ -97,7 +97,12 @@ function pickImages(ignoreImages = false) {
 		function update() {
 			const blacklist = pref.get("blacklist");
 			IS_BLACKLISTED = blacklist.split("\n")
-				.some(d => d === location.hostname);
+				.some(pattern => {
+					if (pattern.startsWith("*.")) {
+						return location.hostname.endsWith(pattern.slice(1));
+					}
+					return pattern === location.hostname;
+				});
 		}
 	}
 	

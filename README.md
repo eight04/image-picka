@@ -86,6 +86,18 @@ pbs.twimg.com/media/$1:orig
 * Lines starting with `#` are ignored.
 * Empty lines are ignored.
 
+Domain blacklist
+----------------
+
+There are some sites which we don't need to download images from it. The blacklist allows you to disable "Download Single Image" feature (i.e. drag-n-drop, single-click download, and hover button) in specified domains. For example:
+
+```
+example.com
+*.example.com
+```
+
+*Note that `*.example.com` doesn't match `https://example.com/` but `https://sub.domain.example.com/`.*
+
 Similar addons
 --------------
 
