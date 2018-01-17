@@ -99,7 +99,7 @@ function pickImages(ignoreImages = false) {
 			IS_BLACKLISTED = blacklist.split("\n")
 				.some(pattern => {
 					if (pattern.startsWith("*.")) {
-						return location.hostname.endsWith(pattern.slice(2));
+						return location.hostname.endsWith(pattern.slice(1));
 					}
 					return pattern === location.hostname;
 				});
