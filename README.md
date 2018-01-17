@@ -89,7 +89,7 @@ pbs.twimg.com/media/$1:orig
 Domain blacklist
 ----------------
 
-There are some sites which we don't need to download image from it, then you can disable "Download Single Image" feature (i.e. drag-n-drop, single-click download, hover button) in specified domains. For example:
+There are some sites which we don't need to download images from it. The blacklist allows you to disable "Download Single Image" feature (i.e. drag-n-drop, single-click download, and hover button) in specified domains. For example:
 
 ```
 example.com
