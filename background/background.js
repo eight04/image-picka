@@ -160,6 +160,19 @@ const menus = webextMenus([
 		contexts: ["browser_action"],
 		oncontext: () => pref.get("browserAction") !== key
 	})),
+	{
+		type: "separator",
+		contexts: ["browser_action"]
+	},
+	{
+		type: "checkbox",
+		contexts: ["browser_action"],
+		title: browser.i18n.getMessage("optionEnabledLabel"),
+		checked: () => pref.get("enabled"),
+		onclick(info) {
+			pref.set("enabled", info.checked);
+		}
+	},
 	...[...Object.values(MENU_ACTIONS)].map(({label, handler}) => ({
 		title: label,
 		onclick(info, tab) {
@@ -172,9 +185,11 @@ const menus = webextMenus([
 
 // setup dynamic menus
 pref.ready().then(() => {
+	// update menus
+	const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
 	menus.update();
 	pref.onChange(change => {
-		if (change.contextMenu != null || change.browserAction != null) {
+		if (WATCH_PROPS.some(p => change[p] != null)) {
 			menus.update();
 		}
 	});
