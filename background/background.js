@@ -352,6 +352,8 @@ function openPicker(req, openerTabId) {
 }
 
 function batchDownload({urls, env, tabIds}) {
+	env.date = new Date;
+	env.dateString = createDateString(env.date);
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
 	Promise.all(urls.map(doDownload)).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
@@ -365,6 +367,13 @@ function batchDownload({urls, env, tabIds}) {
 		expandEnv(env);
 		var filename = renderFilename(env);
 		return download(url, filename);
+	}
+}
+
+function createDateString(date) {
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())} ${pad(date.getMinutes())} ${pad(date.getSeconds())}`;
+	function pad(n) {
+		return String(n).padStart(2, "0");
 	}
 }
 
@@ -431,6 +440,8 @@ function downloadImage({url, env, tabId}) {
 		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
 			.then(env => downloadImage({url, env}));
 	}
+	env.date = new Date;
+	env.dateString = createDateString(env.date);
 	env.url = url;
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),
