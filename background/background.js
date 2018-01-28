@@ -8,6 +8,10 @@ const MENU_ACTIONS = {
 	PICK_FROM_RIGHT_TABS: {
 		label: browser.i18n.getMessage("commandPickFromRightTabs"),
 		handler: pickImagesToRight
+	},
+	PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT: {
+		label: browser.i18n.getMessage("commandPickFromRightTabsExcludeCurrent"),
+		handler: pickImagesToRightNoCurrent
 	}
 };
 
@@ -156,6 +160,19 @@ const menus = webextMenus([
 		contexts: ["browser_action"],
 		oncontext: () => pref.get("browserAction") !== key
 	})),
+	{
+		type: "separator",
+		contexts: ["browser_action"]
+	},
+	{
+		type: "checkbox",
+		contexts: ["browser_action"],
+		title: browser.i18n.getMessage("optionEnabledLabel"),
+		checked: () => pref.get("enabled"),
+		onclick(info) {
+			pref.set("enabled", info.checked);
+		}
+	},
 	...[...Object.values(MENU_ACTIONS)].map(({label, handler}) => ({
 		title: label,
 		onclick(info, tab) {
@@ -168,9 +185,11 @@ const menus = webextMenus([
 
 // setup dynamic menus
 pref.ready().then(() => {
+	// update menus
+	const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
 	menus.update();
 	pref.onChange(change => {
-		if (change.contextMenu != null || change.browserAction != null) {
+		if (WATCH_PROPS.some(p => change[p] != null)) {
 			menus.update();
 		}
 	});
@@ -256,15 +275,19 @@ function createDynamicIcon({file, enabled, onupdate}) {
 }
 
 // inject content/pick-images.js to the page
-function pickImages(tabId, frameId = 0) {
+function pickImages(tabId, frameId = 0, ignoreImages = false) {
 	return browser.tabs.executeScript(tabId, {
-		file: "/content/pick-images.js",
+		code: `pickImages(${ignoreImages})`,
 		frameId: frameId,
 		runAt: "document_start"
 	}).then(([result]) => {
 		result.tabId = tabId;
 		return result;
 	});
+}
+
+function pickEnv(tabId, frameId = 0) {
+	return pickImages(tabId, frameId, true);
 }
 
 function pickImagesFromCurrent(tab, frameId) {
@@ -276,14 +299,14 @@ function pickImagesFromCurrent(tab, frameId) {
 		.catch(notifyError);
 }
 
-function pickImagesToRight(tab) {
-	browser.windows.getCurrent({populate: true})
+function pickImagesToRight(tab, excludeCurrent = false) {
+	browser.windows.get(tab.windowId, {populate: true})
 		.then(({tabs}) => {
 			const tabsToRight = tabs.filter(
 				t => t.index > tab.index && !t.discarded && !t.pinned
 			);
 			return Promise.all([
-				pickImages(tab.id),
+				excludeCurrent ? pickEnv(tab.id) : pickImages(tab.id),
 				// can't pickImages from about:, moz-extension:, etc
 				...tabsToRight.map(t => pickImages(t.id).catch(console.error))
 			]);
@@ -300,6 +323,10 @@ function pickImagesToRight(tab) {
 			return openPicker(result, tab.id);
 		})
 		.catch(notifyError);
+}
+
+function pickImagesToRightNoCurrent(tab) {
+	return pickImagesToRight(tab, true);
 }
 
 function notifyError(err) {
@@ -373,6 +400,8 @@ function supportOpener() {
 }
 
 function batchDownload({urls, env, tabIds}) {
+	env.date = new Date;
+	env.dateString = createDateString(env.date);
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
 	Promise.all(urls.map(doDownload)).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
@@ -386,6 +415,13 @@ function batchDownload({urls, env, tabIds}) {
 		expandEnv(env);
 		var filename = renderFilename(env);
 		return download(url, filename);
+	}
+}
+
+function createDateString(date) {
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())} ${pad(date.getMinutes())} ${pad(date.getSeconds())}`;
+	function pad(n) {
+		return String(n).padStart(2, "0");
 	}
 }
 
@@ -453,6 +489,8 @@ function downloadImage({url, env, tabId}) {
 		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
 			.then(env => downloadImage({url, env}));
 	}
+	env.date = new Date;
+	env.dateString = createDateString(env.date);
 	env.url = url;
 	expandEnv(env);
 	var filePattern = pref.get("filePattern"),

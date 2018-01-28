@@ -33,6 +33,8 @@ Filename may contain following `${variable}`s:
 * `pageTitle`: title of the page.
 * `pageUrl`: URL of the page.
 * `pageHostname`: hostname extracted from `pageUrl`.
+* `date`: an instance of JavaScript `Date`.
+* `dateString`: a date string in format `year-month-day hour minute second` e.g. `2018-01-18 08 28 56`.
 
 Some notes for iframe:
 
@@ -85,6 +87,18 @@ pbs.twimg.com/media/$1:orig
 	- A line of replacement.
 * Lines starting with `#` are ignored.
 * Empty lines are ignored.
+
+Domain blacklist
+----------------
+
+There are some sites which we don't need to download images from it. The blacklist allows you to disable "Download Single Image" feature (i.e. drag-n-drop, single-click download, and hover button) in specified domains. For example:
+
+```
+example.com
+*.example.com
+```
+
+*Note that `*.example.com` doesn't match `https://example.com/` but `https://sub.domain.example.com/`.*
 
 Similar addons
 --------------
