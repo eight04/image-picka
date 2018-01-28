@@ -329,15 +329,47 @@ function openPicker(req, openerTabId) {
 		url: "/picker/picker.html",
 		openerTabId
 	};
-	return browser.runtime.getBrowserInfo()
-		.then(({version}) => {
-			if (+version.split(".")[0] < 57) {
+	return supportOpener()
+		.then(result => {
+			if (!result) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
 			return loadTab(options);
 		})
 		.then(tabId => browser.tabs.sendMessage(tabId, req));
+}
+
+function supportOpener() {
+	return getInfo()
+		.then(info => {
+			if (!info) {
+				return false;
+			}
+			const name = info.name.toLowerCase();
+			const version = Number(info.version.split(".")[0]);
+			return (
+				name === "firefox" && version >= 57 ||
+				name === "chrome" && version >= 18
+			);
+		});
+	
+	function getInfo() {
+		if (browser.runtime.getBrowserInfo) {
+			return browser.runtime.getBrowserInfo();
+		}
+		return new Promise(resolve => {
+			const match = navigator.userAgent.match(/(firefox|chrome)\/([\d.]+)/i);
+			if (match) {
+				resolve({
+					name: match[1],
+					version: match[2]
+				});
+			} else {
+				resolve(null);
+			}
+		});
+	}
 }
 
 function batchDownload({urls, env, tabIds}) {
