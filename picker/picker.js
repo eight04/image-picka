@@ -4,6 +4,7 @@ browser.runtime.onMessage.addListener(message => {
 	switch (message.method) {
 		case "init":
 			init(message);
+			return false;
 	}
 });
 
