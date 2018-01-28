@@ -124,6 +124,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.0 (Jan 28, 2017)
+
+	- Add: support Chrome. This repository could be loaded as an unpacked extension in Chrome.
+	- Add: a checkbox to disable "Download Single Image" feature in the context menu of the toolbar button.
+	- Add: variable `date` and `dateString`.
+	- Add: a command to pick from *only* right tabs. The original command is renamed to "pick from current tab + right tabs".
+	- Add: subdomain syntax in the domain blacklist.
+
 * 0.6.1 (Dec 29, 2017)
 
 	- Add: an option to overwrite old file on filename conflict.
