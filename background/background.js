@@ -302,11 +302,11 @@ function pickImagesToRight(tab) {
 		.catch(notifyError);
 }
 
-function notifyError(message) {
+function notifyError(err) {
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",
-		message: String(message),
+		message: err.message || String(err),
 		iconUrl: "/icon.svg"
 	});
 }
