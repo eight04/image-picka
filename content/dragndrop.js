@@ -29,6 +29,8 @@ const getImageSrc = (() => {
 	};
 })();
 
+const IS_CHROME = /chrome\/\d+/i.test(navigator.userAgent);
+
 function pickImages(ignoreImages = false) {
 	let images;
 	if (ignoreImages) {
@@ -187,7 +189,10 @@ function pickImages(ignoreImages = false) {
 		
 		function onDragOver(e) {
 			// https://stackoverflow.com/questions/9534677/html5-drag-and-drop-getdata-only-works-on-drop-event-in-chrome
-			e.preventDefault();
+			if (e.dataTransfer.getData("imageSrc") || IS_CHROME) {
+				e.dataTransfer.dropEffect = "copy";
+				e.preventDefault();
+			}
 		}
 		
 		function onDrop(e) {
