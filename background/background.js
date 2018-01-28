@@ -411,6 +411,7 @@ function loadTab(options) {
 		if (message.method === "ping") {
 			pings.add(sender.tab.id);
 			cond.check();
+			return true;
 		}
 	}
 }
