@@ -75,6 +75,10 @@
 		"message": "Default extension",
 		"description": "Label of defaultExt"
 	},
+	"optionEnabledLabel": {
+		"message": "Enable \"Download Single Image\" Feature",
+		"description": "Label of enabled option"
+	},
 	"optionFilenameMaxLengthLabel": {
 		"message": "Max length of the filename",
 		"description": "Label of filenameMaxLength option"

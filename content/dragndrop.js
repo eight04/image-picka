@@ -117,7 +117,7 @@ function pickImages(ignoreImages = false) {
 	function initSingleClick() {
 		const conf = pref.get();
 		const state = createSwitch(
-			() => pref.get("singleClick") && !IS_BLACKLISTED,
+			() => pref.get("singleClick") && !IS_BLACKLISTED && pref.get("enabled"),
 			init, uninit
 		);
 		
@@ -157,7 +157,7 @@ function pickImages(ignoreImages = false) {
 	
 	function initDragndrop() {
 		const state = createSwitch(
-			() => pref.get("dragndrop") && !IS_BLACKLISTED,
+			() => pref.get("dragndrop") && !IS_BLACKLISTED && pref.get("enabled"),
 			init, uninit
 		);
 		
@@ -217,7 +217,7 @@ function pickImages(ignoreImages = false) {
 			decideHideTimer;
 			
 		const state = createSwitch(
-			() => pref.get("downloadButton") && !IS_BLACKLISTED && !button,
+			() => pref.get("downloadButton") && !IS_BLACKLISTED && !button && pref.get("enabled"),
 			init, uninit
 		);
 
