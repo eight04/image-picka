@@ -306,7 +306,8 @@ function notifyError(message) {
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",
-		message: String(message)
+		message: String(message),
+		iconUrl: "/icon.svg"
 	});
 }
 
