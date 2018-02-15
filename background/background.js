@@ -312,7 +312,7 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			]);
 		})
 		.then(results => {
-			results[0].tabIds = [results[0].tabId];
+			results[0].tabIds = excludeCurrent ? [] : [results[0].tabId];
 			const result = results.reduce((output, curr) => {
 				if (curr) {
 					output.tabIds.push(curr.tabId);
