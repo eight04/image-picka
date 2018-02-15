@@ -339,6 +339,9 @@ function notifyError(err) {
 }
 
 function notifyDownloadError(err) {
+	if (err.message === "Download canceled by the user") {
+		return;
+	}
 	if (err.args) {
 		notifyError(`${String(err)}\nurl: ${err.args[0]}\nfilename: ${err.args[1]}`);
 	} else {
