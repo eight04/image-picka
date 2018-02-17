@@ -124,7 +124,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
-* 0.7.0 (Jan 28, 2017)
+* 0.7.1 (Feb 27, 2018)
+
+	- Fix: ignore "The download is canceled by the user" error.
+	- Fix: "Close tabs" option shouldn't close current tab when downloading from only right tabs.
+
+* 0.7.0 (Jan 28, 2018)
 
 	- Add: support Chrome. This repository could be loaded as an unpacked extension in Chrome.
 	- Add: a checkbox to disable "Download Single Image" feature in the context menu of the toolbar button.
