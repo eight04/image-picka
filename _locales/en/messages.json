@@ -116,13 +116,13 @@
 			}
 		}
 	},
-	"optionFilenameUseCurrentTabLabel": {
-		"message": "Generate the filename according to the current tab.",
-		"description": "Label of filenameUseCurrentTab option"
+	"optionIsolateTabsLabel": {
+		"message": "Isolate the tabs from each other when generating the filenames.",
+		"description": "Label of isolateTabs option"
 	},
-	"optionFilenameUseCurrentTabHelp": {
-		"message": "When unchecked, the filename would be built according to the tab that the image is downloaded from.",
-		"description": "Help text of filenameUseCurrentTab option"
+	"optionIsolateTabsHelpHTML": {
+		"message": "If this option is checked, the filename would be built according to the tab that the image is downloaded from, instead of the current tab. This affects <code>page...</code> variables and <code>index</code>.",
+		"description": "Help text of isolateTabs option"
 	},
 	"optionLearnMoreLink": {
 		"message": "Learn more",
