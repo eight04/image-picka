@@ -351,7 +351,24 @@ function openPicker(req, openerTabId) {
 		throw new Error("No images found");
 	}
 	req.method = "init";
-	// remap URLs, remove duplicated
+	
+	// remove global duplicated
+	if (!req.isolateTabs) {
+		const set = new Set;
+		for (const tab of req.tabs) {
+			if (!tab.ignoreImages) {
+				tab.images = tab.images.filter(image => {
+					if (set.has(image)) {
+						return false;
+					}
+					set.add(image);
+					return true;
+				});
+			}
+		}
+	}
+	
+	// remap URLs, remove tab duplicated
 	for (const tab of req.tabs) {
 		if (!tab.ignoreImages) {
 			tab.images = [...new Set(tab.images.map(urlMap.transform))];
