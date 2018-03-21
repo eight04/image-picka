@@ -35,6 +35,10 @@
 		"message": "General",
 		"description": "Title of general options"
 	},
+	"optionBatchTitle": {
+		"message": "Batch download",
+		"description": "Title of batch download settings"
+	},
 	"optionBrowserActionLabel": {
 		"message": "Default action of the toolbar button",
 		"description": "Label of browserAction option"
@@ -111,6 +115,14 @@
 				"content": "<code>/</code>"
 			}
 		}
+	},
+	"optionFilenameUseCurrentTabLabel": {
+		"message": "Generate the filename according to the current tab.",
+		"description": "Label of filenameUseCurrentTab option"
+	},
+	"optionFilenameUseCurrentTabHelp": {
+		"message": "When unchecked, the filename would be built according to the tab that the image is downloaded from.",
+		"description": "Help text of filenameUseCurrentTab option"
 	},
 	"optionLearnMoreLink": {
 		"message": "Learn more",
