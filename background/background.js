@@ -421,23 +421,33 @@ function supportOpener() {
 	}
 }
 
-function batchDownload({urls, env, tabIds}) {
-	env.date = new Date;
-	env.dateString = createDateString(env.date);
+function batchDownload({tabs, isolateTabs}) {
+	const date = new Date;
+	const env = Object.assign({}, tabs[0].env, {
+		date,
+		dateString: createDateString(date)
+	});
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
-	Promise.all(urls.map(doDownload)).then(() => {
+	let i = 0;
+	const pending = [];
+	for (const tab of tabs) {
+		if (isolateTabs) {
+			Object.assign(env, tab.env);
+			i = 0;
+		}
+		for (const url of tab.images) {
+			env.url = url;
+			env.index = i + 1;
+			expandEnv(env);
+			pending.push(download(url, renderFilename(env)));
+			i++;
+		}
+	}
+	Promise.all(pending).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
-			tabIds.forEach(i => browser.tabs.remove(i));
+			tabs.filter(t => !t.ignoreImages).forEach(t => browser.tabs.remove(t.tabId));
 		}
 	}, notifyDownloadError);
-
-	function doDownload(url, i) {
-		env.url = url;
-		env.index = i + 1;
-		expandEnv(env);
-		var filename = renderFilename(env);
-		return download(url, filename);
-	}
 }
 
 function createDateString(date) {
