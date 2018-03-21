@@ -124,6 +124,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.2 (Mar 21, 2018)
+
+	- Add: an option to isolate tabs during batch downloads.
+
 * 0.7.1 (Feb 27, 2018)
 
 	- Fix: ignore "The download is canceled by the user" error.
