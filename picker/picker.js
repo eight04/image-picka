@@ -11,41 +11,61 @@ browser.runtime.onMessage.addListener(message => {
 // tell background that the tab is ready
 browser.runtime.sendMessage({method: "ping"});
 
-function init({images: urls, env, opener, tabIds}) {
-	var container = document.querySelector("#image-container"),
-		frag = document.createDocumentFragment(),
-		images = [];
-	for (var url of urls) {
-		var image = createImageCheckbox(url);
-		images.push(image);
-		frag.appendChild(image.el);
+function init(req) {
+	var container = document.querySelector(".main-container"),
+		frag = document.createDocumentFragment();
+		
+	for (const tab of req.tabs) {
+		tab.images = tab.images.map(createImageCheckbox);
 	}
+	if (!req.isolateTabs) {
+		const container = document.createElement("div");
+		container.className = "image-container";
+		req.tabs.forEach(t => t.images.forEach(i => container.appendChild(i.el)));
+		frag.appendChild(container);
+	} else {
+		const ul = document.createElement("ul");
+		ul.className = "tab-container";
+		for (const tab of req.tabs) {
+			if (!tab.images.length) {
+				continue;
+			}
+			const li = document.createElement("li");
+			li.className = "image-container";
+			tab.images.forEach(i => li.appendChild(i.el));
+			const counter = document.createElement("div");
+			counter.className = "tab-image-counter";
+			li.appendChild(counter);
+			ul.appendChild(li);
+		}
+		frag.appendChild(ul);
+	}
+	
 	container.appendChild(frag);
 	
 	var form = document.forms[0],
 		inputs = form.querySelectorAll(".toolbar input, .toolbar select");
 	pref.bindElement(form, inputs, true);
 	
-	pref.ready().then(() => initFilter(container, images));
+	pref.ready().then(() => initFilter(container, getImages()));
 	
 	var handler = {
 		invert() {
-			for (var image of images) {
-				image.toggleCheck();
-			}
+			getImages().forEach(i => i.toggleCheck());
 		},
 		save() {
-			browser.runtime.sendMessage({
+			const newReq = Object.assign({}, req, {
 				method: "batchDownload",
-				urls: getUrls(),
-				env,
-				tabIds
+				tabs: req.tabs.map(t => {
+					return Object.assign({}, t, {images: getUrls(t.images)});
+				})
 			});
-			browser.runtime.sendMessage({method: "closeTab", opener});
+			browser.runtime.sendMessage(newReq);
+			browser.runtime.sendMessage({method: "closeTab", opener: req.opener});
 		},
 		copyUrl() {
 			const input = document.createElement("textarea");
-			input.value = getUrls().join("\n");
+			input.value = getUrls(getImages()).join("\n");
 			document.body.appendChild(input);
 			input.select();
 			document.execCommand("copy");
@@ -74,8 +94,12 @@ function init({images: urls, env, opener, tabIds}) {
 		actions.querySelector(`.${cls}`).onclick = cb;
 	}
 	
-	function getUrls() {
+	function getUrls(images) {
 		return images.filter(i => i.selected()).map(i => i.imgEl.src);
+	}
+	
+	function getImages() {
+		return [].concat(...req.tabs.map(t => t.images));
 	}
 }
 

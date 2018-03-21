@@ -282,6 +282,7 @@ function pickImages(tabId, frameId = 0, ignoreImages = false) {
 		runAt: "document_start"
 	}).then(([result]) => {
 		result.tabId = tabId;
+		result.ignoreImages = ignoreImages;
 		return result;
 	});
 }
@@ -293,8 +294,7 @@ function pickEnv(tabId, frameId = 0) {
 function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
 		.then(result => {
-			result.tabIds = [result.tabId];
-			return openPicker(result, tab.id);
+			return openPicker({tabs: [result], isolateTabs: false}, tab.id);
 		})
 		.catch(notifyError);
 }
@@ -312,15 +312,11 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			]);
 		})
 		.then(results => {
-			results[0].tabIds = excludeCurrent ? [] : [results[0].tabId];
-			const result = results.reduce((output, curr) => {
-				if (curr) {
-					output.tabIds.push(curr.tabId);
-					output.images = output.images.concat(curr.images);
-				}
-				return output;
-			});
-			return openPicker(result, tab.id);
+			results = results.filter(Boolean);
+			return openPicker({
+				tabs: results,
+				isolateTabs: pref.get("isolateTabs")
+			}, tab.id);
 		})
 		.catch(notifyError);
 }
@@ -350,18 +346,40 @@ function notifyDownloadError(err) {
 }
 
 function openPicker(req, openerTabId) {
-	if (!req.images.length) {
+	if (req.tabs.every(t => t.ignoreImages || !t.images.length)) {
 		throw new Error("No images found");
 	}
 	req.method = "init";
-	req.images = [...new Set(req.images.map(urlMap.transform))];
+	
+	// remove global duplicated
+	if (!req.isolateTabs) {
+		const set = new Set;
+		for (const tab of req.tabs) {
+			if (!tab.ignoreImages) {
+				tab.images = tab.images.filter(image => {
+					if (set.has(image)) {
+						return false;
+					}
+					set.add(image);
+					return true;
+				});
+			}
+		}
+	}
+	
+	// remap URLs, remove tab duplicated
+	for (const tab of req.tabs) {
+		if (!tab.ignoreImages) {
+			tab.images = [...new Set(tab.images.map(urlMap.transform))];
+		}
+	}
 	const options = {
 		url: "/picker/picker.html",
 		openerTabId
 	};
 	return supportOpener()
-		.then(result => {
-			if (!result) {
+		.then(supported => {
+			if (!supported) {
 				delete options.openerTabId;
 				req.opener = openerTabId;
 			}
@@ -402,23 +420,33 @@ function supportOpener() {
 	}
 }
 
-function batchDownload({urls, env, tabIds}) {
-	env.date = new Date;
-	env.dateString = createDateString(env.date);
+function batchDownload({tabs, isolateTabs}) {
+	const date = new Date;
+	const env = Object.assign({}, tabs[0].env, {
+		date,
+		dateString: createDateString(date)
+	});
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
-	Promise.all(urls.map(doDownload)).then(() => {
+	let i = 0;
+	const pending = [];
+	for (const tab of tabs) {
+		if (isolateTabs) {
+			Object.assign(env, tab.env);
+			i = 0;
+		}
+		for (const url of tab.images) {
+			env.url = url;
+			env.index = i + 1;
+			expandEnv(env);
+			pending.push(download(url, renderFilename(env)));
+			i++;
+		}
+	}
+	Promise.all(pending).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
-			tabIds.forEach(i => browser.tabs.remove(i));
+			tabs.filter(t => !t.ignoreImages).forEach(t => browser.tabs.remove(t.tabId));
 		}
 	}, notifyDownloadError);
-
-	function doDownload(url, i) {
-		env.url = url;
-		env.index = i + 1;
-		expandEnv(env);
-		var filename = renderFilename(env);
-		return download(url, filename);
-	}
 }
 
 function createDateString(date) {

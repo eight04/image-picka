@@ -35,6 +35,10 @@
 		"message": "General",
 		"description": "Title of general options"
 	},
+	"optionBatchTitle": {
+		"message": "Batch download",
+		"description": "Title of batch download settings"
+	},
 	"optionBrowserActionLabel": {
 		"message": "Default action of the toolbar button",
 		"description": "Label of browserAction option"
@@ -111,6 +115,14 @@
 				"content": "<code>/</code>"
 			}
 		}
+	},
+	"optionIsolateTabsLabel": {
+		"message": "Isolate the tabs from each other when generating the filenames.",
+		"description": "Label of isolateTabs option"
+	},
+	"optionIsolateTabsHelpHTML": {
+		"message": "If this option is checked, the filename would be built according to the tab that the image is downloaded from, instead of the current tab. This affects <code>page...</code> variables and <code>index</code>.",
+		"description": "Help text of isolateTabs option"
 	},
 	"optionLearnMoreLink": {
 		"message": "Learn more",
