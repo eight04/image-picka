@@ -27,6 +27,9 @@ function init(req) {
 		const ul = document.createElement("ul");
 		ul.className = "tab-container";
 		for (const tab of req.tabs) {
+			if (!tab.images.length) {
+				continue;
+			}
 			const li = document.createElement("li");
 			li.className = "image-container";
 			tab.images.forEach(i => li.appendChild(i.el));
