@@ -312,7 +312,6 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			]);
 		})
 		.then(results => {
-			results[0].isCurrentTab = true;
 			results = results.filter(Boolean);
 			return openPicker({
 				tabs: results,
