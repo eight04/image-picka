@@ -543,7 +543,12 @@ var escapeTable = {
 };
 
 function escapeFilename(name) {
-	return name.trim().replace(/[/\\?|<>:"*]/g, m => escapeTable[m]).slice(0, pref.get("filenameMaxLength"));
+	name = name.trim().replace(/[/\\?|<>:"*]/g, m => escapeTable[m]);
+	const maxLength = pref.get("filenameMaxLength");
+	if (name.length > maxLength) {
+		name = name.slice(0, maxLength).trim();
+	}
+	return name;
 }
 
 function escapeTrailingDots(path) {
