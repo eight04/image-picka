@@ -124,6 +124,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.3 (Mar 26, 2018)
+
+	- Fix: filename error: trailing spaces.
+
 * 0.7.2 (Mar 21, 2018)
 
 	- Add: an option to isolate tabs during batch downloads.
