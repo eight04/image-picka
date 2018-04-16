@@ -3,15 +3,37 @@
 
 const http = require("http");
 const fs = require("fs");
+const {parse: urlParse} = require("url");
 const {Throttle} = require("stream-throttle");
+const mime = require("mime");
+const HANDLES = [
+	{
+		test: /^throttle\.png/,
+		handle(req, res) {
+			const image = fs.createReadStream(__dirname + "/test.png");
+			image.pipe(new Throttle({rate: 100})).pipe(res);
+		}
+	}
+];
 const server = http.createServer((req, res) => {
 	console.log(`${new Date} ${req.method} ${req.url}`);
-	const image = fs.createReadStream(__dirname + "/test.png");
-	res.writeHead(200, {
-		"Content-Type": "image/png",
-		"Cache-Control": "public, max-age=31536000"
+	let path = urlParse(req.url).pathname.slice(1);
+	const contentType = mime.getType(path);
+	if (contentType) {
+		res.setHeader("Content-Type", contentType);
+	}
+	res.setHeader("Cache-Control", "public, max-age=31536000");
+	const handle = HANDLES.find(h => h.test.test(path));
+	if (handle) {
+		handle.handle(req, res);
+		return;
+	}
+	const file = fs.createReadStream(__dirname + "/" + path);
+	file.on("error", () => {
+		res.writeHead(404);
+		res.end("404");
 	});
-	image.pipe(new Throttle({rate: 100})).pipe(res);
+	file.pipe(res);
 });
 server.listen(8080);
 process.on("SIGINT", () => {
