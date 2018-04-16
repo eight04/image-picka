@@ -279,11 +279,14 @@ function pickImages(tabId, frameId = 0, ignoreImages = false) {
 	return browser.tabs.executeScript(tabId, {
 		code: `pickImages(${ignoreImages})`,
 		frameId: frameId,
+		allFrames: pref.get("collectFromFrames"),
 		runAt: "document_start"
-	}).then(([result]) => {
-		result.tabId = tabId;
-		result.ignoreImages = ignoreImages;
-		return result;
+	}).then(results => {
+		return Object.assign({}, results[0], {
+			tabId,
+			ignoreImages,
+			images: [].concat(...results.map(r => r.images))
+		});
 	});
 }
 
