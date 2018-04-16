@@ -47,6 +47,10 @@
 		"message": "Right click on the toolbar button for other actions.",
 		"description": "Help text of browserAction option"
 	},
+	"optionCollectFromFramesLabel": {
+		"message": "Collect images from frames recursively.",
+		"description": "Label of collectFromFrames option"
+	},
 	"optionContextMenuLabel": {
 		"message": "Also add \"Pick Images...\" actions to contextmenu",
 		"description": "Label of contextMenu option"
