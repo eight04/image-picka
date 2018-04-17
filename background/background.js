@@ -276,18 +276,68 @@ function createDynamicIcon({file, enabled, onupdate}) {
 
 // inject content/pick-images.js to the page
 function pickImages(tabId, frameId = 0, ignoreImages = false) {
-	return browser.tabs.executeScript(tabId, {
-		code: `pickImages(${ignoreImages})`,
-		frameId: frameId,
-		allFrames: pref.get("collectFromFrames"),
-		runAt: "document_start"
-	}).then(results => {
+	return executeScript().then(results => {
 		return Object.assign({}, results[0], {
 			tabId,
 			ignoreImages,
 			images: [].concat(...results.map(r => r.images))
 		});
 	});
+	
+	function executeScript() {
+		// frameId, allFrames can't be used together in Firefox
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=1454342
+		const options = {
+			code: `pickImages(${ignoreImages})`,
+			frameId: frameId,
+			allFrames: pref.get("collectFromFrames"),
+			runAt: "document_start"
+		};
+		// console.log(options);
+		if (options.frameId === 0) {
+			delete options.frameId;	
+		} else if (!options.allFrames) {
+			delete options.allFrames;
+		} else {
+			return browser.permissions.request({permissions: ["webNavigation"]})
+				.then(success => {
+					if (!success) {
+						throw new Error("webNavigation permission is required for iframe information");
+					}
+				})
+				.then(() => browser.webNavigation.getAllFrames({tabId}))
+				.then(frames => {
+					// build relationship
+					const tree = new Map;
+					for (const frame of frames) {
+						if (frame.errorOccurred) {
+							continue;
+						}
+						if (frame.parentFrameId >= 0) {
+							if (!tree.has(frame.parentFrameId)) {
+								tree.set(frame.parentFrameId, []);
+							}
+							tree.get(frame.parentFrameId).push(frame.frameId);
+						}
+					}
+					// collect child frames
+					const collected = [];
+					(function collect(id) {
+						collected.push(id);
+						const children = tree.get(id);
+						if (children) {
+							children.forEach(collect);
+						}
+					})(frameId);
+					return Promise.all(collected.map(frameId => {
+						const o = Object.assign({}, options, {frameId});
+						delete o.allFrames;
+						return browser.tabs.executeScript(tabId, o);
+					}));
+				});
+		}
+		return browser.tabs.executeScript(tabId, options);
+	}
 }
 
 function pickEnv(tabId, frameId = 0) {

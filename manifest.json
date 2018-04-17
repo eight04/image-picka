@@ -18,6 +18,9 @@
 		"notifications",
 		"<all_urls>"
 	],
+	"optional_permissions": [
+		"webNavigation"
+	],
 	"background": {
 		"scripts": [
 			"vendor/webextension-polyfill/browser-polyfill.min.js",
