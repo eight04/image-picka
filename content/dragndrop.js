@@ -60,7 +60,7 @@ function pickImages(ignoreImages = false) {
 		initBlackList();
 		initDragndrop();
 		initDownloadButton();
-		initSingleClick();
+		initClick();
 	});
 	
 	if (window.top == window) {
@@ -116,29 +116,42 @@ function pickImages(ignoreImages = false) {
 		el.removeEventListener(name, callback, EVENT_OPTIONS);
 	}
 	
-	function initSingleClick() {
+	function initClick() {
 		const conf = pref.get();
-		const state = createSwitch(
-			() => pref.get("singleClick") && !IS_BLACKLISTED && pref.get("enabled"),
-			init, uninit
-		);
+		const contexts = [{
+			prefix: "single",
+			eventName: "click"
+		}, {
+			prefix: "dbl",
+			eventName: "dblclick"
+		}];
 		
-		state.update();
+		// initialize context
+		for (const context of contexts) {
+			context.state = createSwitch(
+				() => pref.get(`${context.prefix}Click`) && !IS_BLACKLISTED && pref.get("enabled"),
+				() => init(context),
+				() => uninit(context)
+			);
+			context.handleEvent = e => onClick(e, context);
+		}
+		
+		contexts.forEach(c => c.state.update());
 		pref.onChange(change => {
 			Object.assign(conf, change);
-			state.update();
+			contexts.forEach(c => c.state.update());
 		});
 		
-		function init() {
-			document.addEventListener("click", onClick);
+		function init(context) {
+			document.addEventListener(context.eventName, context.handleEvent);
 		}
 		
-		function uninit() {
-			document.removeEventListener("click", onClick);
+		function uninit(context) {
+			document.removeEventListener(context.eventName, context.handleEvent);
 		}
 		
-		function onClick(e) {
-			if (e.target.nodeName !== "IMG" || !testEvent(e)) {
+		function onClick(e, context) {
+			if (e.target.nodeName !== "IMG" || !testEvent(e, context)) {
 				return;
 			}
 			const imageSrc = getImageSrc(e.target);
@@ -149,11 +162,10 @@ function pickImages(ignoreImages = false) {
 			e.preventDefault();
 		}
 		
-		function testEvent(e) {
-			return conf.singleClick &&
-				e.ctrlKey === conf.singleClickCtrl &&
-				e.altKey === conf.singleClickAlt &&
-				e.shiftKey === conf.singleClickShift;
+		function testEvent(e, context) {
+			return e.ctrlKey === conf[`${context.prefix}ClickCtrl`] &&
+				e.altKey === conf[`${context.prefix}ClickAlt`] &&
+				e.shiftKey === conf[`${context.prefix}ClickShift`];
 		}
 	}
 	
