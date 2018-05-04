@@ -293,7 +293,6 @@ function pickImages(tabId, frameId = 0, ignoreImages = false) {
 			allFrames: pref.get("collectFromFrames"),
 			runAt: "document_start"
 		};
-		// console.log(options);
 		if (options.frameId === 0) {
 			delete options.frameId;	
 		} else if (!options.allFrames) {
