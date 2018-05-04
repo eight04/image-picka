@@ -124,6 +124,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.4 (May 4, 2018)
+
+	- Add: download with double click.
+	- Add: grab images from frames recursively.
+
 * 0.7.3 (Mar 26, 2018)
 
 	- Fix: filename error: trailing spaces.
