@@ -76,7 +76,7 @@
 		"description": "Help text of useCache option"
 	},
 	"optionUseExpressionLabel": {
-		"message": "在文件名模式中使用简单的正则表达式",
+		"message": "在文件名模式中使用简单的 JavaScript 表达式",
 		"description": "Label of useExpression option"
 	},
 	"optionDefaultNameLabel": {
@@ -189,11 +189,11 @@
 		"description": "Label of CENTER position"
 	},
 	"optionDownloadButtonPositionHorizontalRightInside": {
-		"message": "右, 图像外部",
+		"message": "右, 图像内部",
 		"description": "Label of RIGHT_INSIDE position"
 	},
 	"optionDownloadButtonPositionHorizontalRightOutside": {
-		"message": "右, 图像内部",
+		"message": "右, 图像外部",
 		"description": "Label of RIGHT_OUTSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalLabel": {
@@ -213,11 +213,11 @@
 		"description": "Label of CENTER position"
 	},
 	"optionDownloadButtonPositionVerticalBottomInside": {
-		"message": "下，图像外部",
+		"message": "下，图像内部",
 		"description": "Label of BOTTOM_INSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalBottomOutside": {
-		"message": "下，图像内部",
+		"message": "下，图像外部",
 		"description": "Label of BOTTOM_OUTSIDE position"
 	},
 	"optionAdvancedTitle": {
