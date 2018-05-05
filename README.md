@@ -124,6 +124,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.5 (May 6, 2018)
+
+	- Locale: add French translation.
+	- Locale: update zh-CN.
+
 * 0.7.4 (May 4, 2018)
 
 	- Add: download with double click.
