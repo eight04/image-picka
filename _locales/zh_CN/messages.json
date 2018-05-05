@@ -4,12 +4,28 @@
 		"description": "'Pick images from current tab' command"
 	},
 	"commandPickFromRightTabs": {
+		"message": "抓取当前和右侧标签页的图像",
+		"description": "'Pick images from curent tab + right tabs' command"
+	},
+	"commandPickFromRightTabsExcludeCurrent": {
 		"message": "抓取右侧标签页的图像",
-		"description": "'Pick images from tabs to the right' command"
+		"description": "'Pick images from right tabs' command"
+	},
+	"extensionName": {
+		"message": "Image Picka",
+		"description": "Name of the extension"
 	},
 	"extensionDescription": {
 		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
 		"description": "Description of the extension"
+	},
+	"filenameConflictActionUniquify": {
+		"message": "自动重命名",
+		"description": "Label of uniquify keyword of filenameConflictAction"
+	},
+	"filenameConflictActionOverwrite": {
+		"message": "覆盖旧文件",
+		"description": "Label of overwrite keyword of filenameConflictAction"
 	},
 	"formHistoryRecentlyUsedLabel": {
 		"message": "最近使用：",
@@ -19,6 +35,10 @@
 		"message": "常规",
 		"description": "Title of general options"
 	},
+	"optionBatchTitle": {
+		"message": "批量下载",
+		"description": "Title of batch download settings"
+	},
 	"optionBrowserActionLabel": {
 		"message": "工具栏按钮的默认动作",
 		"description": "Label of browserAction option"
@@ -26,6 +46,10 @@
 	"optionBrowserActionHelp": {
 		"message": "右击工具栏按钮访问其他动作。",
 		"description": "Help text of browserAction option"
+	},
+	"optionCollectFromFramesLabel": {
+		"message": "递归地从 frame 中收集图像。",
+		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
 		"message": "添加“抓取图像...”到右键菜单",
@@ -39,6 +63,10 @@
 		"message": "图标颜色",
 		"description": "Label of customIconColor option"
 	},
+	"optionDblClickLabel": {
+		"message": "双击下载",
+		"description": "Label of dblClick option"
+	},
 	"optionUseCacheLabel": {
 		"message": "尝试从浏览器缓存下载图像",
 		"description": "Label of useCache option"
@@ -46,6 +74,10 @@
 	"optionUseCacheHelp": {
 		"message": "本扩展将在将图像发送到下载管理器前尝试从缓存获取图像，如果图像没有被缓存，这会使图像开始下载有一个明显的延迟。",
 		"description": "Help text of useCache option"
+	},
+	"optionUseExpressionLabel": {
+		"message": "在文件名模式中使用简单的正则表达式",
+		"description": "Label of useExpression option"
 	},
 	"optionDefaultNameLabel": {
 		"message": "默认文件名",
@@ -55,9 +87,21 @@
 		"message": "默认扩展名",
 		"description": "Label of defaultExt"
 	},
+	"optionEnabledLabel": {
+		"message": "启用“下载单张图像”功能",
+		"description": "Label of enabled option"
+	},
 	"optionFilenameMaxLengthLabel": {
 		"message": "文件名最大长度",
 		"description": "Label of filenameMaxLength option"
+	},
+	"optionFilenameConflictActionLabel": {
+		"message": "处理文件名冲突",
+		"description": "Label of filenameConflictAction option"
+	},
+	"optionFilenameConflictActionHelp": {
+		"message": "如果同时下载多个同名文件，则可能导致下载失败。最好使用适当的文件名模式来避免文件名冲突，特别是在批量下载时。",
+		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
 		"message": "下载单张图像",
@@ -79,6 +123,14 @@
 				"content": "<code>/</code>"
 			}
 		}
+	},
+	"optionIsolateTabsLabel": {
+		"message": "生成文件名时标签页相互隔离。",
+		"description": "Label of isolateTabs option"
+	},
+	"optionIsolateTabsHelpHTML": {
+		"message": "若此选项被选中，文件名将根据下载图像所在的标签页来创建，而非当前标签页。这会影响到 <code>page...</code> 变量与 <code>index</code>。",
+		"description": "Help text of isolateTabs option"
 	},
 	"optionLearnMoreLink": {
 		"message": "详细了解",
@@ -120,6 +172,54 @@
 		"message": "触发下载按钮的最小高度",
 		"description": "Label of downloadButtonMinHeight option"
 	},
+	"optionDownloadButtonPositionHorizontalLabel": {
+		"message": "水平位置",
+		"description": "Label of downloadButtonPositionHorizontal option"
+	},
+	"optionDownloadButtonPositionHorizontalLeftOutside": {
+		"message": "左，图像外部",
+		"description": "Label of LEFT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalLeftInside": {
+		"message": "左，图像内部",
+		"description": "Label of LEFT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalCenter": {
+		"message": "中",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionHorizontalRightInside": {
+		"message": "右, 图像外部",
+		"description": "Label of RIGHT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalRightOutside": {
+		"message": "右, 图像内部",
+		"description": "Label of RIGHT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalLabel": {
+		"message": "垂直位置",
+		"description": "Label of downloadButtonPositionVertical option"
+	},
+	"optionDownloadButtonPositionVerticalTopOutside": {
+		"message": "上，图像外部",
+		"description": "Label of TOP_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalTopInside": {
+		"message": "上，图像内部",
+		"description": "Label of TOP_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalCenter": {
+		"message": "中",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionVerticalBottomInside": {
+		"message": "下，图像外部",
+		"description": "Label of BOTTOM_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalBottomOutside": {
+		"message": "下，图像内部",
+		"description": "Label of BOTTOM_OUTSIDE position"
+	},
 	"optionAdvancedTitle": {
 		"message": "高级",
 		"description": "Title of advanced options"
@@ -136,6 +236,10 @@
 	"optionUrlMapLabel": {
 		"message": "用正则表达式转换网址",
 		"description": "Label of urlMap option"
+	},
+	"optionBlacklistLabel": {
+		"message": "在以下域名中禁用 Image Picka（每行一个域名）",
+		"description": "Label of blacklist option"
 	},
 	"pickerMinWidthLabel": {
 		"message": "宽度",
