@@ -3,10 +3,6 @@
 		"message": "從當前分頁拾圖",
 		"description": "'Pick images from current tab' command"
 	},
-	"commandPickFromRightTabs": {
-		"message": "從右方分頁拾圖",
-		"description": "'Pick images from tabs to the right' command"
-	},
 	"extensionDescription": {
 		"message": "以 Webextensions 打造的拾圖工具",
 		"description": "Description of the extension"

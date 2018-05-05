@@ -11,10 +11,6 @@
 		"message": "抓取右侧标签页的图像",
 		"description": "'Pick images from right tabs' command"
 	},
-	"extensionName": {
-		"message": "Image Picka",
-		"description": "Name of the extension"
-	},
 	"extensionDescription": {
 		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
 		"description": "Description of the extension"
