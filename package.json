@@ -7,15 +7,14 @@
   "license": "MIT",
   "dependencies": {},
   "scripts": {
-    "lint": "eslint **/*.js --cache",
+    "lint": "eslint **/*.js --cache --ignore-pattern extension/vendor",
     "test": "npm run lint && web-ext lint",
     "start": "web-ext run",
     "preversion": "npm test",
     "version": "npm run build && git add .",
-    "build": "sync-version manifest.json",
-    "build-locales": "tx pull -a --mode=developer && webext-tx-fix",
-    "postversion": "npm run build-zip && git push --follow-tags",
-    "build-zip": "web-ext build --ignore-files **/*.log package*.json test --overwrite-dest",
+    "build": "sync-version extension/manifest.json",
+    "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s extension",
+    "postversion": "web-ext build && git push --follow-tags",
     "server": "node test/server.js"
   },
   "devDependencies": {
