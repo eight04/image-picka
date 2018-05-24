@@ -355,7 +355,7 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 	browser.windows.get(tab.windowId, {populate: true})
 		.then(({tabs}) => {
 			const tabsToRight = tabs.filter(
-				t => t.index > tab.index && !t.discarded && !t.pinned
+				t => t.index > tab.index && !t.discarded && !t.pinned && !t.hidden
 			);
 			return Promise.all([
 				excludeCurrent ? pickEnv(tab.id) : pickImages(tab.id),

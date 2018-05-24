@@ -1,6 +1,8 @@
 Image Picka
 ===========
 
+[![Build Status](https://travis-ci.org/eight04/image-picka.svg?branch=master)](https://travis-ci.org/eight04/image-picka)
+
 An image picker written in webextensions.
 
 Features
