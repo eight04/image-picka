@@ -126,6 +126,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.6 (May 24, 2018)
+
+	- Fix: don't pick images from hidden tabs.
+	- Update webext-menus.
+
 * 0.7.5 (May 6, 2018)
 
 	- Locale: add French translation.
