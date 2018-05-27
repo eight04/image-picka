@@ -599,7 +599,7 @@ const escapeFilename = (() => {
 	const escape = m => table[m];
 	
 	return name => {
-		name = name.trim().replace(rx, escape);
+		name = name.trim().replace(rx, escape).replace(/\s+/g, " ");
 		const maxLength = pref.get("filenameMaxLength");
 		if (name.length > maxLength) {
 			name = name.slice(0, maxLength).trim();
