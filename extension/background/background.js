@@ -608,8 +608,13 @@ const escapeFilename = (() => {
 	};
 })();
 
-function escapeTrailingDots(path) {
-	return path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
+function escapeDots(path) {
+	// trailing dots
+	path = path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
+	// leading dots
+	// https://github.com/eight04/image-picka/issues/90
+	path = path.replace(/(^|\\|\/)\.+/g, m => m.replace(/\./g, "．"));
+	return path;
 }
 
 function propGetter(prop) {
@@ -642,7 +647,7 @@ function compileStringTemplate(template) {
 		const text = template.slice(lastIndex);
 		output.push(text);
 	}
-	return context => escapeTrailingDots(
+	return context => escapeDots(
 		output.map(text => {
 			if (typeof text === "string") {
 				return text;
