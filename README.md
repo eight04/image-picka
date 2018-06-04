@@ -126,6 +126,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.7.7 (Jun 4, 2018)
+
+	- Fix: escape leading dots in the filename.
+	- Fix: convert whitespaces (e.g. tabs, nbsp...) into a single space.
+	- Fix: the error message becomes `[object Object]` on download error.
+
 * 0.7.6 (May 24, 2018)
 
 	- Fix: don't pick images from hidden tabs.
