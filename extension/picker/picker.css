@@ -14,6 +14,8 @@
   border: 1px solid skyblue;
   float: left;
   margin: 0.5em;
+	padding: 0.5em;
+	text-align: center;
 }
 .image-checkbox.checked {
 	background: skyblue;
@@ -24,11 +26,17 @@
 .image-checkbox img {
 	display: block;
 	max-height: calc(var(--previewMaxHeight, 200) * 1px);
-	margin: 0.5em;
+	margin: 0 auto;
 }
 .image-checkbox input[type=checkbox] {
   display: block;
-  margin: 0.5em auto;
+  margin: 0 auto;
+}
+.image-checkbox-info {
+	display: block;
+	font-size: 70%;
+	margin: 0.2em 0.5em 0.5em
+	
 }
 
 /* toolbar */

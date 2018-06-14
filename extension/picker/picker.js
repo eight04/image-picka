@@ -168,14 +168,24 @@ function createImageCheckbox(url) {
 	img.src = url;
 	img.title = url;
 	
-	Promise.all([loadImage(), loadFileSize()])
+	Promise.all([loadImage(), loadFileSize(), pref.ready()])
 		.then(() => {
-			if (img.naturalWidth) {
-				img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+			if (pref.get("displayImageInfo")) {
+				const info = document.createElement("span");
+				info.className = "image-checkbox-info";
+				info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
+				img.parentNode.insertBefore(info, img.nextSibling);
 			} else {
-				img.style.width = "200px";
+				if (img.naturalWidth) {
+					img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+				}
 			}
 			img.title += ` [${formatFileSize(img.fileSize)}]`;
+			
+			// default width for svg
+			if (!img.naturalHeight) {
+				img.style.width = "200px";
+			}
 		})
 		.catch(err => {
 			console.error(err);

@@ -88,7 +88,7 @@
 		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageInfoLabel": {
-		"message": "Display image information under thumbnails",
+		"message": "Display image information under thumbnails.",
 		"description": "Label of displayImageInfo option"
 	},
 	"optionEnabledLabel": {
