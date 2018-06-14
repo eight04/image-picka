@@ -87,6 +87,10 @@
 		"message": "Default extension",
 		"description": "Label of defaultExt"
 	},
+	"optionDisplayImageInfoLabel": {
+		"message": "Display image information under thumbnails",
+		"description": "Label of displayImageInfo option"
+	},
 	"optionEnabledLabel": {
 		"message": "Enable \"Download Single Image\" Feature",
 		"description": "Label of enabled option"

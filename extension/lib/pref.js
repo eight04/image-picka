@@ -14,6 +14,7 @@ var pref = function(){
 		dblClickCtrl: false,
 		dblClickShift: false,
 		dblClickAlt: true,
+		displayImageInfo: false,
 		dragndrop: true,
 		downloadButton: false,
 		downloadButtonDelay: 0,
