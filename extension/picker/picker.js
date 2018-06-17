@@ -171,10 +171,10 @@ function createImageCheckbox(url) {
 			return;
 		}
 		const checked = input.checked;
-		console.log(e);
 		setTimeout(() => {
 			if (input.checked == checked) {
 				ctrl.toggleCheck();
+				input.focus();
 			}
 		});
 	};
@@ -185,12 +185,14 @@ function createImageCheckbox(url) {
 		label.classList.toggle("checked", input.checked);
 	};
 	
-	// button.type = "button";
 	img.title = url;
 	img.src = url;
-	// img.draggable = false; // for chrome
-	img.ondragstart = () => false;
-	// button.appendChild(img);
+	// don't drag
+	if (navigator.userAgent.includes("Chrome")) {
+		img.draggable = false;
+	} else {
+		img.ondragstart = () => false;
+	}
 	label.append(input, img);
 	
 	load();
