@@ -16,21 +16,18 @@
   margin: 0.5em;
 	padding: 0.5em;
 	text-align: center;
+	background: transparent;
 }
 .image-checkbox.checked {
 	background: skyblue;
 }
-.image-checkbox.disable {
+.image-checkbox[disabled] {
 	opacity: 0.2;
 }
 .image-checkbox img {
 	display: block;
 	max-height: calc(var(--previewMaxHeight, 200) * 1px);
 	margin: 0 auto;
-}
-.image-checkbox input[type=checkbox] {
-  display: block;
-  margin: 0.5em auto 0;
 }
 .image-checkbox-info {
 	display: block;
@@ -97,7 +94,7 @@
 .image-checkbox {
 	counter-increment: images-total images-tab-total;
 }
-.image-checkbox.checked:not(.disable) {
+.image-checkbox.checked:not([disabled]) {
 	counter-increment: images-total images-selected images-tab-total images-tab-selected;
 }
 .save::after {
