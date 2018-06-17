@@ -30,13 +30,13 @@
 }
 .image-checkbox input[type=checkbox] {
   display: block;
-  margin: 0 auto;
+  margin: 0.5em auto 0;
 }
 .image-checkbox-info {
 	display: block;
 	font-size: 70%;
-	margin: 0.2em 0.5em 0.5em
-	
+	color: white;
+	background: black;
 }
 
 /* toolbar */
