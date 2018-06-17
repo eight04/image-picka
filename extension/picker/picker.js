@@ -159,34 +159,55 @@ function initFilter(container, images) {
 }
 
 function createImageCheckbox(url) {
-	const button = document.createElement("button");
+	// const button = document.createElement("button");
+	const label = document.createElement("label");
+	const input = document.createElement("input");
 	const img = new Image;
 	let ctrl;
 	
-	button.type = "button";
-	button.onclick = () => {
-		ctrl.toggleCheck();
+	label.className = "image-checkbox checked";
+	label.onclick = e => {
+		if (e.target == input) {
+			return;
+		}
+		const checked = input.checked;
+		console.log(e);
+		setTimeout(() => {
+			if (input.checked == checked) {
+				ctrl.toggleCheck();
+			}
+		});
 	};
-	button.className = "image-checkbox checked";
-	button.title = url;
-		
+	
+	input.type = "checkbox";
+	input.checked = true;
+	input.onchange = () => {
+		label.classList.toggle("checked", input.checked);
+	};
+	
+	// button.type = "button";
+	img.title = url;
 	img.src = url;
-	img.draggable = false; // for chrome
-	button.appendChild(img);
+	// img.draggable = false; // for chrome
+	img.ondragstart = () => false;
+	// button.appendChild(img);
+	label.append(input, img);
 	
 	load();
 	
 	return ctrl = {
-		el: button,
+		el: label,
 		imgEl: img,
 		toggleEnable(enable) {
-			button.disabled = !enable;
+			label.classList.toggle("disabled", !enable);
+			input.disabled = !enable;
 		},
 		toggleCheck() {
-			button.classList.toggle("checked");
+			label.classList.toggle("checked");
+			input.checked = !input.checked;
 		},
 		selected() {
-			return !button.disabled && button.classList.contains("checked");
+			return !input.disabled && input.checked;
 		}
 	};
 	
@@ -200,10 +221,10 @@ function createImageCheckbox(url) {
 					img.parentNode.insertBefore(info, img.nextSibling);
 				} else {
 					if (img.naturalWidth) {
-						button.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+						img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
 					}
 				}
-				button.title += ` [${formatFileSize(img.fileSize)}]`;
+				img.title += ` [${formatFileSize(img.fileSize)}]`;
 				
 				// default width for svg
 				if (!img.naturalHeight) {
@@ -216,7 +237,7 @@ function createImageCheckbox(url) {
 			})
 			.then(() => {
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
-				button.parentNode.dispatchEvent(new CustomEvent("imageLoad", {
+				img.dispatchEvent(new CustomEvent("imageLoad", {
 					bubbles: true,
 					detail: {image: ctrl}
 				}));
