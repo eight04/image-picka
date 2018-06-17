@@ -167,7 +167,7 @@ function createImageCheckbox(url) {
 	
 	label.className = "image-checkbox checked";
 	label.onclick = e => {
-		if (e.target == input) {
+		if (e.target == input || input.disabled) {
 			return;
 		}
 		const checked = input.checked;
