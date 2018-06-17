@@ -126,6 +126,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.0 (Jun 17, 2018)
+
+	- Change: use buttons instead of checkboxes in picker UI.
+	- Add:  "Display image size under the thumbnail" option.
+
 * 0.7.7 (Jun 4, 2018)
 
 	- Fix: escape leading dots in the filename.
