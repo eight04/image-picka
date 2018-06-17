@@ -87,6 +87,10 @@
 		"message": "Extension par défaut :",
 		"description": "Label of defaultExt"
 	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "Afficher la taille de l’image sous la miniature",
+		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
 	"optionEnabledLabel": {
 		"message": "Activer la fonction de téléchargement d’une image unique",
 		"description": "Label of enabled option"
