@@ -159,44 +159,69 @@ function initFilter(container, images) {
 }
 
 function createImageCheckbox(url) {
-	var label = document.createElement("label"),
-		img = new Image,
-		input = document.createElement("input"),
-		enable = true,
-		ctrl;
+	const button = document.createElement("button");
+	const img = new Image;
+	let ctrl;
+	
+	button.type = "button";
+	button.onclick = () => {
+		ctrl.toggleCheck();
+	};
+	button.className = "image-checkbox checked";
+	button.title = url;
 		
 	img.src = url;
-	img.title = url;
+	img.draggable = false; // for chrome
+	button.appendChild(img);
 	
-	Promise.all([loadImage(), loadFileSize(), pref.ready()])
-		.then(() => {
-			if (pref.get("displayImageSizeUnderThumbnail")) {
-				const info = document.createElement("span");
-				info.className = "image-checkbox-info";
-				info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
-				img.parentNode.insertBefore(info, img.nextSibling);
-			} else {
-				if (img.naturalWidth) {
-					img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+	load();
+	
+	return ctrl = {
+		el: button,
+		imgEl: img,
+		toggleEnable(enable) {
+			button.disabled = !enable;
+		},
+		toggleCheck() {
+			button.classList.toggle("checked");
+		},
+		selected() {
+			return !button.disabled && button.classList.contains("checked");
+		}
+	};
+	
+	function load() {
+		Promise.all([loadImage(), loadFileSize(), pref.ready()])
+			.then(() => {
+				if (pref.get("displayImageSizeUnderThumbnail")) {
+					const info = document.createElement("span");
+					info.className = "image-checkbox-info";
+					info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
+					img.parentNode.insertBefore(info, img.nextSibling);
+				} else {
+					if (img.naturalWidth) {
+						button.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+					}
 				}
-			}
-			img.title += ` [${formatFileSize(img.fileSize)}]`;
-			
-			// default width for svg
-			if (!img.naturalHeight) {
-				img.style.width = "200px";
-			}
-		})
-		.catch(err => {
-			console.error(err);
-			img.error = true;
-		})
-		.then(() => {
-			img.dispatchEvent(new CustomEvent("imageLoad", {
-				bubbles: true,
-				detail: {image: ctrl}
-			}));
-		});
+				button.title += ` [${formatFileSize(img.fileSize)}]`;
+				
+				// default width for svg
+				if (!img.naturalHeight) {
+					img.style.width = "200px";
+				}
+			})
+			.catch(err => {
+				console.error(err);
+				img.error = true;
+			})
+			.then(() => {
+				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
+				button.parentNode.dispatchEvent(new CustomEvent("imageLoad", {
+					bubbles: true,
+					detail: {image: ctrl}
+				}));
+			});
+	}
 		
 	function loadImage() {
 		return new Promise((resolve, reject) => {
@@ -214,32 +239,6 @@ function createImageCheckbox(url) {
 	function loadFileSize() {
 		return fetchBlob(url).then(b => img.fileSize = b.size);
 	}
-		
-	input.type = "checkbox";
-	input.checked = true;
-	input.onchange = () => {
-		label.classList.toggle("checked", input.checked);
-	};
-	label.appendChild(img);
-	label.appendChild(input);
-	label.className = "image-checkbox checked";
-	
-	return ctrl = {
-		el: label,
-		imgEl: img,
-		toggleEnable(_enable) {
-			enable = _enable;
-			label.classList.toggle("disable", !enable);
-			input.disabled = !enable;
-		},
-		toggleCheck() {
-			label.classList.toggle("checked");
-			input.checked = !input.checked;
-		},
-		selected() {
-			return enable && input.checked;
-		}
-	};
 }
 
 function formatFileSize(size) {
