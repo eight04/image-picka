@@ -168,9 +168,10 @@ function createImageCheckbox(url) {
 		ctrl.toggleCheck();
 	};
 	button.className = "image-checkbox checked";
+	button.title = url;
 		
 	img.src = url;
-	img.title = url;
+	img.draggable = false; // for chrome
 	button.appendChild(img);
 	
 	load();
@@ -199,10 +200,10 @@ function createImageCheckbox(url) {
 					img.parentNode.insertBefore(info, img.nextSibling);
 				} else {
 					if (img.naturalWidth) {
-						img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+						button.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
 					}
 				}
-				img.title += ` [${formatFileSize(img.fileSize)}]`;
+				button.title += ` [${formatFileSize(img.fileSize)}]`;
 				
 				// default width for svg
 				if (!img.naturalHeight) {
