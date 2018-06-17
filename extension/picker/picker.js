@@ -170,7 +170,7 @@ function createImageCheckbox(url) {
 	
 	Promise.all([loadImage(), loadFileSize(), pref.ready()])
 		.then(() => {
-			if (pref.get("displayImageInfo")) {
+			if (pref.get("displayImageSizeUnderThumbnail")) {
 				const info = document.createElement("span");
 				info.className = "image-checkbox-info";
 				info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
