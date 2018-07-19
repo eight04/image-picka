@@ -277,6 +277,10 @@ function createDynamicIcon({file, enabled, onupdate}) {
 // inject content/pick-images.js to the page
 function pickImages(tabId, frameId = 0, ignoreImages = false) {
 	return executeScript().then(results => {
+		results = results.filter(Boolean);
+		if (!results.length) {
+			throw new Error("results is empty");
+		}
 		return Object.assign({}, results[0], {
 			tabId,
 			ignoreImages,
@@ -288,7 +292,8 @@ function pickImages(tabId, frameId = 0, ignoreImages = false) {
 		// frameId, allFrames can't be used together in Firefox
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=1454342
 		const options = {
-			code: `pickImages(${ignoreImages})`,
+			// https://github.com/eight04/image-picka/issues/100
+			code: `typeof pickImages === "function" ? pickImages(${ignoreImages}) : null`,
 			frameId: frameId,
 			allFrames: pref.get("collectFromFrames"),
 			runAt: "document_start"
