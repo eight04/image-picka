@@ -1,7 +1,7 @@
 {
   "title": "Image Picka",
   "name": "image-picka",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "An image picker written in webextensions",
   "author": "eight04 <eight04@gmail.com>",
   "license": "MIT",
