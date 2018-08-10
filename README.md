@@ -126,6 +126,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.2 (Aug 10, 2018)
+
+	- Fix: the option page is broken on Chrome.
+	- Fix: grab images from frames is broken on Chrome.
+	- Add: downloadButtonSize option.
+
 * 0.8.1 (Jun 18, 2018)
 
 	- Fix: unable to use context menu on images inside a button.
