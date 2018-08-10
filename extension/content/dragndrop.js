@@ -333,8 +333,8 @@ function pickImages(ignoreImages = false) {
 			button = document.createElement("div");
 			button.className = "image-picka-download-button";
 			button.style = `
-				width: 64px;
-				height: 64px;
+				width: ${pref.get("downloadButtonSize")}px;
+				height: ${pref.get("downloadButtonSize")}px;
 				cursor: pointer;
 				position: fixed;
 				z-index: 2147483647;
@@ -351,18 +351,18 @@ function pickImages(ignoreImages = false) {
 		function calcPos(base, size, tag, low, high) {
 			if (tag.startsWith(low)) {
 				if (tag.endsWith("OUTSIDE")) {
-					return base - 64;
+					return base - pref.get("downloadButtonSize");
 				} else {
 					return base;
 				}
 			} else if (tag.startsWith(high)) {
 				if (tag.endsWith("INSIDE")) {
-					return base + size - 64;
+					return base + size - pref.get("downloadButtonSize");
 				} else {
 					return base + size;
 				}
 			} else {
-				return base + (size - 64) / 2;
+				return base + (size - pref.get("downloadButtonSize")) / 2;
 			}
 		}
 		
@@ -370,8 +370,8 @@ function pickImages(ignoreImages = false) {
 			const rect = image.getBoundingClientRect();
 			const left = calcPos(rect.left, rect.width, pref.get("downloadButtonPositionHorizontal"), "LEFT", "RIGHT");
 			const top = calcPos(rect.top, rect.height, pref.get("downloadButtonPositionVertical"), "TOP", "BOTTOM");
-			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - 64), 0) + "px";
-			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - 64), 0) + "px";
+			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - pref.get("downloadButtonSize")), 0) + "px";
+			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - pref.get("downloadButtonSize")), 0) + "px";
 		}
 	}
 	

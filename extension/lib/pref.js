@@ -17,6 +17,7 @@ var pref = function(){
 		displayImageSizeUnderThumbnail: false,
 		dragndrop: true,
 		downloadButton: false,
+		downloadButtonSize: 64,
 		downloadButtonDelay: 0,
 		downloadButtonDelayHide: 500,
 		downloadButtonMinWidth: 64,
