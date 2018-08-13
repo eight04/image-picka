@@ -228,6 +228,10 @@
 		"message": "Button size",
 		"description": "Label of downloadButtonSize option"
 	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "Escape special characters into Unicode glyphs.",
+		"description": "Label of escapeWithUnicode option"
+	},
 	"optionAdvancedTitle": {
 		"message": "Advanced",
 		"description": "Title of advanced options"
