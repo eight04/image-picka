@@ -146,6 +146,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.3 (Aug 13, 2018)
+
+	- Add: option to not escaping special characters into Unicode glyphs.
+	- Fix: remove leading/trailing spaces in the filename.
+	- Locale: update fr translation.
+
 * 0.8.2 (Aug 10, 2018)
 
 	- Fix: the option page is broken on Chrome.
