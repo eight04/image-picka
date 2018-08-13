@@ -695,11 +695,6 @@ function expandEnv(env) {
 	// page url
 	url = new URL(env.pageUrl);
 	env.pageHostname = url.hostname;
-	
-	// page title fallback
-	if (!env.pageTitle) {
-		env.pageTitle = env.pageUrl;
-	}
 }
 
 function nestDecodeURIComponent(s) {
