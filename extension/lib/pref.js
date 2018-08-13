@@ -24,6 +24,7 @@ var pref = function(){
 		downloadButtonMinHeight: 64,
 		downloadButtonPositionHorizontal: "LEFT_INSIDE",
 		downloadButtonPositionVertical: "TOP_OUTSIDE",
+		escapeWithUnicode: true,
 		isolateTabs: false,
 		filenameMaxLength: 128,
 		filenameConflictAction: "uniquify",

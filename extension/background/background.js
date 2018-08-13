@@ -600,8 +600,13 @@ const escapeFilename = (() => {
 		"*": "＊",
 		"~": "～"
 	};
-	const rx = new RegExp(`[${Object.keys(table).join("")}]`, "g");
-	const escape = m => table[m];
+	const rx = new RegExp(`[${Object.keys(table).join("")}]+`, "g");
+	const escape = m => {
+		if (!pref.get("escapeWithUnicode")) {
+			return "_";
+		}
+		return Array.from(m).map(c => table[c]).join("");
+	};
 	
 	return name => {
 		name = name.trim().replace(rx, escape).replace(/\s+/g, " ");

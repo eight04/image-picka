@@ -102,6 +102,26 @@ example.com
 
 *Note that `*.example.com` doesn't match `https://example.com/` but `https://sub.domain.example.com/`.*
 
+Escape special characters
+-------------------------
+
+To generate valid filenames, the extension escapes following characters into Unicode glyphs:
+
+|Character|Unicode replacement|
+|---|---|
+|`/`|`／`|
+|`\`|`＼`|
+|`?`|`？`|
+|`\|`|`｜`|
+|`<`|`＜`|
+|`>`|`＞`|
+|`:`|`：`|
+|`"`|`＂`|
+|`*`|`＊`|
+|`~`|`～`|
+
+This should be fine for most of the time. However, in some very old environments, they may have problems reading unicode filenames. By unchecking "escape into unicode glyphs" option, special charaters would be replaced with a single underscore: `_`.
+
 Similar addons
 --------------
 
