@@ -224,6 +224,10 @@
 		"message": "En bas et à l’extérieur de l’image",
 		"description": "Label of BOTTOM_OUTSIDE position"
 	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "Taille du bouton :",
+		"description": "Label of downloadButtonSize option"
+	},
 	"optionAdvancedTitle": {
 		"message": "Avancé",
 		"description": "Title of advanced options"
