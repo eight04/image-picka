@@ -618,12 +618,15 @@ const escapeFilename = (() => {
 	};
 })();
 
-function escapeDots(path) {
+function escapePath(path) {
 	// trailing dots
 	path = path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
 	// leading dots
 	// https://github.com/eight04/image-picka/issues/90
 	path = path.replace(/(^|\\|\/)\.+/g, m => m.replace(/\./g, "．"));
+	// spaces
+	// https://github.com/eight04/image-picka/issues/106
+	path = path.replace(/\s*[\\/]\s*/g, "/").trim();
 	return path;
 }
 
@@ -657,7 +660,7 @@ function compileStringTemplate(template) {
 		const text = template.slice(lastIndex);
 		output.push(text);
 	}
-	return context => escapeDots(
+	return context => escapePath(
 		output.map(text => {
 			if (typeof text === "string") {
 				return text;
@@ -692,6 +695,11 @@ function expandEnv(env) {
 	// page url
 	url = new URL(env.pageUrl);
 	env.pageHostname = url.hostname;
+	
+	// page title fallback
+	if (!env.pageTitle) {
+		env.pageTitle = env.pageUrl;
+	}
 }
 
 function nestDecodeURIComponent(s) {
