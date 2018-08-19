@@ -146,6 +146,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.4 (Aug 20, 2018)
+
+	- Local: update fr translation.
+
 * 0.8.3 (Aug 13, 2018)
 
 	- Add: option to not escaping special characters into Unicode glyphs.
