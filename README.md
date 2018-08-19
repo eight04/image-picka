@@ -56,7 +56,7 @@ Here are some examples:
 
 * Fallback to `pageUrl` when `pageTitle` is empty:
 	```
-	Image Picka/${pageTitle||pageTitle}/${index} - ${name}${ext}
+	Image Picka/${pageTitle||pageUrl}/${index} - ${name}${ext}
 	```
 * Make `index` start from `0`:
 	```
