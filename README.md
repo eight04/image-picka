@@ -54,6 +54,10 @@ If this option is checked, the extension would evaluate the content inside `${}`
 
 Here are some examples:
 
+* Fallback to `pageUrl` when `pageTitle` is empty:
+	```
+	Image Picka/${pageTitle||pageTitle}/${index} - ${name}${ext}
+	```
 * Make `index` start from `0`:
 	```
 	Image Picka/${pageTitle}/${index-1} - ${name}${ext}
