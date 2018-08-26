@@ -1,115 +1,153 @@
 {
 	"commandPickFromCurrentTab": {
 		"message": "抓取当前标签页的图像",
-		"description": "'Pick images from current tab' command"
+		"description": "'Pick images from current tab' command",
+		"hash": "6f059ee9142f9d86f05eb8fa6b70f899"
 	},
 	"commandPickFromRightTabs": {
 		"message": "抓取当前和右侧标签页的图像",
-		"description": "'Pick images from curent tab + right tabs' command"
+		"description": "'Pick images from curent tab + right tabs' command",
+		"hash": "ba12d931f4ebea184cc6e0a1123b147c"
 	},
 	"commandPickFromRightTabsExcludeCurrent": {
 		"message": "抓取右侧标签页的图像",
-		"description": "'Pick images from right tabs' command"
+		"description": "'Pick images from right tabs' command",
+		"hash": "0ac91d44ba6a751f6e17afc41a20ec31"
+	},
+	"extensionName": {
+		"message": "Image Picka",
+		"description": "Name of the extension",
+		"hash": "2f3ac50e6562f21c8f5b221942d525cf"
 	},
 	"extensionDescription": {
 		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
-		"description": "Description of the extension"
+		"description": "Description of the extension",
+		"hash": "b19889e42951b8bfb2754b66e052a323"
 	},
 	"filenameConflictActionUniquify": {
 		"message": "自动重命名",
-		"description": "Label of uniquify keyword of filenameConflictAction"
+		"description": "Label of uniquify keyword of filenameConflictAction",
+		"hash": "c679600702292031949c6795b85ca209"
 	},
 	"filenameConflictActionOverwrite": {
 		"message": "覆盖旧文件",
-		"description": "Label of overwrite keyword of filenameConflictAction"
+		"description": "Label of overwrite keyword of filenameConflictAction",
+		"hash": "f7e6e3dce3f5957131feb2d220132933"
 	},
 	"formHistoryRecentlyUsedLabel": {
 		"message": "最近使用：",
-		"description": "'Recently used:' label of form history"
+		"description": "'Recently used:' label of form history",
+		"hash": "b2c18b4bc92f10b53b3a0d6b5b33c91f"
 	},
 	"optionGeneralTitle": {
 		"message": "常规",
-		"description": "Title of general options"
+		"description": "Title of general options",
+		"hash": "e90d858c95232c95e34b4bb2f25b69e4"
 	},
 	"optionBatchTitle": {
 		"message": "批量下载",
-		"description": "Title of batch download settings"
+		"description": "Title of batch download settings",
+		"hash": "1516f34833098fe9436048513a6567fc"
 	},
 	"optionBrowserActionLabel": {
 		"message": "工具栏按钮的默认动作",
-		"description": "Label of browserAction option"
+		"description": "Label of browserAction option",
+		"hash": "be5b891a9371c376901f4142d4b58445"
 	},
 	"optionBrowserActionHelp": {
 		"message": "右击工具栏按钮访问其他动作。",
-		"description": "Help text of browserAction option"
+		"description": "Help text of browserAction option",
+		"hash": "c053d541f08577f79cdb9fbb88e5c1b0"
 	},
 	"optionCollectFromFramesLabel": {
-		"message": "递归地从 frame 中收集图像。",
-		"description": "Label of collectFromFrames option"
+		"message": "递归地从框架中收集图像。",
+		"description": "Label of collectFromFrames option",
+		"hash": "3eeae5b0189067d4eefb834251ef04a0"
 	},
 	"optionContextMenuLabel": {
-		"message": "添加“抓取图像...”到右键菜单",
-		"description": "Label of contextMenu option"
+		"message": "添加“抓取...的标签页图像”动作到右键菜单",
+		"description": "Label of contextMenu option",
+		"hash": "3cf4e105d2478a110002693de76c42c8"
 	},
 	"optionCustomIconLabel": {
 		"message": "自定义工具栏按钮的颜色",
-		"description": "Label of customIcon option"
+		"description": "Label of customIcon option",
+		"hash": "1f4079a32d7e4d868d47ffa49e6edce5"
 	},
 	"optionCustomIconColorLabel": {
 		"message": "图标颜色",
-		"description": "Label of customIconColor option"
+		"description": "Label of customIconColor option",
+		"hash": "fe73610fc3eac1e321b006dbee056e8c"
 	},
 	"optionDblClickLabel": {
 		"message": "双击下载",
-		"description": "Label of dblClick option"
+		"description": "Label of dblClick option",
+		"hash": "ff3987ae025df89715ecda9a52545213"
 	},
 	"optionUseCacheLabel": {
 		"message": "尝试从浏览器缓存下载图像",
-		"description": "Label of useCache option"
+		"description": "Label of useCache option",
+		"hash": "cccac96cb75ebb648812f54c37f4b733"
 	},
 	"optionUseCacheHelp": {
 		"message": "本扩展将在将图像发送到下载管理器前尝试从缓存获取图像，如果图像没有被缓存，这会使图像开始下载有一个明显的延迟。",
-		"description": "Help text of useCache option"
+		"description": "Help text of useCache option",
+		"hash": "4377496967f90854d19faa02186e159a"
 	},
 	"optionUseExpressionLabel": {
 		"message": "在文件名模式中使用简单的 JavaScript 表达式",
-		"description": "Label of useExpression option"
+		"description": "Label of useExpression option",
+		"hash": "9b526e3df41af031a72ec521fae6aee3"
 	},
 	"optionDefaultNameLabel": {
 		"message": "默认文件名",
-		"description": "Label of defaultName"
+		"description": "Label of defaultName",
+		"hash": "2b130d67a9d397f6eea07ca7cf8cd23e"
 	},
 	"optionDefaultExtLabel": {
 		"message": "默认扩展名",
-		"description": "Label of defaultExt"
+		"description": "Label of defaultExt",
+		"hash": "994b8b958a3157cb7fedccfb67918fdd"
+	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "在缩略图下方显示图像大小",
+		"description": "Label of displayImageSizeUnderThumbnail option",
+		"hash": "6abcd73e49687beb1b2ac84c27e042e6"
 	},
 	"optionEnabledLabel": {
 		"message": "启用“下载单张图像”功能",
-		"description": "Label of enabled option"
+		"description": "Label of enabled option",
+		"hash": "503acbb88058884c973dd07b29a4ef72"
 	},
 	"optionFilenameMaxLengthLabel": {
 		"message": "文件名最大长度",
-		"description": "Label of filenameMaxLength option"
+		"description": "Label of filenameMaxLength option",
+		"hash": "ce156afb2527fc433a870b873b36cf63"
 	},
 	"optionFilenameConflictActionLabel": {
 		"message": "处理文件名冲突",
-		"description": "Label of filenameConflictAction option"
+		"description": "Label of filenameConflictAction option",
+		"hash": "3f3906034de08eac388ee00571eb233a"
 	},
 	"optionFilenameConflictActionHelp": {
-		"message": "如果同时下载多个同名文件，则可能导致下载失败。最好使用适当的文件名模式来避免文件名冲突，特别是在批量下载时。",
-		"description": "Help text of filenameConflictAction option"
+		"message": "如果同时下载了多个同名的文件，可能导致下载失败。最佳方式是使用适当的文件名模式来避免文件名冲突，批量下载时尤为如此。",
+		"description": "Help text of filenameConflictAction option",
+		"hash": "ab5d97141e912da6d967c1988100e325"
 	},
 	"optionDownloadSingleImageTitle": {
 		"message": "下载单张图像",
-		"description": "Title of download single image options"
+		"description": "Title of download single image options",
+		"hash": "b0c799655739af220316daa374e82e5c"
 	},
 	"optionDownloadSingleImageHelp": {
-		"message": "这些设置不适用批量下载。批量下载设置在批量下载界面中配置。",
-		"description": "Help text of download single image option"
+		"message": "这些设置不适用批量下载。“批量下载”设置在下方配置。",
+		"description": "Help text of download single image option",
+		"hash": "3d9fe604040110b273c2ed4950cb1aeb"
 	},
 	"optionFilenamePatternLabel": {
 		"message": "文件名模式，相对于 Firefox 的默认下载文件夹。",
-		"description": "Label of filenamePattern option"
+		"description": "Label of filenamePattern option",
+		"hash": "f12eb92f90288871083e7a551eae5173"
 	},
 	"optionFilenamePatternHelpHTML": {
 		"message": "该模式可以指定子文件夹（分隔符为 $SEPARATOR$）。",
@@ -118,107 +156,143 @@
 			"SEPARATOR": {
 				"content": "<code>/</code>"
 			}
-		}
+		},
+		"hash": "dd7e17948cce449ff93fbeb94c7efc33"
 	},
 	"optionIsolateTabsLabel": {
 		"message": "生成文件名时标签页相互隔离。",
-		"description": "Label of isolateTabs option"
+		"description": "Label of isolateTabs option",
+		"hash": "d4b0d78a2b1429c2f30e855d2b2fbb80"
 	},
 	"optionIsolateTabsHelpHTML": {
 		"message": "若此选项被选中，文件名将根据下载图像所在的标签页来创建，而非当前标签页。这会影响到 <code>page...</code> 变量与 <code>index</code>。",
-		"description": "Help text of isolateTabs option"
+		"description": "Help text of isolateTabs option",
+		"hash": "7281be2849928e7d5efe54c6c967dfc3"
 	},
 	"optionLearnMoreLink": {
 		"message": "详细了解",
-		"description": "'Learn more' link in option page"
+		"description": "'Learn more' link in option page",
+		"hash": "9085b09f4748be12ab0c241d2e643b31"
 	},
 	"optionSaveAsLabel": {
 		"message": "询问我保存图像到哪里，而非使用默认的下载文件夹。",
-		"description": "Label of saveAs option"
+		"description": "Label of saveAs option",
+		"hash": "4d162bc0ed6ae742f5a27cfaa8733c9c"
 	},
 	"optionSaveAsHelp": {
-		"message": "如果选中此选项，您应该移除文件名模式中的子目录部分。",
-		"description": "Help text of saveAs option"
+		"message": "如果选中此选项，您应该移除文件名模式中的子文件夹。",
+		"description": "Help text of saveAs option",
+		"hash": "707a9c23f05aa36a0b2f64e4bc17758d"
 	},
 	"optionDragndropLabel": {
 		"message": "拖放下载",
-		"description": "Label of dragndrop option"
+		"description": "Label of dragndrop option",
+		"hash": "1a918cb0eb4ab2ab86d41e6438c08de6"
 	},
 	"optionSingleClickLabel": {
 		"message": "单击下载",
-		"description": "Label of singleClick option"
+		"description": "Label of singleClick option",
+		"hash": "4745e02869819c20b9d9e0c0d3a19fbf"
 	},
 	"optionDownloadButtonLabel": {
 		"message": "悬停时显示下载按钮",
-		"description": "Label of downloadButton option"
+		"description": "Label of downloadButton option",
+		"hash": "62d747d6549c3381beaf098f0ecca282"
 	},
 	"optionDownloadButtonDelayLabel": {
 		"message": "显示下载按钮的延迟（毫秒）",
-		"description": "Label of downloadButtonDelay option"
+		"description": "Label of downloadButtonDelay option",
+		"hash": "6cc6807c680e7accbcf0c3b2ac7123eb"
 	},
 	"optionDownloadButtonDelayHideLabel": {
 		"message": "隐藏下载按钮的延迟（毫秒）",
-		"description": "Label of downloadButtonDelayHide option"
+		"description": "Label of downloadButtonDelayHide option",
+		"hash": "fc8c0cf106f320386f366e6d1a6e2c23"
 	},
 	"optionDownloadButtonMinWidth": {
 		"message": "触发下载按钮的最小宽度",
-		"description": "Label of downloadButtonMinWidth option"
+		"description": "Label of downloadButtonMinWidth option",
+		"hash": "7c5eb1200c341d59c30e514cbb27971d"
 	},
 	"optionDownloadButtonMinHeight": {
 		"message": "触发下载按钮的最小高度",
-		"description": "Label of downloadButtonMinHeight option"
+		"description": "Label of downloadButtonMinHeight option",
+		"hash": "21b7d20f208f8ef7896c8f4fd828e78a"
 	},
 	"optionDownloadButtonPositionHorizontalLabel": {
 		"message": "水平位置",
-		"description": "Label of downloadButtonPositionHorizontal option"
+		"description": "Label of downloadButtonPositionHorizontal option",
+		"hash": "eb629a644d1b8946f53b4453cabb8abc"
 	},
 	"optionDownloadButtonPositionHorizontalLeftOutside": {
 		"message": "左，图像外部",
-		"description": "Label of LEFT_OUTSIDE position"
+		"description": "Label of LEFT_OUTSIDE position",
+		"hash": "5b5ddb97f17f019e721690d9c60d8123"
 	},
 	"optionDownloadButtonPositionHorizontalLeftInside": {
 		"message": "左，图像内部",
-		"description": "Label of LEFT_INSIDE position"
+		"description": "Label of LEFT_INSIDE position",
+		"hash": "20fb3c2eb0ab5759e754624503aab1fb"
 	},
 	"optionDownloadButtonPositionHorizontalCenter": {
 		"message": "中",
-		"description": "Label of CENTER position"
+		"description": "Label of CENTER position",
+		"hash": "88b61647261eec6b6fb915387b635938"
 	},
 	"optionDownloadButtonPositionHorizontalRightInside": {
 		"message": "右, 图像内部",
-		"description": "Label of RIGHT_INSIDE position"
+		"description": "Label of RIGHT_INSIDE position",
+		"hash": "27ee5efea41eeffd7fb684f2f601a3ba"
 	},
 	"optionDownloadButtonPositionHorizontalRightOutside": {
 		"message": "右, 图像外部",
-		"description": "Label of RIGHT_OUTSIDE position"
+		"description": "Label of RIGHT_OUTSIDE position",
+		"hash": "288665461d21a19ad5f5c1d26c742ea3"
 	},
 	"optionDownloadButtonPositionVerticalLabel": {
 		"message": "垂直位置",
-		"description": "Label of downloadButtonPositionVertical option"
+		"description": "Label of downloadButtonPositionVertical option",
+		"hash": "731c9b37d8844f3495b51f5e8165f861"
 	},
 	"optionDownloadButtonPositionVerticalTopOutside": {
 		"message": "上，图像外部",
-		"description": "Label of TOP_OUTSIDE position"
+		"description": "Label of TOP_OUTSIDE position",
+		"hash": "4d4c54697d0fa1de1f62757ea6219083"
 	},
 	"optionDownloadButtonPositionVerticalTopInside": {
 		"message": "上，图像内部",
-		"description": "Label of TOP_INSIDE position"
+		"description": "Label of TOP_INSIDE position",
+		"hash": "3cef194ed1b3bb86109ebd329d445993"
 	},
 	"optionDownloadButtonPositionVerticalCenter": {
 		"message": "中",
-		"description": "Label of CENTER position"
+		"description": "Label of CENTER position",
+		"hash": "88b61647261eec6b6fb915387b635938"
 	},
 	"optionDownloadButtonPositionVerticalBottomInside": {
 		"message": "下，图像内部",
-		"description": "Label of BOTTOM_INSIDE position"
+		"description": "Label of BOTTOM_INSIDE position",
+		"hash": "fb78e9dbba2f15bf34abb272f2cd9592"
 	},
 	"optionDownloadButtonPositionVerticalBottomOutside": {
 		"message": "下，图像外部",
-		"description": "Label of BOTTOM_OUTSIDE position"
+		"description": "Label of BOTTOM_OUTSIDE position",
+		"hash": "73e7fed1bb1eb3aa486b33252f57d587"
+	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "按钮大小",
+		"description": "Label of downloadButtonSize option",
+		"hash": "8ce3c96a50867662010203dfa61af88a"
+	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "将特殊字符转换为 Unicode 字形。",
+		"description": "Label of escapeWithUnicode option",
+		"hash": "7bff49d3415bd8953d9685e55ab82b38"
 	},
 	"optionAdvancedTitle": {
 		"message": "高级",
-		"description": "Title of advanced options"
+		"description": "Title of advanced options",
+		"hash": "61e6f7ef10c721f08bc36bee2b3f9bc0"
 	},
 	"optionSrcAlternativeLabelHTML": {
 		"message": "其他包含图像网址的 HTML 属性（用 $SEPARATOR$ 分隔）",
@@ -227,86 +301,110 @@
 			"SEPARATOR": {
 				"content": "<code>,</code>"
 			}
-		}
+		},
+		"hash": "2353a6f15909e42d96b30d8434a2a3e1"
 	},
 	"optionUrlMapLabel": {
 		"message": "用正则表达式转换网址",
-		"description": "Label of urlMap option"
+		"description": "Label of urlMap option",
+		"hash": "ed575ad53e7ddd177714f9a61d4965f9"
 	},
 	"optionBlacklistLabel": {
 		"message": "在以下域名中禁用 Image Picka（每行一个域名）",
-		"description": "Label of blacklist option"
+		"description": "Label of blacklist option",
+		"hash": "85bed08ee329de7ab90dc357a7cc8b5e"
 	},
 	"pickerMinWidthLabel": {
 		"message": "宽度",
-		"description": "Label of minWith filter in image picker"
+		"description": "Label of minWith filter in image picker",
+		"hash": "f6322e65aa252c2bfebeef3642eda579"
 	},
 	"pickerMinWidthHelp": {
 		"message": "最小宽度（px，像素）",
-		"description": "Help text of minWidth filter in image picker"
+		"description": "Help text of minWidth filter in image picker",
+		"hash": "b9ed7d8048d617c526f69abe5ec4224f"
 	},
 	"pickerMinHeightLabel": {
 		"message": "高度",
-		"description": "Label of minHeight filter in image picker"
+		"description": "Label of minHeight filter in image picker",
+		"hash": "8413a498a0ddfc0947e8ad46a2ff186f"
 	},
 	"pickerMinHeightHelp": {
 		"message": "最小高度（px，像素）",
-		"description": "Help text of minHeight filter in image picker"
+		"description": "Help text of minHeight filter in image picker",
+		"hash": "66ae958b3cf785d008283346fcb3e15b"
 	},
 	"pickerMinFileSizeLabel": {
 		"message": "文件大小",
-		"description": "Label of minFileSize filter in image picker"
+		"description": "Label of minFileSize filter in image picker",
+		"hash": "29207d22fe6b0389d552bc0f7ae657ee"
 	},
 	"pickerMinFileSizeHelp": {
 		"message": "最小文件大小（KB）",
-		"description": "Help text of minFileSize filter in image picker"
+		"description": "Help text of minFileSize filter in image picker",
+		"hash": "c093b528aa867b1ab2e00fd3d89e7083"
 	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "包括",
-		"description": "Label of 'include' option of matchType filter in image picker"
+		"description": "Label of 'include' option of matchType filter in image picker",
+		"hash": "fbb95f1067f8da6a01accdbd69a0aee0"
 	},
 	"pickerMatchTypeExcludeLabel": {
 		"message": "排除",
-		"description": "Label of 'exclude' option of matchType filter in image picker"
+		"description": "Label of 'exclude' option of matchType filter in image picker",
+		"hash": "0edb47b076ce3beb3019da5c76f4fd02"
 	},
 	"pickerMatchUrlLabel": {
 		"message": "网址",
-		"description": "Label of matchUrl filter in image picker"
+		"description": "Label of matchUrl filter in image picker",
+		"hash": "a45b8d0fa09a63c8009ba8f0497c7d38"
 	},
 	"pickerMatchUrlHelp": {
 		"message": "正则表达式",
-		"description": "Help text of matchUrl filter in image picker"
+		"description": "Help text of matchUrl filter in image picker",
+		"hash": "836b4e8f189b0435476c917699858782"
 	},
 	"pickerPreviewMaxHeightHelp": {
 		"message": "图像预览最大高度",
-		"description": "Help text of previewMaxHeight option in image picker"
+		"description": "Help text of previewMaxHeight option in image picker",
+		"hash": "9ff1109106951a7dc9609b47581cb7e2"
 	},
 	"pickerFilenamePatternBatchLabel": {
 		"message": "文件名模式",
-		"description": "Label of filenamePatternBatch option in image picker"
+		"description": "Label of filenamePatternBatch option in image picker",
+		"hash": "e2bad789b533eebeca8fd141b4a7238d"
 	},
 	"pickerCloseTabsAfterSaveLabel": {
 		"message": "关闭标签页",
-		"description": "Label of closeTabsAfterSave option in image picker"
+		"description": "Label of closeTabsAfterSave option in image picker",
+		"hash": "c37f1f0faf7bb6f56854ea5fa7d831ca"
 	},
 	"pickerActionInvert": {
 		"message": "反转选择",
-		"description": "'Invert selection' button in image picker"
+		"description": "'Invert selection' button in image picker",
+		"hash": "08dd7f1af85c138450f17cc6d16e245b"
 	},
 	"pickerActionSave": {
 		"message": "保存",
-		"description": "'Save' button in image picker"
+		"description": "'Save' button in image picker",
+		"hash": "aa14043bd4e6f79db542868539be9220"
 	},
 	"pickerActionCopyUrl": {
 		"message": "复制网址",
-		"description": "'Copy URLs' button in image picker"
+		"description": "'Copy URLs' button in image picker",
+		"hash": "a9b2b3e9ac2ac6807cdb151833d0a8c5"
 	},
 	"pickerActionCopyUrlCopied": {
-		"message": "已复制!",
-		"description": "'Copied!' button shown after successfully copied"
+		"message": "已复制！",
+		"description": "'Copied!' button shown after successfully copied",
+		"hash": "abb06804276810a6943b11c07fe6ab74"
 	},
 	"pickerActionCancel": {
 		"message": "取消",
-		"description": "'Cancel' button in image picker"
+		"description": "'Cancel' button in image picker",
+		"hash": "17aa19f18a894459ab6ff21156e8a341"
+	},
+	"__WET_LOCALE__": {
+		"message": "zh-CN"
 	}
 }
