@@ -11,10 +11,6 @@
 		"message": "Sağ Sekmelerdeki Resimlerden Seç",
 		"description": "'Pick images from right tabs' command"
 	},
-	"extensionName": {
-		"message": "Image Picka",
-		"description": "Name of the extension"
-	},
 	"extensionDescription": {
 		"message": "Webextensions ile Yapılan Bir Resim Seçici",
 		"description": "Description of the extension"
@@ -284,10 +280,6 @@
 	"pickerMatchTypeExcludeLabel": {
 		"message": "Dışında Bırak",
 		"description": "Label of 'exclude' option of matchType filter in image picker"
-	},
-	"pickerMatchUrlLabel": {
-		"message": "URL",
-		"description": "Label of matchUrl filter in image picker"
 	},
 	"pickerMatchUrlHelp": {
 		"message": "Düzenli ifade",
