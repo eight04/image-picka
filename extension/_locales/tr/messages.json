@@ -1,0 +1,328 @@
+{
+	"commandPickFromCurrentTab": {
+		"message": "Geçerli Sekmedeki Resimlerden Seç",
+		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "Geçerli ve Sağ Sekmelerdeki Resimlerden Seç",
+		"description": "'Pick images from curent tab + right tabs' command"
+	},
+	"commandPickFromRightTabsExcludeCurrent": {
+		"message": "Sağ Sekmelerdeki Resimlerden Seç",
+		"description": "'Pick images from right tabs' command"
+	},
+	"extensionName": {
+		"message": "Image Picka",
+		"description": "Name of the extension"
+	},
+	"extensionDescription": {
+		"message": "Webextensions ile Yapılan Bir Resim Seçici",
+		"description": "Description of the extension"
+	},
+	"filenameConflictActionUniquify": {
+		"message": "Otomatik olarak yeniden adlandır",
+		"description": "Label of uniquify keyword of filenameConflictAction"
+	},
+	"filenameConflictActionOverwrite": {
+		"message": "Eskisinin Üzerine Yaz",
+		"description": "Label of overwrite keyword of filenameConflictAction"
+	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "Son Kullanılmışlar:",
+		"description": "'Recently used:' label of form history"
+	},
+	"optionGeneralTitle": {
+		"message": "Genel",
+		"description": "Title of general options"
+	},
+	"optionBatchTitle": {
+		"message": "Toplu İndir",
+		"description": "Title of batch download settings"
+	},
+	"optionBrowserActionLabel": {
+		"message": "Araç Çubuğu Düğmesinin Varsayılan İşlevi",
+		"description": "Label of browserAction option"
+	},
+	"optionBrowserActionHelp": {
+		"message": "Diğer İşlemler İçin Araç Çubuğu Düğmesine Sağ Tıklayabilirsin.",
+		"description": "Help text of browserAction option"
+	},
+	"optionCollectFromFramesLabel": {
+		"message": "Çerçevelerdeki Görüntüleri Yineleyerek Topla",
+		"description": "Label of collectFromFrames option"
+	},
+	"optionContextMenuLabel": {
+		"message": "Sağ Tık Menüsüne \"Resimleri ... Seç\" Butonu Ekle",
+		"description": "Label of contextMenu option"
+	},
+	"optionCustomIconLabel": {
+		"message": "Araç Çubuğunun Rengini Özelleştir",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "İkon Rengi",
+		"description": "Label of customIconColor option"
+	},
+	"optionDblClickLabel": {
+		"message": "Çift Tıklamayla İndir",
+		"description": "Label of dblClick option"
+	},
+	"optionUseCacheLabel": {
+		"message": "Resimleri Tarayıcı Önbelleğinden İndirmeye Çalış",
+		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "Eklenti resmi indirme yöneticisine göndermeden önce önbellekten almaya çalışacak, eğer resim önbellekte değilse fark edilir bir gecikmeye yol açabilir.",
+		"description": "Help text of useCache option"
+	},
+	"optionUseExpressionLabel": {
+		"message": "Dosya İsmi Kalıbında Basit İfadeler Kullan",
+		"description": "Label of useExpression option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "Varsayılan Dosya Adı",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "Varsayılan Uzantı",
+		"description": "Label of defaultExt"
+	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "Resim Önizlemesinin Altında Boyutunu Göster.",
+		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
+	"optionEnabledLabel": {
+		"message": "\"Tek Resim İndir\" Özelliğini Etkinleştir",
+		"description": "Label of enabled option"
+	},
+	"optionFilenameMaxLengthLabel": {
+		"message": "Dosya Adının Maksimum Uzunluğu",
+		"description": "Label of filenameMaxLength option"
+	},
+	"optionFilenameConflictActionLabel": {
+		"message": "Dosya Adı Çakışmasını Engelle",
+		"description": "Label of filenameConflictAction option"
+	},
+	"optionFilenameConflictActionHelp": {
+		"message": "Aynı anda aynı isimle indirilen birden çok dosya varsa indirme başarısız olabilir. Özelliklede toplu indirmede uygun dosya adı kalıbı kullanarak çakışmalardan kaçınmak en güvenlisidir.",
+		"description": "Help text of filenameConflictAction option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "Tek Resim İndir",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "Bu seçenekler toplu indirmeler için geçerli değil. Toplu indirme ayarları toplu indirme arayüzünde toplanmış durumda.",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "Firefox'un varsayılan indirilenler klasörüne bağlı dosya adı kalıbını ayarlayın",
+		"description": "Label of filenamePattern option"
+	},
+	"optionFilenamePatternHelpHTML": {
+		"message": "İsim kalıbı alt klasör içerebilir ($SEPARATOR$ ile ayrılarak).",
+		"description": "Help text of filenamePattern option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>/</code>"
+			}
+		}
+	},
+	"optionIsolateTabsLabel": {
+		"message": "Dosya isimlerini oluştururken sekmeleri birbirinden ayır.",
+		"description": "Label of isolateTabs option"
+	},
+	"optionIsolateTabsHelpHTML": {
+		"message": "Eğer bu seçenek işaretlenirse dosyanın adı geçerli sekmeye göre değil, resimin bulunduğu sekmeye göre düzenlenir. Bu <code>page...</code> ve <code>index</code> değişkenlerini etkiler.",
+		"description": "Help text of isolateTabs option"
+	},
+	"optionLearnMoreLink": {
+		"message": "Daha fazla öğren",
+		"description": "'Learn more' link in option page"
+	},
+	"optionSaveAsLabel": {
+		"message": "Varsayılan indirilenler klasörünü kullanmak yerine görüntüyü nereye kaydedeceğimi sor.",
+		"description": "Label of saveAs option"
+	},
+	"optionSaveAsHelp": {
+		"message": "Bu seçenek işaretliyse dosya adı kalıbındaki alt dosya kısmını kaldırmalısın!",
+		"description": "Help text of saveAs option"
+	},
+	"optionDragndropLabel": {
+		"message": "Sürükleyip bırakarak indir",
+		"description": "Label of dragndrop option"
+	},
+	"optionSingleClickLabel": {
+		"message": "Tek tıkla indir",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "Resmin üzerinde bir indirme düğmesi göster",
+		"description": "Label of downloadButton option"
+	},
+	"optionDownloadButtonDelayLabel": {
+		"message": "Düğmeyi göstermeden önceki geçikme (milisaniye)",
+		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "Düğmeyi gizlemeden önceki geçikme (milisaniye)",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinWidth": {
+		"message": "İndirme düğmesini tetiklemek için gereken minimum genişlik",
+		"description": "Label of downloadButtonMinWidth option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "İndirme düğmesini tetiklemek için gereken minimum yükseklik",
+		"description": "Label of downloadButtonMinHeight option"
+	},
+	"optionDownloadButtonPositionHorizontalLabel": {
+		"message": "Yatay Pozisyon",
+		"description": "Label of downloadButtonPositionHorizontal option"
+	},
+	"optionDownloadButtonPositionHorizontalLeftOutside": {
+		"message": "Solda, resimin dışında",
+		"description": "Label of LEFT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalLeftInside": {
+		"message": "Solda, resimin içinde",
+		"description": "Label of LEFT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalCenter": {
+		"message": "Merkezde",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionHorizontalRightInside": {
+		"message": "Sağda, resimin içinde",
+		"description": "Label of RIGHT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalRightOutside": {
+		"message": "Sağda, resimin dışında",
+		"description": "Label of RIGHT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalLabel": {
+		"message": "Dikey Pozisyon",
+		"description": "Label of downloadButtonPositionVertical option"
+	},
+	"optionDownloadButtonPositionVerticalTopOutside": {
+		"message": "Üstte, resimin dışında",
+		"description": "Label of TOP_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalTopInside": {
+		"message": "Üstte, resimin içinde",
+		"description": "Label of TOP_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalCenter": {
+		"message": "Merkezde",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionVerticalBottomInside": {
+		"message": "Altta, resimin içinde",
+		"description": "Label of BOTTOM_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalBottomOutside": {
+		"message": "Altta, resimin dışında",
+		"description": "Label of BOTTOM_OUTSIDE position"
+	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "Buton büyüklüğü",
+		"description": "Label of downloadButtonSize option"
+	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "Unicode gliflerine özel karakterler kullanmaktan kaçın.",
+		"description": "Label of escapeWithUnicode option"
+	},
+	"optionAdvancedTitle": {
+		"message": "Gelişmiş",
+		"description": "Title of advanced options"
+	},
+	"optionSrcAlternativeLabelHTML": {
+		"message": "Resim URL'si içeren HTML'lerin diğer öznitellikleri ($SEPARATOR$ ile ayrılmış)",
+		"description": "Label of srcAlternative option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>,</code>"
+			}
+		}
+	},
+	"optionUrlMapLabel": {
+		"message": "URL'yi regexp ile dönüştür",
+		"description": "Label of urlMap option"
+	},
+	"optionBlacklistLabel": {
+		"message": "Image Picka'yı bu alan adlarında devre dışı bırak. (Her satır başına bir alan adı)",
+		"description": "Label of blacklist option"
+	},
+	"pickerMinWidthLabel": {
+		"message": "Genişlik",
+		"description": "Label of minWith filter in image picker"
+	},
+	"pickerMinWidthHelp": {
+		"message": "Minimum genişlik (piksel)",
+		"description": "Help text of minWidth filter in image picker"
+	},
+	"pickerMinHeightLabel": {
+		"message": "Yükseklik",
+		"description": "Label of minHeight filter in image picker"
+	},
+	"pickerMinHeightHelp": {
+		"message": "Minimum yükseklik (piksel)",
+		"description": "Help text of minHeight filter in image picker"
+	},
+	"pickerMinFileSizeLabel": {
+		"message": "Dosya Boyutu",
+		"description": "Label of minFileSize filter in image picker"
+	},
+	"pickerMinFileSizeHelp": {
+		"message": "Minimum dosya boyutu (KB)",
+		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeIncludeLabel": {
+		"message": "Dahil Et",
+		"description": "Label of 'include' option of matchType filter in image picker"
+	},
+	"pickerMatchTypeExcludeLabel": {
+		"message": "Dışında Bırak",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerMatchUrlLabel": {
+		"message": "URL",
+		"description": "Label of matchUrl filter in image picker"
+	},
+	"pickerMatchUrlHelp": {
+		"message": "Düzenli ifade",
+		"description": "Help text of matchUrl filter in image picker"
+	},
+	"pickerPreviewMaxHeightHelp": {
+		"message": "Resim önizlemesinin maksimum yüksekliği",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "Dosya adı kalıbı",
+		"description": "Label of filenamePatternBatch option in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "Sekmeleri kapat",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "Seçimi tersine çevir",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "Kaydet",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "URL'leri kopyala",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCopyUrlCopied": {
+		"message": "Kopyalandı!",
+		"description": "'Copied!' button shown after successfully copied"
+	},
+	"pickerActionCancel": {
+		"message": "İptal Et",
+		"description": "'Cancel' button in image picker"
+	}
+}

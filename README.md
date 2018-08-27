@@ -150,6 +150,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.5 (Aug 27, 2018)
+
+	- Locale: add Turkish translation. By [Gökhan Şimşek](gokhan_simsek_16@hotmail.com).
+
 * 0.8.4 (Aug 20, 2018)
 
 	- Local: update fr translation.
