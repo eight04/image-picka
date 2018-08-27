@@ -164,8 +164,9 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
-* 0.8.5 (Next)
+* 0.8.5 (Aug 27, 2018)
 
+	- Fix: remove zero width spaces.
 	- Locale: add Turkish translation. By [Gökhan Şimşek](mailto:gokhan_simsek_16@hotmail.com).
 	- Locale: update Chinese translation.
 
