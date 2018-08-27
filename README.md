@@ -22,6 +22,20 @@ Features
 * Download from browser cache.
 * Transform URLs with find-and-replace.
 
+Installation
+------------
+
+### Firefox
+
+[Install from addons.mozilla.org](https://addons.mozilla.org/firefox/addon/image-picka/).
+
+### Chrome
+
+This extension can be installed on Chrome, but it is not hosted on Chrome Webstore. You have to install the extension manually:
+
+1. Download and extract the [ZIP file](https://github.com/eight04/image-picka/archive/master.zip).
+2. [Install the `extension` folder as an unpacked extension](https://developer.chrome.com/extensions/getstarted#manifest).
+
 Filename pattern
 ----------------
 
