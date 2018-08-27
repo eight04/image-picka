@@ -44,11 +44,11 @@
 		"description": "Help text of browserAction option"
 	},
 	"optionCollectFromFramesLabel": {
-		"message": "递归地从 frame 中收集图像。",
+		"message": "递归地从框架中收集图像。",
 		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
-		"message": "添加“抓取图像...”到右键菜单",
+		"message": "添加“抓取...的标签页图像”动作到右键菜单",
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomIconLabel": {
@@ -83,6 +83,10 @@
 		"message": "默认扩展名",
 		"description": "Label of defaultExt"
 	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "在缩略图下方显示图像大小。",
+		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
 	"optionEnabledLabel": {
 		"message": "启用“下载单张图像”功能",
 		"description": "Label of enabled option"
@@ -96,7 +100,7 @@
 		"description": "Label of filenameConflictAction option"
 	},
 	"optionFilenameConflictActionHelp": {
-		"message": "如果同时下载多个同名文件，则可能导致下载失败。最好使用适当的文件名模式来避免文件名冲突，特别是在批量下载时。",
+		"message": "如果同时下载了多个同名的文件，可能导致下载失败。最佳方式是使用适当的文件名模式来避免文件名冲突，批量下载时尤为如此。",
 		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
@@ -104,7 +108,7 @@
 		"description": "Title of download single image options"
 	},
 	"optionDownloadSingleImageHelp": {
-		"message": "这些设置不适用批量下载。批量下载设置在批量下载界面中配置。",
+		"message": "这些设置不适用批量下载。“批量下载”设置在下方配置。",
 		"description": "Help text of download single image option"
 	},
 	"optionFilenamePatternLabel": {
@@ -137,7 +141,7 @@
 		"description": "Label of saveAs option"
 	},
 	"optionSaveAsHelp": {
-		"message": "如果选中此选项，您应该移除文件名模式中的子目录部分。",
+		"message": "如果选中此选项，您应该移除文件名模式中的子文件夹部分。",
 		"description": "Help text of saveAs option"
 	},
 	"optionDragndropLabel": {
@@ -215,6 +219,14 @@
 	"optionDownloadButtonPositionVerticalBottomOutside": {
 		"message": "下，图像外部",
 		"description": "Label of BOTTOM_OUTSIDE position"
+	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "按钮大小",
+		"description": "Label of downloadButtonSize option"
+	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "将特殊字符转换为 Unicode 字形。",
+		"description": "Label of escapeWithUnicode option"
 	},
 	"optionAdvancedTitle": {
 		"message": "高级",
@@ -302,7 +314,7 @@
 		"description": "'Copy URLs' button in image picker"
 	},
 	"pickerActionCopyUrlCopied": {
-		"message": "已复制!",
+		"message": "已复制！",
 		"description": "'Copied!' button shown after successfully copied"
 	},
 	"pickerActionCancel": {
