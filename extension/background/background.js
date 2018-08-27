@@ -609,7 +609,7 @@ const escapeFilename = (() => {
 	};
 	
 	return name => {
-		name = name.trim().replace(rx, escape).replace(/\s+/g, " ");
+		name = name.trim().replace(rx, escape).replace(/\s+/g, " ").replace(/\u200b/g, "");
 		const maxLength = pref.get("filenameMaxLength");
 		if (name.length > maxLength) {
 			name = name.slice(0, maxLength).trim();
