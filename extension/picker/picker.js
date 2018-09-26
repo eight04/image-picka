@@ -47,7 +47,11 @@ function init(req) {
 		inputs = form.querySelectorAll(".toolbar input, .toolbar select");
 	pref.bindElement(form, inputs, true);
 	
-	pref.ready().then(() => initFilter(container, getImages()));
+	pref.ready()
+		.then(() => {
+			initFilter(container, getImages());
+			initUI();
+		});
 	
 	var handler = {
 		invert() {
@@ -100,6 +104,19 @@ function init(req) {
 	
 	function getImages() {
 		return [].concat(...req.tabs.map(t => t.images));
+	}
+}
+
+function initUI() {
+	pref.onChange(changes => {
+		if (changes.previewMaxHeightUpperBound != null) {
+			update();
+		}
+	});
+	update();
+	
+	function update() {
+		document.querySelector("#previewMaxHeight").max = pref.get("previewMaxHeightUpperBound");
 	}
 }
 
