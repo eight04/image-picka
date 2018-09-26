@@ -56,6 +56,9 @@ const download = function() {
 	browser.downloads.onErased.addListener(onErased);
 	
 	function onChanged(delta) {
+		if (delta.error) {
+			notifyError(delta.error.current);
+		}
 		if (!objUrls.has(delta.id)) return;
 		if (delta.canResume && !delta.canResume.current ||
 			delta.state && delta.state.current === "complete"
