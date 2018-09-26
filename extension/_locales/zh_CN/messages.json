@@ -91,10 +91,6 @@
 		"message": "启用“下载单张图像”功能",
 		"description": "Label of enabled option"
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "文件名最大长度",
-		"description": "Label of filenameMaxLength option"
-	},
 	"optionFilenameConflictActionLabel": {
 		"message": "处理文件名冲突",
 		"description": "Label of filenameConflictAction option"

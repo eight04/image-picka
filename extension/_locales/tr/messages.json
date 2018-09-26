@@ -91,10 +91,6 @@
 		"message": "\"Tek Resim İndir\" Özelliğini Etkinleştir",
 		"description": "Label of enabled option"
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "Dosya Adının Maksimum Uzunluğu",
-		"description": "Label of filenameMaxLength option"
-	},
 	"optionFilenameConflictActionLabel": {
 		"message": "Dosya Adı Çakışmasını Engelle",
 		"description": "Label of filenameConflictAction option"

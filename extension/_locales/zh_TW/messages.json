@@ -51,10 +51,6 @@
 		"message": "預設的副檔名",
 		"description": "Label of defaultExt"
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "檔案名稱的最大長度",
-		"description": "Label of filenameMaxLength option"
-	},
 	"optionDownloadSingleImageTitle": {
 		"message": "下載單一圖片",
 		"description": "Title of download single image options"

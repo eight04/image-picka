@@ -95,10 +95,6 @@
 		"message": "Activer la fonction de téléchargement d’une image unique",
 		"description": "Label of enabled option"
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "Longueur maximale du nom de fichier :",
-		"description": "Label of filenameMaxLength option"
-	},
 	"optionFilenameConflictActionLabel": {
 		"message": "Traitement des conflits de nom :",
 		"description": "Label of filenameConflictAction option"
