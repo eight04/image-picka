@@ -34,6 +34,7 @@ var pref = function(){
 		singleClickAlt: true,
 		srcAlternative: "data-src, data-gifsrc, gifsrc",
 		previewMaxHeight: 200,
+		previewMaxHeightUpperBound: 200,
 		urlMap: "",
 		useCache: false,
 		useExpression: false,

@@ -67,6 +67,10 @@
 		"message": "Download with double click",
 		"description": "Label of dblClick option"
 	},
+	"optionPreviewMaxHeightUpperBoundLabel": {
+		"message": "The maximum value of the thumbnail size slider",
+		"description": "Label of previewMaxHeightUpperBound option"
+	},
 	"optionUseCacheLabel": {
 		"message": "Try to download images from browser cache",
 		"description": "Label of useCache option"
