@@ -164,6 +164,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.8.6 (Sep 26, 2018)
+
+	- Add: `previewMaxHeightUpperBound` option.
+	- Add: display notifications for download errors.
+	- Change: replace `filenameMaxLength` with `variableMaxLength`.
+
 * 0.8.5 (Aug 27, 2018)
 
 	- Fix: remove zero width spaces.
