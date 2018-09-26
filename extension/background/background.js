@@ -590,7 +590,7 @@ function downloadImage({url, env, tabId}) {
 		.catch(notifyDownloadError);
 }
 
-const escapeFilename = (() => {
+const escapeVariable = (() => {
 	const table = {
 		"/": "／",
 		"\\": "＼",
@@ -613,7 +613,7 @@ const escapeFilename = (() => {
 	
 	return name => {
 		name = name.trim().replace(rx, escape).replace(/\s+/g, " ").replace(/\u200b/g, "");
-		const maxLength = pref.get("filenameMaxLength");
+		const maxLength = pref.get("variableMaxLength");
 		if (name.length > maxLength) {
 			name = name.slice(0, maxLength).trim();
 		}
@@ -668,7 +668,7 @@ function compileStringTemplate(template) {
 			if (typeof text === "string") {
 				return text;
 			}
-			return escapeFilename(String(text(context)));
+			return escapeVariable(String(text(context)));
 		}).join("")
 	);
 }

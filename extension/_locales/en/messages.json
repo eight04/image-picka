@@ -95,9 +95,9 @@
 		"message": "Enable \"Download Single Image\" Feature",
 		"description": "Label of enabled option"
 	},
-	"optionFilenameMaxLengthLabel": {
-		"message": "Max length of the filename",
-		"description": "Label of filenameMaxLength option"
+	"optionVariableMaxLengthLabel": {
+		"message": "Max length of each variable in the filename pattern",
+		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
 		"message": "Handle filename conflict",
