@@ -67,6 +67,10 @@
 		"message": "Télécharger par double-clic",
 		"description": "Label of dblClick option"
 	},
+	"optionPreviewMaxHeightUpperBoundLabel": {
+		"message": "Taille maximale des miniatures :",
+		"description": "Label of previewMaxHeightUpperBound option"
+	},
 	"optionUseCacheLabel": {
 		"message": "Essayer de télécharger une image depuis le cache du navigateur",
 		"description": "Label of useCache option"
@@ -94,6 +98,10 @@
 	"optionEnabledLabel": {
 		"message": "Activer la fonction de téléchargement d’une image unique",
 		"description": "Label of enabled option"
+	},
+	"optionVariableMaxLengthLabel": {
+		"message": "Longueur maximale de chaque variable du motif de nom de fichier :",
+		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
 		"message": "Traitement des conflits de nom :",
