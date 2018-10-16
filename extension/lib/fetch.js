@@ -27,8 +27,8 @@ function fetchBlob(url) {
 	}
 	
 	function fetchBlobChrome() {
-		// in Chrome we use no-cors + force-cache
-		return fetch(url, {mode: "no-cors", cache: "force-cache"})
+		// in Chrome we hit the cache with fetch?
+		return fetch(url, {mode: "cors", cache: "force-cache"})
 			.then(r => r.blob());
 	}
 }
