@@ -47,6 +47,10 @@
 		"message": "Right click on the toolbar button for other actions.",
 		"description": "Help text of browserAction option"
 	},
+	"optionCloseTabsAfterSaveLabel": {
+		"message": "Close tabs after saving",
+		"description": "Label of closeTabsAfterSave option"
+	},
 	"optionCollectFromFramesLabel": {
 		"message": "Collect images from frames recursively.",
 		"description": "Label of collectFromFrames option"
