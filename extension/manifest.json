@@ -28,6 +28,7 @@
 			"vendor/webext-menus/webext-menus.min.js",
 			"lib/pref.js",
 			"lib/fetch.js",
+			"background/create-tab.js"
 			"background/background.js"
 		]
 	},
@@ -40,7 +41,9 @@
 			"js": [
 				"vendor/webextension-polyfill/browser-polyfill.min.js",
 				"lib/pref.js",
-				"content/dragndrop.js"
+				"content/image-src.js",
+				"content/dragndrop.js",
+				"content/content.js"
 			],
 			"run_at": "document_start"
 		}

@@ -1,15 +1,7 @@
 /* global pref fetchBlob */
 
-browser.runtime.onMessage.addListener(message => {
-	switch (message.method) {
-		case "init":
-			init(message);
-			return false;
-	}
-});
-
-// tell background that the tab is ready
-browser.runtime.sendMessage({method: "ping"});
+browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId})
+	.then(init);
 
 function init(req) {
 	var container = document.querySelector(".main-container"),

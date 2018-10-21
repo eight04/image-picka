@@ -1,4 +1,4 @@
-/* global pref fetchBlob webextMenus expressionEval */
+/* global pref fetchBlob webextMenus expressionEval createTabAndWait */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -14,6 +14,8 @@ const MENU_ACTIONS = {
 		handler: pickImagesToRightNoCurrent
 	}
 };
+let INC = 0;
+const batches = new Map;
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -27,6 +29,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 				message.tabId = sender.tab.id;
 			}
 			return closeTab(message);
+		case "getBatchData":
+			return Promise.resolve(batches.get(message.batchId));
 	}
 });
 
@@ -277,84 +281,98 @@ function createDynamicIcon({file, enabled, onupdate}) {
 	return {update};
 }
 
-// inject content/pick-images.js to the page
-function pickImages(tabId, frameId = 0, ignoreImages = false) {
-	return executeScript().then(results => {
-		results = results.filter(Boolean);
-		if (!results.length) {
-			throw new Error("results is empty");
-		}
-		return Object.assign({}, results[0], {
-			tabId,
-			ignoreImages,
-			images: [].concat(...results.map(r => r.images))
-		});
-	});
-	
-	function executeScript() {
-		// frameId, allFrames can't be used together in Firefox
-		// https://bugzilla.mozilla.org/show_bug.cgi?id=1454342
-		const options = {
-			// https://github.com/eight04/image-picka/issues/100
-			code: `typeof pickImages === "function" ? pickImages(${ignoreImages}) : null`,
-			frameId: frameId,
-			allFrames: pref.get("collectFromFrames"),
-			runAt: "document_start"
-		};
-		if (options.frameId === 0) {
-			delete options.frameId;	
-		} else if (!options.allFrames) {
-			delete options.allFrames;
-		} else {
-			return browser.permissions.request({permissions: ["webNavigation"]})
-				.then(success => {
-					if (!success) {
-						throw new Error("webNavigation permission is required for iframe information");
-					}
-				})
-				.then(() => browser.webNavigation.getAllFrames({tabId}))
-				.then(frames => {
-					// build relationship
-					const tree = new Map;
-					for (const frame of frames) {
-						if (frame.errorOccurred) {
-							continue;
-						}
-						if (frame.parentFrameId >= 0) {
-							if (!tree.has(frame.parentFrameId)) {
-								tree.set(frame.parentFrameId, []);
-							}
-							tree.get(frame.parentFrameId).push(frame.frameId);
-						}
-					}
-					// collect child frames
-					const collected = [];
-					(function collect(id) {
-						collected.push(id);
-						const children = tree.get(id);
-						if (children) {
-							children.forEach(collect);
-						}
-					})(frameId);
-					return Promise.all(collected.map(frameId => {
-						const o = Object.assign({}, options, {frameId});
-						delete o.allFrames;
-						return browser.tabs.executeScript(tabId, o);
-					}));
+function pickImages(tabId, frameId = 0) {
+	const result = {
+		tabId,
+		mainFrameId: frameId,
+		frames: [],
+		env: null
+	};
+	return Promise.all([
+		getImages(),
+		getEnv(),
+		pref.get("collectFromFrames") && getImagesFromChildFrames()
+	]).then(() => result);
+		
+	function getImages() {
+		return browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
+			.then(images => {
+				result.frames.push({
+					frameId,
+					images
 				});
-		}
-		return browser.tabs.executeScript(tabId, options);
+			});
+	}	
+	
+	function getEnv() {
+		return browser.tabs.sendMessage(tabId, {method: "getEnv"}, {frameId})
+			.then(env => {
+				result.env = env;
+			});
+	}
+	
+	function getImagesFromChildFrames() {
+		return getChildFrames()
+			.then(frameIds =>
+				Promise.all(frameIds.map(frameId =>
+					browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
+						.then(images => {
+							result.frames.push({
+								frameId,
+								images
+							});
+						})
+						// https://github.com/eight04/image-picka/issues/100
+						.catch(console.warn)
+				))
+			);
+	}
+	
+	function getChildFrames() {
+		return browser.permissions.request({permissions: ["webNavigation"]})
+			.then(success => {
+				if (!success) {
+					throw new Error("webNavigation permission is required for iframe information");
+				}
+			})
+			.then(() => browser.webNavigation.getAllFrames({tabId}))
+			.then(frames => {
+				// build relationship
+				const tree = new Map;
+				for (const frame of frames) {
+					if (frame.errorOccurred) {
+						continue;
+					}
+					if (frame.parentFrameId >= 0) {
+						if (!tree.has(frame.parentFrameId)) {
+							tree.set(frame.parentFrameId, []);
+						}
+						tree.get(frame.parentFrameId).push(frame.frameId);
+					}
+				}
+				// collect child frames
+				const collected = [];
+				(function collect(id) {
+					collected.push(id);
+					const children = tree.get(id);
+					if (children) {
+						children.forEach(collect);
+					}
+				})(frameId);
+				return collected.slice(1);
+			});
 	}
 }
 
 function pickEnv(tabId, frameId = 0) {
-	return pickImages(tabId, frameId, true);
+	return browser.tabs.sendMessage(tabId, {method: "getEnv"}, {frameId})
+		.then(env => ({tabId, env}));
 }
 
 function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
 		.then(result => {
-			return openPicker({tabs: [result], isolateTabs: false}, tab.id);
+			return openPicker({tabs: [result]}, tab.id);
 		})
 		.catch(notifyError);
 }
@@ -368,14 +386,12 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			return Promise.all([
 				excludeCurrent ? pickEnv(tab.id) : pickImages(tab.id),
 				// can't pickImages from about:, moz-extension:, etc
-				...tabsToRight.map(t => pickImages(t.id).catch(console.error))
+				...tabsToRight.map(t => pickImages(t.id).catch(console.warn))
 			]);
 		})
 		.then(results => {
-			results = results.filter(Boolean);
 			return openPicker({
-				tabs: results,
-				isolateTabs: pref.get("isolateTabs")
+				tabs: results
 			}, tab.id);
 		})
 		.catch(notifyError);
@@ -406,78 +422,28 @@ function notifyDownloadError(err) {
 }
 
 function openPicker(req, openerTabId) {
-	if (req.tabs.every(t => t.ignoreImages || !t.images.length)) {
+	if (req.tabs.every(t => !t.images || !t.images.length)) {
 		throw new Error("No images found");
-	}
-	req.method = "init";
-	
-	// remove global duplicated
-	if (!req.isolateTabs) {
-		const set = new Set;
-		for (const tab of req.tabs) {
-			if (!tab.ignoreImages) {
-				tab.images = tab.images.filter(image => {
-					if (set.has(image)) {
-						return false;
-					}
-					set.add(image);
-					return true;
-				});
-			}
-		}
 	}
 	
 	// remap URLs, remove tab duplicated
 	for (const tab of req.tabs) {
-		if (!tab.ignoreImages) {
+		if (tab.images) {
 			tab.images = [...new Set(tab.images.map(urlMap.transform))];
 		}
 	}
-	const options = {
-		url: "/picker/picker.html",
-		openerTabId
-	};
-	return supportOpener()
-		.then(supported => {
-			if (!supported) {
-				delete options.openerTabId;
-				req.opener = openerTabId;
-			}
-			return loadTab(options);
-		})
-		.then(tabId => browser.tabs.sendMessage(tabId, req));
-}
-
-function supportOpener() {
-	return getInfo()
-		.then(info => {
-			if (!info) {
-				return false;
-			}
-			const name = info.name.toLowerCase();
-			const version = Number(info.version.split(".")[0]);
-			return (
-				name === "firefox" && version >= 57 ||
-				name === "chrome" && version >= 18
-			);
-		});
 	
-	function getInfo() {
-		if (browser.runtime.getBrowserInfo) {
-			return browser.runtime.getBrowserInfo();
-		}
-		return new Promise(resolve => {
-			const match = navigator.userAgent.match(/(firefox|chrome)\/([\d.]+)/i);
-			if (match) {
-				resolve({
-					name: match[1],
-					version: match[2]
-				});
-			} else {
-				resolve(null);
-			}
-		});
-	}
+	const batchId = INC++;
+	batches.set(batchId, req);
+	
+	createTabAndWait({
+		url: `/picker/picker.html?batchId=${batchId}`,
+		openerTabId
+	})
+		.then(() => {
+			batches.delete(batchId);
+		})
+		.catch(console.error);
 }
 
 function batchDownload({tabs, isolateTabs}) {
@@ -521,57 +487,6 @@ function closeTab({tabId, opener}) {
 		browser.tabs.update(opener, {active: true});
 	}
 	browser.tabs.remove(tabId);
-}
-
-function loadTab(options) {
-	const cond = condition();
-	const pings = new Set;
-	
-	browser.runtime.onMessage.addListener(onMessage);
-	return browser.tabs.create(options)
-		.then(tab => cond.once(() => pings.has(tab.id)).then(() => {
-			browser.runtime.onMessage.removeListener(onMessage);
-			return tab.id;
-		}));
-		
-	function onMessage(message, sender) {
-		if (message.method === "ping") {
-			pings.add(sender.tab.id);
-			cond.check();
-			return false;
-		}
-	}
-}
-
-function condition() {
-	const pendings = new Set;
-	
-	function check() {
-		for (const cond of pendings) {
-			if (cond.success()) {
-				cond.resolve();
-			} else if (cond.error && cond.error()) {
-				cond.reject();
-			} else {
-				continue;
-			}
-			pendings.delete(cond);
-		}
-	}
-	
-	function once(success, error) {
-		return new Promise((resolve, reject) => {
-			if (success()) {
-				resolve();
-			} else if (error && error()) {
-				reject();
-			} else {
-				pendings.add({success, error, resolve, reject});
-			}
-		});
-	}
-	
-	return {check, once};
 }
 
 function downloadImage({url, env, tabId}) {

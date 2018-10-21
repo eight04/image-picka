@@ -1,99 +1,7 @@
-/* globals pref */
-/* exported pickImages */
+/* global pref getImageSrc */
+/* exported initDownloadSingleImage */
 
-const getImageSrc = (() => {
-	let SRC_PROP = [];
-	
-	update();
-	pref.onChange(change => {
-		if (change.srcAlternative != null) {
-			update();
-		}
-	});
-		
-	function update() {
-		SRC_PROP = pref.get("srcAlternative")
-			.split(",")
-			.map(p => p.trim())
-			.filter(Boolean);
-	}
-	
-	function getSrcFromSrcset(set) {
-		const rules = set.split(/\s*,\s*/).map(rule =>
-			rule.split(/\s+/).reduce((result, token) => {
-				if (token) {
-					let match;
-					if ((match = token.match(/^(\d+)[wx]$/))) {
-						result.scale = +match[1];
-					} else {
-						result.url = token;
-					}
-				}
-				return result;
-			}, {
-				scale: 1
-			})
-		);
-		
-		let maxRule;
-		for (const rule of rules) {
-			if (!maxRule || rule.scale > maxRule.scale) {
-				maxRule = rule;
-			}
-		}
-		return maxRule.url;
-	}
-		
-	return img => {
-		for (const prop of SRC_PROP) {
-			const src = img.getAttribute(prop);
-			if (src) {
-				return new URL(src, location.href).href;
-			}
-		}
-		if (img.src) {
-			return img.src;
-		}
-		let srcset;
-		if (img.srcset) {
-			srcset = img.srcset;
-		} else if (
-			img.previousElementSibling && 
-			img.previousElementSibling.nodeName === "SOURCE" &&
-			img.previousElementSibling.srcset
-		) {
-			srcset = img.previousElementSibling.srcset;
-		}
-		if (srcset) {
-			return getSrcFromSrcset(srcset);
-		}
-	};
-})();
-
-const IS_CHROME = /chrome\/\d+/i.test(navigator.userAgent);
-
-function pickImages(ignoreImages = false) {
-	let images;
-	if (ignoreImages) {
-		images = [];
-	} else {
-		images = [...document.images]
-			.map(getImageSrc)
-			.filter(Boolean)
-			.filter(u => !u.startsWith("moz-extension://"));
-		images = [...new Set(images)];
-	}
-	
-	return {
-		images,
-		env: {
-			pageUrl: location.href,
-			pageTitle: document.title
-		}
-	};
-}
-
-(function() {
+function initDownloadSingleImage({getEnv}) {
 	const EVENT_OPTIONS = {passive: true};	
 	let IS_BLACKLISTED = false;
 	
@@ -242,7 +150,7 @@ function pickImages(ignoreImages = false) {
 		
 		function onDragOver(e) {
 			// https://stackoverflow.com/questions/9534677/html5-drag-and-drop-getdata-only-works-on-drop-event-in-chrome
-			if (e.dataTransfer.getData("imageSrc") || IS_CHROME) {
+			if (e.dataTransfer.getData("imageSrc") || /chrome\/\d+/i.test(navigator.userAgent)) {
 				e.dataTransfer.dropEffect = "copy";
 				e.preventDefault();
 			}
@@ -414,13 +322,5 @@ function pickImages(ignoreImages = false) {
 			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - pref.get("downloadButtonSize")), 0) + "px";
 			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - pref.get("downloadButtonSize")), 0) + "px";
 		}
-	}
-	
-	function getEnv() {
-		return {
-			pageTitle: document.title,
-			pageUrl: location.href
-		};
-	}
-})();
-
+	}	
+}
