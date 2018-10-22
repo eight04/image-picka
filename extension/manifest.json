@@ -28,7 +28,7 @@
 			"vendor/webext-menus/webext-menus.min.js",
 			"lib/pref.js",
 			"lib/fetch.js",
-			"background/create-tab.js"
+			"background/create-tab.js",
 			"background/background.js"
 		]
 	},

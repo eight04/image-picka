@@ -422,7 +422,17 @@ function notifyDownloadError(err) {
 }
 
 function openPicker(req, openerTabId) {
-	if (req.tabs.every(t => !t.images || !t.images.length)) {
+	const hasImages = () => {
+		for (const tab of req.tabs) {
+			for (const frame of tab.frames) {
+				if (frame.images && frame.images.length) {
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+	if (!hasImages()) {
 		throw new Error("No images found");
 	}
 	

@@ -1,30 +1,67 @@
 /* global pref fetchBlob */
 
-browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId})
-	.then(init);
+browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
+	.then(req =>
+		pref.ready()
+			.then(domReady)
+			.then(() => init(req))
+	);
+	
+function domReady() {
+	if (document.readyState !== "loading") {
+		return Promise.resolve();
+	}
+	return new Promise(resolve => {
+		document.addEventListener("DOMContentLoaded", resolve, {once: true});
+	});
+}	
 
-function init(req) {
+function getBatchId() {
+	const id = new URL(location.href).searchParams.get("batchId");
+	return +id;
+}
+
+function init({tabs: originalTabs}) {
 	var container = document.querySelector(".main-container"),
 		frag = document.createDocumentFragment();
+	const tabs = originalTabs.map(tab =>
+		({
+			tabId: tab.tabId,
+			images: [].concat(...tab.frames.map(f => f.images.map(
+				url => createImageCheckbox(url, f.frameId, tab.tabId)
+			))),
+			env: tab.env
+		})
+	);
 		
-	for (const tab of req.tabs) {
-		tab.images = tab.images.map(createImageCheckbox);
-	}
-	if (!req.isolateTabs) {
+	if (!pref.get("isolateTabs")) {
 		const container = document.createElement("div");
 		container.className = "image-container";
-		req.tabs.forEach(t => t.images.forEach(i => container.appendChild(i.el)));
+		const appended = new Set;
+		for (const tab of tabs) {
+			for (const image of tab.images) {
+				if (appended.has(image.url)) {
+					continue;
+				}
+				appended.add(image.url);
+				container.append(image.el);
+				image.load();
+			}
+		}
 		frag.appendChild(container);
 	} else {
 		const ul = document.createElement("ul");
 		ul.className = "tab-container";
-		for (const tab of req.tabs) {
+		for (const tab of tabs) {
 			if (!tab.images.length) {
 				continue;
 			}
 			const li = document.createElement("li");
 			li.className = "image-container";
-			tab.images.forEach(i => li.appendChild(i.el));
+			for (const image of tab.images) {
+				li.appendChild(image.el);
+				image.load();
+			}
 			const counter = document.createElement("div");
 			counter.className = "tab-image-counter";
 			li.appendChild(counter);
@@ -39,25 +76,23 @@ function init(req) {
 		inputs = form.querySelectorAll(".toolbar input, .toolbar select");
 	pref.bindElement(form, inputs, true);
 	
-	pref.ready()
-		.then(() => {
-			initFilter(container, getImages());
-			initUI();
-		});
+	initFilter(container, getImages());
+	initUI();
 	
 	var handler = {
 		invert() {
 			getImages().forEach(i => i.toggleCheck());
 		},
 		save() {
-			const newReq = Object.assign({}, req, {
+			browser.runtime.sendMessage({
 				method: "batchDownload",
-				tabs: req.tabs.map(t => {
-					return Object.assign({}, t, {images: getUrls(t.images)});
-				})
+				tabs: tabs.map(t =>
+					Object.assign({}, t, {
+						images: getUrls(t.images)
+					})
+				)
 			});
-			browser.runtime.sendMessage(newReq);
-			browser.runtime.sendMessage({method: "closeTab", opener: req.opener});
+			browser.runtime.sendMessage({method: "closeTab"});
 		},
 		copyUrl() {
 			const input = document.createElement("textarea");
@@ -81,7 +116,7 @@ function init(req) {
 			}, 1000);
 		},
 		cancel() {
-			browser.runtime.sendMessage({method: "closeTab", opener});
+			browser.runtime.sendMessage({method: "closeTab"});
 		}
 	};
 	
@@ -95,7 +130,7 @@ function init(req) {
 	}
 	
 	function getImages() {
-		return [].concat(...req.tabs.map(t => t.images));
+		return [].concat(...tabs.map(t => t.images));
 	}
 }
 
@@ -148,7 +183,9 @@ function initFilter(container, images) {
 	}
 	
 	function valid({naturalWidth, naturalHeight, src, error, fileSize}) {
-		return !error && 
+		return !error &&
+			fileSize &&
+			// svg has no natural width/height
 			(!naturalWidth || naturalWidth >= conf.minWidth) &&
 			(!naturalHeight || naturalHeight >= conf.minHeight) && 
 			(!conf.matchUrl || 
@@ -167,8 +204,7 @@ function initFilter(container, images) {
 	}
 }
 
-function createImageCheckbox(url) {
-	// const button = document.createElement("button");
+function createImageCheckbox(url, frameId, tabId) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
 	const img = new Image;
@@ -195,7 +231,7 @@ function createImageCheckbox(url) {
 	};
 	
 	img.title = url;
-	img.src = url;
+	
 	// don't drag
 	if (navigator.userAgent.includes("Chrome")) {
 		img.draggable = false;
@@ -204,9 +240,8 @@ function createImageCheckbox(url) {
 	}
 	label.append(input, img);
 	
-	load();
-	
 	return ctrl = {
+		url,
 		el: label,
 		imgEl: img,
 		toggleEnable(enable) {
@@ -219,11 +254,12 @@ function createImageCheckbox(url) {
 		},
 		selected() {
 			return !input.disabled && input.checked;
-		}
+		},
+		load
 	};
 	
 	function load() {
-		Promise.all([loadImage(), loadFileSize(), pref.ready()])
+		Promise.all([loadImage(), loadFileSize()])
 			.then(() => {
 				if (pref.get("displayImageSizeUnderThumbnail")) {
 					const info = document.createElement("span");
@@ -257,6 +293,7 @@ function createImageCheckbox(url) {
 		
 	function loadImage() {
 		return new Promise((resolve, reject) => {
+			img.src = url;
 			img.onload = () => {
 				img.onload = img.onerror = null;
 				resolve();
