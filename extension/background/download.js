@@ -1,7 +1,7 @@
 /* global fetchBlob */
-/* exported downloadAndWait */
+/* exported download */
 
-function downloadAndWait(options) {
+function download(options, wait = false) {
 	const {resolve, reject, promise} = deferred();
 	browser.downloads.onChanged.addListener(handleChange);
 	let blobUrl;
@@ -10,7 +10,10 @@ function downloadAndWait(options) {
 		reject(err);
 		cleanup();
 	});
-	return promise;
+	if (wait) {
+		return promise;
+	}
+	return getDownloadId;
 	
 	function tryFetchBlob() {
 		const blob = options.blob;

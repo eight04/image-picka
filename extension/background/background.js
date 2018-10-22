@@ -1,5 +1,5 @@
-/* global pref fetchBlob webextMenus expressionEval createTabAndWait urlMap 
-	downloadAndWait */
+/* global pref webextMenus expressionEval createTabAndWait urlMap 
+	download */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -53,76 +53,6 @@ pref.ready().then(() => {
 		});
 	}
 });
-
-const download = function() {
-	const objUrls = new Map;
-	
-	browser.downloads.onChanged.addListener(onChanged);
-	browser.downloads.onErased.addListener(onErased);
-	
-	function onChanged(delta) {
-		if (delta.error) {
-			notifyError(delta.error.current);
-		}
-		if (!objUrls.has(delta.id)) return;
-		if (delta.canResume && !delta.canResume.current ||
-			delta.state && delta.state.current === "complete"
-		) {
-			cleanUp(delta.id);
-		}
-	}
-	
-	function onErased(id) {
-		if (!objUrls.has(id)) return;
-		cleanUp(id);
-	}
-	
-	function cleanUp(id) {
-		const objUrl = objUrls.get(id);
-		URL.revokeObjectURL(objUrl);
-		objUrls.delete(id);
-	}
-	
-	function download(url, filename, saveAs = false) {
-		const options = {
-			url, filename, saveAs, conflictAction: pref.get("filenameConflictAction")
-		};
-		return tryFetchCache().then(blob => {
-			if (!blob) {
-				return browser.downloads.download(options);
-			}
-			const objUrl = URL.createObjectURL(blob);
-			options.url = objUrl;
-			return browser.downloads.download(options)
-				.catch(err => {
-					URL.revokeObjectURL(objUrl);
-					throw err;
-				})
-				.then(id => {
-					objUrls.set(id, objUrl);
-					return id;
-				});
-		});
-		
-		function tryFetchCache() {
-			if (url.startsWith("data:") || pref.get("useCache")) {
-				return fetchBlob(url);
-			}
-			return Promise.resolve();
-		}
-	}
-	
-	function wrapError(fn) {
-		return (...args) => {
-			return fn(...args).catch(err => {
-				err.args = args;
-				throw err;
-			});
-		};
-	}
-	
-	return wrapError(download);
-}();
 
 const menus = webextMenus([
 	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
@@ -450,11 +380,16 @@ function batchDownload({tabs, env}) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
-		for (const url of tab.images) {
+		for (const {url, blob} of tab.images) {
 			env.url = url;
 			env.index = i + 1;
 			expandEnv(env);
-			pending.push(download(url, renderFilename(env)));
+			pending.push(download({
+				url,
+				blob: blob || pref.get("useCache"),
+				filename: renderFilename(env),
+				saveAs: pref.get("saveAs")
+			}));
 			i++;
 		}
 	}
@@ -496,7 +431,7 @@ function downloadImage({url, blob, env, tabId}) {
 		expandEnv(env);
 		const filePattern = pref.get("filePattern");
 		const filename = compileStringTemplate(filePattern)(env);
-		return downloadAndWait({
+		return download({
 			url,
 			blob: blob || pref.get("useCache"),
 			filename,

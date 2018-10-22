@@ -88,7 +88,12 @@ function init({tabs: originalTabs, env}) {
 				method: "batchDownload",
 				tabs: tabs.map(t =>
 					Object.assign({}, t, {
-						images: getUrls(t.images)
+						images: t.images
+							.filter(i => i.selected())
+							.map(i => ({
+								url: i.url,
+								blob: isFirefox() && i.blob
+							}))
 					})
 				),
 				env
