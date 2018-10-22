@@ -1,4 +1,5 @@
-/* global pref fetchBlob webextMenus expressionEval createTabAndWait */
+/* global pref fetchBlob webextMenus expressionEval createTabAndWait urlMap 
+	downloadAndWait */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -121,41 +122,6 @@ const download = function() {
 	}
 	
 	return wrapError(download);
-}();
-
-const urlMap = function () {
-	let map = [];
-	
-	pref.ready().then(() => {
-		update();
-		pref.onChange(change => {
-			if (change.urlMap != null) {
-				update();
-			}
-		});
-	});
-	
-	function update() {
-		const lines = pref.get("urlMap").split(/\r?\n/g).filter(line =>
-			line && /\S/.test(line) && !line.startsWith("#"));
-		const newMap = [];
-		for (let i = 0; i < lines.length; i += 2) {
-			newMap.push({
-				search: new RegExp(lines[i], "ig"),
-				repl: lines[i + 1]
-			});
-		}
-		map = newMap;
-	}
-	
-	function transform(url) {
-		for (const t of map) {
-			url = url.replace(t.search, t.repl);
-		}
-		return url;
-	}
-	
-	return {transform};
 }();
 
 const menus = webextMenus([
@@ -513,20 +479,31 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-function downloadImage({url, env, tabId}) {
-	url = urlMap.transform(url);
+function downloadImage({url, blob, env, tabId}) {
 	if (!env) {
 		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
-			.then(env => downloadImage({url, env}));
+			.then(newEnv => {
+				env = newEnv;
+				return doDownload();
+			});
 	}
-	env.date = new Date;
-	env.dateString = createDateString(env.date);
-	env.url = url;
-	expandEnv(env);
-	var filePattern = pref.get("filePattern"),
-		filename = compileStringTemplate(filePattern)(env);
-	download(url, filename, pref.get("saveAs"))
-		.catch(notifyDownloadError);
+	return doDownload();
+	
+	function doDownload() {
+		env.date = new Date;
+		env.dateString = createDateString(env.date);
+		env.url = url;
+		expandEnv(env);
+		const filePattern = pref.get("filePattern");
+		const filename = compileStringTemplate(filePattern)(env);
+		return downloadAndWait({
+			url,
+			blob: blob || pref.get("useCache"),
+			filename,
+			saveAs: pref.get("saveAs")
+		})
+			.catch(notifyDownloadError);
+	}
 }
 
 const escapeVariable = (() => {

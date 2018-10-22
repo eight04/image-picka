@@ -1,7 +1,7 @@
 /* global pref getImageSrc */
 /* exported initDownloadSingleImage */
 
-function initDownloadSingleImage({getEnv}) {
+function initDownloadSingleImage({downloadImage}) {
 	const EVENT_OPTIONS = {passive: true};	
 	let IS_BLACKLISTED = false;
 	
@@ -11,14 +11,6 @@ function initDownloadSingleImage({getEnv}) {
 		initDownloadButton();
 		initClick();
 	});
-	
-	if (window.top == window) {
-		browser.runtime.onMessage.addListener(message => {
-			if (message.method == "getEnv") {
-				return Promise.resolve(getEnv());
-			}
-		});
-	}
 	
 	function createSwitch(test, on, off) {
 		let state = false;
@@ -163,14 +155,6 @@ function initDownloadSingleImage({getEnv}) {
 				e.preventDefault();
 			}
 		}
-	}
-	
-	function downloadImage(url) {
-		browser.runtime.sendMessage({
-			method: "downloadImage",
-			url: url,
-			env: window.top == window ? getEnv() : null
-		});
 	}
 	
 	function initDownloadButton() {
