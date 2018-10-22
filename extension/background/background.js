@@ -372,7 +372,10 @@ function pickEnv(tabId, frameId = 0) {
 function pickImagesFromCurrent(tab, frameId) {
 	pickImages(tab.id, frameId)
 		.then(result => {
-			return openPicker({tabs: [result]}, tab.id);
+			return openPicker({
+				env: result.env,
+				tabs: [result]
+			}, tab.id);
 		})
 		.catch(notifyError);
 }
@@ -390,8 +393,10 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			]);
 		})
 		.then(results => {
+			results = results.filter(Boolean);
 			return openPicker({
-				tabs: results
+				env: results[0].env,
+				tabs: excludeCurrent ? results.slice(1) : results
 			}, tab.id);
 		})
 		.catch(notifyError);
@@ -425,7 +430,7 @@ function openPicker(req, openerTabId) {
 	const hasImages = () => {
 		for (const tab of req.tabs) {
 			for (const frame of tab.frames) {
-				if (frame.images && frame.images.length) {
+				if (frame.images.length) {
 					return true;
 				}
 			}
@@ -438,8 +443,17 @@ function openPicker(req, openerTabId) {
 	
 	// remap URLs, remove tab duplicated
 	for (const tab of req.tabs) {
-		if (tab.images) {
-			tab.images = [...new Set(tab.images.map(urlMap.transform))];
+		const collected = new Set;
+		for (const frame of tab.frames) {
+			const newImages = [];
+			for (const image of frame.images) {
+				if (collected.has(image)) {
+					continue;
+				}
+				collected.add(image);
+				newImages.push(urlMap.transform(image));
+			}
+			frame.images = newImages;
 		}
 	}
 	
@@ -456,9 +470,9 @@ function openPicker(req, openerTabId) {
 		.catch(console.error);
 }
 
-function batchDownload({tabs, isolateTabs}) {
+function batchDownload({tabs, env}) {
 	const date = new Date;
-	const env = Object.assign({}, tabs[0].env, {
+	Object.assign(env, {
 		date,
 		dateString: createDateString(date)
 	});
@@ -466,7 +480,7 @@ function batchDownload({tabs, isolateTabs}) {
 	let i = 0;
 	const pending = [];
 	for (const tab of tabs) {
-		if (isolateTabs) {
+		if (pref.get("isolateTabs")) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
@@ -480,7 +494,7 @@ function batchDownload({tabs, isolateTabs}) {
 	}
 	Promise.all(pending).then(() => {
 		if (pref.get("closeTabsAfterSave")) {
-			tabs.filter(t => !t.ignoreImages).forEach(t => browser.tabs.remove(t.tabId));
+			tabs.forEach(t => browser.tabs.remove(t.tabId));
 		}
 	}, notifyDownloadError);
 }

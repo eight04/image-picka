@@ -21,7 +21,7 @@ function getBatchId() {
 	return +id;
 }
 
-function init({tabs: originalTabs}) {
+function init({tabs: originalTabs, env}) {
 	var container = document.querySelector(".main-container"),
 		frag = document.createDocumentFragment();
 	const tabs = originalTabs.map(tab =>
@@ -34,7 +34,7 @@ function init({tabs: originalTabs}) {
 		})
 	);
 		
-	if (!pref.get("isolateTabs")) {
+	if (!pref.get("isolateTabs") || tabs.length === 1) {
 		const container = document.createElement("div");
 		container.className = "image-container";
 		const appended = new Set;
@@ -90,7 +90,8 @@ function init({tabs: originalTabs}) {
 					Object.assign({}, t, {
 						images: getUrls(t.images)
 					})
-				)
+				),
+				env
 			});
 			browser.runtime.sendMessage({method: "closeTab"});
 		},
