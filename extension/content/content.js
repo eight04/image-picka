@@ -7,6 +7,8 @@
 				return Promise.resolve(getEnv());
 			case "getImages":
 				return Promise.resolve(getImages());
+			case "fetchBlob":
+				return fetchBlob(message.url);
 		}
 	});
 	
@@ -29,7 +31,7 @@
 	}
 	
 	function isFirefox() {
-		return /Firefox\/\d+/.test(navigator.userAgent);
+		return typeof InstallTrigger !== "undefined";
 	}
 
 	// function withBlobUrl(url, callback) {

@@ -127,7 +127,7 @@ function init({tabs: originalTabs, env}) {
 	}
 	
 	function getUrls(images) {
-		return images.filter(i => i.selected()).map(i => i.imgEl.src);
+		return images.filter(i => i.selected()).map(i => i.url);
 	}
 	
 	function getImages() {
@@ -260,7 +260,16 @@ function createImageCheckbox(url, frameId, tabId) {
 	};
 	
 	function load() {
-		Promise.all([loadImage(), loadFileSize()])
+		loadBlob()
+			.then(blob => {
+				ctrl.blob = blob;
+				const {resolve, reject, promise} = deferred();
+				img.onload = resolve;
+				img.onerror = reject;
+				img.src = URL.createObjectURL(blob);
+				img.fileSize = blob.size;
+				return promise;
+			})
 			.then(() => {
 				if (pref.get("displayImageSizeUnderThumbnail")) {
 					const info = document.createElement("span");
@@ -291,26 +300,28 @@ function createImageCheckbox(url, frameId, tabId) {
 				}));
 			});
 	}
-		
-	function loadImage() {
-		return new Promise((resolve, reject) => {
-			img.src = url;
-			img.onload = () => {
-				img.onload = img.onerror = null;
-				resolve();
-			};
-			img.onerror = err => {
-				img.onload = img.onerror = null;
-				reject(err);
-			};
-		});
-	}
 	
-	function loadFileSize() {
-		return fetchBlob(url).then(b => img.fileSize = b.size);
+	function loadBlob() {
+		if (isFirefox()) {
+			return browser.tabs.sendMessage(tabId, {method: "fetchBlob", url}, {frameId});
+		}
+		return fetchBlob(url);
 	}
 }
 
 function formatFileSize(size) {
 	return `${(size / 1024).toFixed(2)} KB`;
+}
+
+function isFirefox() {
+	return typeof InstallTrigger !== "undefined";
+}
+
+function deferred() {
+	const o = {};
+	o.promise = new Promise((resolve, reject) => {
+		o.resolve = resolve;
+		o.reject = reject;
+	});
+	return o;
 }
