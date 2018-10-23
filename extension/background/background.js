@@ -180,7 +180,6 @@ function createDynamicIcon({file, enabled, onupdate}) {
 function pickImages(tabId, frameId = 0) {
 	const result = {
 		tabId,
-		mainFrameId: frameId,
 		frames: [],
 		env: null
 	};
@@ -188,7 +187,16 @@ function pickImages(tabId, frameId = 0) {
 		getImages(),
 		getEnv(),
 		pref.get("collectFromFrames") && getImagesFromChildFrames()
-	]).then(() => result);
+	]).then(() => {
+		// make sure the main frame is the first frame
+		const index = result.frames.findIndex(f => f.frameId === frameId);
+		if (index !== 0) {
+			const mainFrame = result.frames[index];
+			result.frames[index] = result.frames[0];
+			result.frames[0] = mainFrame;
+		}
+		return result;
+	});
 		
 	function getImages() {
 		return browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
