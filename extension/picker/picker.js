@@ -323,7 +323,7 @@ function isFirefox() {
 }
 
 function isChrome() {
-	return window.chrome && window.chrome.webstore;
+	return chrome.app;
 }
 
 function deferred() {
