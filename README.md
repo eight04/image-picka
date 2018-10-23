@@ -164,6 +164,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.0 (Oct 23, 2018)
+
+	- **Change: the extension now would try to fetch the cache in the content script so it would still work when enabling `privacy.firstparty.isolate`.**
+	- Add: put some batch download options to options page.
+	- Add: support `srcset` and `<picture>` element.
+	- Add: support cache option in Chrome.
+	- Locale: update French translation.
+
 * 0.8.6 (Sep 26, 2018)
 
 	- Add: `previewMaxHeightUpperBound` option.
