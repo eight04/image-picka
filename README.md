@@ -164,6 +164,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.1 (Oct 24, 2018)
+
+	- Fix: make sure the permission is requested inside a user action.
+
 * 0.9.0 (Oct 23, 2018)
 
 	- **Change: the extension now would try to fetch the cache in the content script so it would still work when enabling `privacy.firstparty.isolate`.**
