@@ -1,7 +1,7 @@
 /* exported fetchBlob */
 
 function fetchBlob(url) {
-	if (/Firefox\/\d+/.test(navigator.userAgent)) {
+	if (isFirefox()) {
 		return fetchBlobFirefox();
 	}
 	return fetchBlobChrome();
@@ -30,5 +30,9 @@ function fetchBlob(url) {
 		// in Chrome we hit the cache with fetch?
 		return fetch(url, {mode: "cors", cache: "force-cache"})
 			.then(r => r.blob());
+	}
+	
+	function isFirefox() {
+		return typeof InstallTrigger !== "undefined";
 	}
 }

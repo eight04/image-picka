@@ -142,7 +142,7 @@ function initDownloadSingleImage({downloadImage}) {
 		
 		function onDragOver(e) {
 			// https://stackoverflow.com/questions/9534677/html5-drag-and-drop-getdata-only-works-on-drop-event-in-chrome
-			if (e.dataTransfer.getData("imageSrc") || /chrome\/\d+/i.test(navigator.userAgent)) {
+			if (e.dataTransfer.getData("imageSrc") || isChrome()) {
 				e.dataTransfer.dropEffect = "copy";
 				e.preventDefault();
 			}
@@ -306,5 +306,9 @@ function initDownloadSingleImage({downloadImage}) {
 			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - pref.get("downloadButtonSize")), 0) + "px";
 			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - pref.get("downloadButtonSize")), 0) + "px";
 		}
-	}	
+	}
+	
+	function isChrome() {
+		return window.chrome && window.chrome.webstore;
+	}
 }

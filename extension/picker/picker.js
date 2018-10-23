@@ -239,7 +239,7 @@ function createImageCheckbox(url, frameId, tabId) {
 	img.title = url;
 	
 	// don't drag
-	if (navigator.userAgent.includes("Chrome")) {
+	if (isChrome()) {
 		img.draggable = false;
 	} else {
 		img.ondragstart = () => false;
@@ -320,6 +320,10 @@ function formatFileSize(size) {
 
 function isFirefox() {
 	return typeof InstallTrigger !== "undefined";
+}
+
+function isChrome() {
+	return window.chrome && window.chrome.webstore;
 }
 
 function deferred() {
