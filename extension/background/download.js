@@ -20,7 +20,7 @@ function download(options, wait = false) {
 		delete options.blob;
 		let doFetch;
 		// download API in Firefox can't handle cross origin blobs and data urls.
-		if (/^data/.test(options.url) || blob === true) {
+		if (/^data:/.test(options.url) || blob === true) {
 			doFetch = fetchBlob(options.url);
 		} else if (blob) {
 			doFetch = Promise.resolve(blob);

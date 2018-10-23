@@ -388,7 +388,8 @@ function batchDownload({tabs, env}) {
 				url,
 				blob: blob || pref.get("useCache"),
 				filename: renderFilename(env),
-				saveAs: pref.get("saveAs")
+				saveAs: pref.get("saveAs"),
+				conflictAction: pref.get("filenameConflictAction")
 			}));
 			i++;
 		}
@@ -435,7 +436,8 @@ function downloadImage({url, blob, env, tabId}) {
 			url,
 			blob: blob || pref.get("useCache"),
 			filename,
-			saveAs: pref.get("saveAs")
+			saveAs: pref.get("saveAs"),
+			conflictAction: pref.get("filenameConflictAction")
 		})
 			.catch(notifyDownloadError);
 	}
