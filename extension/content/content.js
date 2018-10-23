@@ -34,40 +34,6 @@
 		return typeof InstallTrigger !== "undefined";
 	}
 
-	// function withBlobUrl(url, callback) {
-		// let blobUrl;
-		// return withCleanup(get().then(callback), cleanup)
-			// .catch(console.error);
-		
-		// function get() {
-			// if (!pref.get("useCache")) {
-				// return Promise.resolve();
-			// }
-			// return fetchBlob(url).then(blob => {
-				// blobUrl = URL.createObjectURL(blob);
-				// return blobUrl;
-			// });
-		// }
-		
-		// function cleanup() {
-			// if (blobUrl) {
-				// URL.revokeObjectURL(blobUrl);
-			// }
-		// }
-		
-		// function withCleanup(promise, callback) {
-			// return promise
-				// .then(result => {
-					// callback();
-					// return result;
-				// })
-				// .catch(err => {
-					// callback();
-					// throw err;
-				// });
-		// }
-	// }
-	
 	function getImages() {
 		let images = [...document.images]
 			.map(getImageSrc)
