@@ -233,13 +233,7 @@ function pickImages(tabId, frameId = 0) {
 	}
 	
 	function getChildFrames() {
-		return browser.permissions.request({permissions: ["webNavigation"]})
-			.then(success => {
-				if (!success) {
-					throw new Error("webNavigation permission is required for iframe information");
-				}
-			})
-			.then(() => browser.webNavigation.getAllFrames({tabId}))
+		return browser.webNavigation.getAllFrames({tabId})
 			.then(frames => {
 				// build relationship
 				const tree = new Map;
@@ -273,8 +267,21 @@ function pickEnv(tabId, frameId = 0) {
 		.then(env => ({tabId, env}));
 }
 
+function tryRequestPermission() {
+	if (pref.get("collectFromFrames")) {
+		return browser.permissions.request({permissions: ["webNavigation"]})
+			.then(success => {
+				if (!success) {
+					throw new Error("webNavigation permission is required for iframe information");
+				}
+			});
+	}
+	return Promise.resolve();
+}
+
 function pickImagesFromCurrent(tab, frameId) {
-	pickImages(tab.id, frameId)
+	tryRequestPermission()
+		.then(() => pickImages(tab.id, frameId))
 		.then(result => {
 			return openPicker({
 				env: result.env,
@@ -285,7 +292,8 @@ function pickImagesFromCurrent(tab, frameId) {
 }
 
 function pickImagesToRight(tab, excludeCurrent = false) {
-	browser.windows.get(tab.windowId, {populate: true})
+	tryRequestPermission()
+		.then(() => browser.windows.get(tab.windowId, {populate: true}))
 		.then(({tabs}) => {
 			const tabsToRight = tabs.filter(
 				t => t.index > tab.index && !t.discarded && !t.pinned && !t.hidden
