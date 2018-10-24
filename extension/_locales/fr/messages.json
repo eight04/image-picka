@@ -47,6 +47,10 @@
 		"message": "Les autres commandes sont accessibles par le menu contextuel du bouton.",
 		"description": "Help text of browserAction option"
 	},
+	"optionCloseTabsAfterSaveLabel": {
+		"message": "Fermer les onglets après l’enregistrement",
+		"description": "Label of closeTabsAfterSave option"
+	},
 	"optionCollectFromFramesLabel": {
 		"message": "Collecter les images des cadres récursivement",
 		"description": "Label of collectFromFrames option"
