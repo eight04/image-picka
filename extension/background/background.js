@@ -404,7 +404,6 @@ function batchDownload({tabs, env}) {
 				url,
 				blob: blob || pref.get("useCache"),
 				filename: renderFilename(env),
-				saveAs: pref.get("saveAs"),
 				conflictAction: pref.get("filenameConflictAction")
 			}));
 			i++;
