@@ -164,6 +164,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.2 (Oct 25, 2018)
+
+	- Fix: don't use `saveAs` option in batch download.
+	- Locale: update French translation.
+
 * 0.9.1 (Oct 24, 2018)
 
 	- Fix: make sure the permission is requested inside a user action.
