@@ -177,6 +177,7 @@ Changelog
 * 0.9.3 (Oct 26, 2018)
 
 	- Fix: disable `saveAs` dialog in batch download.
+	- Add: document the permission problem for "collect from frames" option.
 
 * 0.9.2 (Oct 25, 2018)
 
