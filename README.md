@@ -164,6 +164,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.3 (Oct 26, 2018)
+
+	- Fix: disable `saveAs` dialog in batch download.
+
 * 0.9.2 (Oct 25, 2018)
 
 	- Fix: don't use `saveAs` option in batch download.
