@@ -156,6 +156,16 @@ If you are using a dark theme and the icon color doesn't fit your theme, or the 
 
 Reference: https://bugzilla.mozilla.org/show_bug.cgi?id=1377302
 
+Collect images from frames in Firefox <= 60
+-------------------------------------------
+
+The extension needs `webNavigation` permission to collect frames information, and it would try to request it when starting batch download.
+
+In some older versions of Firefox, the browser would generate an unexpected error while requesting the permission. You can try to start a batch download by clicking the icon in the browser toolbar to request the permission manually. The browser won't generate the error anymore after the permission is requested.
+
+See more information about this bug:
+https://github.com/eight04/image-picka/issues/138
+
 Translation
 -----------
 
