@@ -215,7 +215,6 @@ function initFilter(container, images) {
 function createImageCheckbox(url, frameId, tabId) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
-	const img = new Image;
 	let ctrl;
 	
 	label.className = "image-checkbox checked";
@@ -238,15 +237,27 @@ function createImageCheckbox(url, frameId, tabId) {
 		label.classList.toggle("checked", input.checked);
 	};
 	
-	img.title = url;
+	label.title = url;
 	
+	const imgContainer = document.createElement("div");
+	imgContainer.className = "image-checkbox-image-container";
+	
+	const img = new Image;
+	img.className = "image-checkbox-image";
 	// don't drag
 	if (isChrome()) {
 		img.draggable = false;
 	} else {
 		img.ondragstart = () => false;
 	}
-	label.append(input, img);
+	
+	const imgCover = new Image;
+	imgCover.src = url;
+	imgCover.className = "image-checkbox-cover";
+	
+	imgContainer.append(img, imgCover);
+	
+	label.append(input, imgContainer);
 	
 	return ctrl = {
 		url,
@@ -282,13 +293,13 @@ function createImageCheckbox(url, frameId, tabId) {
 					const info = document.createElement("span");
 					info.className = "image-checkbox-info";
 					info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
-					img.parentNode.insertBefore(info, img.nextSibling);
+					label.append(info);
 				} else {
 					if (img.naturalWidth) {
-						img.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+						label.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
 					}
 				}
-				img.title += ` [${formatFileSize(img.fileSize)}]`;
+				label.title += ` [${formatFileSize(img.fileSize)}]`;
 				
 				// default width for svg
 				if (!img.naturalHeight) {
