@@ -188,7 +188,9 @@ function initFilter(container, images) {
 		return null;
 	}
 	
-	function valid({naturalWidth, naturalHeight, src, error, fileSize}) {
+	function valid(image) {
+		const {naturalWidth, naturalHeight, error, fileSize} = image.imgEl;
+		const src = image.url;
 		return !error &&
 			fileSize &&
 			// svg has no natural width/height
@@ -200,7 +202,7 @@ function initFilter(container, images) {
 	}
 	
 	function filter(image) {
-		image.toggleEnable(valid(image.imgEl));
+		image.toggleEnable(valid(image));
 	}
 
 	function filterAll() {
