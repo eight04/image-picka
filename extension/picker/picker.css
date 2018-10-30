@@ -39,11 +39,21 @@
 .image-checkbox input:focus + img {
 	outline: 2px dotted rgba(0, 0, 0, 0.4);
 }
-.image-checkbox img {
+.image-checkbox-image {
 	display: block;
 	max-height: calc(var(--previewMaxHeight, 200) * 1px);
 	margin: 0 auto;
 	position: relative;
+}
+.image-checkbox-image-container {
+	position: relative;
+}
+.image-checkbox-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 .image-checkbox-info {
 	display: block;
