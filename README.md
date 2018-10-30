@@ -174,6 +174,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.4 (Oct 30, 2018)
+
+	- Add: a cover image that is load from the real URL so you can right-click on the image to copy the real image address when batch download.
+	- Fix: URL filter is broken.
+
 * 0.9.3 (Oct 26, 2018)
 
 	- Fix: disable `saveAs` dialog in batch download.
