@@ -1,5 +1,5 @@
-/* global initDownloadSingleImage getImageSrc fetchXHR urlMap
-	contentDisposition pref */
+/* global initDownloadSingleImage getImageSrc pref fetchXHR urlMap
+	contentDisposition */
 
 (() => {
 	browser.runtime.onMessage.addListener(message => {
