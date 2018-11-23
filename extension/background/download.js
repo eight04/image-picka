@@ -27,6 +27,9 @@ function download(options, wait = false) {
 			return Promise.resolve();
 		}
 		return doFetch.then(blob => {
+			if (!blob.size) {
+				throw new Error(`Failed to fetch: ${options.url}`);
+			}
 			blobUrl = URL.createObjectURL(blob);
 			options.url = blobUrl;
 		});
