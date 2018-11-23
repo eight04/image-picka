@@ -1,4 +1,4 @@
-/* global pref fetcher */
+/* global pref fetchXHR */
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
 	.then(req =>
@@ -331,7 +331,7 @@ function createImageCheckbox(url, frameId, tabId) {
 				data = _data;
 				if (!data.blob) {
 					// cache the blob so users can close the tab after that
-					return fetcher.fetchXHR(data.blobUrl, "blob")
+					return fetchXHR(data.blobUrl, "blob")
 						.then(r => r.response)
 						.then(blob => {
 							browser.tabs.sendMessage(tabId, {method: "revokeURL", url: data.blobUrl}, {frameId});

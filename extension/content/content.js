@@ -1,4 +1,4 @@
-/* global initDownloadSingleImage getImageSrc fetcher urlMap */
+/* global initDownloadSingleImage getImageSrc fetchXHR urlMap contentDisposition */
 
 (() => {
 	browser.runtime.onMessage.addListener(message => {
@@ -8,7 +8,7 @@
 			case "getImages":
 				return Promise.resolve(getImages());
 			case "fetchImage":
-				return fetcher.fetchImage(message.url);
+				return fetchImage(message.url);
 			case "revokeURL":
 				return URL.revokeObjectURL(message.url);
 		}
@@ -16,8 +16,12 @@
 	
 	initDownloadSingleImage({downloadImage});
 	
+	function isFirefox() {
+		return typeof InstallTrigger !== "undefined";
+	}
+
 	function downloadImage(url) {
-		fetcher.fetchImage(urlMap.transform(url))
+		fetchImage(urlMap.transform(url))
 			.then(image =>
 				browser.runtime.sendMessage({
 					method: "downloadImage",
@@ -26,6 +30,42 @@
 				})
 			)
 			.catch(console.error);
+	}
+	
+	function fetchImage(url) {
+		return fetchXHR(url, "blob")
+			.then(r => {
+				const image = {
+					url,
+					mime: getMime(r),
+					filename: getFilename(r),
+					size: r.response.size
+				};
+				if (isFirefox()) {
+					image.blob = r.response;
+				} else {
+					image.blobUrl = URL.createObjectURL(r.response);
+				}
+				return image;
+			});
+	}
+
+	function getMime(r) {
+		const contentType = r.getResponseHeader("Content-Type");
+		if (!contentType) {
+			return;
+		}
+		const match = contentType.match(/^\s*([^\s;]+)/);
+		return match && match[1].toLowerCase();
+	}
+
+	function getFilename(r) {
+		try {
+			const value = r.getResponseHeader("Content-Disposition");
+			return contentDisposition.parse(value).parameters.filename;
+		} catch (err) {
+			// pass
+		}
 	}
 	
 	function getImages() {

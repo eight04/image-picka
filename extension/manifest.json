@@ -27,7 +27,6 @@
 			"vendor/expression-eval.min.js",
 			"vendor/webext-menus.min.js",
 			"lib/pref.js",
-			"lib/fetch.js",
 			"background/download.js",
 			"background/create-tab.js",
 			"background/background.js"
@@ -43,8 +42,8 @@
 				"vendor/browser-polyfill.min.js",
 				"vendor/content-disposition.min.js",
 				"lib/pref.js",
-				"lib/fetch.js",
-				"lib/url-map.js",
+				"content/fetch.js",
+				"content/url-map.js",
 				"content/image-src.js",
 				"content/dragndrop.js",
 				"content/content.js"
