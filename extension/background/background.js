@@ -459,7 +459,7 @@ function downloadImage({image, env, tabId}) {
 			filename,
 			saveAs: pref.get("saveAs"),
 			conflictAction: pref.get("filenameConflictAction")
-		})
+		}, true)
 			.catch(notifyDownloadError);
 	}
 }
