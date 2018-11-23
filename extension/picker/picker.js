@@ -289,7 +289,7 @@ function createImageCheckbox(url, frameId, tabId) {
 				const {resolve, reject, promise} = deferred();
 				img.onload = resolve;
 				img.onerror = reject;
-				img.src = data.blobUrl ? data.blobUrl : URL.createObjectURL(data.blob);
+				img.src = data.blobUrl || URL.createObjectURL(data.blob);
 				img.fileSize = data.size;
 				return promise;
 			})

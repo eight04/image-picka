@@ -1,4 +1,5 @@
-/* global initDownloadSingleImage getImageSrc fetchXHR urlMap contentDisposition */
+/* global initDownloadSingleImage getImageSrc fetchXHR urlMap
+	contentDisposition pref */
 
 (() => {
 	browser.runtime.onMessage.addListener(message => {
@@ -21,15 +22,23 @@
 	}
 
 	function downloadImage(url) {
-		fetchImage(urlMap.transform(url))
-			.then(image =>
-				browser.runtime.sendMessage({
+		url = urlMap.transform(url);
+		let image;
+		(pref.get("useCache") ? fetchImage(url) : Promise.resolve({url}))
+			.then(_image => {
+				image = _image;
+				return browser.runtime.sendMessage({
 					method: "downloadImage",
 					image,
 					env: window.top == window ? getEnv() : null
-				})
-			)
-			.catch(console.error);
+				});
+			})
+			.catch(console.error)
+			.then(() => {
+				if (image.blobUrl) {
+					URL.revokeObjectURL(image.blobUrl);
+				}
+			});
 	}
 	
 	function fetchImage(url) {
