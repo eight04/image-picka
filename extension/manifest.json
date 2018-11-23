@@ -42,7 +42,7 @@
 				"vendor/browser-polyfill.min.js",
 				"vendor/content-disposition.min.js",
 				"lib/pref.js",
-				"content/fetch.js",
+				"lib/fetch.js",
 				"content/url-map.js",
 				"content/image-src.js",
 				"content/dragndrop.js",
