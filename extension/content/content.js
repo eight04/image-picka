@@ -41,9 +41,10 @@
 			});
 	}
 	
+	const que = throttle();
 	function fetchImage(url) {
-		return fetchXHR(url, "blob")
-			.then(r => {
+		return que.add(() =>
+			fetchXHR(url, "blob").then(r => {
 				const image = {
 					url,
 					mime: getMime(r),
@@ -56,7 +57,47 @@
 					image.blobUrl = URL.createObjectURL(r.response);
 				}
 				return image;
-			});
+			})
+		);
+	}
+	
+	function throttle(size = 1) {
+		const waiting = [];
+		let running = 0;
+		return {add};
+		
+		function add(fn) {
+			const task = deferred();
+			task.fn = fn;
+			waiting.push(task);
+			deque();
+			return task.promise;
+		}
+		
+		function deque() {
+			if (!waiting.length || running >= size) {
+				return;
+			}
+			const task = waiting.shift();
+			running++;
+			const pending = task.fn();
+			pending.then(task.resolve, task.reject);
+			pending
+				.catch(console.error)
+				.then(() => {
+					running--;
+					deque();
+				});
+		}
+	}
+	
+	function deferred() {
+		const o = {};
+		o.promise = new Promise((resolve, reject) => {
+			o.resolve = resolve;
+			o.reject = reject;
+		});
+		return o;
 	}
 
 	function getMime(r) {
