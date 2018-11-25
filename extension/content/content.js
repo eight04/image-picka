@@ -35,7 +35,7 @@
 			})
 			.catch(console.error)
 			.then(() => {
-				if (image.blobUrl) {
+				if (image && image.blobUrl) {
 					URL.revokeObjectURL(image.blobUrl);
 				}
 			});
