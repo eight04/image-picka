@@ -32,6 +32,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 			return closeTab(message);
 		case "getBatchData":
 			return Promise.resolve(batches.get(message.batchId));
+		case "notifyError":
+			return notifyError(message.error);
 	}
 });
 

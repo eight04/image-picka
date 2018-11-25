@@ -33,7 +33,13 @@
 					env: window.top == window ? getEnv() : null
 				});
 			})
-			.catch(console.error)
+			.catch(err => {
+				browser.runtime.sendMessage({
+					method: "notifyError",
+					error: err.message || String(err)
+				});
+				console.error(err);
+			})
 			.then(() => {
 				if (image && image.blobUrl) {
 					URL.revokeObjectURL(image.blobUrl);
@@ -83,7 +89,7 @@
 			const pending = task.fn();
 			pending.then(task.resolve, task.reject);
 			pending
-				.catch(console.error)
+				.catch(() => {})
 				.then(() => {
 					running--;
 					deque();
