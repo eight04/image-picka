@@ -67,7 +67,7 @@
 		);
 	}
 	
-	function throttle(size = 1) {
+	function throttle(size = 100) {
 		const waiting = [];
 		let running = 0;
 		return {add};
