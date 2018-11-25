@@ -256,7 +256,6 @@ function createImageCheckbox(url, frameId, tabId) {
 	}
 	
 	const imgCover = new Image;
-	imgCover.src = url;
 	imgCover.className = "image-checkbox-cover";
 	
 	imgContainer.append(img, imgCover);
@@ -291,6 +290,7 @@ function createImageCheckbox(url, frameId, tabId) {
 				img.onerror = reject;
 				img.src = data.blobUrl || URL.createObjectURL(data.blob);
 				img.fileSize = data.size;
+				imgCover.src = url;
 				return promise;
 			})
 			.then(() => {
