@@ -160,6 +160,10 @@
 		"message": "Download with drag-n-drop",
 		"description": "Label of dragndrop option"
 	},
+	"optionDragndropHardLabel": {
+		"message": "Override default functionality",
+		"description": "Label of dragndropHard option"
+	},
 	"optionSingleClickLabel": {
 		"message": "Download with single click",
 		"description": "Label of singleClick option"
