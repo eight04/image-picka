@@ -174,6 +174,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.5 (Dec 3, 2018)
+
+  - Add: cancel drop when other buttons are pressed.
+  - Add: validate image URL in batch download UI.
+  - Add: fetch filename from headers.
+
 * 0.9.4 (Oct 30, 2018)
 
 	- Add: a cover image that is load from the real URL so you can right-click on the image to copy the real image address when batch download.
