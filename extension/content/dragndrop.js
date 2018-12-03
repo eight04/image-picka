@@ -151,6 +151,11 @@ function initDownloadSingleImage({downloadImage}) {
 		function onDrop(e) {
 			const imageSrc = e.dataTransfer.getData("imageSrc");
 			if (imageSrc) {
+				if (!isChrome() && e.buttons) {
+					// cancel download when clicking other buttons
+					e.preventDefault();
+					return;
+				}
 				downloadImage(imageSrc);
 				e.preventDefault();
 			}
