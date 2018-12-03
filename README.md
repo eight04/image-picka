@@ -98,7 +98,7 @@ imgsa\.baidu\.com/.+/(\w+\.\w+)$
 imgsrc.baidu.com/forum/pic/item/$1
 
 # discord
-[^/]+\.discordapp\.net/external/[^/]+/(https?)/(.+?)\?.+$
+[^/]+\.discordapp\.net/external/[^/]+/(https?)/(.+?)\?
 ${$1}://${decodeURIComponent($2)}
 
 # twitter
