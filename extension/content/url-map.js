@@ -40,7 +40,7 @@ const urlMap = function () {
   }
 	
 	function transform(url) {
-    return transforms.reduce((t, url) => t(url), url);
+    return transforms.reduce((url, t) => t(url), url);
 	}
 	
 	return {transform};

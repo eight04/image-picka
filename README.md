@@ -99,7 +99,7 @@ imgsrc.baidu.com/forum/pic/item/$1
 
 # discord
 [^/]+\.discordapp\.net/external/[^/]+/(https?)/(.+?)\?.+$
-{$1}://{decodeURIComponent($2)}
+${$1}://${decodeURIComponent($2)}
 
 # twitter
 pbs\.twimg\.com/media/(.+\.\w+)$
@@ -109,7 +109,7 @@ pbs.twimg.com/media/$1:orig
 * Each replace rule includes:
 	- A line of regex.
 	- A line of replacement.
-* If the replacement contains curly braces (`{}`), it would be treated as a JavaScript template string.
+* If the replacement contains template string variables (`${...}`), it would be treated as a JavaScript template string.
 * Lines starting with `#` are ignored.
 * Empty lines are ignored.
 
