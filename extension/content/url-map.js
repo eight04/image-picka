@@ -1,7 +1,7 @@
 /* global pref */
 /* exported urlMap */
 const urlMap = function () {
-	let map = [];
+  let transforms = [];
 	
 	pref.ready().then(() => {
 		update();
@@ -15,21 +15,32 @@ const urlMap = function () {
 	function update() {
 		const lines = pref.get("urlMap").split(/\r?\n/g).filter(line =>
 			line && /\S/.test(line) && !line.startsWith("#"));
-		const newMap = [];
+		const newTransforms = [];
 		for (let i = 0; i < lines.length; i += 2) {
-			newMap.push({
-				search: new RegExp(lines[i], "ig"),
-				repl: lines[i + 1]
-			});
+      newTransforms.push(createTransform(lines[i], lines[i + 1]));
 		}
-		map = newMap;
+		transforms = newTransforms;
 	}
+  
+  function createTransform(search, repl) {
+    if (/\{[^}]+\}/.test(repl)) {
+      const re = new RegExp(search, "i");
+      const fn = Function("$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8",
+        "$9", `return \`${repl}\``);
+      return url => {
+        const match = url.match(re);
+        if (!match) {
+          return url;
+        }
+        return fn(...match);
+      };
+    }
+    const re = new RegExp(search, "ig");
+    return url => url.replace(re, repl);
+  }
 	
 	function transform(url) {
-		for (const t of map) {
-			url = url.replace(t.search, t.repl);
-		}
-		return url;
+    return transforms.reduce((t, url) => t(url), url);
 	}
 	
 	return {transform};
