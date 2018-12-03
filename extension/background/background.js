@@ -1,4 +1,4 @@
-/* global pref webextMenus expressionEval createTabAndWait urlMap 
+/* global pref webextMenus expressionEval createTabAndWait 
 	download */
 
 const MENU_ACTIONS = {
@@ -32,6 +32,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 			return closeTab(message);
 		case "getBatchData":
 			return Promise.resolve(batches.get(message.batchId));
+		case "notifyError":
+			return notifyError(message.error);
 	}
 });
 
@@ -353,7 +355,7 @@ function openPicker(req, openerTabId) {
 		throw new Error("No images found");
 	}
 	
-	// remap URLs, remove tab duplicated
+	// remove duplicated images in the same tab (in different frames)
 	for (const tab of req.tabs) {
 		const collected = new Set;
 		for (const frame of tab.frames) {
@@ -363,7 +365,7 @@ function openPicker(req, openerTabId) {
 					continue;
 				}
 				collected.add(image);
-				newImages.push(urlMap.transform(image));
+				newImages.push(image);
 			}
 			frame.images = newImages;
 		}
@@ -396,13 +398,14 @@ function batchDownload({tabs, env}) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
-		for (const {url, blob} of tab.images) {
+		for (const {url, blob, blobUrl, filename} of tab.images) {
 			env.url = url;
 			env.index = i + 1;
+			env.base = filename;
 			expandEnv(env);
 			pending.push(download({
-				url,
-				blob: blob || pref.get("useCache"),
+				url: blobUrl || url,
+				blob,
 				filename: renderFilename(env),
 				saveAs: false,
 				conflictAction: pref.get("filenameConflictAction")
@@ -410,11 +413,14 @@ function batchDownload({tabs, env}) {
 			i++;
 		}
 	}
-	Promise.all(pending).then(() => {
-		if (pref.get("closeTabsAfterSave")) {
-			tabs.forEach(t => browser.tabs.remove(t.tabId));
-		}
-	}, notifyDownloadError);
+	return Promise.all(pending).then(
+		() => {
+			if (pref.get("closeTabsAfterSave")) {
+				tabs.forEach(t => browser.tabs.remove(t.tabId));
+			}
+		},
+		notifyDownloadError
+	);
 }
 
 function createDateString(date) {
@@ -431,7 +437,7 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-function downloadImage({url, blob, env, tabId}) {
+function downloadImage({image, env, tabId}) {
 	if (!env) {
 		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
 			.then(newEnv => {
@@ -444,17 +450,18 @@ function downloadImage({url, blob, env, tabId}) {
 	function doDownload() {
 		env.date = new Date;
 		env.dateString = createDateString(env.date);
-		env.url = url;
+		env.url = image.url;
+		env.base = image.filename;
 		expandEnv(env);
 		const filePattern = pref.get("filePattern");
 		const filename = compileStringTemplate(filePattern)(env);
 		return download({
-			url,
-			blob: blob || pref.get("useCache"),
+			url: image.blobUrl || image.url,
+			blob: image.blob,
 			filename,
 			saveAs: pref.get("saveAs"),
 			conflictAction: pref.get("filenameConflictAction")
-		})
+		}, true)
 			.catch(notifyDownloadError);
 	}
 }
@@ -549,10 +556,14 @@ function expandEnv(env) {
 	
 	// image filename
 	var base, name, ext;
-	try {
-		base = url.href.match(/([^/]+)\/?$/)[1];
-	} catch (err) {
-		base = pref.get("defaultName");
+	if (env.base) {
+		base = env.base;
+	} else {
+		try {
+			base = url.href.match(/([^/]+)\/?$/)[1];
+		} catch (err) {
+			base = pref.get("defaultName");
+		}
 	}
 	try {
 		[, name, ext] = base.match(/^(.+)(\.(?:jpg|png|gif|jpeg|svg))\b/i);

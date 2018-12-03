@@ -1,4 +1,4 @@
-/* global pref fetchBlob */
+/* global pref fetchXHR */
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
 	.then(req =>
@@ -92,13 +92,17 @@ function init({tabs: originalTabs, env}) {
 							.filter(i => i.selected())
 							.map(i => ({
 								url: i.url,
-								blob: isFirefox() && i.blob
+								blob: isFirefox() ? i.data.blob : null,
+								blobUrl: isFirefox() ? null : i.data.blobUrl,
+								filename: i.data.filename
 							}))
 					})
 				),
 				env
-			});
-			browser.runtime.sendMessage({method: "closeTab"});
+			})
+				.then(() => {
+					browser.runtime.sendMessage({method: "closeTab"});
+				});
 		},
 		copyUrl() {
 			const input = document.createElement("textarea");
@@ -252,7 +256,6 @@ function createImageCheckbox(url, frameId, tabId) {
 	}
 	
 	const imgCover = new Image;
-	imgCover.src = url;
 	imgCover.className = "image-checkbox-cover";
 	
 	imgContainer.append(img, imgCover);
@@ -261,6 +264,7 @@ function createImageCheckbox(url, frameId, tabId) {
 	
 	return ctrl = {
 		url,
+		data: null,
 		el: label,
 		imgEl: img,
 		toggleEnable(enable) {
@@ -278,14 +282,15 @@ function createImageCheckbox(url, frameId, tabId) {
 	};
 	
 	function load() {
-		loadBlob()
-			.then(blob => {
-				ctrl.blob = blob;
+		loadImageData()
+			.then(data => {
+				ctrl.data = data;
 				const {resolve, reject, promise} = deferred();
 				img.onload = resolve;
 				img.onerror = reject;
-				img.src = URL.createObjectURL(blob);
-				img.fileSize = blob.size;
+				img.src = data.blobUrl || URL.createObjectURL(data.blob);
+				img.fileSize = data.size;
+				imgCover.src = url;
 				return promise;
 			})
 			.then(() => {
@@ -319,11 +324,23 @@ function createImageCheckbox(url, frameId, tabId) {
 			});
 	}
 	
-	function loadBlob() {
-		if (isFirefox()) {
-			return browser.tabs.sendMessage(tabId, {method: "fetchBlob", url}, {frameId});
-		}
-		return fetchBlob(url);
+	function loadImageData() {
+		let data;
+		return browser.tabs.sendMessage(tabId, {method: "fetchImage", url}, {frameId})
+			.then(_data => {
+				data = _data;
+				if (!data.blob) {
+					// cache the blob so users can close the tab after that
+					return fetchXHR(data.blobUrl, "blob")
+						.then(r => r.response)
+						.then(blob => {
+							browser.tabs.sendMessage(tabId, {method: "revokeURL", url: data.blobUrl}, {frameId});
+							data.blob = blob;
+							data.blobUrl = URL.createObjectURL(blob);
+						});
+				}
+			})
+			.then(() => data);
 	}
 }
 

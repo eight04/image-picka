@@ -1,4 +1,3 @@
-/* global fetchBlob */
 /* exported download */
 
 function download(options, wait = false) {
@@ -20,14 +19,17 @@ function download(options, wait = false) {
 		delete options.blob;
 		let doFetch;
 		// download API in Firefox can't handle cross origin blobs and data urls.
-		if (/^data:/.test(options.url) || blob === true) {
-			doFetch = fetchBlob(options.url);
+		if (/^data:/.test(options.url)) {
+			doFetch = fetch(options.url).then(r => r.blob());
 		} else if (blob) {
 			doFetch = Promise.resolve(blob);
 		} else {
 			return Promise.resolve();
 		}
 		return doFetch.then(blob => {
+			if (!blob.size) {
+				throw new Error(`Failed to fetch: ${options.url}`);
+			}
 			blobUrl = URL.createObjectURL(blob);
 			options.url = blobUrl;
 		});

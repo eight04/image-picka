@@ -23,12 +23,10 @@
 	],
 	"background": {
 		"scripts": [
-			"vendor/webextension-polyfill/browser-polyfill.min.js",
-			"vendor/expression-eval/expression-eval.min.js",
-			"vendor/webext-menus/webext-menus.min.js",
+			"vendor/browser-polyfill.min.js",
+			"vendor/expression-eval.min.js",
+			"vendor/webext-menus.min.js",
 			"lib/pref.js",
-			"lib/fetch.js",
-			"lib/url-map.js",
 			"background/download.js",
 			"background/create-tab.js",
 			"background/background.js"
@@ -41,10 +39,11 @@
 				"<all_urls>"
 			],
 			"js": [
-				"vendor/webextension-polyfill/browser-polyfill.min.js",
+				"vendor/browser-polyfill.min.js",
+				"vendor/content-disposition.min.js",
 				"lib/pref.js",
 				"lib/fetch.js",
-				"lib/url-map.js",
+				"content/url-map.js",
 				"content/image-src.js",
 				"content/dragndrop.js",
 				"content/content.js"
