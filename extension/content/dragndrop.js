@@ -25,8 +25,12 @@ function initDownloadSingleImage({downloadImage}) {
 			}
 			state = newState;
 		}
+    
+    function current() {
+      return state;
+    }
 		
-		return {update};
+		return {update, current};
 	}
 	
 	function initBlackList() {
@@ -111,6 +115,7 @@ function initDownloadSingleImage({downloadImage}) {
 	}
 	
 	function initDragndrop() {
+    let uninit = () => {};
 		const state = createSwitch(
 			() => pref.get("dragndrop") && !IS_BLACKLISTED && pref.get("enabled"),
 			init, uninit
@@ -118,17 +123,27 @@ function initDownloadSingleImage({downloadImage}) {
 		
 		state.update();
 		pref.onChange(state.update);
+    pref.onChange(change => {
+      if (change.dragndropHard != null && state.current()) {
+        uninit();
+        init();
+      }
+    });
 		
 		function init() {
-			document.addEventListener("dragstart", onDragStart);
-			document.addEventListener("dragover", onDragOver);
-			document.addEventListener("drop", onDrop);
-		}
-		
-		function uninit() {
-			document.removeEventListener("dragstart", onDragStart);
-			document.removeEventListener("dragover", onDragOver);
-			document.removeEventListener("drop", onDrop);
+      const events = [
+        ["dragstart", onDragStart],
+        ["dragover", onDragOver, pref.get("dragndropHard")],
+        ["drop", onDrop]
+      ];
+      for (const args of events) {
+        document.addEventListener(...args);
+      }
+      uninit = () => {
+        for (const args of events) {
+          document.removeEventListener(...args);
+        }
+      };
 		}
 		
 		function onDragStart(e) {
@@ -145,6 +160,9 @@ function initDownloadSingleImage({downloadImage}) {
 			if (e.dataTransfer.getData("imageSrc") || isChrome()) {
 				e.dataTransfer.dropEffect = "copy";
 				e.preventDefault();
+        if (pref.get("dragndropHard")) {
+          e.stopPropagation();
+        }
 			}
 		}
 		
