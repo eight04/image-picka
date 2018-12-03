@@ -281,6 +281,16 @@ function createImageCheckbox(url, frameId, tabId) {
 		load
 	};
 	
+	function validUrl(url) {
+		// make sure the URL is not relative?
+		try {
+			new URL(url);
+			return true;
+		} catch (err) {
+			return false;
+		}
+	}
+	
 	function load() {
 		loadImageData()
 			.then(data => {
@@ -290,6 +300,9 @@ function createImageCheckbox(url, frameId, tabId) {
 				img.onerror = reject;
 				img.src = data.blobUrl || URL.createObjectURL(data.blob);
 				img.fileSize = data.size;
+				if (!validUrl(url)) {
+					throw new Error(`Invalid URL: ${url}`);
+				}
 				imgCover.src = url;
 				return promise;
 			})
