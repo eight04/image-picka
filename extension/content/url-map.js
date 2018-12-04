@@ -25,8 +25,7 @@ const urlMap = function () {
   function createTransform(search, repl) {
     if (/\$\{[^}]+\}/.test(repl)) {
       const re = new RegExp(search, "i");
-      const fn = Function("$0", "$1", "$2", "$3", "$4", "$5", "$6", "$7", "$8",
-        "$9", `return \`${repl}\``);
+      const fn = Function(...fnArgs(), `return \`${repl}\``);
       return url => {
         const match = url.match(re);
         if (!match) {
@@ -42,6 +41,12 @@ const urlMap = function () {
 	function transform(url) {
     return transforms.reduce((url, t) => t(url), url);
 	}
+  
+  function* fnArgs() {
+    for (let i = 0; i < 10; i++) {
+      yield `$${i}=""`;
+    }
+  }
 	
 	return {transform};
 }();
