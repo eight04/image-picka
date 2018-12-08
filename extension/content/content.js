@@ -41,18 +41,38 @@
 			})
 			.then(() => {
 				if (image && image.blobUrl) {
-					URL.revokeObjectURL(image.blobUrl);
+          if (image.fromBackground) {
+            browser.runtime.sendMessage({
+              method: "revokeURL",
+              url: image.blobUrl
+            });
+          } else {
+            URL.revokeObjectURL(image.blobUrl);
+          }
 				}
 			});
 	}
   
   function fetchImageData(url) {
-    return fetchImage(url).then(data => {
-      if (!isFirefox()) {
-        data.blobUrl = URL.createObjectURL(data.blob);
-        delete data.blob;
-      }
-    });
+    return fetchImage(url)
+      .catch(err => {
+        if (!isFirefox() && url.startsWith("http:") && location.href.startsWith("https:")) {
+          // https://github.com/eight04/image-picka/issues/158
+          return browser.runtime.sendMessage({method: "fetchImage", url})
+            .then(data => {
+              data.fromBackground = true;
+              return data;
+            });
+        }
+        throw err;
+      })
+      .then(data => {
+        if (!isFirefox() && data.blob) {
+          data.blobUrl = URL.createObjectURL(data.blob);
+          delete data.blob;
+        }
+        return data;
+      });
   }
 	
 	function getImages() {

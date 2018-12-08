@@ -1,4 +1,4 @@
-/* global pref webextMenus expressionEval createTabAndWait 
+/* global pref webextMenus expressionEval createTabAndWait fetchImage
 	download */
 
 const MENU_ACTIONS = {
@@ -34,6 +34,17 @@ browser.runtime.onMessage.addListener((message, sender) => {
 			return Promise.resolve(batches.get(message.batchId));
 		case "notifyError":
 			return notifyError(message.error);
+    case "fetchImage":
+      return fetchImage(message.url)
+        .then(data => {
+          if (!isFirefox() && data.blob) {
+            data.blobUrl = URL.createObjectURL(data.blob);
+            delete data.blob;
+          }
+          return data;
+        });
+    case "revokeURL":
+      return URL.revokeURL(message.url);
 	}
 });
 
@@ -589,4 +600,8 @@ function nestDecodeURIComponent(s) {
 		}
 	}
 	return s;
+}
+
+function isFirefox() {
+  return Boolean(browser.getBrowserInfo);
 }
