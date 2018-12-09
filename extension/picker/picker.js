@@ -345,9 +345,13 @@ function createImageCheckbox(url, frameId, tabId) {
 				if (!data.blob) {
 					// cache the blob so users can close the tab after that
 					return fetchXHR(data.blobUrl, "blob")
-						.then(r => r.response)
-						.then(blob => {
-							browser.tabs.sendMessage(tabId, {method: "revokeURL", url: data.blobUrl}, {frameId});
+						.then(r => {
+              if (data.fromBackground) {
+                browser.runtime.sendMessage({method: "revokeURL", url: data.blobUrl});
+              } else {
+                browser.tabs.sendMessage(tabId, {method: "revokeURL", url: data.blobUrl}, {frameId});
+              }
+              const blob = r.response;
 							data.blob = blob;
 							data.blobUrl = URL.createObjectURL(blob);
 						});

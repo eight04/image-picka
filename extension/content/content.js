@@ -1,5 +1,4 @@
-/* global initDownloadSingleImage getImageSrc pref fetchXHR urlMap
-	contentDisposition */
+/* global initDownloadSingleImage getImageSrc pref fetchImage urlMap */
 
 (() => {
 	browser.runtime.onMessage.addListener(message => {
@@ -9,7 +8,7 @@
 			case "getImages":
 				return Promise.resolve(getImages());
 			case "fetchImage":
-				return fetchImage(message.url);
+				return fetchImageData(message.url);
 			case "revokeURL":
 				return URL.revokeObjectURL(message.url);
 		}
@@ -24,7 +23,7 @@
 	function downloadImage(url) {
 		url = urlMap.transform(url);
 		let image;
-		(pref.get("useCache") ? fetchImage(url) : Promise.resolve({url}))
+		(pref.get("useCache") ? fetchImageData(url) : Promise.resolve({url}))
 			.then(_image => {
 				image = _image;
 				return browser.runtime.sendMessage({
@@ -42,87 +41,39 @@
 			})
 			.then(() => {
 				if (image && image.blobUrl) {
-					URL.revokeObjectURL(image.blobUrl);
+          if (image.fromBackground) {
+            browser.runtime.sendMessage({
+              method: "revokeURL",
+              url: image.blobUrl
+            });
+          } else {
+            URL.revokeObjectURL(image.blobUrl);
+          }
 				}
 			});
 	}
-	
-	const que = throttle();
-	function fetchImage(url) {
-		return que.add(() =>
-			fetchXHR(url, "blob").then(r => {
-				const image = {
-					url,
-					mime: getMime(r),
-					filename: getFilename(r),
-					size: r.response.size
-				};
-				if (isFirefox()) {
-					image.blob = r.response;
-				} else {
-					image.blobUrl = URL.createObjectURL(r.response);
-				}
-				return image;
-			})
-		);
-	}
-	
-	function throttle(size = 100) {
-		const waiting = [];
-		let running = 0;
-		return {add};
-		
-		function add(fn) {
-			const task = deferred();
-			task.fn = fn;
-			waiting.push(task);
-			deque();
-			return task.promise;
-		}
-		
-		function deque() {
-			if (!waiting.length || running >= size) {
-				return;
-			}
-			const task = waiting.shift();
-			running++;
-			const pending = task.fn();
-			pending.then(task.resolve, task.reject);
-			pending
-				.catch(() => {})
-				.then(() => {
-					running--;
-					deque();
-				});
-		}
-	}
-	
-	function deferred() {
-		const o = {};
-		o.promise = new Promise((resolve, reject) => {
-			o.resolve = resolve;
-			o.reject = reject;
-		});
-		return o;
-	}
-
-	function getMime(r) {
-		const contentType = r.getResponseHeader("Content-Type");
-		if (!contentType) {
-			return;
-		}
-		const match = contentType.match(/^\s*([^\s;]+)/);
-		return match && match[1].toLowerCase();
-	}
-
-	function getFilename(r) {
-		try {
-			const value = r.getResponseHeader("Content-Disposition");
-			return contentDisposition.parse(value).parameters.filename;
-		} catch (err) {
-			// pass
-		}
-	}
+  
+  function fetchImageData(url) {
+    return fetchImage(url)
+      .catch(err => {
+        if (!isFirefox() && url.startsWith("http:") && location.href.startsWith("https:")) {
+          // https://github.com/eight04/image-picka/issues/158
+          return browser.runtime.sendMessage({method: "fetchImage", url})
+            .then(data => {
+              data.fromBackground = true;
+              return data;
+            });
+        }
+        throw err;
+      })
+      .then(data => {
+        if (!isFirefox() && data.blob) {
+          data.blobUrl = URL.createObjectURL(data.blob);
+          delete data.blob;
+        }
+        return data;
+      });
+  }
 	
 	function getImages() {
 		let images = [...document.images]
