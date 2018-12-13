@@ -9,11 +9,33 @@ function fetchXHR(url, type) {
 			resolve(r);
 		};
 		r.onerror = () => {
-			reject(new Error(`Failed to load: ${url}`));
+      if (isChrome()) {
+        fetchFallback().then(resolve, reject);
+      } else {
+        reject(new Error(`Failed to load: ${url}`));
+      }
 		};
 		r.ontimeout = () => {
 			reject(new Error(`Connection timeout: ${url}`));
 		};
 		r.send();
 	});
+  
+  function fetchFallback() {
+    // https://github.com/eight04/image-picka/issues/163
+    // can't extract deposition header with this method?
+    return fetch(url, {mode: "cors", cache: "force-cache"})
+      // FIXME: this only works with blob type
+      .then(r => r[type]())
+      .then(b => 
+        ({
+        response: b,
+        getResponseHeader: () => {}
+        })
+      );
+  }
+  
+  function isChrome() {
+    return typeof InstallTrigger === "undefined";
+  }
 }
