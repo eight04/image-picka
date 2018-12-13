@@ -29,8 +29,8 @@ function fetchXHR(url, type) {
       .then(r => r[type]())
       .then(b => 
         ({
-        response: b,
-        getResponseHeader: () => {}
+          response: b,
+          getResponseHeader: () => {}
         })
       );
   }
