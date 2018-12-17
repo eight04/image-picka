@@ -26,7 +26,12 @@ function fetchXHR(url, type) {
     // can't extract deposition header with this method?
     return fetch(url, {mode: "cors", cache: "force-cache"})
       // FIXME: this only works with blob type
-      .then(r => r[type]())
+      .then(r => {
+        if (!r.ok) {
+          throw new Error(`Error ${r.status}: ${url}`);
+        }
+        return r[type]();
+      })
       .then(b => 
         ({
           response: b,
