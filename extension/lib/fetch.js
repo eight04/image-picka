@@ -6,20 +6,26 @@ function fetchXHR(url, type) {
 		r.open("GET", url);
 		r.responseType = type;
 		r.onload = () => {
-			resolve(r);
+      if (r.status === 200) {
+        resolve(r);
+      } else {
+        reject(new Error(`Bad status ${r.status}: ${url}`));
+      }
 		};
 		r.onerror = () => {
-      if (isChrome()) {
-        fetchFallback().then(resolve, reject);
-      } else {
-        reject(new Error(`Failed to load: ${url}`));
-      }
+      reject(new Error(`Failed to load: ${url}`));
 		};
 		r.ontimeout = () => {
 			reject(new Error(`Connection timeout: ${url}`));
 		};
 		r.send();
-	});
+	})
+    .catch(err => {
+      if (isChrome()) {
+        return fetchFallback();
+      }
+      throw err;
+    });
   
   function fetchFallback() {
     // https://github.com/eight04/image-picka/issues/163
@@ -28,7 +34,7 @@ function fetchXHR(url, type) {
       // FIXME: this only works with blob type
       .then(r => {
         if (!r.ok) {
-          throw new Error(`Error ${r.status}: ${url}`);
+          throw new Error(`Bad status ${r.status}: ${url}`);
         }
         return r[type]();
       })
