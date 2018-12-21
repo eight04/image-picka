@@ -56,7 +56,7 @@
   function fetchImageData(url) {
     return fetchImage(url)
       .catch(err => {
-        if (!isFirefox() && url.startsWith("http:") && location.href.startsWith("https:")) {
+        if (!isFirefox()) {
           // https://github.com/eight04/image-picka/issues/158
           return browser.runtime.sendMessage({method: "fetchImage", url})
             .then(data => {
