@@ -186,6 +186,7 @@ function initDownloadSingleImage({downloadImage}) {
 			button,
 			closeTimer,
 			decideHideTimer;
+    let buttonAni;
 			
 		const state = createSwitch(
 			() => pref.get("downloadButton") && !IS_BLACKLISTED && !button && pref.get("enabled"),
@@ -300,6 +301,19 @@ function initDownloadSingleImage({downloadImage}) {
 			`;
 			updateButtonPosition();
 			button.onclick = () => {
+        buttonAni = button.animate([
+          {
+            opacity: 1,
+            transform: "scale(1.1)"
+          },
+          {
+            opacity: 0,
+            transform: "none"
+          }
+        ], {
+          duration: 600,
+          fill: "forwards"
+        });
 				downloadImage(getImageSrc(image));
 			};
 		}
@@ -328,6 +342,9 @@ function initDownloadSingleImage({downloadImage}) {
 			const top = calcPos(rect.top, rect.height, pref.get("downloadButtonPositionVertical"), "TOP", "BOTTOM");
 			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - pref.get("downloadButtonSize")), 0) + "px";
 			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - pref.get("downloadButtonSize")), 0) + "px";
+      if (buttonAni) {
+        buttonAni.cancel();
+      }
 		}
 	}
 	
