@@ -179,6 +179,13 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.6 (Dec 22, 2018)
+
+  - Add: fallback to background fetch in Chrome.
+  - Add: support JS template transformation in the URL map.
+  - Add: animation for the download button.
+  - Add: option to overwrite the default drag-n-drop handler.
+
 * 0.9.5 (Dec 3, 2018)
 
   - Add: cancel drop when other buttons are pressed.
