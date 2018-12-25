@@ -179,6 +179,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.7 (Dec 26, 2018)
+
+  - Add: selectByDefault option.
+
 * 0.9.6 (Dec 22, 2018)
 
   - Add: fallback to background fetch in Chrome.
