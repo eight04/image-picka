@@ -28,7 +28,13 @@ function init({tabs: originalTabs, env}) {
 		({
 			tabId: tab.tabId,
 			images: [].concat(...tab.frames.map(f => f.images.map(
-				url => createImageCheckbox(url, f.frameId, tab.tabId)
+				url => {
+          const check = createImageCheckbox(url, f.frameId, tab.tabId);
+          if (!pref.get("selectByDefault")) {
+            check.toggleCheck();
+          }
+          return check;
+        }
 			))),
 			env: tab.env
 		})

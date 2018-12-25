@@ -248,6 +248,10 @@
 		"message": "Advanced",
 		"description": "Title of advanced options"
 	},
+  "optionSelectByDefaultLabel": {
+    "message": "Select all images by default",
+    "description": "Label of selectByDefault option"
+  },
 	"optionSrcAlternativeLabelHTML": {
 		"message": "Other HTML attributes containing image URL (Separated with $SEPARATOR$)",
 		"description": "Label of srcAlternative option (HTML)",

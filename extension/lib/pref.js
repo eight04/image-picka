@@ -29,6 +29,7 @@ var pref = function(){
 		isolateTabs: false,
 		filenameConflictAction: "uniquify",
 		saveAs: false,
+    selectByDefault: true,
 		singleClick: false,
 		singleClickCtrl: false,
 		singleClickShift: false,
