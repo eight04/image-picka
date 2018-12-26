@@ -160,6 +160,10 @@
 		"message": "Télécharger par glisser-déposer",
 		"description": "Label of dragndrop option"
 	},
+	"optionDragndropHardLabel": {
+		"message": "Outrepasser la fonctionnalité par défaut",
+		"description": "Label of dragndropHard option"
+	},
 	"optionSingleClickLabel": {
 		"message": "Télécharger d’un simple clic",
 		"description": "Label of singleClick option"
@@ -244,6 +248,10 @@
 		"message": "Avancé",
 		"description": "Title of advanced options"
 	},
+	"optionSelectByDefaultLabel": {
+    "message": "Sélectionner toutes les images par défaut",
+    "description": "Label of selectByDefault option"
+  },
 	"optionSrcAlternativeLabelHTML": {
 		"message": "Autres attributs HTML contenant le lien de l’image (séparés par « $SEPARATOR$ ») :",
 		"description": "Label of srcAlternative option (HTML)",
