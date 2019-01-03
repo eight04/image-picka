@@ -103,7 +103,7 @@ function initDownloadSingleImage({downloadImage}) {
 			if (!imageSrc) {
 				return;
 			}
-			downloadImage(imageSrc);
+			downloadImage(imageSrc, e.target.referrerPolicy || undefined);
 			e.preventDefault();
 		}
 		
@@ -115,7 +115,6 @@ function initDownloadSingleImage({downloadImage}) {
 	}
 	
 	function initDragndrop() {
-    let uninit = () => {};
 		const state = createSwitch(
 			() => pref.get("dragndrop") && !IS_BLACKLISTED && pref.get("enabled"),
 			init, uninit
@@ -123,28 +122,14 @@ function initDownloadSingleImage({downloadImage}) {
 		
 		state.update();
 		pref.onChange(state.update);
-    pref.onChange(change => {
-      if (change.dragndropHard != null && state.current()) {
-        uninit();
-        init();
-      }
-    });
 		
 		function init() {
-      const events = [
-        ["dragstart", onDragStart],
-        ["dragover", onDragOver, pref.get("dragndropHard")],
-        ["drop", onDrop]
-      ];
-      for (const args of events) {
-        document.addEventListener(...args);
-      }
-      uninit = () => {
-        for (const args of events) {
-          document.removeEventListener(...args);
-        }
-      };
-		}
+      document.addEventListener("dragstart", onDragStart);
+    }
+    
+    function uninit() {
+      document.removeEventListener("dragstart", onDragStart);
+    }
 		
 		function onDragStart(e) {
 			var img = e.target;
@@ -152,31 +137,39 @@ function initDownloadSingleImage({downloadImage}) {
 				img = img.querySelector("img");
 			}
 			if (!img || img.nodeName != "IMG") return;
-			e.dataTransfer.setData("imageSrc", getImageSrc(img));
-		}
-		
-		function onDragOver(e) {
-			// https://stackoverflow.com/questions/9534677/html5-drag-and-drop-getdata-only-works-on-drop-event-in-chrome
-			if (e.dataTransfer.getData("imageSrc") || isChrome()) {
+      
+      const events = [
+        ["dragover", dragOver, pref.get("dragndropHard")],
+        ["drop", drop],
+        ["dragend", dragEnd]
+      ];
+      for (const args of events) {
+        document.addEventListener(...args);
+      }
+      
+      function dragOver(e) {
 				e.dataTransfer.dropEffect = "copy";
 				e.preventDefault();
         if (pref.get("dragndropHard")) {
           e.stopPropagation();
         }
-			}
-		}
-		
-		function onDrop(e) {
-			const imageSrc = e.dataTransfer.getData("imageSrc");
-			if (imageSrc) {
-				if (!isChrome() && e.buttons) {
-					// cancel download when clicking other buttons
-					e.preventDefault();
-					return;
-				}
-				downloadImage(imageSrc);
-				e.preventDefault();
-			}
+      }
+      
+      function drop(e) {
+        if (!isChrome() && e.buttons) {
+          // cancel download when clicking other buttons
+          e.preventDefault();
+          return;
+        }
+        downloadImage(getImageSrc(img), img.referrerPolicy || undefined);
+        e.preventDefault();
+      }
+      
+      function dragEnd() {
+        for (const args of events) {
+          document.removeEventListener(...args);
+        }
+      }
 		}
 	}
 	
@@ -314,7 +307,7 @@ function initDownloadSingleImage({downloadImage}) {
           duration: 600,
           fill: "forwards"
         });
-				downloadImage(getImageSrc(image));
+				downloadImage(getImageSrc(image), image.referrerPolicy || undefined);
 			};
 		}
 		
