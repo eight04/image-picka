@@ -294,19 +294,7 @@ function initDownloadSingleImage({downloadImage}) {
 			`;
 			updateButtonPosition();
 			button.onclick = () => {
-        buttonAni = button.animate([
-          {
-            opacity: 1,
-            transform: "scale(1.1)"
-          },
-          {
-            opacity: 0,
-            transform: "none"
-          }
-        ], {
-          duration: 600,
-          fill: "forwards"
-        });
+        fadeOut(button);
 				downloadImage(getImageSrc(image), image.referrerPolicy || undefined);
 			};
 		}
@@ -344,4 +332,31 @@ function initDownloadSingleImage({downloadImage}) {
 	function isChrome() {
 		return chrome.app;
 	}
+  
+  function fadeOut(el) {
+    try {
+      // security error in waterfox
+      // https://github.com/eight04/image-picka/issues/170
+      return el.animate([
+        {
+          opacity: 1,
+          transform: "scale(1.1)"
+        },
+        {
+          opacity: 0,
+          transform: "none"
+        }
+      ], {
+        duration: 600,
+        fill: "forwards"
+      });
+    } catch (err) {
+      el.style.opacity = 0;
+      return {
+        cancel: () => {
+          el.style.opacity = 1;
+        }
+      };
+    }
+  }
 }
