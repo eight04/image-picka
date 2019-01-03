@@ -372,10 +372,10 @@ function openPicker(req, openerTabId) {
 		for (const frame of tab.frames) {
 			const newImages = [];
 			for (const image of frame.images) {
-				if (collected.has(image)) {
+				if (collected.has(image.url)) {
 					continue;
 				}
-				collected.add(image);
+				collected.add(image.url);
 				newImages.push(image);
 			}
 			frame.images = newImages;

@@ -28,8 +28,8 @@ function init({tabs: originalTabs, env}) {
 		({
 			tabId: tab.tabId,
 			images: [].concat(...tab.frames.map(f => f.images.map(
-				url => {
-          const check = createImageCheckbox(url, f.frameId, tab.tabId);
+				({url, noReferrer}) => {
+          const check = createImageCheckbox(url, f.frameId, tab.tabId, noReferrer);
           if (!pref.get("selectByDefault")) {
             check.toggleCheck();
           }
@@ -222,7 +222,7 @@ function initFilter(container, images) {
 	}
 }
 
-function createImageCheckbox(url, frameId, tabId) {
+function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
 	let ctrl;
@@ -345,7 +345,15 @@ function createImageCheckbox(url, frameId, tabId) {
 	
 	function loadImageData() {
 		let data;
-		return browser.tabs.sendMessage(tabId, {method: "fetchImage", url}, {frameId})
+		return (
+      noReferrer && isChrome() ?
+        browser.runtime.sendMessage(tabId, {method: "fetchImage", url})
+          .then(data => {
+            data.fromBackground = true;
+            return data;
+          }) :
+        browser.tabs.sendMessage(tabId, {method: "fetchImage", url}, {frameId})
+    )
 			.then(_data => {
 				data = _data;
 				if (!data.blob) {
