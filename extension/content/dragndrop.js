@@ -337,7 +337,7 @@ function initDownloadSingleImage({downloadImage}) {
     try {
       // security error in waterfox
       // https://github.com/eight04/image-picka/issues/170
-      return button.animate([
+      return el.animate([
         {
           opacity: 1,
           transform: "scale(1.1)"
