@@ -44,7 +44,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
           return data;
         });
     case "revokeURL":
-      return URL.revokeURL(message.url);
+      return URL.revokeObjectURL(message.url);
 	}
 });
 
