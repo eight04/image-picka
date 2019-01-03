@@ -347,7 +347,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 		let data;
 		return (
       noReferrer && isChrome() ?
-        browser.runtime.sendMessage(tabId, {method: "fetchImage", url})
+        browser.runtime.sendMessage({method: "fetchImage", url})
           .then(data => {
             data.fromBackground = true;
             return data;
