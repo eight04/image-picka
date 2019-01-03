@@ -179,6 +179,13 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.8 (Jan 3, 2019)
+
+  - Fix: download button is broken in Waterfox.
+  - Fix: correctly revoke blob URL.
+  - Add: use background fetch if the image is loaded with referrer policy in Chrome.
+  - Locale: update French translation.
+
 * 0.9.7 (Dec 26, 2018)
 
   - Add: selectByDefault option.
