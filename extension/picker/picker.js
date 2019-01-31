@@ -1,4 +1,4 @@
-/* global pref fetchXHR */
+/* global pref fetchXHR createProgressBar */
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
 	.then(req =>
@@ -39,6 +39,7 @@ function init({tabs: originalTabs, env}) {
 			env: tab.env
 		})
 	);
+  const progress = createProgressBar();
 		
 	if (!pref.get("isolateTabs") || tabs.length === 1) {
 		const container = document.createElement("div");
@@ -51,7 +52,7 @@ function init({tabs: originalTabs, env}) {
 				}
 				appended.add(image.url);
 				container.append(image.el);
-				image.load();
+				progress.add(image.load());
 			}
 		}
 		frag.appendChild(container);
@@ -66,7 +67,7 @@ function init({tabs: originalTabs, env}) {
 			li.className = "image-container";
 			for (const image of tab.images) {
 				li.appendChild(image.el);
-				image.load();
+				progress.add(image.load());
 			}
 			const counter = document.createElement("div");
 			counter.className = "tab-image-counter";
@@ -298,7 +299,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	}
 	
 	function load() {
-		loadImageData()
+		return loadImageData()
 			.then(data => {
 				ctrl.data = data;
 				const {resolve, reject, promise} = deferred();
