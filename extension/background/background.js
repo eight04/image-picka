@@ -347,7 +347,7 @@ function notifyDownloadError(err) {
 	if (err.args) {
 		notifyError(`${String(err.message || err)}\nurl: ${err.args[0]}\nfilename: ${err.args[1]}`);
 	} else {
-		notifyError(String(err));
+		notifyError(String(err.message || err));
 	}
 }
 
