@@ -140,7 +140,7 @@ function initDownloadSingleImage({downloadImage}) {
       
       const events = [
         ["dragover", dragOver, pref.get("dragndropHard")],
-        ["drop", drop],
+        ["drop", drop, pref.get("dragndropHard")],
         ["dragend", dragEnd]
       ];
       for (const args of events) {
