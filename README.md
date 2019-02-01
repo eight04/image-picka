@@ -179,6 +179,13 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.9 (Feb 1, 2019)
+
+  - Fix: download error is shown as `[Object object]`.
+  - Fix: capture drop event in drag-n-drop.
+  - Add: display a progress bar in batch download.
+  - Locale: add es_419 translation.
+
 * 0.9.8 (Jan 3, 2019)
 
   - Fix: download button is broken in Waterfox.
