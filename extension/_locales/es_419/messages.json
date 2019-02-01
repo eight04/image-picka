@@ -1,134 +1,126 @@
 {
 	"commandPickFromCurrentTab": {
-		"message": "Collecter les images de cet onglet",
+		"message": "Seleccionar imágenes desde la pestaña actual",
 		"description": "'Pick images from current tab' command"
 	},
 	"commandPickFromRightTabs": {
-		"message": "Collecter les images de cet onglet et des onglets situés à droite",
+		"message": "Seleccionar imágenes desde la pestaña actual + pestañas a la derecha",
 		"description": "'Pick images from curent tab + right tabs' command"
 	},
 	"commandPickFromRightTabsExcludeCurrent": {
-		"message": "Collecter les images des onglets situés à droite",
+		"message": "Seleccionar imágenes desde las pestañas a la derecha",
 		"description": "'Pick images from right tabs' command"
 	},
-	"extensionName": {
-		"message": "Collectimages",
-		"description": "Name of the extension"
-	},
 	"extensionDescription": {
-		"message": "Extension web pour collecter des images.",
+		"message": "Selector de imágenes creado con webextensions",
 		"description": "Description of the extension"
 	},
 	"filenameConflictActionUniquify": {
-		"message": "Renommer automatiquement",
+		"message": "Renombrar automáticamente",
 		"description": "Label of uniquify keyword of filenameConflictAction"
 	},
 	"filenameConflictActionOverwrite": {
-		"message": "Remplacer l’ancien",
+		"message": "Sobrescribir el anterior",
 		"description": "Label of overwrite keyword of filenameConflictAction"
 	},
 	"formHistoryRecentlyUsedLabel": {
-		"message": "Récemment utilisés :",
+		"message": "Usado reciente:",
 		"description": "'Recently used:' label of form history"
 	},
-	"optionGeneralTitle": {
-		"message": "Général",
-		"description": "Title of general options"
-	},
 	"optionBatchTitle": {
-		"message": "Téléchargement par lot",
+		"message": "Descargar por lotes",
 		"description": "Title of batch download settings"
 	},
 	"optionBrowserActionLabel": {
-		"message": "Action par défaut du bouton :",
+		"message": "Acción por defecto del botón en la barra de herramientas",
 		"description": "Label of browserAction option"
 	},
 	"optionBrowserActionHelp": {
-		"message": "Les autres commandes sont accessibles par le menu contextuel du bouton.",
+		"message": "Clic derecho en el botón de la barra de herramientas para otras acciones.",
 		"description": "Help text of browserAction option"
 	},
 	"optionCloseTabsAfterSaveLabel": {
-		"message": "Fermer les onglets après l’enregistrement",
+		"message": "Cerrar pestañas después de guardar",
 		"description": "Label of closeTabsAfterSave option"
 	},
 	"optionCollectFromFramesLabel": {
-		"message": "Collecter les images des cadres récursivement",
+		"message": "Selecciona imágenes desde frames en forma recursiva.",
 		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
-		"message": "Ajouter les commandes de collecte d’images au menu contextuel",
+		"message": "También agrega \"Seleccionar imágenes ...\" al menú contextual",
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomIconLabel": {
-		"message": "Personnaliser la couleur du bouton de la barre d’outils",
+		"message": "Personaliza el color del botón de la barra de herramientas",
 		"description": "Label of customIcon option"
 	},
 	"optionCustomIconColorLabel": {
-		"message": "Couleur de l’icône",
+		"message": "Color del icono",
 		"description": "Label of customIconColor option"
 	},
 	"optionDblClickLabel": {
-		"message": "Télécharger par double-clic",
+		"message": "Descargar con doble clic",
 		"description": "Label of dblClick option"
 	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
-		"message": "Taille maximale des miniatures :",
+		"message": "Valor máximo del control deslizante en el tamaño de las miniaturas",
 		"description": "Label of previewMaxHeightUpperBound option"
 	},
 	"optionUseCacheLabel": {
-		"message": "Essayer de télécharger une image depuis le cache du navigateur",
+		"message": "Intentar descargar imágenes desde el caché del navegador",
 		"description": "Label of useCache option"
 	},
 	"optionUseCacheHelp": {
-		"message": "L’extension recherche l’image dans le cache et l’envoie au gestionnaire de téléchargement. Si elle n’y est pas, le téléchargement s’en trouve sensiblement retardé.",
+		"message": "La extensión intentará obtener la imagen desde la memoria caché antes de enviarla al administrador de descargas, lo que causa un retraso notable al iniciar el administrador de descargas si la imagen no está almacenada en el caché.",
 		"description": "Help text of useCache option"
 	},
 	"optionUseExpressionLabel": {
-		"message": "Utiliser une expression simple dans le motif du nom de fichier",
+		"message": "Usar una expresión simple en el patrón de nombre del archivo",
 		"description": "Label of useExpression option"
 	},
 	"optionDefaultNameLabel": {
-		"message": "Nom de fichier par défaut :",
+		"message": "Nombre del archivo por defecto",
 		"description": "Label of defaultName"
 	},
 	"optionDefaultExtLabel": {
-		"message": "Extension par défaut :",
+		"message": "Extensión por defecto",
 		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageSizeUnderThumbnailLabel": {
-		"message": "Afficher la taille de l’image sous la miniature",
+		"message": "Mostrar el tamaño de la imagen debajo de la miniatura.",
 		"description": "Label of displayImageSizeUnderThumbnail option"
 	},
 	"optionEnabledLabel": {
-		"message": "Activer la fonction de téléchargement d’une image unique",
+		"message": "Activar función \"Descargar imagen individual\"",
 		"description": "Label of enabled option"
 	},
 	"optionVariableMaxLengthLabel": {
-		"message": "Longueur maximale de chaque variable du motif de nom de fichier :",
+		"message": "Longitud máxima de cada variable en el patrón de nombre del archivo",
 		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
-		"message": "Traitement des conflits de nom :",
+		"message": "Resolver el conflicto de nombre del archivo",
 		"description": "Label of filenameConflictAction option"
 	},
 	"optionFilenameConflictActionHelp": {
-		"message": "Le téléchargement peut échouer si plusieurs portant le même nom sont téléchargés en même temps. Il vaut mieux éviter les conflits de nom en utilisant un motif de nom de fichier correct, particulièrement pour un téléchargement par lot.",
+		"message": "La descarga puede fallar si hay varios archivos descargados con el mismo nombre al mismo tiempo. Es mejor evitar el conflicto de nombre del archivo, utilizando el patrón de nombre del archivo adecuado, especialmente durante la descarga por lotes.",
 		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
-		"message": "Téléchargement d’une image unique",
+		"message": "Descargar imagen individual",
 		"description": "Title of download single image options"
 	},
 	"optionDownloadSingleImageHelp": {
-		"message": "Ces réglages ne concernent pas les téléchargements par lot qui se configurent dans une fenêtre spécifique.",
+		"message": "Esta configuración no se aplica a la descarga por lotes. Los ajustes se configuran en la Interfaz de descarga por lotes.",
 		"description": "Help text of download single image option"
 	},
 	"optionFilenamePatternLabel": {
-		"message": "Motif du nom de fichier relatif au dossier de téléchargement par défaut de Firefox :",
+		"message": "Patrón de nombre del archivo, relativo a la carpeta de descarga predeterminada en Firefox.",
 		"description": "Label of filenamePattern option"
 	},
 	"optionFilenamePatternHelpHTML": {
-		"message": "Le motif peut comprendre des sous-dossiers (indiqués par « $SEPARATOR$ »).",
+		"message": "El patrón puede incluir una subcarpeta (separado con$SEPARATOR$).",
 		"description": "Help text of filenamePattern option (HTML)",
 		"placeholders": {
 			"SEPARATOR": {
@@ -137,123 +129,123 @@
 		}
 	},
 	"optionIsolateTabsLabel": {
-		"message": "Créer le nom des fichiers en fonction des onglets",
+		"message": "Aislar las pestañas unas de otras al generar los nombres de los archivos.",
 		"description": "Label of isolateTabs option"
 	},
 	"optionIsolateTabsHelpHTML": {
-		"message": "Si cette option est cochée, le nom des fichiers sera construit en fonction de l’onglet de provenance des images et non de l’onglet actif. Concerne les variables <code>page…</code> et <code>index</code>.",
+		"message": "Si esta opción está marcada, el nombre del archivo se formará de acuerdo con la pestaña donde se descarga la imagen, en lugar de la pestaña actual. Esto afecta <code>página...</code> variables y <code>índice</code>.",
 		"description": "Help text of isolateTabs option"
 	},
 	"optionLearnMoreLink": {
-		"message": "en savoir plus",
+		"message": "Más información",
 		"description": "'Learn more' link in option page"
 	},
 	"optionSaveAsLabel": {
-		"message": "Demander où télécharger l’image au lieu d’utiliser le dossier de téléchargement par défaut",
+		"message": "Preguntar dónde guardar la imagen en lugar de usar la carpeta de descarga predeterminada.",
 		"description": "Label of saveAs option"
 	},
 	"optionSaveAsHelp": {
-		"message": "Les dossiers spécifiés dans le motif sont ignorés si cette option est cochée.",
+		"message": "Si esta opción está marcada, debe eliminar la parte de la subcarpeta en el patrón de nombre del archivo.",
 		"description": "Help text of saveAs option"
 	},
 	"optionDragndropLabel": {
-		"message": "Télécharger par glisser-déposer",
+		"message": "Descargar con arrastrar y soltar",
 		"description": "Label of dragndrop option"
 	},
 	"optionDragndropHardLabel": {
-		"message": "Outrepasser la fonctionnalité par défaut",
+		"message": "Anular la funcionalidad predeterminada",
 		"description": "Label of dragndropHard option"
 	},
 	"optionSingleClickLabel": {
-		"message": "Télécharger d’un simple clic",
+		"message": "Descargar con un solo clic",
 		"description": "Label of singleClick option"
 	},
 	"optionDownloadButtonLabel": {
-		"message": "Afficher un bouton de téléchargement au survol de l’image",
+		"message": "Mostrar un botón de descarga, al pasar el cursor sobre la imagen",
 		"description": "Label of downloadButton option"
 	},
 	"optionDownloadButtonDelayLabel": {
-		"message": "Délai d’apparition du bouton (en millisecondes) :",
+		"message": "Ajustar el tiempo antes de mostrar el botón (milisegundos)",
 		"description": "Label of downloadButtonDelay option"
 	},
 	"optionDownloadButtonDelayHideLabel": {
-		"message": "Délai de disparition du bouton (en millisecondes) :",
+		"message": "Ajustar el tiempo antes de ocultar el botón (milisegundos)",
 		"description": "Label of downloadButtonDelayHide option"
 	},
 	"optionDownloadButtonMinWidth": {
-		"message": "Largeur minimale de déclenchement du bouton de téléchargement :",
+		"message": "Ancho mínimo para mostrar el botón de descarga",
 		"description": "Label of downloadButtonMinWidth option"
 	},
 	"optionDownloadButtonMinHeight": {
-		"message": "Hauteur minimale de déclenchement du bouton de téléchargement :",
+		"message": "Altura mínima para mostrar el botón de descarga",
 		"description": "Label of downloadButtonMinHeight option"
 	},
 	"optionDownloadButtonPositionHorizontalLabel": {
-		"message": "Position horizontale :",
+		"message": "Posición horizontal",
 		"description": "Label of downloadButtonPositionHorizontal option"
 	},
 	"optionDownloadButtonPositionHorizontalLeftOutside": {
-		"message": "À gauche et à l’extérieur de l’image",
+		"message": "A la izquierda, fuera de la imagen",
 		"description": "Label of LEFT_OUTSIDE position"
 	},
 	"optionDownloadButtonPositionHorizontalLeftInside": {
-		"message": "À gauche et à l’intérieur de l’image",
+		"message": "A la izquierda, dentro de la imagen",
 		"description": "Label of LEFT_INSIDE position"
 	},
 	"optionDownloadButtonPositionHorizontalCenter": {
-		"message": "Au centre",
+		"message": "Al centro",
 		"description": "Label of CENTER position"
 	},
 	"optionDownloadButtonPositionHorizontalRightInside": {
-		"message": "À droite et à l’intérieur de l’image",
+		"message": "A la derecha, dentro de la imagen",
 		"description": "Label of RIGHT_INSIDE position"
 	},
 	"optionDownloadButtonPositionHorizontalRightOutside": {
-		"message": "À droite et à l’extérieur de l’image",
+		"message": "A la derecha, fuera de la imagen",
 		"description": "Label of RIGHT_OUTSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalLabel": {
-		"message": "Position verticale :",
+		"message": "Posición vertical",
 		"description": "Label of downloadButtonPositionVertical option"
 	},
 	"optionDownloadButtonPositionVerticalTopOutside": {
-		"message": "En haut et à l’extérieur de l’image",
+		"message": "Arriba, fuera de la imagen",
 		"description": "Label of TOP_OUTSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalTopInside": {
-		"message": "En haut et à l’intérieur de l’image",
+		"message": "Arriba, dentro de la imagen",
 		"description": "Label of TOP_INSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalCenter": {
-		"message": "Au centre",
+		"message": "Al centro",
 		"description": "Label of CENTER position"
 	},
 	"optionDownloadButtonPositionVerticalBottomInside": {
-		"message": "En bas et à l’intérieur de l’image",
+		"message": "Abajo, dentro de la imagen",
 		"description": "Label of BOTTOM_INSIDE position"
 	},
 	"optionDownloadButtonPositionVerticalBottomOutside": {
-		"message": "En bas et à l’extérieur de l’image",
+		"message": "Abajo, fuera de la imagen",
 		"description": "Label of BOTTOM_OUTSIDE position"
 	},
 	"optionDownloadButtonSizeLabel": {
-		"message": "Taille du bouton :",
+		"message": "Tamaño del botón",
 		"description": "Label of downloadButtonSize option"
 	},
 	"optionEscapeWithUnicodeLabel": {
-		"message": "Échapper les caractères spéciaux dans les glyphes Unicode",
+		"message": "Cambiar caracteres especiales a glifos Unicode.",
 		"description": "Label of escapeWithUnicode option"
 	},
 	"optionAdvancedTitle": {
-		"message": "Avancé",
+		"message": "Avanzado",
 		"description": "Title of advanced options"
 	},
 	"optionSelectByDefaultLabel": {
-		"message": "Sélectionner toutes les images par défaut",
+		"message": "Seleccionar todas las imágenes por defecto",
 		"description": "Label of selectByDefault option"
 	},
 	"optionSrcAlternativeLabelHTML": {
-		"message": "Autres attributs HTML contenant le lien de l’image (séparés par « $SEPARATOR$ ») :",
+		"message": "Otros atributos HTML que contienen la URL de imagen (Separado con $SEPARATOR$)",
 		"description": "Label of srcAlternative option (HTML)",
 		"placeholders": {
 			"SEPARATOR": {
@@ -262,83 +254,79 @@
 		}
 	},
 	"optionUrlMapLabel": {
-		"message": "Transformation du lien par expression rationnelle :",
+		"message": "Transformar la URL con expresiones regulares (regexp)",
 		"description": "Label of urlMap option"
 	},
 	"optionBlacklistLabel": {
-		"message": "Désactivation de la collecte d’images sur ces domaines (un par ligne) :",
+		"message": "Desactivar Image Picka en los siguientes dominios. (Un dominio por línea)",
 		"description": "Label of blacklist option"
 	},
 	"pickerMinWidthLabel": {
-		"message": "Largeur :",
+		"message": "Ancho",
 		"description": "Label of minWith filter in image picker"
 	},
 	"pickerMinWidthHelp": {
-		"message": "Largeur minimale en pixels",
+		"message": "Ancho mínimo (px)",
 		"description": "Help text of minWidth filter in image picker"
 	},
 	"pickerMinHeightLabel": {
-		"message": "Hauteur :",
+		"message": "Altura",
 		"description": "Label of minHeight filter in image picker"
 	},
 	"pickerMinHeightHelp": {
-		"message": "Hauteur minimale en pixels",
+		"message": "Altura mínima (px)",
 		"description": "Help text of minHeight filter in image picker"
 	},
 	"pickerMinFileSizeLabel": {
-		"message": "Taille :",
+		"message": "Tamaño del archivo",
 		"description": "Label of minFileSize filter in image picker"
 	},
 	"pickerMinFileSizeHelp": {
-		"message": "Taille minimale en kilooctets",
+		"message": "Tamaño mínimo del archivo (KB)",
 		"description": "Help text of minFileSize filter in image picker"
 	},
 	"pickerMatchTypeIncludeLabel": {
-		"message": "Inclure",
+		"message": "Incluir",
 		"description": "Label of 'include' option of matchType filter in image picker"
 	},
 	"pickerMatchTypeExcludeLabel": {
-		"message": "Exclure",
+		"message": "Excluir",
 		"description": "Label of 'exclude' option of matchType filter in image picker"
 	},
-	"pickerMatchUrlLabel": {
-		"message": "Lien :",
-		"description": "Label of matchUrl filter in image picker"
-	},
 	"pickerMatchUrlHelp": {
-		"message": "expression rationnelle",
+		"message": "Expresión regular",
 		"description": "Help text of matchUrl filter in image picker"
 	},
 	"pickerPreviewMaxHeightHelp": {
-		"message": "Taille des miniatures",
+		"message": "Altura máxima de la vista previa de la imagen",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
 	"pickerFilenamePatternBatchLabel": {
-		"message": "Motif des noms de fichier :",
+		"message": "Patrón de nombre del archivo",
 		"description": "Label of filenamePatternBatch option in image picker"
 	},
 	"pickerCloseTabsAfterSaveLabel": {
-		"message": "Fermer les onglets",
+		"message": "Cerrar pestañas",
 		"description": "Label of closeTabsAfterSave option in image picker"
 	},
 	"pickerActionInvert": {
-		"message": "Inverser la sélection",
+		"message": "Invertir selección",
 		"description": "'Invert selection' button in image picker"
 	},
 	"pickerActionSave": {
-		"message": "Enregistrer",
+		"message": "Guardar",
 		"description": "'Save' button in image picker"
 	},
 	"pickerActionCopyUrl": {
-		"message": "Copier les liens",
+		"message": "Copiar URLs",
 		"description": "'Copy URLs' button in image picker"
 	},
 	"pickerActionCopyUrlCopied": {
-		"message": "Liens copiés !",
+		"message": "¡Copiado!",
 		"description": "'Copied!' button shown after successfully copied"
 	},
 	"pickerActionCancel": {
-		"message": "Annuler",
+		"message": "Cancelar",
 		"description": "'Cancel' button in image picker"
 	}
 }
