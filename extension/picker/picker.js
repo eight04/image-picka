@@ -331,16 +331,16 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 					img.style.width = "200px";
 				}
 			})
-			.catch(err => {
-				console.error(err);
-				img.error = true;
-			})
 			.then(() => {
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
 				img.dispatchEvent(new CustomEvent("imageLoad", {
 					bubbles: true,
 					detail: {image: ctrl}
 				}));
+			})
+			.catch(err => {
+				img.error = true;
+        throw err;
 			});
 	}
 	
