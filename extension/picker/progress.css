@@ -19,7 +19,7 @@
 .progress-bar.started {
   display: block;
 }
-.progress-bar.finished {
+.progress-bar.finished:not(.error) {
   opacity: 0;
   transition: opacity 1s linear;
 }
