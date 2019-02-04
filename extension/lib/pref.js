@@ -26,6 +26,7 @@ var pref = function(){
 		downloadButtonPositionHorizontal: "LEFT_INSIDE",
 		downloadButtonPositionVertical: "TOP_OUTSIDE",
 		escapeWithUnicode: true,
+    escapeZWJ: false,
 		isolateTabs: false,
 		filenameConflictAction: "uniquify",
 		saveAs: false,

@@ -244,6 +244,10 @@
 		"message": "Escape special characters into Unicode glyphs.",
 		"description": "Label of escapeWithUnicode option"
 	},
+  "optionEscapeZWJLabel": {
+    "message": "Remove zero width joiner.",
+		"description": "Label of escapeZWJ option"
+  },
 	"optionAdvancedTitle": {
 		"message": "Advanced",
 		"description": "Title of advanced options"

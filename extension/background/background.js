@@ -499,6 +499,9 @@ const escapeVariable = (() => {
 	};
 	
 	return name => {
+    if (pref.get("escapeZWJ")) {
+      name = name.replace(/\u200d/g, "");
+    }
 		name = name.trim().replace(rx, escape).replace(/\s+/g, " ").replace(/\u200b/g, "");
 		const maxLength = pref.get("variableMaxLength");
 		if (name.length > maxLength) {
