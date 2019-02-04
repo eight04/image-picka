@@ -171,6 +171,15 @@ In some older versions of Firefox, the browser would generate an unexpected erro
 See more information about this bug:
 https://github.com/eight04/image-picka/issues/138
 
+Zero width joiner
+-----------------
+
+"Zero width joiner" is a special character that is used in emoji. In some file systems, using ZWJ character in the filename will result to an error.
+
+If you find that the filename includes an emoji and the browser can't save the image, try enabling the "Remove zero width joiner" option.
+
+See also: [#175](https://github.com/eight04/image-picka/issues/175)
+
 Translation
 -----------
 
