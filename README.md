@@ -188,6 +188,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.9.10 (Feb 4, 2019)
+
+  - Add: option to remove zero width joiner character.
+  - Locale: update zh_ZN translation.
+
 * 0.9.9 (Feb 1, 2019)
 
   - Fix: download error is shown as `[Object object]`.
