@@ -51,9 +51,8 @@ const getImageSrc = (() => {
 				return new URL(src, location.href).href;
 			}
 		}
-		if (img.src) {
-			return img.src;
-		}
+    // prefer srcset first
+    // https://www.harakis.com/hara-elite/large-2br-apartment-gallery/
 		let srcset;
 		if (img.srcset) {
 			srcset = img.srcset;
@@ -66,6 +65,9 @@ const getImageSrc = (() => {
 		}
 		if (srcset) {
 			return getSrcFromSrcset(srcset);
+		}
+		if (img.src) {
+			return img.src;
 		}
 	};
 })();
