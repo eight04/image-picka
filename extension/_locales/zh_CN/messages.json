@@ -43,6 +43,10 @@
 		"message": "右击工具栏按钮访问其他动作。",
 		"description": "Help text of browserAction option"
 	},
+	"optionCloseTabsAfterSaveLabel": {
+		"message": "保存后关闭标签页",
+		"description": "Label of closeTabsAfterSave option"
+	},
 	"optionCollectFromFramesLabel": {
 		"message": "递归地从框架中收集图像。",
 		"description": "Label of collectFromFrames option"
@@ -62,6 +66,10 @@
 	"optionDblClickLabel": {
 		"message": "双击下载",
 		"description": "Label of dblClick option"
+	},
+	"optionPreviewMaxHeightUpperBoundLabel": {
+		"message": "缩略图大小滑块的最大值",
+		"description": "Label of previewMaxHeightUpperBound option"
 	},
 	"optionUseCacheLabel": {
 		"message": "尝试从浏览器缓存下载图像",
@@ -90,6 +98,10 @@
 	"optionEnabledLabel": {
 		"message": "启用“下载单张图像”功能",
 		"description": "Label of enabled option"
+	},
+	"optionVariableMaxLengthLabel": {
+		"message": "文件名模式中每个变量的最大长度",
+		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
 		"message": "处理文件名冲突",
@@ -143,6 +155,10 @@
 	"optionDragndropLabel": {
 		"message": "拖放下载",
 		"description": "Label of dragndrop option"
+	},
+	"optionDragndropHardLabel": {
+		"message": "覆盖默认功能",
+		"description": "Label of dragndropHard option"
 	},
 	"optionSingleClickLabel": {
 		"message": "单击下载",
@@ -227,6 +243,10 @@
 	"optionAdvancedTitle": {
 		"message": "高级",
 		"description": "Title of advanced options"
+	},
+	"optionSelectByDefaultLabel": {
+		"message": "默认选中所有图像",
+		"description": "Label of selectByDefault option"
 	},
 	"optionSrcAlternativeLabelHTML": {
 		"message": "其他包含图像网址的 HTML 属性（用 $SEPARATOR$ 分隔）",
