@@ -244,7 +244,11 @@
 		"message": "Échapper les caractères spéciaux dans les glyphes Unicode",
 		"description": "Label of escapeWithUnicode option"
 	},
-	"optionAdvancedTitle": {
+	"optionEscapeZWJLabel": {
+    "message": "Enlever le liant sans chasse",
+		"description": "Label of escapeZWJ option"
+  },
+  "optionAdvancedTitle": {
 		"message": "Avancé",
 		"description": "Title of advanced options"
 	},
