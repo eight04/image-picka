@@ -188,6 +188,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.10.1 (Feb 14, 2019)
+
+  - Locale: update es_419 translation.
+  - Locale: update fr translation.
+  - Add: treat `input[type=image]` as images.
+
 * 0.10.0 (Feb 4, 2019)
 
   - Breaking: prefer srcset over src.
