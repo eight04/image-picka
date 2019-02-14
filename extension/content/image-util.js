@@ -1,16 +1,16 @@
 /* global pref */
-/* exported getImageSrc */
+/* exported imageUtil */
 
-const getImageSrc = (() => {
+const imageUtil = (() => {
 	let SRC_PROP = [];
-	
 	update();
 	pref.onChange(change => {
 		if (change.srcAlternative != null) {
 			update();
 		}
 	});
-		
+  return {getSrc, isImage, getAllImages};
+  
 	function update() {
 		SRC_PROP = pref.get("srcAlternative")
 			.split(",")
@@ -44,7 +44,7 @@ const getImageSrc = (() => {
 		return maxRule.url;
 	}
 		
-	return img => {
+	function getSrc(img) {
 		for (const prop of SRC_PROP) {
 			const src = img.getAttribute(prop);
 			if (src) {
@@ -69,5 +69,14 @@ const getImageSrc = (() => {
 		if (img.src) {
 			return img.src;
 		}
-	};
+	}
+  
+  function isImage(node) {
+    return node.localName === "img" ||
+      node.localName === "input" && node.type === "image";
+  }
+  
+  function getAllImages() {
+    return document.querySelectorAll('img, input[type="image"]');
+  }
 })();

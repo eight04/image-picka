@@ -1,4 +1,4 @@
-/* global initDownloadSingleImage getImageSrc pref fetchImage urlMap */
+/* global initDownloadSingleImage imageUtil pref fetchImage urlMap */
 
 (() => {
   let referrerMeta;
@@ -88,8 +88,8 @@
 	
 	function getImages() {
     const images = new Map;
-    for (const img of document.images) {
-      const src = getImageSrc(img);
+    for (const img of imageUtil.getAllImages()) {
+      const src = imageUtil.getSrc(img);
       if (!src || /^[\w]+-extension/.test(src)) {
         continue;
       }
