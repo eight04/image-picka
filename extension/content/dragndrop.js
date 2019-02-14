@@ -1,4 +1,4 @@
-/* global pref getImageSrc */
+/* global pref imageUtil */
 /* exported initDownloadSingleImage */
 
 function initDownloadSingleImage({downloadImage}) {
@@ -96,10 +96,10 @@ function initDownloadSingleImage({downloadImage}) {
 		}
 		
 		function onClick(e, context) {
-			if (e.target.nodeName !== "IMG" || !testEvent(e, context)) {
+			if (!imageUtil.isImage(e.target) || !testEvent(e, context)) {
 				return;
 			}
-			const imageSrc = getImageSrc(e.target);
+			const imageSrc = imageUtil.getSrc(e.target);
 			if (!imageSrc) {
 				return;
 			}
@@ -136,7 +136,7 @@ function initDownloadSingleImage({downloadImage}) {
 			if (img.nodeName == "A") {
 				img = img.querySelector("img");
 			}
-			if (!img || img.nodeName != "IMG") return;
+			if (!img || !imageUtil.isImage(img)) return;
       
       const events = [
         ["dragover", dragOver, pref.get("dragndropHard")],
@@ -161,7 +161,7 @@ function initDownloadSingleImage({downloadImage}) {
           e.preventDefault();
           return;
         }
-        downloadImage(getImageSrc(img), img.referrerPolicy || undefined);
+        downloadImage(imageUtil.getSrc(img), img.referrerPolicy || undefined);
         e.preventDefault();
       }
       
@@ -198,7 +198,7 @@ function initDownloadSingleImage({downloadImage}) {
 		}
 		
 		function isImage(el) {
-			if (el.nodeName != "IMG") return false;
+			if (!imageUtil.isImage(el)) return false;
 			var rect = el.getBoundingClientRect();
 			if (rect.width < pref.get("downloadButtonMinWidth")) return false;
 			if (rect.height < pref.get("downloadButtonMinHeight")) return false;
@@ -295,7 +295,7 @@ function initDownloadSingleImage({downloadImage}) {
 			updateButtonPosition();
 			button.onclick = () => {
         fadeOut(button);
-				downloadImage(getImageSrc(image), image.referrerPolicy || undefined);
+				downloadImage(imageUtil.getSrc(image), image.referrerPolicy || undefined);
 			};
 		}
 		

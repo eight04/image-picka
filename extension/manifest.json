@@ -48,7 +48,7 @@
 				"lib/fetch.js",
         "lib/fetch-image.js",
 				"content/url-map.js",
-				"content/image-src.js",
+				"content/image-util.js",
 				"content/dragndrop.js",
 				"content/content.js"
 			],
