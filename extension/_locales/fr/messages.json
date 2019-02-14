@@ -245,10 +245,10 @@
 		"description": "Label of escapeWithUnicode option"
 	},
 	"optionEscapeZWJLabel": {
-    "message": "Enlever le liant sans chasse",
+		"message": "Enlever le liant sans chasse",
 		"description": "Label of escapeZWJ option"
-  },
-  "optionAdvancedTitle": {
+	},
+	"optionAdvancedTitle": {
 		"message": "Avancé",
 		"description": "Title of advanced options"
 	},

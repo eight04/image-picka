@@ -24,7 +24,7 @@
 		"description": "Label of overwrite keyword of filenameConflictAction"
 	},
 	"formHistoryRecentlyUsedLabel": {
-		"message": "Usado reciente:",
+		"message": "Usado recientemente:",
 		"description": "'Recently used:' label of form history"
 	},
 	"optionBatchTitle": {
@@ -44,11 +44,11 @@
 		"description": "Label of closeTabsAfterSave option"
 	},
 	"optionCollectFromFramesLabel": {
-		"message": "Selecciona imágenes desde frames en forma recursiva.",
+		"message": "Seleccionar imágenes desde frames en forma recursiva.",
 		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
-		"message": "También agrega \"Seleccionar imágenes ...\" al menú contextual",
+		"message": "También agregar \"Seleccionar imágenes ...\" al menú contextual",
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomIconLabel": {
@@ -120,7 +120,7 @@
 		"description": "Label of filenamePattern option"
 	},
 	"optionFilenamePatternHelpHTML": {
-		"message": "El patrón puede incluir una subcarpeta (separado con$SEPARATOR$).",
+		"message": "El patrón puede incluir una subcarpeta (separado con $SEPARATOR$).",
 		"description": "Help text of filenamePattern option (HTML)",
 		"placeholders": {
 			"SEPARATOR": {
@@ -236,6 +236,10 @@
 		"message": "Cambiar caracteres especiales a glifos Unicode.",
 		"description": "Label of escapeWithUnicode option"
 	},
+	"optionEscapeZWJLabel": {
+		"message": "Eliminar caracteres especiales (ZWJ - Emoji)",
+		"description": "Label of escapeZWJ option"
+	},
 	"optionAdvancedTitle": {
 		"message": "Avanzado",
 		"description": "Title of advanced options"
@@ -270,7 +274,7 @@
 		"description": "Help text of minWidth filter in image picker"
 	},
 	"pickerMinHeightLabel": {
-		"message": "Altura",
+		"message": "Alto",
 		"description": "Label of minHeight filter in image picker"
 	},
 	"pickerMinHeightHelp": {
