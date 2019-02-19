@@ -188,6 +188,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.10.2 (Feb 19, 2019)
+
+  - Fix: malformed URL error.
+
 * 0.10.1 (Feb 14, 2019)
 
   - Locale: update es_419 translation.
