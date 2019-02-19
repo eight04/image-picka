@@ -48,7 +48,7 @@ const imageUtil = (() => {
 		for (const prop of SRC_PROP) {
 			const src = img.getAttribute(prop);
 			if (src) {
-				return new URL(src, location.href).href;
+        return toAbsoluateUrl(src);
 			}
 		}
     // prefer srcset first
@@ -64,7 +64,7 @@ const imageUtil = (() => {
 			srcset = img.previousElementSibling.srcset;
 		}
 		if (srcset) {
-			return getSrcFromSrcset(srcset);
+			return toAbsoluateUrl(getSrcFromSrcset(srcset));
 		}
 		if (img.src) {
 			return img.src;
@@ -78,5 +78,9 @@ const imageUtil = (() => {
   
   function getAllImages() {
     return document.querySelectorAll('img, input[type="image"]');
+  }
+  
+  function toAbsoluateUrl(url) {
+    return new URL(url, location.href).href;
   }
 })();
