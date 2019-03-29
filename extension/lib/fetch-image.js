@@ -5,7 +5,7 @@ const fetchImage = (() => {
 	const que = throttle();
   return fetchImage;
   
-	function throttle(size = 100) {
+	function throttle(size = 5) {
 		const waiting = [];
 		let running = 0;
 		return {add};
