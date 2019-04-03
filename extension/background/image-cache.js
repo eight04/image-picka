@@ -1,4 +1,4 @@
-/* global idbStorage ENV fetchImage */
+/* global idbStorage ENV fetchImage fetchXHR */
 /* exported imageCache */
 
 const imageCache = (() => {
