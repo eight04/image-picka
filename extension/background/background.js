@@ -30,6 +30,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 				message.tabId = sender.tab.id;
 			}
 			return closeTab(message);
+    case "cacheImage":
+      return imageCache.add(message);
 		case "getBatchData":
 			return Promise.resolve(batches.get(message.batchId));
 		case "notifyError":

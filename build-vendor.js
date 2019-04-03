@@ -6,7 +6,7 @@ const files = [
 	"expression-eval-bundle/dist/expression-eval.min.js",
 	"webext-menus/dist/webext-menus.min.js",
 	"webextension-polyfill/dist/browser-polyfill.min.js",
-  "@drecom/idb-cache/dist/idb-cache.min.js"
+  "@eight04/idb-storage/dist/idb-storage.min.js"
 ];
 
 shell.rm("-rf", "extension/vendor/*");
