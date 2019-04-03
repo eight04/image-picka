@@ -44,10 +44,10 @@ const imageCache = (() => {
     })
       .then(data => {
         if (data.blobUrl) {
-          return fetch(data.blobUrl)
-            .then(r => r.blob())
-            .then(b => {
-              data.blob = b;
+          // can't use `fetch` to fetch blob url in Chrome
+          return fetchXHR(data.blobUrl, "blob")
+            .then(r => {
+              data.blob = r.response;
               browser.tabs.sendMessage(tabId, {
                 method: "revokeURL",
                 url: data.blobUrl

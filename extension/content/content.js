@@ -97,7 +97,7 @@
     const images = new Map;
     for (const img of imageUtil.getAllImages()) {
       const src = imageUtil.getSrc(img);
-      if (!src || /^[\w]+-extension/.test(src)) {
+      if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
         continue;
       }
       const url = urlMap.transform(src);
