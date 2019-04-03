@@ -332,6 +332,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 			})
 			.catch(err => {
 				ctrl.error = true;
+        label.classList.add("error");
         throw err;
 			});
 	}

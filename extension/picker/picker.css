@@ -31,6 +31,10 @@
 .image-checkbox.disabled {
 	opacity: 0.2;
 }
+.image-checkbox.error {
+  background: red;
+  border-color: red;
+}
 .image-checkbox input {
 	position: absolute;
 	height: 100%;
