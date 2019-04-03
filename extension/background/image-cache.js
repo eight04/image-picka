@@ -1,26 +1,25 @@
+/* global idbStorage */
+
 const imageCache = (() => {
-  const cache = new IDBCache("image-cache", {
-    size: Math.pow(1024, 3),
-    count: 10000
+  const cache = idbStorage.createIDBStorage({
+    name: "image-cache",
+    conflictAction: "stack"
   });
   return {add, get, delete: delete_};
   
-  async function add({url, tabId, noReferrer}) {
-    try {
-      return await cache.getMeta(url, true);
-    } catch (err) {}
-    
-    let data;
-    if (noReferrer && ENV.IS_CHROME) {
-      data = await fetchImage(url);
-    } else {
-      data = await fetchImageFromTab(url, tabId);
-    }
-    const resource = data.blob;
-    delete data.blob;
-    const meta = Object.assign(data, await detectDimension(resource))
-    await cache.set(url, resource, meta);
-    return meta;
+  function add({url, tabId, noReferrer}) {
+    return cache.setAsync(url, async () => {
+      let data;
+      if (noReferrer && ENV.IS_CHROME) {
+        data = await fetchImage(url);
+      } else {
+        data = await fetchImageFromTab(url, tabId);
+      }
+      const resource = data.blob;
+      delete data.blob;
+      const meta = Object.assign(data, await detectDimension(resource));
+      return {resource, meta};
+    });
   }
   
   function get(url) {
