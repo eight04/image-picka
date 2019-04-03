@@ -256,9 +256,6 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	const imgContainer = document.createElement("div");
 	imgContainer.className = "image-checkbox-image-container";
 	
-	const img = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-	img.classList.add("image-checkbox-image");
-	
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
 	// don't drag
@@ -267,7 +264,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	} else {
 		imgCover.ondragstart = () => false;
 	}
-	imgContainer.append(img, imgCover);
+	imgContainer.append(imgCover);
 	
 	label.append(input, imgContainer);
 	
@@ -313,10 +310,9 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
     })
 			.then(data => {
 				ctrl.data = data;
+        imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
         imgCover.dataset.src = url;
         setupLazyLoad(imgCover);
-        img.setAttribute("height", data.height);
-        img.setAttribute("viewBox", `0 0 ${data.width} ${data.height}`);
 				if (pref.get("displayImageSizeUnderThumbnail")) {
 					const info = document.createElement("span");
 					info.className = "image-checkbox-info";
@@ -329,7 +325,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 				}
 				label.title += ` [${formatFileSize(data.size)}]`;
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
-				img.dispatchEvent(new CustomEvent("imageLoad", {
+				imgCover.dispatchEvent(new CustomEvent("imageLoad", {
 					bubbles: true,
 					detail: {image: ctrl}
 				}));
@@ -339,6 +335,14 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
         throw err;
 			});
 	}
+}
+
+function createPlacehold(width, height) {
+	const placehold = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	placehold.classList.add("image-checkbox-image");
+  placehold.setAttribute("height", height);
+  placehold.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  return placehold;
 }
 
 function formatFileSize(size) {
