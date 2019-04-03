@@ -6,7 +6,7 @@
   "author": "eight04 <eight04@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@eight04/idb-storage": "^0.2.2",
+    "@eight04/idb-storage": "^0.2.3",
     "content-disposition-bundle": "github:eight04/content-disposition-bundle",
     "expression-eval-bundle": "github:eight04/expression-eval-bundle",
     "webext-menus": "^0.1.3",

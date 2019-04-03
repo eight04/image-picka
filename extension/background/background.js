@@ -136,6 +136,8 @@ pref.ready().then(() => {
 	});
 });
 
+imageCache.clear();
+
 function createDynamicIcon({file, enabled, onupdate}) {
 	const SIZES = [16, 32, 64];
 	let pendingSVG;
