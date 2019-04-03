@@ -1,4 +1,4 @@
-/* global initDownloadSingleImage imageUtil pref fetchImage urlMap */
+/* global initDownloadSingleImage imageUtil pref fetchImage urlMap ENV */
 
 (() => {
   let referrerMeta;
@@ -11,14 +11,21 @@
 			case "getImages":
 				return Promise.resolve(getImages());
 			case "fetchImage":
-				return fetchImageData(message.url);
+				return fetchImage(message.url)
+          .then(data => {
+            if (ENV.IS_CHROME) {
+              data.blobUrl = URL.createObjectURL(data.blob);
+              delete data.blob;
+            }
+            return data;
+          });
 			case "revokeURL":
 				return URL.revokeObjectURL(message.url);
 		}
 	});
 	
 	initDownloadSingleImage({downloadImage});
-	
+  
 	function downloadImage(url, referrerPolicy = getDefaultReferrerPolicy()) {
 		url = urlMap.transform(url);
 		let image;

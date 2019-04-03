@@ -35,6 +35,7 @@
       "lib/fetch-image.js",
 			"background/download.js",
 			"background/create-tab.js",
+			"background/image-cache.js",
 			"background/background.js"
 		]
 	},
@@ -47,6 +48,7 @@
 			"js": [
 				"vendor/browser-polyfill.min.js",
 				"vendor/content-disposition.min.js",
+				"lib/env.js",
 				"lib/pref.js",
 				"lib/fetch.js",
         "lib/fetch-image.js",

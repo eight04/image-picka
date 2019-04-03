@@ -1,5 +1,5 @@
 /* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download */
+	download imageCache */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {

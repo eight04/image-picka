@@ -308,6 +308,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
       method: "cacheImage",
       url,
       tabId,
+      frameId,
       noReferrer
     })
 			.then(data => {
