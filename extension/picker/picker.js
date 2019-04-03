@@ -1,6 +1,8 @@
-/* global pref createProgressBar */
+/* global pref createProgressBar ENV */
 
-browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
+const BATCH_ID = getBatchId();
+
+browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
 	.then(req =>
 		pref.ready()
 			.then(domReady)
@@ -99,13 +101,12 @@ function init({tabs: originalTabs, env}) {
 							.filter(i => i.selected())
 							.map(i => ({
 								url: i.url,
-								blob: isFirefox() ? i.data.blob : null,
-								blobUrl: isFirefox() ? null : i.data.blobUrl,
 								filename: i.data.filename
 							}))
 					})
 				),
-				env
+				env,
+        batchId: BATCH_ID
 			})
 				.then(() => {
 					browser.runtime.sendMessage({method: "closeTab"});
@@ -200,7 +201,7 @@ function initFilter(container, images) {
 	}
 	
 	function valid(image) {
-    if (image.error) {
+    if (image.error || !image.data) {
       return false;
     }
 		const {width, height, size} = image.data;
@@ -255,18 +256,17 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	const imgContainer = document.createElement("div");
 	imgContainer.className = "image-checkbox-image-container";
 	
-	const img = new Image;
-	img.className = "image-checkbox-image";
-	// don't drag
-	if (isChrome()) {
-		img.draggable = false;
-	} else {
-		img.ondragstart = () => false;
-	}
+	const img = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	img.classList.add("image-checkbox-image");
 	
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
-	
+	// don't drag
+	if (ENV.IS_CHROME) {
+		imgCover.draggable = false;
+	} else {
+		imgCover.ondragstart = () => false;
+	}
 	imgContainer.append(img, imgCover);
 	
 	label.append(input, imgContainer);
@@ -275,7 +275,6 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 		url,
 		data: null,
 		el: label,
-		imgEl: img,
 		toggleEnable(enable) {
 			label.classList.toggle("disabled", !enable);
 			input.disabled = !enable;
@@ -309,11 +308,15 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
       url,
       tabId,
       frameId,
-      noReferrer
+      noReferrer,
+      batchId: BATCH_ID
     })
 			.then(data => {
 				ctrl.data = data;
-        img.dataset.src = url;
+        imgCover.dataset.src = url;
+        setupLazyLoad(imgCover);
+        img.setAttribute("height", data.height);
+        img.setAttribute("viewBox", `0 0 ${data.width} ${data.height}`);
 				if (pref.get("displayImageSizeUnderThumbnail")) {
 					const info = document.createElement("span");
 					info.className = "image-checkbox-info";
@@ -325,10 +328,6 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 					}
 				}
 				label.title += ` [${formatFileSize(data.size)}]`;
-				// default width for svg
-				if (!data.width) {
-					img.style.width = "200px";
-				}
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
 				img.dispatchEvent(new CustomEvent("imageLoad", {
 					bubbles: true,
@@ -346,10 +345,19 @@ function formatFileSize(size) {
 	return `${(size / 1024).toFixed(2)} KB`;
 }
 
-function isFirefox() {
-	return typeof InstallTrigger !== "undefined";
-}
-
-function isChrome() {
-	return chrome.app;
+function setupLazyLoad(target) {
+  if (typeof IntersectionObserver === "undefined") {
+    target.src = target.dataset.src;
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        target.src = target.dataset.src;
+      } else {
+        target.src = "";
+      }
+    }
+  });
+  observer.observe(target);
 }

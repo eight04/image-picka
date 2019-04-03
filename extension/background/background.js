@@ -1,5 +1,5 @@
 /* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download imageCache */
+	download imageCache createCounter */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -31,7 +31,15 @@ browser.runtime.onMessage.addListener((message, sender) => {
 			}
 			return closeTab(message);
     case "cacheImage":
-      return imageCache.add(message);
+      return imageCache.add(message)
+        .then(r => {
+          const batch = batches.get(message.batchId);
+          if (!batch.cachedImages) {
+            batch.cachedImages = createCounter();
+          }
+          batch.cachedImages.add(message.url);
+          return r;
+        });
 		case "getBatchData":
 			return Promise.resolve(batches.get(message.batchId));
 		case "notifyError":
@@ -393,11 +401,15 @@ function openPicker(req, openerTabId) {
 	})
 		.then(() => {
 			batches.delete(batchId);
+      if (req.cachedImages) {
+        return imageCache.deleteMany(req.cachedImages.toList());
+      }
 		})
 		.catch(console.error);
 }
 
-function batchDownload({tabs, env}) {
+function batchDownload({tabs, env, batchId}) {
+  const {cachedImages} = batches.get(batchId);
 	const date = new Date;
 	Object.assign(env, {
 		date,
@@ -411,18 +423,24 @@ function batchDownload({tabs, env}) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
-		for (const {url, blob, blobUrl, filename} of tab.images) {
+		for (const {url, filename} of tab.images) {
+      cachedImages.delete(url);
 			env.url = url;
 			env.index = i + 1;
 			env.base = filename;
 			expandEnv(env);
-			pending.push(download({
-				url: blobUrl || url,
-				blob,
-				filename: renderFilename(env),
-				saveAs: false,
-				conflictAction: pref.get("filenameConflictAction")
-			}));
+      const fullFileName = renderFilename(env);
+      const t = imageCache.get(url).then(blob => {
+        imageCache.delete(url).catch(console.error);
+        return download({
+          url,
+          blob,
+          filename: fullFileName,
+          saveAs: false,
+          conflictAction: pref.get("filenameConflictAction")
+        });
+      });
+			pending.push(t);
 			i++;
 		}
 	}

@@ -6,10 +6,10 @@ const imageCache = (() => {
     name: "image-cache",
     conflictAction: "stack"
   });
-  return {add, get, delete: delete_};
+  return {add, get, delete: delete_, deleteMany};
   
   function add({url, tabId, frameId, noReferrer}) {
-    return cache.setAsync(url, async () => {
+    return cache.set(url, async () => {
       let data;
       if (noReferrer && ENV.IS_CHROME) {
         data = await fetchImage(url);
@@ -29,6 +29,10 @@ const imageCache = (() => {
   
   function delete_(url) {
     return cache.delete(url);
+  }
+  
+  function deleteMany(urls) {
+    return cache.deleteMany(urls);
   }
   
   function fetchImageFromTab(url, tabId, frameId) {
@@ -62,10 +66,24 @@ const imageCache = (() => {
       i.src = URL.createObjectURL(blob);
       i.onerror = reject;
       i.onload = () => {
-        resolve({
-          width: i.naturalWidth,
-          height: i.naturalHeight
-        });
+        if (i.naturalWidth) {
+          resolve({
+            width: i.naturalWidth,
+            height: i.naturalHeight
+          });
+        } else if (i.offsetWidth) {
+          // default width for svg?
+          i.style.width = "200px";
+          resolve({
+            width: i.offsetWidth,
+            height: i.offsetHeight
+          });
+        } else {
+          resolve({
+            width: 0,
+            height: 0
+          });
+        }
         i.remove();
         URL.revokeObjectURL(i.src);
       };

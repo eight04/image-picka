@@ -33,6 +33,7 @@
 			"lib/pref.js",
       "lib/fetch.js",
       "lib/fetch-image.js",
+      "lib/counter.js",
 			"background/download.js",
 			"background/create-tab.js",
 			"background/image-cache.js",
