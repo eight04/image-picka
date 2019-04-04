@@ -433,16 +433,16 @@ function batchDownload({tabs, env, batchId}) {
 			env.base = filename;
 			expandEnv(env);
       const fullFileName = renderFilename(env);
-      const t = imageCache.get(url).then(blob => {
-        imageCache.delete(url).catch(console.error);
-        return download({
+      const t = imageCache.get(url).then(blob =>
+        download({
           url,
           blob,
           filename: fullFileName,
           saveAs: false,
-          conflictAction: pref.get("filenameConflictAction")
-        });
-      });
+          conflictAction: pref.get("filenameConflictAction"),
+          oncomplete: () => imageCache.delete(url).catch(console.error)
+        })
+      );
 			pending.push(t);
 			i++;
 		}

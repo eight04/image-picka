@@ -20,6 +20,7 @@ const download = (() => {
     }
   }
   
+  // options: {blob, oncomplete, ...apiOptions}
   function download(options, wait = false) {
     const task = {
       q: defer()
@@ -27,6 +28,8 @@ const download = (() => {
     // always delete blob property
     const blob = options.blob;
     delete options.blob;
+    const oncomplete = options.oncomplete;
+    delete options.oncomplete;
     let starting;
     if (blob) {
       starting = downloadBlob(blob);
@@ -71,6 +74,9 @@ const download = (() => {
       }
       if (task.id) {
         tasks.delete(task);
+      }
+      if (oncomplete) {
+        oncomplete();
       }
     }
   }
