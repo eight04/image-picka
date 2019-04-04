@@ -92,7 +92,8 @@ function init({tabs: originalTabs, env}) {
 		invert() {
 			getImages().forEach(i => i.toggleCheck());
 		},
-		save() {
+		save(e) {
+      e.target.disabled = true;
 			browser.runtime.sendMessage({
 				method: "batchDownload",
 				tabs: tabs.map(t =>
