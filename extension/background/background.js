@@ -136,7 +136,7 @@ pref.ready().then(() => {
 	});
 });
 
-imageCache.clear();
+imageCache.clearAll();
 
 function createDynamicIcon({file, enabled, onupdate}) {
 	const SIZES = [16, 32, 64];
