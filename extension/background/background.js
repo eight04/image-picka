@@ -24,7 +24,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 			message.tabId = sender.tab.id;
 			return downloadImage(message);
 		case "batchDownload":
-			return batchDownload(message);
+			return Promise.resolve(batchDownload(message));
 		case "closeTab":
 			if (!message.tabId) {
 				message.tabId = sender.tab.id;
@@ -446,14 +446,13 @@ function batchDownload({tabs, env, batchId}) {
 			i++;
 		}
 	}
-	return Promise.all(pending).then(
-		() => {
-			if (pref.get("closeTabsAfterSave")) {
-				tabs.forEach(t => browser.tabs.remove(t.tabId));
-			}
-		},
-		notifyDownloadError
-	);
+	return Promise.all(pending)
+    .then(() => {
+      if (pref.get("closeTabsAfterSave")) {
+        tabs.forEach(t => browser.tabs.remove(t.tabId));
+      }
+    })
+    .catch(notifyDownloadError);
 }
 
 function createDateString(date) {
