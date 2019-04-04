@@ -6,7 +6,7 @@ const imageCache = (() => {
     name: "image-cache",
     conflictAction: "stack"
   });
-  return {add, get, delete: delete_, deleteMany};
+  return {add, get, delete: delete_, deleteMany, clearAll};
   
   function add({url, tabId, frameId, noReferrer}) {
     return cache.set(url, async () => {
@@ -33,6 +33,10 @@ const imageCache = (() => {
   
   function deleteMany(urls) {
     return cache.deleteMany(urls);
+  }
+  
+  function clearAll() {
+    return cache.clearAll();
   }
   
   function fetchImageFromTab(url, tabId, frameId) {
