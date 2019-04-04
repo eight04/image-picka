@@ -20,9 +20,10 @@ const batches = new Map;
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
-		case "downloadImage":
+		case "singleDownload":
 			message.tabId = sender.tab.id;
-			return downloadImage(message);
+      message.frameId = sender.frameId;
+			return singleDownload(message);
 		case "batchDownload":
 			return Promise.resolve(batchDownload(message));
 		case "closeTab":
@@ -469,33 +470,27 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-function downloadImage({image, env, tabId}) {
-	if (!env) {
-		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
-			.then(newEnv => {
-				env = newEnv;
-				return doDownload();
-			});
-	}
-	return doDownload();
-	
-	function doDownload() {
-		env.date = new Date;
-		env.dateString = createDateString(env.date);
-		env.url = image.url;
-		env.base = image.filename;
-		expandEnv(env);
-		const filePattern = pref.get("filePattern");
-		const filename = compileStringTemplate(filePattern)(env);
-		return download({
-			url: image.blobUrl || image.url,
-			blob: image.blob,
-			filename,
-			saveAs: pref.get("saveAs"),
-			conflictAction: pref.get("filenameConflictAction")
-		}, true)
-			.catch(notifyDownloadError);
-	}
+async function singleDownload({url, env, tabId, frameId, noReferrer}) {
+  let data;
+  [env, data] = await Promise.all([
+    env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
+    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, noReferrer)
+  ]);
+  env.date = new Date;
+  env.dateString = createDateString(env.date);
+  env.url = url;
+  env.base = data && data.filename;
+  expandEnv(env);
+  const filePattern = pref.get("filePattern");
+  const filename = compileStringTemplate(filePattern)(env);
+  download({
+    url,
+    blob: data && data.blob,
+    filename,
+    saveAs: pref.get("saveAs"),
+    conflictAction: pref.get("filenameConflictAction")
+  })
+    .catch(notifyDownloadError);
 }
 
 const escapeVariable = (() => {

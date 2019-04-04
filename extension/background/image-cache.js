@@ -6,16 +6,18 @@ const imageCache = (() => {
     name: "image-cache",
     conflictAction: "stack"
   });
-  return {add, get, delete: delete_, deleteMany, clearAll};
+  return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
+  
+  function _fetchImage(url, tabId, frameId, noReferrer) {
+    if (noReferrer && ENV.IS_CHROME) {
+      return fetchImage(url);
+    }
+    return fetchImageFromTab(url, tabId, frameId);
+  }
   
   function add({url, tabId, frameId, noReferrer}) {
     return cache.set(url, async () => {
-      let data;
-      if (noReferrer && ENV.IS_CHROME) {
-        data = await fetchImage(url);
-      } else {
-        data = await fetchImageFromTab(url, tabId, frameId);
-      }
+      const data = await _fetchImage(url, tabId, frameId, noReferrer);
       const resource = data.blob;
       delete data.blob;
       const meta = Object.assign(data, await detectDimension(resource));
