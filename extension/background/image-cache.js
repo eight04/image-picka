@@ -70,7 +70,10 @@ const imageCache = (() => {
     return new Promise((resolve, reject) => {
       const i = new Image;
       i.src = URL.createObjectURL(blob);
-      i.onerror = reject;
+      i.onerror = err => {
+        reject(err);
+        cleanup();
+      };
       i.onload = () => {
         if (i.naturalWidth) {
           resolve({
@@ -90,10 +93,13 @@ const imageCache = (() => {
             height: 0
           });
         }
-        i.remove();
-        URL.revokeObjectURL(i.src);
+        cleanup();
       };
       document.body.append(i);
+      function cleanup() {
+        i.remove();
+        URL.revokeObjectURL(i.src);        
+      }
     });
   }
 })();
