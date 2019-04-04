@@ -440,6 +440,8 @@ function batchDownload({tabs, env, batchId}) {
           filename: fullFileName,
           saveAs: false,
           conflictAction: pref.get("filenameConflictAction"),
+          // we have to delete the cache after download complete
+          // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
           oncomplete: () => imageCache.delete(url).catch(console.error)
         })
       );
