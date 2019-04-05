@@ -1,5 +1,5 @@
 /* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download imageCache createCounter */
+	download imageCache createCounter throttle */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -17,6 +17,7 @@ const MENU_ACTIONS = {
 };
 let INC = 0;
 const batches = new Map;
+const batchDownloadQue = throttle();
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -433,29 +434,28 @@ function batchDownload({tabs, env, batchId}) {
 			env.base = filename;
 			expandEnv(env);
       const fullFileName = renderFilename(env);
-      const t = imageCache.get(url).then(blob =>
-        download({
-          url,
-          blob,
-          filename: fullFileName,
-          saveAs: false,
-          conflictAction: pref.get("filenameConflictAction"),
-          // we have to delete the cache after download complete
-          // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
-          oncomplete: () => imageCache.delete(url).catch(console.error)
-        })
+      const t = batchDownloadQue.add(() =>
+        imageCache.get(url).then(blob =>
+          download({
+            url,
+            blob,
+            filename: fullFileName,
+            saveAs: false,
+            conflictAction: pref.get("filenameConflictAction"),
+            // we have to delete the cache after download complete
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
+            oncomplete: () => imageCache.delete(url).catch(console.error)
+          })
+        )
       );
 			pending.push(t);
 			i++;
 		}
 	}
-	return Promise.all(pending)
-    .then(() => {
-      if (pref.get("closeTabsAfterSave")) {
-        tabs.forEach(t => browser.tabs.remove(t.tabId));
-      }
-    })
-    .catch(notifyDownloadError);
+	Promise.all(pending).catch(notifyDownloadError);
+  if (pref.get("closeTabsAfterSave")) {
+    tabs.forEach(t => browser.tabs.remove(t.tabId));
+  }
 }
 
 function createDateString(date) {
