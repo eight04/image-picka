@@ -8,11 +8,23 @@ const imageCache = (() => {
   });
   return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
-  function _fetchImage(url, tabId, frameId, noReferrer) {
-    if (noReferrer && ENV.IS_CHROME) {
-      return fetchImage(url);
+  async function _fetchImage(url, tabId, frameId, noReferrer) {
+    if (ENV.IS_CHROME) {
+      if (!noReferrer) {
+        try {
+          // https://github.com/eight04/image-picka/issues/158
+          // this may fail because of mixed content error
+          // FIXME: is there a way to correctly detect error message in order to
+          // know whether to fallback?
+          return await fetchImageFromTab(url, tabId, frameId);
+        } catch (err) {
+          // pass
+        }
+      }
+      return await fetchImage(url);
     }
-    return fetchImageFromTab(url, tabId, frameId);
+    // always fetch from tab in Firefox
+    return await fetchImageFromTab(url, tabId, frameId);
   }
   
   function add({url, tabId, frameId, noReferrer}) {
