@@ -62,7 +62,7 @@ const download = (() => {
           tasks.set(id, task);
         })
         .catch(err => {
-          cleanup();
+          task.q.reject(err);
           throw err;
         });
     }
