@@ -434,20 +434,27 @@ function batchDownload({tabs, env, batchId}) {
 			env.base = filename;
 			expandEnv(env);
       const fullFileName = renderFilename(env);
-      const t = batchDownloadQue.add(() =>
-        imageCache.get(url).then(blob =>
-          download({
+      const t = batchDownloadQue.add(async () => {
+        const blob = await imageCache.get(url);
+        let err;
+        try {
+          await download({
             url,
             blob,
             filename: fullFileName,
             saveAs: false,
-            conflictAction: pref.get("filenameConflictAction"),
-            // we have to delete the cache after download complete
-            // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
-            oncomplete: () => imageCache.delete(url).catch(console.error)
-          })
-        )
-      );
+            conflictAction: pref.get("filenameConflictAction")
+          }, true);
+        } catch (_err) {
+          err = _err;
+        }
+        // we have to delete the cache after download complete
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
+        await imageCache.delete(url);
+        if (err) {
+          throw err;
+        }
+      });
 			pending.push(t);
 			i++;
 		}
@@ -491,7 +498,7 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
     filename,
     saveAs: pref.get("saveAs"),
     conflictAction: pref.get("filenameConflictAction")
-  })
+  }, true)
     .catch(notifyDownloadError);
 }
 
