@@ -80,8 +80,8 @@ const imageCache = (() => {
     return new Promise((resolve, reject) => {
       const i = new Image;
       i.src = URL.createObjectURL(blob);
-      i.onerror = err => {
-        reject(err);
+      i.onerror = () => {
+        reject(new Error("Failed to detect image dimension"));
         cleanup();
       };
       i.onload = () => {
