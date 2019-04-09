@@ -1,5 +1,5 @@
 /* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download imageCache createCounter throttle */
+	download imageCache createCounter throttle ENV */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -49,7 +49,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     case "fetchImage":
       return fetchImage(message.url)
         .then(data => {
-          if (!isFirefox() && data.blob) {
+          if (ENV.IS_CHROME && data.blob) {
             data.blobUrl = URL.createObjectURL(data.blob);
             delete data.blob;
           }
@@ -628,8 +628,4 @@ function nestDecodeURIComponent(s) {
 		}
 	}
 	return s;
-}
-
-function isFirefox() {
-  return Boolean(browser.getBrowserInfo);
 }

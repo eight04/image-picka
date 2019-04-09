@@ -1,4 +1,4 @@
-/* global pref imageUtil */
+/* global pref imageUtil ENV */
 /* exported initDownloadSingleImage */
 
 function initDownloadSingleImage({downloadImage}) {
@@ -156,7 +156,7 @@ function initDownloadSingleImage({downloadImage}) {
       }
       
       function drop(e) {
-        if (!isChrome() && e.buttons) {
+        if (!ENV.IS_CHROME && e.buttons) {
           // cancel download when clicking other buttons
           e.preventDefault();
           return;
@@ -329,10 +329,6 @@ function initDownloadSingleImage({downloadImage}) {
 		}
 	}
 	
-	function isChrome() {
-		return chrome.app;
-	}
-  
   function fadeOut(el) {
     try {
       // security error in waterfox
