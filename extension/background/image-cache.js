@@ -91,8 +91,8 @@ const imageCache = (() => {
             height: i.naturalHeight
           });
         } else if (i.offsetWidth) {
-          // default width for svg?
-          i.style.width = "200px";
+          // FIXME: default width for svg? Maybe we should remove this since
+          // this affects the batch download filter
           resolve({
             width: i.offsetWidth,
             height: i.offsetHeight
