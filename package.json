@@ -6,7 +6,7 @@
   "author": "eight04 <eight04@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@eight04/idb-storage": "^0.4.0",
+    "@eight04/idb-storage": "^0.4.1",
     "content-disposition-bundle": "github:eight04/content-disposition-bundle",
     "expression-eval-bundle": "github:eight04/expression-eval-bundle",
     "webext-menus": "^0.1.3",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0",
-    "mime": "^2.4.1",
+    "mime": "^2.4.2",
     "node-sigint": "0.0.1",
     "shelljs": "^0.8.3",
     "shx": "^0.3.2",
