@@ -188,6 +188,15 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.11.0 (next)
+
+  - **Breaking: drop support for Firefox < 52.**
+  - Change: throttle network connection usage. Only use 5 connections at once.
+  - Add: use a IndexedDB cache in batch download to save memory.
+  - Add: lazy load preview image in batch download.
+  - Add: style broken images in batch download.
+  - Fix: ignore `about:blank` in batch download.
+
 * 0.10.2 (Feb 19, 2019)
 
   - Fix: malformed URL error.

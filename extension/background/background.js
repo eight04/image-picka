@@ -1,5 +1,5 @@
 /* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download */
+	download imageCache createCounter throttle ENV */
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -17,19 +17,31 @@ const MENU_ACTIONS = {
 };
 let INC = 0;
 const batches = new Map;
+const batchDownloadQue = throttle();
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
-		case "downloadImage":
+		case "singleDownload":
 			message.tabId = sender.tab.id;
-			return downloadImage(message);
+      message.frameId = sender.frameId;
+			return singleDownload(message);
 		case "batchDownload":
-			return batchDownload(message);
+			return Promise.resolve(batchDownload(message));
 		case "closeTab":
 			if (!message.tabId) {
 				message.tabId = sender.tab.id;
 			}
 			return closeTab(message);
+    case "cacheImage":
+      return imageCache.add(message)
+        .then(r => {
+          const batch = batches.get(message.batchId);
+          if (!batch.cachedImages) {
+            batch.cachedImages = createCounter();
+          }
+          batch.cachedImages.add(message.url);
+          return r;
+        });
 		case "getBatchData":
 			return Promise.resolve(batches.get(message.batchId));
 		case "notifyError":
@@ -37,7 +49,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     case "fetchImage":
       return fetchImage(message.url)
         .then(data => {
-          if (!isFirefox() && data.blob) {
+          if (ENV.IS_CHROME && data.blob) {
             data.blobUrl = URL.createObjectURL(data.blob);
             delete data.blob;
           }
@@ -125,6 +137,8 @@ pref.ready().then(() => {
 		}
 	});
 });
+
+imageCache.clearAll();
 
 function createDynamicIcon({file, enabled, onupdate}) {
 	const SIZES = [16, 32, 64];
@@ -391,11 +405,15 @@ function openPicker(req, openerTabId) {
 	})
 		.then(() => {
 			batches.delete(batchId);
+      if (req.cachedImages) {
+        return imageCache.deleteMany(req.cachedImages.toList());
+      }
 		})
 		.catch(console.error);
 }
 
-function batchDownload({tabs, env}) {
+function batchDownload({tabs, env, batchId}) {
+  const {cachedImages} = batches.get(batchId);
 	const date = new Date;
 	Object.assign(env, {
 		date,
@@ -409,29 +427,42 @@ function batchDownload({tabs, env}) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
-		for (const {url, blob, blobUrl, filename} of tab.images) {
+		for (const {url, filename} of tab.images) {
+      cachedImages.delete(url);
 			env.url = url;
 			env.index = i + 1;
 			env.base = filename;
 			expandEnv(env);
-			pending.push(download({
-				url: blobUrl || url,
-				blob,
-				filename: renderFilename(env),
-				saveAs: false,
-				conflictAction: pref.get("filenameConflictAction")
-			}));
+      const fullFileName = renderFilename(env);
+      const t = batchDownloadQue.add(async () => {
+        const blob = await imageCache.get(url);
+        let err;
+        try {
+          await download({
+            url,
+            blob,
+            filename: fullFileName,
+            saveAs: false,
+            conflictAction: pref.get("filenameConflictAction")
+          }, true);
+        } catch (_err) {
+          err = _err;
+        }
+        // we have to delete the cache after download complete
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
+        await imageCache.delete(url);
+        if (err) {
+          throw err;
+        }
+      });
+			pending.push(t);
 			i++;
 		}
 	}
-	return Promise.all(pending).then(
-		() => {
-			if (pref.get("closeTabsAfterSave")) {
-				tabs.forEach(t => browser.tabs.remove(t.tabId));
-			}
-		},
-		notifyDownloadError
-	);
+	Promise.all(pending).catch(notifyDownloadError);
+  if (pref.get("closeTabsAfterSave")) {
+    tabs.forEach(t => browser.tabs.remove(t.tabId));
+  }
 }
 
 function createDateString(date) {
@@ -448,33 +479,27 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-function downloadImage({image, env, tabId}) {
-	if (!env) {
-		return browser.tabs.sendMessage(tabId, {method: "getEnv"})
-			.then(newEnv => {
-				env = newEnv;
-				return doDownload();
-			});
-	}
-	return doDownload();
-	
-	function doDownload() {
-		env.date = new Date;
-		env.dateString = createDateString(env.date);
-		env.url = image.url;
-		env.base = image.filename;
-		expandEnv(env);
-		const filePattern = pref.get("filePattern");
-		const filename = compileStringTemplate(filePattern)(env);
-		return download({
-			url: image.blobUrl || image.url,
-			blob: image.blob,
-			filename,
-			saveAs: pref.get("saveAs"),
-			conflictAction: pref.get("filenameConflictAction")
-		}, true)
-			.catch(notifyDownloadError);
-	}
+async function singleDownload({url, env, tabId, frameId, noReferrer}) {
+  let data;
+  [env, data] = await Promise.all([
+    env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
+    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, noReferrer)
+  ]);
+  env.date = new Date;
+  env.dateString = createDateString(env.date);
+  env.url = url;
+  env.base = data && data.filename;
+  expandEnv(env);
+  const filePattern = pref.get("filePattern");
+  const filename = compileStringTemplate(filePattern)(env);
+  download({
+    url,
+    blob: data && data.blob,
+    filename,
+    saveAs: pref.get("saveAs"),
+    conflictAction: pref.get("filenameConflictAction")
+  }, true)
+    .catch(notifyDownloadError);
 }
 
 const escapeVariable = (() => {
@@ -603,8 +628,4 @@ function nestDecodeURIComponent(s) {
 		}
 	}
 	return s;
-}
-
-function isFirefox() {
-  return Boolean(browser.getBrowserInfo);
 }

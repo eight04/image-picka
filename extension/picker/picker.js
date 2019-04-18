@@ -1,6 +1,8 @@
-/* global pref fetchXHR createProgressBar */
+/* global pref createProgressBar ENV */
 
-browser.runtime.sendMessage({method: "getBatchData", batchId: getBatchId()})
+const BATCH_ID = getBatchId();
+
+browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
 	.then(req =>
 		pref.ready()
 			.then(domReady)
@@ -90,7 +92,8 @@ function init({tabs: originalTabs, env}) {
 		invert() {
 			getImages().forEach(i => i.toggleCheck());
 		},
-		save() {
+		save(e) {
+      e.target.disabled = true;
 			browser.runtime.sendMessage({
 				method: "batchDownload",
 				tabs: tabs.map(t =>
@@ -99,13 +102,12 @@ function init({tabs: originalTabs, env}) {
 							.filter(i => i.selected())
 							.map(i => ({
 								url: i.url,
-								blob: isFirefox() ? i.data.blob : null,
-								blobUrl: isFirefox() ? null : i.data.blobUrl,
 								filename: i.data.filename
 							}))
 					})
 				),
-				env
+				env,
+        batchId: BATCH_ID
 			})
 				.then(() => {
 					browser.runtime.sendMessage({method: "closeTab"});
@@ -200,16 +202,18 @@ function initFilter(container, images) {
 	}
 	
 	function valid(image) {
-		const {naturalWidth, naturalHeight, error, fileSize} = image.imgEl;
+    if (image.error || !image.data) {
+      return false;
+    }
+		const {width, height, size} = image.data;
 		const src = image.url;
-		return !error &&
-			fileSize &&
+		return size &&
 			// svg has no natural width/height
-			(!naturalWidth || naturalWidth >= conf.minWidth) &&
-			(!naturalHeight || naturalHeight >= conf.minHeight) && 
+			(!width || width >= conf.minWidth) &&
+			(!height || height >= conf.minHeight) && 
 			(!conf.matchUrl || 
 				(conf.matchUrl.test(src) == (conf.matchType == "include"))) &&
-			fileSize >= conf.minFileSize * 1024;
+			size >= conf.minFileSize * 1024;
 	}
 	
 	function filter(image) {
@@ -253,19 +257,15 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	const imgContainer = document.createElement("div");
 	imgContainer.className = "image-checkbox-image-container";
 	
-	const img = new Image;
-	img.className = "image-checkbox-image";
-	// don't drag
-	if (isChrome()) {
-		img.draggable = false;
-	} else {
-		img.ondragstart = () => false;
-	}
-	
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
-	
-	imgContainer.append(img, imgCover);
+	// don't drag
+	if (ENV.IS_CHROME) {
+		imgCover.draggable = false;
+	} else {
+		imgCover.ondragstart = () => false;
+	}
+	imgContainer.append(imgCover);
 	
 	label.append(input, imgContainer);
 	
@@ -273,7 +273,6 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 		url,
 		data: null,
 		el: label,
-		imgEl: img,
 		toggleEnable(enable) {
 			label.classList.toggle("disabled", !enable);
 			input.disabled = !enable;
@@ -299,100 +298,72 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	}
 	
 	function load() {
-		return loadImageData()
+    if (!validUrl(url)) {
+      return Promise.reject(new Error(`Invalid URL: ${url}`));
+    }
+    return browser.runtime.sendMessage({
+      method: "cacheImage",
+      url,
+      tabId,
+      frameId,
+      noReferrer,
+      batchId: BATCH_ID
+    })
 			.then(data => {
 				ctrl.data = data;
-				const {resolve, reject, promise} = deferred();
-				img.onload = resolve;
-				img.onerror = reject;
-				img.src = data.blobUrl || URL.createObjectURL(data.blob);
-				img.fileSize = data.size;
-				if (!validUrl(url)) {
-					throw new Error(`Invalid URL: ${url}`);
-				}
-				imgCover.src = url;
-				return promise;
-			})
-			.then(() => {
+        imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
+        imgCover.dataset.src = url;
+        setupLazyLoad(imgCover);
 				if (pref.get("displayImageSizeUnderThumbnail")) {
 					const info = document.createElement("span");
 					info.className = "image-checkbox-info";
-					info.textContent = `${img.naturalWidth} x ${img.naturalHeight}`;
+					info.textContent = `${data.width} x ${data.height}`;
 					label.append(info);
 				} else {
-					if (img.naturalWidth) {
-						label.title += ` (${img.naturalWidth} x ${img.naturalHeight})`;
+					if (data.width) {
+						label.title += ` (${data.width} x ${data.height})`;
 					}
 				}
-				label.title += ` [${formatFileSize(img.fileSize)}]`;
-				
-				// default width for svg
-				if (!img.naturalHeight) {
-					img.style.width = "200px";
-				}
-			})
-			.then(() => {
+				label.title += ` [${formatFileSize(data.size)}]`;
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
-				img.dispatchEvent(new CustomEvent("imageLoad", {
+				imgCover.dispatchEvent(new CustomEvent("imageLoad", {
 					bubbles: true,
 					detail: {image: ctrl}
 				}));
 			})
 			.catch(err => {
-				img.error = true;
+				ctrl.error = true;
+        label.classList.add("error");
         throw err;
 			});
 	}
-	
-	function loadImageData() {
-		let data;
-		return (
-      noReferrer && isChrome() ?
-        browser.runtime.sendMessage({method: "fetchImage", url})
-          .then(data => {
-            data.fromBackground = true;
-            return data;
-          }) :
-        browser.tabs.sendMessage(tabId, {method: "fetchImage", url}, {frameId})
-    )
-			.then(_data => {
-				data = _data;
-				if (!data.blob) {
-					// cache the blob so users can close the tab after that
-					return fetchXHR(data.blobUrl, "blob")
-						.then(r => {
-              if (data.fromBackground) {
-                browser.runtime.sendMessage({method: "revokeURL", url: data.blobUrl});
-              } else {
-                browser.tabs.sendMessage(tabId, {method: "revokeURL", url: data.blobUrl}, {frameId});
-              }
-              const blob = r.response;
-							data.blob = blob;
-							data.blobUrl = URL.createObjectURL(blob);
-						});
-				}
-			})
-			.then(() => data);
-	}
+}
+
+function createPlacehold(width, height) {
+	const placehold = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	placehold.classList.add("image-checkbox-image");
+  placehold.setAttribute("height", height);
+  placehold.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  return placehold;
 }
 
 function formatFileSize(size) {
 	return `${(size / 1024).toFixed(2)} KB`;
 }
 
-function isFirefox() {
-	return typeof InstallTrigger !== "undefined";
-}
-
-function isChrome() {
-	return chrome.app;
-}
-
-function deferred() {
-	const o = {};
-	o.promise = new Promise((resolve, reject) => {
-		o.resolve = resolve;
-		o.reject = reject;
-	});
-	return o;
+function setupLazyLoad(target) {
+  if (typeof IntersectionObserver === "undefined") {
+    target.src = target.dataset.src;
+    return;
+  }
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        target.src = target.dataset.src;
+      } else {
+        target.src = "";
+      }
+    }
+  });
+  observer.observe(target);
 }

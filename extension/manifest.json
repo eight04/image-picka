@@ -5,9 +5,10 @@
 	"description": "__MSG_extensionDescription__",
 	"author": "eight",
 	"homepage_url": "https://github.com/eight04/image-picka",
-	"applications": {
+	"browser_specific_settings": {
 		"gecko": {
-			"id": "image-picka@eight04.blogspot.com"
+			"id": "image-picka@eight04.blogspot.com",
+      "strict_min_version": "52.0"
 		}
 	},
 	"permissions": [
@@ -27,11 +28,16 @@
       "vendor/content-disposition.min.js",
 			"vendor/expression-eval.min.js",
 			"vendor/webext-menus.min.js",
+			"vendor/idb-storage.min.js",
+			"lib/env.js",
+			"lib/throttle.js",
 			"lib/pref.js",
       "lib/fetch.js",
       "lib/fetch-image.js",
+      "lib/counter.js",
 			"background/download.js",
 			"background/create-tab.js",
+			"background/image-cache.js",
 			"background/background.js"
 		]
 	},
@@ -44,6 +50,8 @@
 			"js": [
 				"vendor/browser-polyfill.min.js",
 				"vendor/content-disposition.min.js",
+				"lib/env.js",
+        "lib/throttle.js",
 				"lib/pref.js",
 				"lib/fetch.js",
         "lib/fetch-image.js",
