@@ -76,8 +76,25 @@ const imageUtil = (() => {
       node.localName === "input" && node.type === "image";
   }
   
-  function getAllImages() {
-    return document.querySelectorAll('img, input[type="image"]');
+  function *getAllImages() {
+    for (const el of document.querySelectorAll('img, input[type="image"], a')) {
+      const src = el.localName === "a" ? getSrcFromLink(el) : getSrc(el);
+      if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
+        continue;
+      }
+      yield {
+        src,
+        referrerPolicy: el.referrerPolicy
+      };
+    }
+  }
+  
+  function getSrcFromLink(el) {
+    const url = el.href;
+    //https://github.com/eight04/linkify-plus-plus-core/blob/3d1e4dc1ced4cfc85a7bd96eb5be4fbdcc47bf71/lib/linkifier.js#L225
+    return pref.get("detectLink") &&
+      /^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url) &&
+      url;
   }
   
   function toAbsoluateUrl(url) {
