@@ -485,10 +485,13 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
     pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, noReferrer)
   ]);
+  // https://github.com/eslint/eslint/issues/11911
+  /* eslint-disable require-atomic-updates */
   env.date = new Date;
   env.dateString = createDateString(env.date);
   env.url = url;
   env.base = data && data.filename;
+  /* eslint-enable */
   expandEnv(env);
   const filePattern = pref.get("filePattern");
   const filename = compileStringTemplate(filePattern)(env);
