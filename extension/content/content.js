@@ -38,15 +38,14 @@
   
 	function getImages() {
     const images = new Map;
-    for (const img of imageUtil.getAllImages()) {
-      const src = imageUtil.getSrc(img);
-      if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
+    for (const {src, referrerPolicy} of imageUtil.getAllImages()) {
+      const url = urlMap.transform(src);
+      if (images.has(url)) {
         continue;
       }
-      const url = urlMap.transform(src);
       images.set(url, {
         url,
-        noReferrer: getReferrer(location.href, url, img.referrerPolicy || getDefaultReferrerPolicy()) !== location.href
+        noReferrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()) !== location.href
       });
     }
 		return [...images.values()];
