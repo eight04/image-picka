@@ -17,7 +17,7 @@
     "test": "npm run lint && web-ext lint",
     "start": "web-ext run",
     "preversion": "npm test",
-    "version": "npm run build && git add .",
+    "version": "npm run build && npm run build-vendor && git add .",
     "build": "sync-version extension/manifest.json",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s extension",
     "build-vendor": "node build-vendor",
