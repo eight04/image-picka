@@ -69,7 +69,7 @@
 	},
   "optionDetectLinkLabel": {
     "message": "Detect image URLs from links.",
-    "descrpition": "Label of detectLink option"
+    "description": "Label of detectLink option"
   },
 	"optionDblClickLabel": {
 		"message": "Download with double click",
