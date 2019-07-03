@@ -59,6 +59,10 @@
 		"message": "Color del icono",
 		"description": "Label of customIconColor option"
 	},
+	"optionDetectLinkLabel": {
+		"message": "Detectar URls de imágenes desde los enlaces.",
+		"description": ""
+	},
 	"optionDblClickLabel": {
 		"message": "Descargar con doble clic",
 		"description": "Label of dblClick option"
