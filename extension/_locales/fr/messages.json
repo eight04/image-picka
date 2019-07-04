@@ -67,6 +67,10 @@
 		"message": "Couleur de l’icône",
 		"description": "Label of customIconColor option"
 	},
+	"optionDetectLinkLabel": {
+    "message": "Détecter l’adresse des images à partir des liens",
+    "description": "Label of detectLink option"
+  },
 	"optionDblClickLabel": {
 		"message": "Télécharger par double-clic",
 		"description": "Label of dblClick option"
@@ -257,7 +261,7 @@
 		"description": "Label of selectByDefault option"
 	},
 	"optionSrcAlternativeLabelHTML": {
-		"message": "Autres attributs HTML contenant le lien de l’image (séparés par « $SEPARATOR$ ») :",
+		"message": "Autres attributs HTML contenant l’adresse de l’image (séparés par « $SEPARATOR$ ») :",
 		"description": "Label of srcAlternative option (HTML)",
 		"placeholders": {
 			"SEPARATOR": {
@@ -266,7 +270,7 @@
 		}
 	},
 	"optionUrlMapLabel": {
-		"message": "Transformation du lien par expression rationnelle :",
+		"message": "Transformation de l’adresse par expression rationnelle :",
 		"description": "Label of urlMap option"
 	},
 	"optionBlacklistLabel": {
@@ -306,7 +310,7 @@
 		"description": "Label of 'exclude' option of matchType filter in image picker"
 	},
 	"pickerMatchUrlLabel": {
-		"message": "Lien :",
+		"message": "Adresse :",
 		"description": "Label of matchUrl filter in image picker"
 	},
 	"pickerMatchUrlHelp": {
@@ -334,11 +338,11 @@
 		"description": "'Save' button in image picker"
 	},
 	"pickerActionCopyUrl": {
-		"message": "Copier les liens",
+		"message": "Copier les adresses",
 		"description": "'Copy URLs' button in image picker"
 	},
 	"pickerActionCopyUrlCopied": {
-		"message": "Liens copiés !",
+		"message": "Adresses copiées !",
 		"description": "'Copied!' button shown after successfully copied"
 	},
 	"pickerActionCancel": {
