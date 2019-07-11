@@ -63,6 +63,10 @@
 		"message": "图标颜色",
 		"description": "Label of customIconColor option"
 	},
+	"optionDetectLinkLabel": {
+		"message": "检测链接中的图像网址",
+		"description": "Label of detectLink option"
+	},
 	"optionDblClickLabel": {
 		"message": "双击下载",
 		"description": "Label of dblClick option"
@@ -239,6 +243,10 @@
 	"optionEscapeWithUnicodeLabel": {
 		"message": "将特殊字符转换为 Unicode 字形。",
 		"description": "Label of escapeWithUnicode option"
+	},
+	"optionEscapeZWJLabel": {
+		"message": "移除零宽连字符",
+		"description": "Label of escapeZWJ option"
 	},
 	"optionAdvancedTitle": {
 		"message": "高级",

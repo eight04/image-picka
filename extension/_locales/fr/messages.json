@@ -68,9 +68,9 @@
 		"description": "Label of customIconColor option"
 	},
 	"optionDetectLinkLabel": {
-    "message": "Détecter l’adresse des images à partir des liens",
-    "description": "Label of detectLink option"
-  },
+		"message": "Détecter l’adresse des images à partir des liens",
+		"description": "Label of detectLink option"
+	},
 	"optionDblClickLabel": {
 		"message": "Télécharger par double-clic",
 		"description": "Label of dblClick option"
