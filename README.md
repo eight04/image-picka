@@ -188,6 +188,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.11.2 (Oct 19, 2019)
+
+  - Fix: invalid filename error.
+  - Locale: update CN translation.
+  - Locale: update FR translation.
+
 * 0.11.1 (Jul 2, 2019)
 
   - Nothing is changed. Just package the extension again with correct line ends.
