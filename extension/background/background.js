@@ -505,6 +505,10 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
     .catch(notifyDownloadError);
 }
 
+function trimString(s) {
+  return s.replace(/^[\s\u180e]+|[\s\u180e]+$/g, "");
+}
+
 const escapeVariable = (() => {
 	const table = {
 		"/": "／",
@@ -518,37 +522,50 @@ const escapeVariable = (() => {
 		"*": "＊",
 		"~": "～"
 	};
-	const rx = new RegExp(`[${Object.keys(table).join("")}]+`, "g");
+  if (navigator.userAgent.includes("android")) {
+    // https://dxr.mozilla.org/mozilla-central/source/toolkit/components/downloads/DownloadPaths.jsm
+    Object.assign(table, {
+      ";": "；",
+      ",": "，",
+      "+": "＋",
+      "=": "＝",
+      "[": "［",
+      "]": "］"
+    });
+  }
+  const escapeBracket = s => s.replace(/\[|\]/g, "\\$&");
+	const rx = new RegExp(`[${escapeBracket(Object.keys(table).join(""))}]+`, "g");
 	const escape = m => {
 		if (!pref.get("escapeWithUnicode")) {
 			return "_";
 		}
 		return Array.from(m).map(c => table[c]).join("");
 	};
-	
+  // eslint-disable-next-line no-control-regex
+  const rxUnprintable = /[\x00-\x1f\x7f-\x9f\u200e\u200f\u202a-\u202e]/g;
+  
 	return name => {
     if (pref.get("escapeZWJ")) {
       name = name.replace(/\u200d/g, "");
     }
-		name = name.trim().replace(rx, escape).replace(/\s+/g, " ").replace(/\u200b/g, "");
+    name = trimString(
+      name.replace(rxUnprintable, "")
+        .replace(rx, escape)
+        .replace(/\s+/g, " ")
+    );
+      
 		const maxLength = pref.get("variableMaxLength");
 		if (name.length > maxLength) {
-			name = name.slice(0, maxLength).trim();
+			name = trimString(name.slice(0, maxLength));
 		}
 		return name;
 	};
 })();
 
 function escapePath(path) {
-	// trailing dots
-	path = path.replace(/\.+(\/|\\|$)/g, m => m.replace(/\./g, "．"));
-	// leading dots
-	// https://github.com/eight04/image-picka/issues/90
-	path = path.replace(/(^|\\|\/)\.+/g, m => m.replace(/\./g, "．"));
-	// spaces
-	// https://github.com/eight04/image-picka/issues/106
-	path = path.replace(/\s*[\\/]\s*/g, "/").trim();
-	return path;
+  return path.split(/\\|\//g).map(component =>
+    trimString(component).replace(/^\.+|\.+$/g, m => "．".repeat(m.length))
+  ).join("/");
 }
 
 function propGetter(prop) {
