@@ -301,6 +301,10 @@
 		"message": "Minimum file size (KB)",
 		"description": "Help text of minFileSize filter in image picker"
 	},
+  "pickerMatchTypeLabel": {
+    "message": "Match type of the URL filter",
+    "description": "Label of matchType filter in image picker"
+  },
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Include",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -317,10 +321,22 @@
 		"message": "Regular expression",
 		"description": "Help text of matchUrl filter in image picker"
 	},
+  "pickerPreviewMaxHeightLabel": {
+    "message": "Preview size",
+    "description": "Label of previewMaxHeight option in image picker"
+  },
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Max height of image preview",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
+  "pickerToolbarFilterLabel": {
+    "message": "Filter",
+    "description": "Label of the filter toolbar in image picker"
+  },
+  "pickerToolbarDownloadOptionsLabel": {
+    "message": "Download options",
+    "description": "Label of the download options toolbar in image picker"
+  },
 	"pickerFilenamePatternBatchLabel": {
 		"message": "Filename pattern",
 		"description": "Label of filenamePatternBatch option in image picker"

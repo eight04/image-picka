@@ -13,24 +13,24 @@
 	<script src="/lib/pref.js"></script>
 	<script src="/lib/fetch.js"></script>
 	<script src="progress.js"></script>
-	<script src="picker.js"></script>
 </head>
 <body>
 	<form id="container">
 		<div class="toolbar toolbar-top">
-			<label data-i18n="pickerMinWidthHelp|title">
+			<label data-i18n="pickerMinWidthHelp|title" class="toolbar-control">
 				<span data-i18n="pickerMinWidthLabel"></span>
 				<input type="number" id="minWidth">
 			</label>
-			<label data-i18n="pickerMinHeightHelp|title">
+			<label data-i18n="pickerMinHeightHelp|title" class="toolbar-control">
 				<span data-i18n="pickerMinHeightLabel"></span>
 				<input type="number" id="minHeight">
 			</label>
-			<label data-i18n="pickerMinFileSizeHelp|title">
+			<label data-i18n="pickerMinFileSizeHelp|title" class="toolbar-control">
 				<span data-i18n="pickerMinFileSizeLabel"></span>
 				<input type="number" id="minFileSize">
 			</label>
-			<div>
+			<div class="toolbar-control">
+        <label data-i18n="pickerMatchTypeLabel" for="matchType" class="mobile-only"></label>
 				<select id="matchType">
 					<option value="include" data-i18n="pickerMatchTypeIncludeLabel"></option>
 					<option value="exclude" data-i18n="pickerMatchTypeExcludeLabel"></option>
@@ -42,24 +42,26 @@
 					<input type="text" id="matchUrl" history="3" data-i18n="pickerMatchUrlHelp|placeholder">
 				</div>
 			</div>
-			<div class="form-control">
-				<!-- <label for="previewMaxHeight">Preview size</label> -->
+			<div class="toolbar-control">
+				<label for="previewMaxHeight" data-i18n="pickerPreviewMaxHeightLabel" class="mobile-only"></label>
 				<input id="previewMaxHeight" type="range" min="0" max="200" css-variable data-i18n="pickerPreviewMaxHeightHelp|title">
 			</div>
+      <button type="button" class="toolbar-expand-button" data-i18n="pickerToolbarFilterLabel"></button>
 		</div>
 		<div class="main-container"></div>
 		<div class="toolbar toolbar-bottom">
+      <button type="button" class="toolbar-expand-button" data-i18n="pickerToolbarDownloadOptionsLabel"></button>
 			<div class="flex-stretch toolbar-control">
 				<label for="filePatternBatch" data-i18n="pickerFilenamePatternBatchLabel"></label>
 				<div class="history-container history-at-top flex-stretch">
 					<input type="text" id="filePatternBatch" history="5">
 				</div>
 			</div>
-			<label>
+			<label class="toolbar-control">
 				<input type="checkbox" id="closeTabsAfterSave">
 				<span data-i18n="pickerCloseTabsAfterSaveLabel"></span>
 			</label>
-			<div class="actions">
+			<div class="actions toolbar-control">
 				<button type="button" class="invert" data-i18n="pickerActionInvert"></button>
 				<button type="button" class="save" data-i18n="pickerActionSave"></button>
 				<button type="button" class="copyUrl" data-i18n="pickerActionCopyUrl"></button>
@@ -68,5 +70,6 @@
 		</div>
 	</form>
 	<script src="/lib/internationalization.js"></script>
+	<script src="picker.js"></script>
 </body>
 </html>

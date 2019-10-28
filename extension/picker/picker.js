@@ -8,6 +8,13 @@ browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
 			.then(domReady)
 			.then(() => init(req))
 	);
+  
+// toolbar expand
+for (const el of document.querySelectorAll(".toolbar")) {
+  el.querySelector(".toolbar-expand-button").addEventListener("click", () => {
+    el.classList.toggle("expanded");
+  });
+}
 	
 function domReady() {
 	if (document.readyState !== "loading") {
