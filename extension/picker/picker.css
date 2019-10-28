@@ -70,48 +70,84 @@
 
 /* toolbar */
 .toolbar {
-	display: flex;
-	padding: 0 1.5em;
-	position: fixed;
-	width: 100%;
-	background: white;
-	z-index: 1;
+  padding: 0 1.5em;
+  position: fixed;
+  width: 100%;
+  background: white;
+  z-index: 1;
 }
 .toolbar-top {
-	top: 0;
-	border-bottom: 2px solid whitesmoke;
+  top: 0;
+  border-bottom: 2px solid whitesmoke;
 }
 .toolbar-bottom {
-	bottom: 0;
-	border-top: 2px solid whitesmoke;
+  bottom: 0;
+  border-top: 2px solid whitesmoke;
 }
-.toolbar input[type=number] {
-	width: 5em;
+.toolbar-control {
+  margin: 0.7em 0;
+  display: none;
 }
-.toolbar input[type=range] {
-	width: 7em;
+.toolbar-expand-button {
+  width: 100%;
+  display: block;
+  border: 0;
+  background: none;
 }
-.toolbar > * {
-	display: flex;
-	align-items: center;
+.toolbar-top .toolbar-expand-button::after {
+  content: "▽";
 }
-.toolbar > * + * {
-	margin-left: 1em;
+.toolbar-bottom .toolbar-expand-button::after {
+  content: "△";
 }
-.toolbar label > *,
-.toolbar-control > * {
-	margin: 0.7em 0;
+.toolbar.expanded .toolbar-control {
+  display: block;
 }
-.toolbar label > :not(:first-child),
-.toolbar-control > :not(:first-child) {
-	margin-left: 0.5em;
+.toolbar-top.expanded .toolbar-expand-button::after {
+  content: "△";
 }
-.flex-stretch {
-	width: auto;
-	flex: 1;
+.toolbar-bottom.expanded .toolbar-expand-button::after {
+  content: "▽";
 }
-.match-url {
-	margin-left: 0.5em;
+.toolbar.expanded {
+  z-index: 2;
+  max-height: 100vh;
+  overflow: auto;
+}
+@media (min-width: 768px) {
+  .toolbar {
+    display: flex;
+  }
+  .toolbar input[type=number] {
+    width: 5em;
+  }
+  .toolbar input[type=range] {
+    width: 7em;
+  }
+  .toolbar-control + .toolbar-control {
+    margin-left: 1em;
+  }
+  .toolbar-control,
+  .toolbar.expanded .toolbar-control {
+    display: flex;
+    align-items: center;
+  }
+  .toolbar-control > :not(:first-child) {
+    margin-left: 0.5em;
+  }
+  .flex-stretch {
+    width: auto;
+    flex: 1;
+  }
+  .match-url {
+    margin-left: 0.5em;
+  }
+  .toolbar-expand-button {
+    display: none;
+  }
+  .mobile-only {
+    display: none;
+  }
 }
 
 /* images counter */
