@@ -12,7 +12,6 @@ browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
 // toolbar expand
 for (const el of document.querySelectorAll(".toolbar")) {
   el.querySelector(".toolbar-expand-button").addEventListener("click", () => {
-    console.log("toggle");
     el.classList.toggle("expanded");
   });
 }
