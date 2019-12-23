@@ -57,7 +57,8 @@ const DEFAULT = {
 };
 
 export const pref = createPref(DEFAULT);
-pref.initializing = init();
+const initializing = init();
+pref.ready = () => initializing;
 
 async function init() {
   await pref.connect(createWebextStorage("sync"));

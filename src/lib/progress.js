@@ -1,5 +1,4 @@
-/* exported createProgressBar */
-function createProgressBar() {
+export function createProgressBar() {
   let total = 0;
   let completed = 0;
   const el = document.createElement("div");

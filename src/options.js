@@ -1,36 +1,322 @@
-import {pref} from "./lib/pref";
 import {createView} from "webext-pref";
+import browser from "webextension-polyfill";
 
-(function(){
-	var form = document.forms[0];
-	var inputs = form.querySelectorAll("input, textarea, select");
-	
-	pref.bindElement(form, inputs);
-	
-	pref.ready().then(() => {
-		// checkbox supplement
-		const fields = document.querySelectorAll("fieldset.checkbox-supplement");
-		for (const field of fields) {
-			const input = field.parentNode.querySelector(":scope > input");
-			if (!input.checked) {
-				field.disabled = true;
-			}
-			input.addEventListener("prefUpdate", onChange);
-		}
-		
-		function onChange(e) {
-			const input = e.target;
-			const field = input.parentNode.querySelector(":scope > fieldset");
-			if (!field) return;
-			field.disabled = !input.checked;
-		}
-	});
-	
-	browser.runtime.getBrowserInfo && browser.runtime.getBrowserInfo()
-		.then(({version}) => {
-			if (+version.split(".")[0] < 57) {
-				document.body.classList.add("version-lt-57");
-			}
-		});
-})();
+import {pref} from "./lib/pref";
+import {getBrowserInfo} from "./lib/env.js";
 
+const _ = browser.i18n.getMessage.bind(browser.i18n);
+
+function html(key) {
+  const tmpl = document.createElement("template");
+  tmpl.innerHTML = _(key);
+  return tmpl.content;
+}
+
+createView({
+  pref,
+  body: [
+    {
+      type: "section",
+      label: _("optionGeneralTitle"),
+      children: [
+        {
+          type: "checkbox",
+          key: "customIcon",
+          label: _("optionCustomIconLabel"),
+          learnMore: "https://github.com/eight04/image-picka#icon-color",
+          children: [
+            {
+              type: "color",
+              key: "customIconColor",
+              label: _("optionCustomIconColorLabel")
+            }
+          ]
+        },
+        {
+          type: "select",
+          key: "browserAction",
+          label: _("optionBrowserActionLabel"),
+          options: {
+            PICK_FROM_CURRENT_TAB: _("commandPickFromCurrentTab"),
+            PICK_FROM_RIGHT_TABS: _("commandPickFromRightTabs"),
+            PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT: _("commandPickFromRightTabsExcludeCurrent")
+          },
+          help: _("optionBrowserActionHelp")
+        },
+        {
+          type: "checkbox",
+          key: "contextMenu",
+          label: _("optionContextMenuLabel")
+        },
+        {
+          type: "checkbox",
+          key: "useCache",
+          label: _("optionUseCacheLabel"),
+          help: _("optionUseCacheHelp")
+        },
+        {
+          type: "text",
+          key: "defaultName",
+          label: _("optionDefaultNameLabel")
+        },
+        {
+          type: "text",
+          key: "defaultExt",
+          label: _("optionDefaultExtLabel")
+        },
+        {
+          type: "number",
+          key: "variableMaxLength",
+          label: _("optionVariableMaxLengthLabel")
+        },
+        {
+          type: "select",
+          key: "filenameConflictAction",
+          label: _("optionFilenameConflictActionLabel"),
+          options: {
+            uniquify: _("filenameConflictActionUniquify"),
+            overwrite: _("filenameConflictActionOverwrite")
+          },
+          help: _("optionFilenameConflictActionHelp")
+        },
+      ]
+    },
+    {
+      type: "section",
+      label: _("optionDownloadSingleImageTitle"),
+      help: _("optionDownloadSingleImageHelp"),
+      children: [
+        {
+          type: "text",
+          key: "filePattern",
+          label: _("optionFilenamePatternLabel"),
+          learnMore: "https://github.com/eight04/image-picka#filename-pattern",
+          help: html("optionFilenamePatternHelpHTML")
+        },
+        {
+          type: "checkbox",
+          key: "saveAs",
+          label: _("optionSaveAsLabel"),
+          help: _("optionSaveAsHelp")
+        },
+        {
+          type: "checkbox",
+          key: "dragndrop",
+          label: _("optionDragndropLabel"),
+          children: [
+            {
+              type: "checkbox",
+              key: "dragndropHard",
+              label: _("optionDragndropHardLabel")
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          key: "singleClick",
+          label: _("optionSingleClickLabel"),
+          children: [
+            {
+              type: "checkbox",
+              key: "singleClickCtrl",
+              label: "Ctrl"
+            },
+            {
+              type: "checkbox",
+              key: "singleClickShift",
+              label: "Shift"
+            },
+            {
+              type: "checkbox",
+              key: "singleClickAlt",
+              label: "Alt"
+            },
+          ]
+        },
+        {
+          type: "checkbox",
+          key: "dblClick",
+          label: _("optionDblClickLabel"),
+          children: [
+            {
+              type: "checkbox",
+              key: "dblClickCtrl",
+              label: "Ctrl"
+            },
+            {
+              type: "checkbox",
+              key: "dblClickShift",
+              label: "Shift"
+            },
+            {
+              type: "checkbox",
+              key: "dblClickAlt",
+              label: "Alt"
+            },
+          ]
+        },
+        {
+          type: "checkbox",
+          key: "downloadButton",
+          label: _("optionDownloadButtonLabel"),
+          children: [
+            {
+              type: "number",
+              key: "downloadButtonSize",
+              label: _("optionDownloadButtonSizeLabel")
+            },
+            {
+              type: "select",
+              key: "downloadButtonPositionHorizontal",
+              label: _("optionDownloadButtonPositionHorizontalLabel"),
+              options: {
+                LEFT_OUTSIDE: _("optionDownloadButtonPositionHorizontalLeftOutside"),
+                LEFT_INSIDE: _("optionDownloadButtonPositionHorizontalLeftInside"),
+                CENTER: _("optionDownloadButtonPositionHorizontalCenter"),
+                RIGHT_INSIDE: _("optionDownloadButtonPositionHorizontalRightInside"),
+                RIGHT_OUTSIDE: _("optionDownloadButtonPositionHorizontalRightOutside")
+              }
+            },
+            {
+              type: "select",
+              key: "downloadButtonPositionVertical",
+              label: _("optionDownloadButtonPositionVerticalLabel"),
+              options: {
+                TOP_OUTSIDE: _("optionDownloadButtonPositionVerticalTopOutside"),
+                TOP_INSIDE: _("optionDownloadButtonPositionVerticalTopInside"),
+                CENTER: _("optionDownloadButtonPositionVerticalCenter"),
+                BOTTOM_INSIDE: _("optionDownloadButtonPositionVerticalBottomInside"),
+                BOTTOM_OUTSIDE: _("optionDownloadButtonPositionVerticalBottomOutside")
+              }
+            },
+            {
+              type: "number",
+              key: "downloadButtonDelay",
+              label: _("optionDownloadButtonDelayLabel")
+            },
+            {
+              type: "number",
+              key: "downloadButtonDelayHide",
+              label: _("optionDownloadButtonDelayHideLabel")
+            },
+            {
+              type: "number",
+              key: "downloadButtonMinWidth",
+              label: _("optionDownloadButtonMinWidth")
+            },
+            {
+              type: "number",
+              key: "downloadButtonMinHeight",
+              label: _("optionDownloadButtonMinHeight")
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: "section",
+      label: _("optionBatchTitle"),
+      children: [
+        {
+          type: "text",
+          key: "filePatternBatch",
+          label: _("optionFilenamePatternLabel"),
+          learnMore: "https://github.com/eight04/image-picka#filename-pattern"
+        },
+        {
+          type: "checkbox",
+          key: "selectByDefault",
+          label: _("optionSelectByDefaultLabel")
+        },
+        {
+          type: "checkbox",
+          key: "closeTabsAfterSave",
+          label: _("optionCloseTabsAfterSaveLabel")
+        },
+        {
+          type: "checkbox",
+          key: "isolateTabs",
+          label: _("optionIsolateTabsLabel"),
+          help: html("optionIsolateTabsHelpHTML")
+        },
+        {
+          type: "checkbox",
+          key: "collectFromFrames",
+          label: _("optionCollectFromFramesLabel"),
+          learnMore: "https://github.com/eight04/image-picka#collect-images-from-frames-in-firefox--63"
+        },
+        {
+          type: "checkbox",
+          key: "detectLink",
+          label: _("optionDetectLinkLabel")
+        },
+        {
+          type: "checkbox",
+          key: "displayImageSizeUnderThumbnail",
+          label: _("optionDisplayImageSizeUnderThumbnailLabel")
+        },
+        {
+          type: "number",
+          key: "previewMaxHeightUpperBound",
+          label: _("optionPreviewMaxHeightUpperBoundLabel")
+        }
+      ]
+    },
+    {
+      type: "section",
+      label: _("optionAdvancedTitle"),
+      children: [
+        {
+          type: "checkbox",
+          key: "useExpression",
+          label: _("optionUseExpressionLabel"),
+          learnMore: "https://github.com/eight04/image-picka#use-expression-in-filename"
+        },
+        {
+          type: "checkbox",
+          key: "escapeWithUnicode",
+          label: _("optionEscapeWithUnicodeLabel"),
+          learnMore: "https://github.com/eight04/image-picka#escape-special-characters"
+        },
+        {
+          type: "checkbox",
+          key: "escapeZWJ",
+          label: _("optionEscapeZWJLabel"),
+          learnMore: "https://github.com/eight04/image-picka#zero-width-joiner"
+        },
+        {
+          type: "text",
+          key: "srcAlternative",
+          label: html("optionSrcAlternativeLabelHTML")
+        },      
+        {
+          type: "textarea",
+          key: "urlMap",
+          label: _("optionUrlMapLabel"),
+          learnMore: "https://github.com/eight04/image-picka#transform-url-with-regexp"
+        },      
+        {
+          type: "textarea",
+          key: "blacklist",
+          label: _("optionBlacklistLabel"),
+          learnMore: "https://github.com/eight04/image-picka#domain-blacklist"
+        }
+      ]
+    }
+  ],
+  root: document.body,
+  getMessage: (key, params) => {
+    key = `option${cap(key)}`;
+    return _(key, params);
+  }
+});
+
+getBrowserInfo().then(info => {
+  if (info && Number(info.version.split(".")[0]) < 57) {
+    document.body.classList.add("version-lt-57");
+  }
+});
+
+function cap(s) {
+  return s[0].toUpperCase() + s.slice(1);
+}

@@ -1,4 +1,6 @@
-function setupHistory(input) {
+import {pref} from "./pref.js";
+
+export function setupHistory(input) {
   let initiated = false;
   let history;
   let list;

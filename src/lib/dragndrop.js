@@ -1,7 +1,8 @@
-/* global pref imageUtil ENV */
-/* exported initDownloadSingleImage */
+import * as imageUtil from "./image-util.js";
+import {IS_CHROME} from "./env.js";
+import {pref} from "./pref.js";
 
-function initDownloadSingleImage({downloadImage}) {
+export default function init({downloadImage}) {
 	const EVENT_OPTIONS = {passive: true};	
 	let IS_BLACKLISTED = false;
 	
@@ -156,7 +157,7 @@ function initDownloadSingleImage({downloadImage}) {
       }
       
       function drop(e) {
-        if (!ENV.IS_CHROME && e.buttons) {
+        if (!IS_CHROME && e.buttons) {
           // cancel download when clicking other buttons
           e.preventDefault();
           return;

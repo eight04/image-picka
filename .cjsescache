@@ -4,5 +4,6 @@
   "node_modules/jsep/build/jsep.js",
   "node_modules/webext-menus/index.js",
   "node_modules/webext-pref/lib/promisify.js",
-  "node_modules/webextension-polyfill/dist/browser-polyfill.js"
+  "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+  "src/lib/dragndrop.js"
 ]

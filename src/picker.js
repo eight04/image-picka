@@ -269,7 +269,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
 	// don't drag
-	if (ENV.IS_CHROME) {
+	if (IS_CHROME) {
 		imgCover.draggable = false;
 	} else {
 		imgCover.ondragstart = () => false;
