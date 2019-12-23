@@ -36,14 +36,13 @@ export default function init({downloadImage}) {
 	
 	function initBlackList() {
 		update();
-		pref.onChange(change => {
+		pref.on("change", change => {
 			if (change.blacklist != null) {
-				update();
+				update(change.blacklist);
 			}
 		});
 		
-		function update() {
-			const blacklist = pref.get("blacklist");
+		function update(blacklist) {
 			IS_BLACKLISTED = blacklist.split("\n")
 				.some(pattern => {
 					if (pattern.startsWith("*.")) {
@@ -83,7 +82,7 @@ export default function init({downloadImage}) {
 		}
 		
 		contexts.forEach(c => c.state.update());
-		pref.onChange(change => {
+		pref.on("change", change => {
 			Object.assign(conf, change);
 			contexts.forEach(c => c.state.update());
 		});
@@ -122,7 +121,7 @@ export default function init({downloadImage}) {
 		);
 		
 		state.update();
-		pref.onChange(state.update);
+		pref.on("change", state.update);
 		
 		function init() {
       document.addEventListener("dragstart", onDragStart);
@@ -188,7 +187,7 @@ export default function init({downloadImage}) {
 		);
 
 		state.update();
-		pref.onChange(state.update);
+		pref.on("change", state.update);
 		
 		function init() {
 			addListener("mouseover", decideShowButton);

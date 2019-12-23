@@ -148,7 +148,13 @@
 		"message": "If this option is checked, the filename would be built according to the tab that the image is downloaded from, instead of the current tab. This affects <code>page...</code> variables and <code>index</code>.",
 		"description": "Help text of isolateTabs option"
 	},
-	"optionLearnMoreLink": {
+  "optionImportButton": {
+    "message": "Import settings"
+  },
+  "optionExportButton": {
+    "message": "Export settings"
+  },
+	"optionLearnMoreButton": {
 		"message": "Learn more",
 		"description": "'Learn more' link in option page"
 	},

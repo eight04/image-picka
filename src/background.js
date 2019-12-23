@@ -76,7 +76,7 @@ browser.browserAction.onClicked.addListener(tab => {
 
 pref.ready().then(() => {
 	updateBrowserAction();
-	pref.onChange(change => {
+	pref.on("change", change => {
 		if (change.browserAction) {
 			updateBrowserAction();
 		}
@@ -126,7 +126,7 @@ pref.ready().then(() => {
 	// update menus
 	const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
 	menus.update();
-	pref.onChange(change => {
+	pref.on("change", change => {
 		if (WATCH_PROPS.some(p => change[p] != null)) {
 			menus.update();
 		}
@@ -135,13 +135,13 @@ pref.ready().then(() => {
 
 // setup dynamic icon
 const icon = createDynamicIcon({
-	file: "/icon.svg",
+	file: "images/icon.svg",
 	enabled: () => pref.get("customIcon"),
 	onupdate: svg => svg.replace(/context-fill(?!-)/g, pref.get("customIconColor"))
 });
 pref.ready().then(() => {
 	icon.update();
-	pref.onChange(change => {
+	pref.on("change", change => {
 		if (change.customIcon != null || change.customIconColor != null) {
 			icon.update();
 		}

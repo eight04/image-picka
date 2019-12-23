@@ -163,7 +163,7 @@ function init({tabs: originalTabs, env}) {
 }
 
 function initUI() {
-	pref.onChange(changes => {
+	pref.on("change", changes => {
 		if (changes.previewMaxHeightUpperBound != null) {
 			update();
 		}
@@ -182,7 +182,7 @@ function initFilter(container, images) {
 		conf.matchUrl = buildRe(conf.matchUrl);
 	}
 	
-	pref.onChange(changes => {
+	pref.on("change", changes => {
 		if (FILTER_OPTIONS.some(o => changes[o] != null)) {
 			Object.assign(conf, changes);
 			if (conf.matchUrl && typeof conf.matchUrl == "string") {
@@ -379,7 +379,7 @@ function setupLazyLoad(target) {
 
 pref.bindCSSVariable = id => {
 	update();
-	pref.onChange(change => {
+	pref.on("change", change => {
 		if (change[id] != null) update();
 	});
 	function update() {

@@ -2,7 +2,7 @@ import {pref} from "./pref.js";
 
 let SRC_PROP = [];
 update();
-pref.onChange(change => {
+pref.on("change", change => {
   if (change.srcAlternative != null) {
     update();
   }

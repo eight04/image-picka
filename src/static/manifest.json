@@ -36,7 +36,7 @@
 		}
 	],
 	"options_ui": {
-		"page": "options/options.html",
+		"page": "options.html",
 		"browser_style": true
 	},
 	"web_accessible_resources": [

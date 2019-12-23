@@ -68,7 +68,7 @@ async function init() {
   if (prefInSync) {
     return;
   }
-  const result = await browser.storage.get(Object.keys(DEFAULT));
+  const result = await browser.storage.local.get(Object.keys(DEFAULT));
   const pending = [];
   for (const key in result) {
     if (key.endsWith("History") && typeof result[key] === "string") {

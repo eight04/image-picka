@@ -4,7 +4,7 @@ let transforms = [];
 
 pref.ready().then(() => {
   update();
-  pref.onChange(change => {
+  pref.on("change", change => {
     if (change.urlMap != null) {
       update();
     }
