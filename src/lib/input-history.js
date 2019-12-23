@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 import {pref} from "./pref.js";
 
 export function setupHistory(input) {

@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 import {defer} from "./defer.js";
 import {getBrowserInfo} from "./env.js";
 

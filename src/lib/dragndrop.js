@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 import * as imageUtil from "./image-util.js";
 import {IS_CHROME} from "./env.js";
 import {pref} from "./pref.js";
@@ -282,13 +284,14 @@ export default function init({downloadImage}) {
 		function createButton() {
 			button = document.createElement("div");
 			button.className = "image-picka-download-button";
+      const url = browser.runtime.getURL("/images/download-button.svg");
 			button.style = `
 				width: ${pref.get("downloadButtonSize")}px;
 				height: ${pref.get("downloadButtonSize")}px;
 				cursor: pointer;
 				position: fixed;
 				z-index: 2147483647;
-				background-image: url(${browser.runtime.getURL("/public/download-button.svg")});
+				background-image: url(${url});
 				background-size: cover;
 				opacity: 0.85;
 			`;

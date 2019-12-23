@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
 import {IS_CHROME} from "./lib/env.js";

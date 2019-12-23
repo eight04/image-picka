@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 import initDragndrop from "./lib/dragndrop.js";
 import {getAllImages} from "./lib/image-util.js";
 import {fetchImage} from "./lib/fetch-image.js";

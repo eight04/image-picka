@@ -1,4 +1,6 @@
-export const IS_CHROME = Boolean(chrome && chrome.app);
+/* global browser chrome */
+
+export const IS_CHROME = typeof chrome !== "undefined" && Boolean(chrome.app);
 
 export function getBrowserInfo() {
   if (typeof browser !== "undefined" && browser.runtime.getBrowserInfo) {

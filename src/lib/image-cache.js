@@ -1,4 +1,5 @@
 import {createIDBStorage} from "@eight04/idb-storage";
+import browser from "webextension-polyfill";
 
 import {IS_CHROME} from "./env.js";
 import {fetchImage} from "./fetch-image.js";

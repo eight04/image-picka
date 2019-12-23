@@ -1,8 +1,7 @@
 {
 	"env": {
 		"es6": true,
-		"browser": true,
-		"webextensions": true
+		"browser": true
 	},
 	"rules": {
     "max-statements-per-line": [2, {"max": 1}],
