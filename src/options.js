@@ -119,17 +119,20 @@ createView({
             {
               type: "checkbox",
               key: "singleClickCtrl",
-              label: "Ctrl"
+              label: "Ctrl",
+              className: "form-inline"
             },
             {
               type: "checkbox",
               key: "singleClickShift",
-              label: "Shift"
+              label: "Shift",
+              className: "form-inline"
             },
             {
               type: "checkbox",
               key: "singleClickAlt",
-              label: "Alt"
+              label: "Alt",
+              className: "form-inline"
             },
           ]
         },
@@ -141,17 +144,20 @@ createView({
             {
               type: "checkbox",
               key: "dblClickCtrl",
-              label: "Ctrl"
+              label: "Ctrl",
+              className: "form-inline"
             },
             {
               type: "checkbox",
               key: "dblClickShift",
-              label: "Shift"
+              label: "Shift",
+              className: "form-inline"
             },
             {
               type: "checkbox",
               key: "dblClickAlt",
-              label: "Alt"
+              label: "Alt",
+              className: "form-inline"
             },
           ]
         },
@@ -293,7 +299,8 @@ createView({
           type: "textarea",
           key: "urlMap",
           label: _("optionUrlMapLabel"),
-          learnMore: "https://github.com/eight04/image-picka#transform-url-with-regexp"
+          learnMore: "https://github.com/eight04/image-picka#transform-url-with-regexp",
+          className: "form-monospace"
         },      
         {
           type: "textarea",

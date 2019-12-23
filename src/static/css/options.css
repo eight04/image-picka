@@ -25,68 +25,89 @@ fieldset[disabled] input {
   opacity: .5;
 }
 
-.form-group:not(:first-child) {
+.webext-pref-section:not(:first-child) {
 	margin-top: 32px;
 }
-.form-group-head {
+.webext-pref-header {
 	font-size: 17px;
 	font-weight: 600;
 	margin: 4px 0;
 }
 
-.form-help {
+.webext-pref-help {
 	margin: 4px 0 8px;
 	color: #737373;
 }
 
-.checkbox {
+.webext-pref-checkbox {
+  --checkbox-margin: 11px;
 	margin: 4px 0;
-	padding-left: 27px;
+	padding-left: calc(var(--checkbox-margin) + 16px);
 }
-.checkbox > input,
-.checkbox > label::before {
-	margin-left: -27px;
+.webext-pref-checkbox > input {
+  margin-right: var(--checkbox-margin);
 }
-.checkbox > input,
-.checkbox > label,
-.checkbox > label::before,
-.checkbox > label > * {
+.webext-pref-checkbox > input,
+.webext-pref-checkbox > label::before {
+	margin-left: calc(var(--checkbox-margin) * -1 - 16px);
+}
+.webext-pref-checkbox > * {
 	vertical-align: middle;
 }
-.checkbox-supplement {
+.webext-pref-checkbox-children {
 	/* reset fieldset */
 	margin: 4px 0 0 0;
 	padding: 0;
 	border: none;
 }
-.form-inline .checkbox {
+.form-inline {
 	display: inline-block;
 }
-.form-inline .checkbox:not(:last-child) {
+.form-inline:not(:last-child) {
 	margin-right: 16px;
 }
 
-.text:not(:first-child) {
+.webext-pref-learn-more {
+  margin-left: 1em;
+}
+
+.webext-pref-text:not(:first-child) {
 	margin-top: 8px;
 }
-.text input {
+.webext-pref-text input,
+.webext-pref-number input {
 	height: 28px;
 	margin: 4px 0;
 }
 
-.textarea-code {
+.form-monospace textarea {
 	font-family: monospace;
 }
 
-.select select {
+.webext-pref-select select {
 	height: auto;
 	margin: 4px 0;
 }
 
-.color {
+.webext-pref-color {
 	display: flex;
 	align-items: center;
 }
-.color > :not(:first-child) {
+.webext-pref-color > :not(:first-child) {
 	margin-left: 8px;
+}
+
+/* toolbar */
+.webext-pref-toolbar {
+  text-align: center;
+}
+.webext-pref-toolbar button {
+  height: auto;
+  padding: 0.4em 1em;
+}
+.webext-pref-toolbar button:not(:first-child) {
+  margin-left: 1.6em;
+}
+.webext-pref-nav {
+  display: none;
 }
