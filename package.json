@@ -23,7 +23,7 @@
   "devDependencies": {
     "@eight04/idb-storage": "^0.4.2",
     "content-disposition": "^0.5.3",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "expression-eval": "^2.0.0",
     "mime": "^2.4.4",
     "node-sigint": "0.0.1",
@@ -40,8 +40,9 @@
     "sync-version": "^1.0.1",
     "web-ext": "^3.2.1",
     "webext-menus": "^0.2.0",
-    "webext-pref": "^0.5.1",
+    "webext-pref": "^0.5.2",
     "webext-tx-fix": "^0.3.2",
-    "webextension-polyfill": "^0.5.0"
-  }
+    "webextension-polyfill": "^0.6.0"
+  },
+  "repository": "eight04/image-picka"
 }
