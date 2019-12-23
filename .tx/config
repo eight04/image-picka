@@ -2,7 +2,7 @@
 host = https://www.transifex.com
 
 [image-picka.messagesjson]
-file_filter = extension/_locales/<lang>/messages.json
-source_file = extension/_locales/en/messages.json
+file_filter = src/static/_locales/<lang>/messages.json
+source_file = src/static/_locales/en/messages.json
 source_lang = en
 

@@ -1,4 +1,6 @@
-/* global pref createProgressBar ENV */
+import {pref} from "./lib/pref.js";
+import {createProgressBar} from "./lib/progress.js";
+import {IS_CHROME} from "./lib/env.js";
 
 const BATCH_ID = getBatchId();
 
@@ -374,3 +376,13 @@ function setupLazyLoad(target) {
   });
   observer.observe(target);
 }
+
+pref.bindCSSVariable = id => {
+	update();
+	pref.onChange(change => {
+		if (change[id] != null) update();
+	});
+	function update() {
+		document.documentElement.style.setProperty(`--${id}`, pref.get(id));
+	}
+};

@@ -1,5 +1,15 @@
-/* global pref webextMenus expressionEval createTabAndWait fetchImage
-	download imageCache createCounter throttle ENV */
+import webextMenus from "webext-menus";
+import {compile} from "expression-eval";
+import {createLock} from "@eight04/read-write-lock";
+import browser from "webextension-polyfill";
+
+import {pref} from "./lib/pref.js";
+import {createTab} from "./lib/tab.js";
+import {fetchImage} from "./lib/fetch-image.js";
+import {download} from "./lib/downloader.js";
+import {imageCache} from "./lib/image-cache.js";
+import {createCounter} from "./lib/counter.js";
+import {IS_CHROME} from "./lib/env.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -17,7 +27,7 @@ const MENU_ACTIONS = {
 };
 let INC = 0;
 const batches = new Map;
-const batchDownloadQue = throttle();
+const batchDownloadLock = createLock({maxActiveReader: 5});
 
 browser.runtime.onMessage.addListener((message, sender) => {
 	switch (message.method) {
@@ -49,7 +59,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
     case "fetchImage":
       return fetchImage(message.url)
         .then(data => {
-          if (ENV.IS_CHROME && data.blob) {
+          if (IS_CHROME && data.blob) {
             data.blobUrl = URL.createObjectURL(data.blob);
             delete data.blob;
           }
@@ -399,7 +409,7 @@ function openPicker(req, openerTabId) {
 	const batchId = INC++;
 	batches.set(batchId, req);
 	
-	createTabAndWait({
+	createTab({
 		url: `/picker/picker.html?batchId=${batchId}`,
 		openerTabId
 	})
@@ -434,7 +444,7 @@ function batchDownload({tabs, env, batchId}) {
 			env.base = filename;
 			expandEnv(env);
       const fullFileName = renderFilename(env);
-      const t = batchDownloadQue.add(async () => {
+      const t = batchDownloadLock.read(async () => {
         const blob = await imageCache.get(url);
         let err;
         try {
@@ -573,7 +583,7 @@ function propGetter(prop) {
 }
 
 function exprGetter(expr) {
-	const render = expressionEval.compile(expr);
+	const render = compile(expr);
 	const defaultCtx = {String, Number, Math};
 	return ctx => render(Object.assign({}, defaultCtx, ctx));
 }

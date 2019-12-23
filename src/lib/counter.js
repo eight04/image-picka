@@ -1,6 +1,4 @@
-/* exported createCounter */
-
-function createCounter() {
+export function createCounter() {
   const map = new Map;
   return {add, delete: delete_, toList};
   

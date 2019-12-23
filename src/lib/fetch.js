@@ -1,6 +1,6 @@
-/* exported fetchXHR */
+import {IS_CHROME} from "./env.js";
 
-function fetchXHR(url, type) {
+export function fetchXHR(url, type) {
 	return new Promise((resolve, reject) => {
 		const r = new XMLHttpRequest;
 		r.open("GET", url);
@@ -21,7 +21,7 @@ function fetchXHR(url, type) {
 		r.send();
 	})
     .catch(err => {
-      if (isChrome()) {
+      if (IS_CHROME) {
         return fetchFallback();
       }
       throw err;
@@ -44,9 +44,5 @@ function fetchXHR(url, type) {
           getResponseHeader: () => {}
         })
       );
-  }
-  
-  function isChrome() {
-    return typeof InstallTrigger === "undefined";
-  }
+  }  
 }

@@ -1,4 +1,5 @@
-/* global pref */
+import {pref} from "./lib/pref";
+import {createView} from "webext-pref";
 
 (function(){
 	var form = document.forms[0];
@@ -32,3 +33,4 @@
 			}
 		});
 })();
+

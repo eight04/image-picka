@@ -1,15 +1,20 @@
-/* global idbStorage ENV fetchImage fetchXHR */
-/* exported imageCache */
+import {createIDBStorage} from "@eight04/idb-storage";
 
-const imageCache = (() => {
-  const cache = idbStorage.createIDBStorage({
+import {IS_CHROME} from "./env.js";
+import {fetchImage} from "./fetch-image.js";
+import {fetchXHR} from "./fetch.js";
+
+export const imageCache = createImageCache();
+
+function createImageCache() {
+  const cache = createIDBStorage({
     name: "image-cache",
     conflictAction: "stack"
   });
   return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
   async function _fetchImage(url, tabId, frameId, noReferrer) {
-    if (ENV.IS_CHROME) {
+    if (IS_CHROME) {
       if (!noReferrer) {
         try {
           // https://github.com/eight04/image-picka/issues/158
@@ -112,4 +117,4 @@ const imageCache = (() => {
       }
     });
   }
-})();
+}

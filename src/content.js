@@ -1,4 +1,8 @@
-/* global initDownloadSingleImage imageUtil fetchImage urlMap ENV */
+import dragndrop from "./content/dragndrop.js";
+import {getAllImages} from "./lib/image-util.js";
+import {fetchImage} from "./lib/fetch-image.js";
+import {urlMap} from "./lib/url-map.js";
+import {IS_CHROME} from "./lib/env.js";
 
 (() => {
   let referrerMeta;
