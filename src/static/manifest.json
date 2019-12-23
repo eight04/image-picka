@@ -8,7 +8,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "image-picka@eight04.blogspot.com",
-      "strict_min_version": "52.0"
+      "strict_min_version": "55.0"
 		}
 	},
 	"permissions": [
@@ -39,13 +39,15 @@
 		"page": "options/options.html",
 		"browser_style": true
 	},
-	"web_accessible_resources": ["images/download-button.svg"],
+	"web_accessible_resources": [
+    "images/download-button.svg"
+  ],
 	"browser_action": {
 		"default_title": "Pick Images",
-		"default_icon": "icon.svg"
+		"default_icon": "images/icon.svg"
 	},
 	"icons": {
-		"32": "icon.svg"
+		"32": "images/icon.svg"
 	},
 	"default_locale": "en"
 }

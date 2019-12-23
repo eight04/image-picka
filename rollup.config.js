@@ -4,6 +4,7 @@ import cjs from "rollup-plugin-cjs-es";
 import resolve from "rollup-plugin-node-resolve";
 import copy from 'rollup-plugin-copy-glob';
 import shim from "rollup-plugin-shim";
+import iife from "rollup-plugin-iife";
 
 export default {
   input: [
@@ -52,6 +53,7 @@ export default {
         dest: "build"
       }
     ]),
+    iife(),
     {
       writeBundle(bundle) {
         const manifest = JSON.parse(fs.readFileSync("build/manifest.json", "utf8"));
