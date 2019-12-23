@@ -59,19 +59,19 @@ export default {
           ...bundle["background.js"].imports.map(f => `js/${f}`),
           "js/background.js"
         ];
-        manifest.content_scripts[0],js = [
+        manifest.content_scripts[0].js = [
           ...bundle["content.js"].imports.map(f => `js/${f}`),
           "js/content.js"
-        ]
+        ];
         fs.writeFileSync("build/manifest.json", JSON.stringify(manifest, null, 2));
-        for (const file in ["options", "picker"]) {
+        for (const file of ["options", "picker"]) {
           const text = fs.readFileSync(`build/${file}.html`, "utf8");
           const scripts = [
             ...bundle[`${file}.js`].imports.map(f => `js/${f}`),
-            "js/content.js"
+            `js/${file}.js`
           ];
-          fs.writeFileSync(text.replace())
-          bundle[file];
+          const html = scripts.map(s => `<script src="${s}"></script>`).join("\n");
+          fs.writeFileSync(`build/${file}.html`, text.replace("</body>", `${html}\n</body>`));
         }
       }
     }

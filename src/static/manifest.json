@@ -23,23 +23,7 @@
 		"webNavigation"
 	],
 	"background": {
-		"scripts": [
-			"vendor/browser-polyfill.min.js",
-      "vendor/content-disposition.min.js",
-			"vendor/expression-eval.min.js",
-			"vendor/webext-menus.min.js",
-			"vendor/idb-storage.min.js",
-			"lib/env.js",
-			"lib/throttle.js",
-			"lib/pref.js",
-      "lib/fetch.js",
-      "lib/fetch-image.js",
-      "lib/counter.js",
-			"background/download.js",
-			"background/create-tab.js",
-			"background/image-cache.js",
-			"background/background.js"
-		]
+		"scripts": []
 	},
 	"content_scripts": [
 		{
@@ -47,19 +31,7 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": [
-				"vendor/browser-polyfill.min.js",
-				"vendor/content-disposition.min.js",
-				"lib/env.js",
-        "lib/throttle.js",
-				"lib/pref.js",
-				"lib/fetch.js",
-        "lib/fetch-image.js",
-				"content/url-map.js",
-				"content/image-util.js",
-				"content/dragndrop.js",
-				"content/content.js"
-			],
+			"js": [],
 			"run_at": "document_start"
 		}
 	],
@@ -67,7 +39,7 @@
 		"page": "options/options.html",
 		"browser_style": true
 	},
-	"web_accessible_resources": ["public/*"],
+	"web_accessible_resources": ["images/download-button.svg"],
 	"browser_action": {
 		"default_title": "Pick Images",
 		"default_icon": "icon.svg"
