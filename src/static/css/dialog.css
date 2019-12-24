@@ -1,4 +1,4 @@
-html, body {
+html, body, form {
   height: 100%;
 }
 form {
@@ -6,6 +6,9 @@ form {
   grid: 0fr 1fr 0fr / 1fr;
   grid-gap: 1em;
   padding: 1em;
+}
+textarea {
+  min-height: 0;
 }
 button {
   padding: 0.3em 0.6em;

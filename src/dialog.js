@@ -17,7 +17,9 @@ function init({title, text = ""}) {
   const label = document.querySelector("label");
   label.textContent = title;
   input.value = text;
-  window.resizeBy(0, document.documentElement.offsetHeight - document.documentElement.clientHeight + 1);
+  input.addEventListener("focus", () => {
+    input.select();
+  });
   
   const resolve = value => {
     browser.runtime.sendMessage({
