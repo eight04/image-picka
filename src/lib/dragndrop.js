@@ -40,12 +40,12 @@ export default function init({downloadImage}) {
 		update();
 		pref.on("change", change => {
 			if (change.blacklist != null) {
-				update(change.blacklist);
+				update();
 			}
 		});
 		
-		function update(blacklist) {
-			IS_BLACKLISTED = blacklist.split("\n")
+		function update() {
+			IS_BLACKLISTED = pref.get("blacklist").split("\n")
 				.some(pattern => {
 					if (pattern.startsWith("*.")) {
 						return location.hostname.endsWith(pattern.slice(1));

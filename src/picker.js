@@ -1,17 +1,16 @@
 import browser from "webextension-polyfill";
+import {createView} from "webext-pref";
 
 import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
 import {IS_CHROME} from "./lib/env.js";
 
+import initPickerToolbar from "./lib/picker-toolbar.js";
+
 const BATCH_ID = getBatchId();
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
-	.then(req =>
-		pref.ready()
-			.then(domReady)
-			.then(() => init(req))
-	);
+	.then(req => pref.ready().then(() => init(req)));
   
 // toolbar expand
 for (const el of document.querySelectorAll(".toolbar")) {
@@ -19,15 +18,6 @@ for (const el of document.querySelectorAll(".toolbar")) {
     el.classList.toggle("expanded");
   });
 }
-	
-function domReady() {
-	if (document.readyState !== "loading") {
-		return Promise.resolve();
-	}
-	return new Promise(resolve => {
-		document.addEventListener("DOMContentLoaded", resolve, {once: true});
-	});
-}	
 
 function getBatchId() {
 	const id = new URL(location.href).searchParams.get("batchId");

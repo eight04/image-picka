@@ -410,7 +410,7 @@ function openPicker(req, openerTabId) {
 	batches.set(batchId, req);
 	
 	createTab({
-		url: `/picker/picker.html?batchId=${batchId}`,
+		url: `/picker.html?batchId=${batchId}`,
 		openerTabId
 	})
 		.then(() => {

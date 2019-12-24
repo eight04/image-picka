@@ -10,33 +10,8 @@
 	<link rel="stylesheet" href="css/progress.css">
 </head>
 <body>
-	<form id="container">
+	<div id="container">
 		<div class="toolbar toolbar-top">
-			<label data-i18n="pickerMinWidthHelp|title" class="toolbar-control">
-				<span data-i18n="pickerMinWidthLabel"></span>
-				<input type="number" id="minWidth">
-			</label>
-			<label data-i18n="pickerMinHeightHelp|title" class="toolbar-control">
-				<span data-i18n="pickerMinHeightLabel"></span>
-				<input type="number" id="minHeight">
-			</label>
-			<label data-i18n="pickerMinFileSizeHelp|title" class="toolbar-control">
-				<span data-i18n="pickerMinFileSizeLabel"></span>
-				<input type="number" id="minFileSize">
-			</label>
-			<div class="toolbar-control">
-        <label data-i18n="pickerMatchTypeLabel" for="matchType" class="mobile-only"></label>
-				<select id="matchType">
-					<option value="include" data-i18n="pickerMatchTypeIncludeLabel"></option>
-					<option value="exclude" data-i18n="pickerMatchTypeExcludeLabel"></option>
-				</select>
-			</div>
-			<div class="flex-stretch toolbar-control">
-				<label for="matchUrl" data-i18n="pickerMatchUrlLabel"></label>
-				<div class="history-container flex-stretch">
-					<input type="text" id="matchUrl" history="3" data-i18n="pickerMatchUrlHelp|placeholder">
-				</div>
-			</div>
 			<div class="toolbar-control">
 				<label for="previewMaxHeight" data-i18n="pickerPreviewMaxHeightLabel" class="mobile-only"></label>
 				<input id="previewMaxHeight" type="range" min="0" max="200" css-variable data-i18n="pickerPreviewMaxHeightHelp|title">

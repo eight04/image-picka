@@ -40,7 +40,7 @@ const DEFAULT = {
   previewMaxHeight: 200,
   previewMaxHeightUpperBound: 200,
   urlMap: "",
-  useCache: false,
+  useCache: true,
   useExpression: false,
   variableMaxLength: 128,
   filePattern: "Image Picka/${pageTitle}/${name}${ext}",
