@@ -40,9 +40,10 @@
     "shx": "^0.3.2",
     "stream-throttle": "^0.1.3",
     "sync-version": "^1.0.1",
-    "web-ext": "^3.2.1",
+    "web-ext": "^4.0.0",
     "webext-menus": "^0.2.0",
-    "webext-pref": "^0.5.2",
+    "webext-pref": "^0.6.0",
+    "webext-pref-ui": "^0.1.0",
     "webext-tx-fix": "^0.3.2",
     "webextension-polyfill": "^0.6.0"
   },

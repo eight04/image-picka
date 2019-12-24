@@ -1,19 +1,10 @@
-import {createView} from "webext-pref";
-import browser from "webextension-polyfill";
+import {createUI, createBinding} from "webext-pref-ui";
 
 import {pref} from "./lib/pref";
 import {getBrowserInfo} from "./lib/env.js";
+import {_, html} from "./lib/i18n.js";
 
-const _ = browser.i18n.getMessage.bind(browser.i18n);
-
-function html(key) {
-  const tmpl = document.createElement("template");
-  tmpl.innerHTML = _(key);
-  return tmpl.content;
-}
-
-createView({
-  pref,
+const root = createUI({
   body: [
     {
       type: "section",
@@ -311,12 +302,16 @@ createView({
       ]
     }
   ],
-  root: document.body,
   getMessage: (key, params) => {
     key = `option${cap(key)}`;
     return _(key, params);
-  }
+  },
+  navbar: false
 });
+
+createBinding({pref, root});
+
+document.body.append(root);
 
 getBrowserInfo().then(info => {
   if (info && Number(info.version.split(".")[0]) < 57) {

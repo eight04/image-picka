@@ -1,11 +1,10 @@
 import browser from "webextension-polyfill";
-import {createView} from "webext-pref";
+import {createBinding} from "webext-pref-ui";
 
 import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
 import {IS_CHROME} from "./lib/env.js";
-
-import initPickerToolbar from "./lib/picker-toolbar.js";
+import {translateDOM} from "./lib/i18n.js";
 
 const BATCH_ID = getBatchId();
 
@@ -17,6 +16,26 @@ for (const el of document.querySelectorAll(".toolbar")) {
   el.querySelector(".toolbar-expand-button").addEventListener("click", () => {
     el.classList.toggle("expanded");
   });
+}
+
+createBinding({
+  pref,
+  root: document.body,
+  keyPrefix: ""
+});
+
+translateDOM(document.body);
+
+pref.on("change", onPrefChange);
+onPrefChange(pref.getAll());
+
+function onPrefChange(change) {
+  if (change.previewMaxHeight) {
+    document.documentElement.style.setProperty(`--previeMaxHeight`, change.previewMaxHeight);
+  }
+  if (change.previewMaxHeightUpperBound) {
+    document.querySelector("#previewMaxHeight").max = change.previewMaxHeightUpperBound;
+  }
 }
 
 function getBatchId() {
@@ -368,13 +387,3 @@ function setupLazyLoad(target) {
   });
   observer.observe(target);
 }
-
-pref.bindCSSVariable = id => {
-	update();
-	pref.on("change", change => {
-		if (change[id] != null) update();
-	});
-	function update() {
-		document.documentElement.style.setProperty(`--${id}`, pref.get(id));
-	}
-};

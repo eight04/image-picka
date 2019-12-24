@@ -360,7 +360,7 @@ function notifyError(err) {
 		type: "basic",
 		title: "Image Picka",
 		message: err.message || String(err),
-		iconUrl: "/icon.svg"
+		iconUrl: "images/icon.svg"
 	});
 }
 
