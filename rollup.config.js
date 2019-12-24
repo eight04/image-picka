@@ -5,17 +5,16 @@ import resolve from "rollup-plugin-node-resolve";
 import copy from 'rollup-plugin-copy-glob';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
+import {terser} from "rollup-plugin-terser";
+
+import fg from "fast-glob";
 
 export default {
-  input: [
-    "src/background.js",
-    "src/content.js",
-    "src/options.js",
-    "src/picker.js",
-  ],
+  input: fg.sync(["src/*.js"]),
   output: {
     format: "es",
-    dir: "build/js"
+    dir: "build/js",
+    sourcemap: true
   },
   plugins: [
     shim({
@@ -53,6 +52,7 @@ export default {
         dest: "build"
       }
     ]),
+    false && terser(),
     iife(),
     {
       writeBundle(bundle) {
@@ -66,8 +66,14 @@ export default {
           "js/content.js"
         ];
         fs.writeFileSync("build/manifest.json", JSON.stringify(manifest, null, 2));
-        for (const file of ["options", "picker"]) {
-          const text = fs.readFileSync(`build/${file}.html`, "utf8");
+        for (const js of Object.keys(bundle)) {
+          const file = js.split(".")[0];
+          let text;
+          try {
+            text = fs.readFileSync(`build/${file}.html`, "utf8");
+          } catch (err) {
+            continue;
+          }
           const scripts = [
             ...bundle[`${file}.js`].imports.map(f => `js/${f}`),
             `js/${file}.js`

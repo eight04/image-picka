@@ -31,7 +31,7 @@ onPrefChange(pref.getAll());
 
 function onPrefChange(change) {
   if (change.previewMaxHeight) {
-    document.documentElement.style.setProperty(`--previeMaxHeight`, change.previewMaxHeight);
+    document.documentElement.style.setProperty(`--previewMaxHeight`, change.previewMaxHeight);
   }
   if (change.previewMaxHeightUpperBound) {
     document.querySelector("#previewMaxHeight").max = change.previewMaxHeightUpperBound;
@@ -100,10 +100,6 @@ function init({tabs: originalTabs, env}) {
 	}
 	
 	container.appendChild(frag);
-	
-	var form = document.forms[0],
-		inputs = form.querySelectorAll(".toolbar input, .toolbar select");
-	pref.bindElement(form, inputs, true);
 	
 	initFilter(container, getImages());
 	initUI();
@@ -187,7 +183,7 @@ function initUI() {
 }
 
 function initFilter(container, images) {
-	var conf = pref.get(),
+	var conf = pref.getAll(),
 		FILTER_OPTIONS = ["minFileSize", "minWidth", "minHeight", "matchUrl", "matchType"];
 	if (conf.matchUrl) {
 		conf.matchUrl = buildRe(conf.matchUrl);

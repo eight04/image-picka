@@ -10,6 +10,7 @@ import {download} from "./lib/downloader.js";
 import {imageCache} from "./lib/image-cache.js";
 import {createCounter} from "./lib/counter.js";
 import {IS_CHROME} from "./lib/env.js";
+import {createDialog} from "./lib/popup-dialog.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -67,6 +68,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
         });
     case "revokeURL":
       return URL.revokeObjectURL(message.url);
+    case "openDialog":
+      return createDialog(message);
 	}
 });
 

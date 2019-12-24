@@ -370,5 +370,11 @@
 	"pickerActionCancel": {
 		"message": "Cancel",
 		"description": "'Cancel' button in image picker"
-	}
+	},
+  "promptOK": {
+    "message": "OK"
+  },
+  "promptCancel": {
+    "message": "Cancel"
+  }
 }

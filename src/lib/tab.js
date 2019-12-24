@@ -5,6 +5,18 @@ import {getBrowserInfo} from "./env.js";
 
 const supportOpener = checkSupportOpener();
 
+export function waitTab(id) {
+  const {resolve, promise} = defer();
+  const handleRemove = removedId => {
+    if (removedId === id) {
+      browser.tabs.onRemoved.removeListener(handleRemove);
+      resolve();
+    }
+  };
+  browser.tabs.onRemoved.addListener(handleRemove);
+  return promise;
+}
+
 export function createTab(options) {
   let tabId;
   let openerTabId;

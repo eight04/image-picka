@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 import {createUI, createBinding} from "webext-pref-ui";
 
 import {pref} from "./lib/pref";
@@ -309,7 +310,20 @@ const root = createUI({
   navbar: false
 });
 
-createBinding({pref, root});
+createBinding({
+  pref,
+  root,
+  prompt: (title, text) => browser.runtime.sendMessage({
+    method: "openDialog",
+    type: "prompt",
+    title,
+    text
+  }),
+  alert: text => browser.runtime.sendMessage({
+    method: "notifyError",
+    error: text
+  })
+});
 
 document.body.append(root);
 
