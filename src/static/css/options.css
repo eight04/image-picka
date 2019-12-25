@@ -9,6 +9,10 @@ body.version-lt-57 {
 	background-color: #fbfbfb;
 	overflow: hidden;
 }
+body[data-browser=Chrome] {
+  padding: 0 1em 1em 1em;
+  min-width: 520px;
+}
 
 a {
 	color: #0a84ff;

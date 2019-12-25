@@ -328,6 +328,10 @@ createBinding({
 document.body.append(root);
 
 getBrowserInfo().then(info => {
+  if (!info) {
+    return;
+  }
+  document.body.dataset.browser = info.name;
   if (info && Number(info.version.split(".")[0]) < 57) {
     document.body.classList.add("version-lt-57");
   }
