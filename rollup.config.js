@@ -52,8 +52,10 @@ export default {
         dest: "build"
       }
     ]),
-    false && terser(),
     iife(),
+    terser({
+      module: false
+    }),
     {
       writeBundle(bundle) {
         const manifest = JSON.parse(fs.readFileSync("build/manifest.json", "utf8"));

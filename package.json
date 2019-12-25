@@ -35,7 +35,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-svelte": "^5.1.1",
-    "rollup-plugin-terser": "^5.1.3",
+    "rollup-plugin-terser": "github:eight04/rollup-plugin-terser#dev-default-option",
     "shelljs": "^0.8.3",
     "shx": "^0.3.2",
     "stream-throttle": "^0.1.3",
