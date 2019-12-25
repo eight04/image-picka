@@ -1,7 +1,7 @@
 Image Picka
 ===========
 
-[![Build Status](https://travis-ci.org/eight04/image-picka.svg?branch=master)](https://travis-ci.org/eight04/image-picka)
+[![Build Status](https://travis-ci.com/eight04/image-picka.svg?branch=master)](https://travis-ci.org/eight04/image-picka)
 
 An image picker written in webextensions.
 
@@ -33,8 +33,9 @@ Installation
 
 This extension can be installed on Chrome, but it is not hosted on Chrome Webstore. You have to install the extension manually:
 
-1. Download and extract the [ZIP file](https://github.com/eight04/image-picka/archive/master.zip).
-2. [Install the `extension/` folder as an unpacked extension](https://stackoverflow.com/a/49769909/3413125).
+1. Download and extract the [source code](https://github.com/eight04/image-picka/archive/master.zip).
+2. [Build the extension](BUILD.md).
+3. [Install the `build/` folder as an unpacked extension](https://stackoverflow.com/a/49769909/3413125).
 
 Filename pattern
 ----------------
