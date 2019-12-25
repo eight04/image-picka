@@ -497,6 +497,10 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
     pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, noReferrer)
+      .catch(err => {
+        notifyError(err);
+        throw err;
+      })
   ]);
   // https://github.com/eslint/eslint/issues/11911
   /* eslint-disable require-atomic-updates */
