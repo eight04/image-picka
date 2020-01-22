@@ -128,10 +128,6 @@
 		"message": "Eğer bu seçenek işaretlenirse dosyanın adı geçerli sekmeye göre değil, resimin bulunduğu sekmeye göre düzenlenir. Bu <code>page...</code> ve <code>index</code> değişkenlerini etkiler.",
 		"description": "Help text of isolateTabs option"
 	},
-	"optionLearnMoreLink": {
-		"message": "Daha fazla öğren",
-		"description": "'Learn more' link in option page"
-	},
 	"optionSaveAsLabel": {
 		"message": "Varsayılan indirilenler klasörünü kullanmak yerine görüntüyü nereye kaydedeceğimi sor.",
 		"description": "Label of saveAs option"

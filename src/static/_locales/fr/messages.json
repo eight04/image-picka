@@ -148,10 +148,6 @@
 		"message": "Si cette option est cochée, le nom des fichiers sera construit en fonction de l’onglet de provenance des images et non de l’onglet actif. Concerne les variables <code>page…</code> et <code>index</code>.",
 		"description": "Help text of isolateTabs option"
 	},
-	"optionLearnMoreLink": {
-		"message": "en savoir plus",
-		"description": "'Learn more' link in option page"
-	},
 	"optionSaveAsLabel": {
 		"message": "Demander où télécharger l’image au lieu d’utiliser le dossier de téléchargement par défaut",
 		"description": "Label of saveAs option"

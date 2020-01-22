@@ -12,7 +12,7 @@
     "start": "web-ext run",
     "preversion": "npm test",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
-    "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s extension",
+    "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s src/static",
     "postversion": "web-ext build && git push --follow-tags",
     "server": "node test/server.js"
   },
@@ -23,11 +23,11 @@
     "@eight04/idb-storage": "^0.4.2",
     "content-disposition": "^0.5.3",
     "eslint": "^6.8.0",
-    "expression-eval": "^2.0.0",
+    "expression-eval": "^2.1.0",
     "fast-glob": "^3.1.1",
     "mime": "^2.4.4",
     "node-sigint": "0.0.1",
-    "rollup": "^1.27.14",
+    "rollup": "^1.29.1",
     "rollup-plugin-cjs-es": "^0.9.0",
     "rollup-plugin-copy-glob": "^0.3.1",
     "rollup-plugin-iife": "^0.3.0",
@@ -42,7 +42,7 @@
     "webext-menus": "^0.2.0",
     "webext-pref": "^0.6.0",
     "webext-pref-ui": "^0.1.1",
-    "webext-tx-fix": "^0.3.2",
+    "webext-tx-fix": "^0.3.3",
     "webextension-polyfill": "^0.6.0"
   },
   "repository": "eight04/image-picka"

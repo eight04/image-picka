@@ -72,10 +72,6 @@
 			}
 		}
 	},
-	"optionLearnMoreLink": {
-		"message": "瞭解詳情",
-		"description": "'Learn more' link in option page"
-	},
 	"optionSaveAsLabel": {
 		"message": "每次詢問我要將圖片儲存至何處",
 		"description": "Label of saveAs option"

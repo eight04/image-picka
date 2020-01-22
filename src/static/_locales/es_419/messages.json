@@ -140,10 +140,6 @@
 		"message": "Si esta opción está marcada, el nombre del archivo se formará de acuerdo con la pestaña donde se descarga la imagen, en lugar de la pestaña actual. Esto afecta <code>página...</code> variables y <code>índice</code>.",
 		"description": "Help text of isolateTabs option"
 	},
-	"optionLearnMoreLink": {
-		"message": "Más información",
-		"description": "'Learn more' link in option page"
-	},
 	"optionSaveAsLabel": {
 		"message": "Preguntar dónde guardar la imagen en lugar de usar la carpeta de descarga predeterminada.",
 		"description": "Label of saveAs option"
