@@ -1,0 +1,53 @@
+{
+	"manifest_version": 2,
+	"version": "0.11.2",
+	"name": "Image Picka",
+	"description": "__MSG_extensionDescription__",
+	"author": "eight",
+	"homepage_url": "https://github.com/eight04/image-picka",
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "image-picka@eight04.blogspot.com",
+      "strict_min_version": "55.0"
+		}
+	},
+	"permissions": [
+		"downloads",
+		"storage",
+		"contextMenus",
+		"activeTab",
+		"notifications",
+		"<all_urls>"
+	],
+	"optional_permissions": [
+		"webNavigation"
+	],
+	"background": {
+		"scripts": []
+	},
+	"content_scripts": [
+		{
+			"all_frames": true,
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [],
+			"run_at": "document_start"
+		}
+	],
+	"options_ui": {
+		"page": "options.html",
+		"browser_style": true
+	},
+	"web_accessible_resources": [
+    "images/download-button.svg"
+  ],
+	"browser_action": {
+		"default_title": "Pick Images",
+		"default_icon": "images/icon.svg"
+	},
+	"icons": {
+		"32": "images/icon.svg"
+	},
+	"default_locale": "en"
+}

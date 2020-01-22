@@ -1,0 +1,117 @@
+body {
+	color: #0c0c0d;
+	font-size: 15px;
+	font-weight: 400;
+	padding: 1em 4px;
+	line-height: 1.5;
+}
+body.version-lt-57 {
+	background-color: #fbfbfb;
+	overflow: hidden;
+}
+body[data-browser=Chrome] {
+  padding: 0 1em 1em 1em;
+  min-width: 520px;
+}
+
+a {
+	color: #0a84ff;
+	text-decoration: none;
+}
+a:hover {
+	color: #0060df;
+	text-decoration: underline;
+}
+
+fieldset[disabled] label,
+fieldset[disabled] input {
+  color: #999;
+  opacity: .5;
+}
+
+.webext-pref-section:not(:first-child) {
+	margin-top: 32px;
+}
+.webext-pref-header {
+	font-size: 17px;
+	font-weight: 600;
+	margin: 4px 0;
+}
+
+.webext-pref-help {
+	margin: 4px 0 8px;
+	color: #737373;
+}
+
+.webext-pref-checkbox {
+  --checkbox-margin: 11px;
+	margin: 4px 0;
+	padding-left: calc(var(--checkbox-margin) + 16px);
+}
+.webext-pref-checkbox > input {
+  margin-right: var(--checkbox-margin);
+}
+.webext-pref-checkbox > input,
+.webext-pref-checkbox > label::before {
+	margin-left: calc(var(--checkbox-margin) * -1 - 16px);
+}
+.webext-pref-checkbox > * {
+	vertical-align: middle;
+}
+.webext-pref-checkbox-children {
+	/* reset fieldset */
+	margin: 4px 0 0 0;
+	padding: 0;
+	border: none;
+}
+.form-inline {
+	display: inline-block;
+}
+.form-inline:not(:last-child) {
+	margin-right: 16px;
+}
+
+.webext-pref-learn-more {
+  margin-left: 1em;
+}
+
+.webext-pref-text:not(:first-child) {
+	margin-top: 8px;
+}
+.webext-pref-text input,
+.webext-pref-number input {
+	height: 28px;
+	margin: 4px 0;
+}
+
+.form-monospace textarea {
+	font-family: monospace;
+}
+
+.webext-pref-select select {
+	height: auto;
+	margin: 4px 0;
+}
+
+.webext-pref-color {
+	display: flex;
+	align-items: center;
+}
+.webext-pref-color > :not(:first-child) {
+	margin-left: 8px;
+}
+
+/* toolbar */
+.webext-pref-toolbar {
+  text-align: center;
+}
+.webext-pref-toolbar button {
+  height: auto;
+  padding: 0.4em 1em;
+}
+.webext-pref-toolbar button:not(:first-child) {
+  margin-left: 1.6em;
+}
+.webext-pref-nav {
+  display: none;
+}

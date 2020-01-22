@@ -1,8 +1,9 @@
 /* eslint-env node */
 
 module.exports = {
-	sourceDir: "extension",
+	sourceDir: "build",
 	build: {
 		overwriteDest: true
-	}
+	},
+  ignoreFiles: ["**/*.js.map"]
 };

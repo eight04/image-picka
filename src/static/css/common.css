@@ -1,0 +1,72 @@
+* {
+	box-sizing: border-box;
+}
+html, body {
+	margin: 0;
+}
+body {
+	font: caption;
+	font-size: 16px;
+}
+input[type=text],
+input[type=number],
+input[type=range],
+textarea,
+select {
+	display: block;
+	width: 100%;
+	min-width: 0;
+}
+input[type=number] {
+	text-align: right;
+}
+input, button, select, textarea {
+	padding: 0.3em;
+	font-family: inherit;
+	font-size: 0.9em;
+}
+
+.history-container {
+	position: relative;
+}
+.history-list {
+	position: absolute;
+	width: 100%;
+	top: 100%;
+	max-height: 100vh;
+	border: 1px solid #737373;
+	background: white;
+	overflow: auto;
+	box-shadow: 0 0 5px #737373;
+}
+.history-list::before {
+	content: attr(data-label);
+	display: block;
+	color: #737373;
+	font-size: 0.8em;
+	padding: 0 0.3em;
+	background: whitesmoke;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.history-at-top .history-list {
+	top: auto;
+	bottom: 100%;
+}
+.history-item {
+	cursor: default;
+	font-size: 0.9em;
+	padding: 0.3em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.history-item:not(:first-child) {
+	border-top: 1px solid #737373;
+}
+.history-item:hover,
+.history-item.active {
+	background: #0a84ff;
+	color: white;
+}
