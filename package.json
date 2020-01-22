@@ -33,7 +33,6 @@
     "rollup-plugin-iife": "^0.3.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-shim": "^1.0.0",
-    "rollup-plugin-svelte": "^5.1.1",
     "rollup-plugin-terser": "^5.2.0",
     "shelljs": "^0.8.3",
     "shx": "^0.3.2",
