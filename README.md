@@ -190,11 +190,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
-* 0.12.0 (Jan 22, 2019)
+* 0.12.0 (Jan 22, 2020)
 
   - Breaking: enable "download from cache" by default.
   - Breaking: refactor the source tree. Build the extension with rollup.
   - Add: switch to webext-pref, import/export settings.
+  - Add: responsive picker. Improve Android compatibility.
+  - Add: keyboard shortcuts.
+  - Fix: download button location.
 
 * 0.11.2 (Oct 19, 2019)
 
