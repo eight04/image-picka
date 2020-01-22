@@ -153,7 +153,8 @@ pref.ready().then(() => {
 
 browser.commands.onCommand.addListener(name => {
   browser.tabs.query({active: true, currentWindow: true})
-    .then(tabs => MENU_ACTIONS[name].handler(tabs[0]));
+    .then(tabs => MENU_ACTIONS[name].handler(tabs[0]))
+    .catch(notifyError);
 });
 
 imageCache.clearAll();
