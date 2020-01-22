@@ -324,8 +324,12 @@ export default function init({downloadImage}) {
 			const rect = image.getBoundingClientRect();
 			const left = calcPos(rect.left, rect.width, pref.get("downloadButtonPositionHorizontal"), "LEFT", "RIGHT");
 			const top = calcPos(rect.top, rect.height, pref.get("downloadButtonPositionVertical"), "TOP", "BOTTOM");
-			button.style.left = Math.max(Math.min(left, document.documentElement.clientWidth - pref.get("downloadButtonSize")), 0) + "px";
-			button.style.top = Math.max(Math.min(top, document.documentElement.clientHeight - pref.get("downloadButtonSize")), 0) + "px";
+			const maxLeft = document.documentElement.clientWidth - pref.get("downloadButtonSize");
+      // FIXME: https://bugzilla.mozilla.org/show_bug.cgi?id=1610734
+      const maxTop = (document.documentElement.clientHeight || window.innerHeight) - pref.get("downloadButtonSize");
+      
+      button.style.left = Math.max(Math.min(left, maxLeft), 0) + "px";
+			button.style.top = Math.max(Math.min(top, maxTop), 0) + "px";
       if (buttonAni) {
         buttonAni.cancel();
       }
