@@ -56,34 +56,69 @@ export default {
     terser({
       module: false
     }),
-    {
-      writeBundle(bundle) {
-        const manifest = JSON.parse(fs.readFileSync("build/manifest.json", "utf8"));
-        manifest.background.scripts = [
-          ...bundle["background.js"].imports.map(f => `js/${f}`),
-          "js/background.js"
-        ];
-        manifest.content_scripts[0].js = [
-          ...bundle["content.js"].imports.map(f => `js/${f}`),
-          "js/content.js"
-        ];
-        fs.writeFileSync("build/manifest.json", JSON.stringify(manifest, null, 2));
-        for (const js of Object.keys(bundle)) {
-          const file = js.split(".")[0];
-          let text;
-          try {
-            text = fs.readFileSync(`build/${file}.html`, "utf8");
-          } catch (err) {
-            continue;
+    injectEntries({
+      prefix: "js/",
+      transforms: [
+        {
+          test: /background\.js/,
+          file: "build/manifest.json",
+          transform: (entries, obj) => {
+            obj.background.scripts = entries;
+            return obj;
           }
-          const scripts = [
-            ...bundle[`${file}.js`].imports.map(f => `js/${f}`),
-            `js/${file}.js`
-          ];
-          const html = scripts.map(s => `<script src="${s}"></script>`).join("\n");
-          fs.writeFileSync(`build/${file}.html`, text.replace("</body>", `${html}\n</body>`));
+        },
+        {
+          test: /content\.js/,
+          file: "build/manifest.json",
+          transform: (entries, obj) => {
+            obj.content_scripts[0].js = entries;
+            return obj;
+          }
+        },
+        {
+          test: /(dialog|options|picker)\.js/,
+          file: "build/$1.html",
+          transform: (entries, text) => {
+            const html = entries.map(s => `<script src="${s}"></script>`).join("\n");
+            return text.replace("</body>", `${html}\n</body>`);
+          }
         }
-      }
-    }
+      ]
+    })
   ]
 };
+
+function injectEntries({prefix = "", transforms}) {
+  return {
+    name: "rollup-plugin-inject-entries",
+    writeBundle
+  };
+  
+  function writeBundle(bundle) {
+    for (const key in bundle) {
+      let match, transform;
+      for (const trans of transforms) {
+        match = key.match(trans.test);
+        if (match) {
+          transform = trans;
+          break;
+        }
+      }
+      if (!match) continue;
+      const entries = [
+        ...bundle[key].imports.map(f => prefix + f),
+        prefix + key
+      ];
+      const file = transform.file.replace(/\$(\d+)/, (m, n) => match[Number(n)]);
+      let content = fs.readFileSync(file, "utf8");
+      if (file.endsWith(".json")) {
+        content = JSON.parse(content);
+      }
+      let output = transform.transform(entries, content);
+      if (typeof output !== "string") {
+        output = JSON.stringify(output, null, 2);
+      }
+      fs.writeFileSync(file, output);
+    }
+  }
+}
