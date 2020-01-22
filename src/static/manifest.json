@@ -49,5 +49,17 @@
 	"icons": {
 		"32": "images/icon.svg"
 	},
-	"default_locale": "en"
+	"default_locale": "en",
+  "commands": {
+    "_execute_browser_action": {},
+    "PICK_FROM_CURRENT_TAB": {
+      "description": "__MSG_commandPickFromCurrentTab__"
+    },
+    "PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT": {
+      "description": "__MSG_commandPickFromRightTabsExcludeCurrent__"
+    },
+    "PICK_FROM_RIGHT_TABS": {
+      "description": "__MSG_commandPickFromRightTabs__"
+    }
+  }
 }
