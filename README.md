@@ -151,6 +151,7 @@ Similar addons
 
 * [Image Picker](https://addons.mozilla.org/zh-TW/firefox/addon/image-picker/)
 * [Double-click Image Downloader](https://addons.mozilla.org/en-US/firefox/addon/double-click-image-download/?src=ss)
+* [Download All Images](https://addons.mozilla.org/zh-TW/firefox/addon/save-all-images-webextension/)
 
 Icon color
 ----------
