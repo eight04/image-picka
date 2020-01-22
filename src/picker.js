@@ -5,6 +5,7 @@ import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
 import {IS_CHROME} from "./lib/env.js";
 import {translateDOM} from "./lib/i18n.js";
+import {setupHistory} from "./lib/input-history.js";
 
 const BATCH_ID = getBatchId();
 
@@ -28,6 +29,9 @@ translateDOM(document.body);
 
 pref.on("change", onPrefChange);
 onPrefChange(pref.getAll());
+for (const input of document.querySelectorAll(".history-container input")) {
+  setupHistory(input, input.id);
+}
 
 function onPrefChange(change) {
   if (change.previewMaxHeight) {

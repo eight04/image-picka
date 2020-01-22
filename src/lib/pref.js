@@ -53,7 +53,8 @@ const DEFAULT = {
   minWidth: 10,
   minHeight: 10,
   matchType: "include",
-  matchUrl: ""
+  matchUrl: "",
+  matchUrlHistory: []
 };
 
 export const pref = createPref(DEFAULT);

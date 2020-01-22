@@ -1,7 +1,7 @@
-import browser from "webextension-polyfill";
+import {_} from "./i18n.js";
 import {pref} from "./pref.js";
 
-export function setupHistory(input) {
+export function setupHistory(input, id) {
   let initiated = false;
   let history;
   let list;
@@ -19,11 +19,7 @@ export function setupHistory(input) {
   });
   
   function getHistory() {
-    try {
-      return JSON.parse(pref.get(input.id + "History"));
-    } catch (err) {
-      return [];
-    }
+    return pref.get(id + "History");
   }
   
   function addHistory(value) {
@@ -31,8 +27,8 @@ export function setupHistory(input) {
     const data = [
       value,
       ...getHistory().filter(t => t != value)
-    ].slice(0, +input.getAttribute("history"));
-    pref.set(input.id + "History", JSON.stringify(data));
+    ].slice(0, +input.dataset.history);
+    pref.set(id + "History", data);
   }
   
   function init() {
@@ -42,7 +38,7 @@ export function setupHistory(input) {
     if (!history.length) return;
     
     list = document.createElement("div");
-    list.dataset.label = browser.i18n.getMessage("formHistoryRecentlyUsedLabel");
+    list.dataset.label = _("formHistoryRecentlyUsedLabel");
     list.className = "history-list";
     list.tabIndex = 0;
     list.append(...history.map((t, i) => {
@@ -110,7 +106,7 @@ export function setupHistory(input) {
   }
   
   function setInputValue(value) {
-    pref.set(input.id, value);
+    pref.set(id, value);
     addHistory(value);
     uninit();
   }

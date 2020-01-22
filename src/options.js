@@ -4,6 +4,7 @@ import {createUI, createBinding} from "webext-pref-ui";
 import {pref} from "./lib/pref";
 import {getBrowserInfo} from "./lib/env.js";
 import {_, html} from "./lib/i18n.js";
+import {setupHistory} from "./lib/input-history.js";
 
 const root = createUI({
   body: [
@@ -336,6 +337,17 @@ getBrowserInfo().then(info => {
     document.body.classList.add("version-lt-57");
   }
 });
+
+for (const input of document.querySelectorAll("#pref-filePattern, #pref-filePatternBatch")) {
+  input.dataset.history = 5;
+  
+  const container = document.createElement("div");
+  container.className = "history-container";
+  input.parentNode.insertBefore(container, input);
+  container.appendChild(input);
+  
+  setupHistory(input, input.id.slice(5));
+}
 
 function cap(s) {
   return s[0].toUpperCase() + s.slice(1);
