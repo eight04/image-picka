@@ -13,6 +13,7 @@
     "preversion": "npm test",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s src/static",
+    "version": "npm run build && git add .",
     "postversion": "web-ext build && git push --follow-tags",
     "server": "node test/server.js"
   },
