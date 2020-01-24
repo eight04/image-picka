@@ -64,7 +64,6 @@ export default function init({downloadImage}) {
 	}
 	
 	function initClick() {
-		const conf = pref.get();
 		const contexts = [{
 			prefix: "single",
 			eventName: "click"
@@ -84,8 +83,7 @@ export default function init({downloadImage}) {
 		}
 		
 		contexts.forEach(c => c.state.update());
-		pref.on("change", change => {
-			Object.assign(conf, change);
+		pref.on("change", () => {
 			contexts.forEach(c => c.state.update());
 		});
 		
@@ -110,9 +108,9 @@ export default function init({downloadImage}) {
 		}
 		
 		function testEvent(e, context) {
-			return e.ctrlKey === conf[`${context.prefix}ClickCtrl`] &&
-				e.altKey === conf[`${context.prefix}ClickAlt`] &&
-				e.shiftKey === conf[`${context.prefix}ClickShift`];
+			return e.ctrlKey === pref.get(`${context.prefix}ClickCtrl`) &&
+				e.altKey === pref.get(`${context.prefix}ClickAlt`) &&
+				e.shiftKey === pref.get(`${context.prefix}ClickShift`);
 		}
 	}
 	
