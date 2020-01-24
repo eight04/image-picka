@@ -100,7 +100,7 @@
 		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageSizeUnderThumbnailLabel": {
-		"message": "Afficher la taille de l’image sous la miniature",
+		"message": "Afficher les dimensions de l’image sous la miniature",
 		"description": "Label of displayImageSizeUnderThumbnail option"
 	},
 	"optionEnabledLabel": {
@@ -128,7 +128,7 @@
 		"description": "Help text of download single image option"
 	},
 	"optionFilenamePatternLabel": {
-		"message": "Motif du nom de fichier relatif au dossier de téléchargement par défaut de Firefox :",
+		"message": "Motif du nom de fichier relatif au dossier de téléchargement par défaut :",
 		"description": "Label of filenamePattern option"
 	},
 	"optionFilenamePatternHelpHTML": {
@@ -147,6 +147,16 @@
 	"optionIsolateTabsHelpHTML": {
 		"message": "Si cette option est cochée, le nom des fichiers sera construit en fonction de l’onglet de provenance des images et non de l’onglet actif. Concerne les variables <code>page…</code> et <code>index</code>.",
 		"description": "Help text of isolateTabs option"
+	},
+	"optionImportButton": {
+    "message": "Importer les réglages"
+  },
+  "optionExportButton": {
+    "message": "Exporter les réglages"
+  },
+	"optionLearnMoreButton": {
+		"message": "[en savoir plus]",
+		"description": "'Learn more' link in option page"
 	},
 	"optionSaveAsLabel": {
 		"message": "Demander où télécharger l’image au lieu d’utiliser le dossier de téléchargement par défaut",
@@ -297,6 +307,10 @@
 		"message": "Taille minimale en kilooctets",
 		"description": "Help text of minFileSize filter in image picker"
 	},
+  "pickerMatchTypeLabel": {
+    "message": "Mode :",
+    "description": "Label of matchType filter in image picker"
+  },
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Inclure",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -313,10 +327,22 @@
 		"message": "expression rationnelle",
 		"description": "Help text of matchUrl filter in image picker"
 	},
+  "pickerPreviewMaxHeightLabel": {
+    "message": "Taille des miniatures :",
+    "description": "Label of previewMaxHeight option in image picker"
+  },
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Taille des miniatures",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
+  "pickerToolbarFilterLabel": {
+    "message": "Filtre",
+    "description": "Label of the filter toolbar in image picker"
+  },
+  "pickerToolbarDownloadOptionsLabel": {
+    "message": "Options de téléchargement",
+    "description": "Label of the download options toolbar in image picker"
+  },
 	"pickerFilenamePatternBatchLabel": {
 		"message": "Motif des noms de fichier :",
 		"description": "Label of filenamePatternBatch option in image picker"
@@ -344,5 +370,11 @@
 	"pickerActionCancel": {
 		"message": "Annuler",
 		"description": "'Cancel' button in image picker"
-	}
+	},
+  "promptOK": {
+    "message": "OK"
+  },
+  "promptCancel": {
+    "message": "Annuler"
+  }
 }
