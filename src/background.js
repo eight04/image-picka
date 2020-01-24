@@ -122,7 +122,7 @@ const menus = webextMenus([
 		contexts: ["page", "image"],
 		oncontext: () => pref.get("contextMenu")
 	}))
-]);
+], IS_CHROME ? false : undefined);
 
 // setup dynamic menus
 pref.ready().then(() => {
