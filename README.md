@@ -190,6 +190,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.12.2 (Jan 24, 2020)
+
+  - Fix: click/double click download is broken.
+  - Fix: quirks mode.
+  - Update FR translation.
+
 * 0.12.1 (Jan 22, 2020)
 
   - Breaking: enable "download from cache" by default.
