@@ -7,10 +7,10 @@ import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
 import {terser} from "rollup-plugin-terser";
 
-import fg from "fast-glob";
+import glob from "tiny-glob";
 
-export default {
-  input: fg.sync(["src/*.js"]),
+export default async () => ({
+  input: await glob("src/*.js"),
   output: {
     format: "es",
     dir: "build/js",
@@ -86,7 +86,7 @@ export default {
       ]
     })
   ]
-};
+});
 
 function injectEntries({prefix = "", transforms}) {
   return {

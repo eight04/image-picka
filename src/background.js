@@ -92,7 +92,7 @@ pref.ready().then(() => {
 	}
 });
 
-const menus = webextMenus([
+const MENU_OPTIONS = [
 	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
 		title: label,
 		onclick(info, tab) {
@@ -122,19 +122,28 @@ const menus = webextMenus([
 		contexts: ["page", "image"],
 		oncontext: () => pref.get("contextMenu")
 	}))
-], IS_CHROME ? false : undefined);
+];
 
-// setup dynamic menus
-pref.ready().then(() => {
-	// update menus
-	const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
-	menus.update();
-	pref.on("change", change => {
-		if (WATCH_PROPS.some(p => change[p] != null)) {
-			menus.update();
-		}
-	});
-});
+let menus;
+try {
+  menus = webextMenus(MENU_OPTIONS, IS_CHROME ? false : undefined);
+} catch (err) {
+  // menus are not available on Firefox Android
+  console.error(err);
+}
+if (menus) {
+  // setup dynamic menus
+  pref.ready().then(() => {
+    // update menus
+    const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
+    menus.update();
+    pref.on("change", change => {
+      if (WATCH_PROPS.some(p => change[p] != null)) {
+        menus.update();
+      }
+    });
+  });
+}
 
 // setup dynamic icon
 const icon = createDynamicIcon({
