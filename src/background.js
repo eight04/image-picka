@@ -11,6 +11,7 @@ import {imageCache} from "./lib/image-cache.js";
 import {createCounter} from "./lib/counter.js";
 import {IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
+import {escapeVariable, escapePath} from "./lib/escape.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -92,7 +93,7 @@ pref.ready().then(() => {
 	}
 });
 
-const menus = webextMenus([
+const MENU_OPTIONS = [
 	...[...Object.entries(MENU_ACTIONS)].map(([key, {label, handler}]) => ({
 		title: label,
 		onclick(info, tab) {
@@ -122,19 +123,28 @@ const menus = webextMenus([
 		contexts: ["page", "image"],
 		oncontext: () => pref.get("contextMenu")
 	}))
-], IS_CHROME ? false : undefined);
+];
 
-// setup dynamic menus
-pref.ready().then(() => {
-	// update menus
-	const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
-	menus.update();
-	pref.on("change", change => {
-		if (WATCH_PROPS.some(p => change[p] != null)) {
-			menus.update();
-		}
-	});
-});
+let menus;
+try {
+  menus = webextMenus(MENU_OPTIONS, IS_CHROME ? false : undefined);
+} catch (err) {
+  // menus are not available on Firefox Android
+  console.error(err);
+}
+if (menus) {
+  // setup dynamic menus
+  pref.ready().then(() => {
+    // update menus
+    const WATCH_PROPS = ["contextMenu", "browserAction", "enabled"];
+    menus.update();
+    pref.on("change", change => {
+      if (WATCH_PROPS.some(p => change[p] != null)) {
+        menus.update();
+      }
+    });
+  });
+}
 
 // setup dynamic icon
 const icon = createDynamicIcon({
@@ -526,69 +536,6 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
     conflictAction: pref.get("filenameConflictAction")
   }, true)
     .catch(notifyDownloadError);
-}
-
-function trimString(s) {
-  return s.replace(/^[\s\u180e]+|[\s\u180e]+$/g, "");
-}
-
-const escapeVariable = (() => {
-	const table = {
-		"/": "／",
-		"\\": "＼",
-		"?": "？",
-		"|": "｜",
-		"<": "＜",
-		">": "＞",
-		":": "：",
-		"\"": "＂",
-		"*": "＊",
-		"~": "～"
-	};
-  if (navigator.userAgent.includes("android")) {
-    // https://dxr.mozilla.org/mozilla-central/source/toolkit/components/downloads/DownloadPaths.jsm
-    Object.assign(table, {
-      ";": "；",
-      ",": "，",
-      "+": "＋",
-      "=": "＝",
-      "[": "［",
-      "]": "］"
-    });
-  }
-  const escapeBracket = s => s.replace(/\[|\]/g, "\\$&");
-	const rx = new RegExp(`[${escapeBracket(Object.keys(table).join(""))}]+`, "g");
-	const escape = m => {
-		if (!pref.get("escapeWithUnicode")) {
-			return "_";
-		}
-		return Array.from(m).map(c => table[c]).join("");
-	};
-  // eslint-disable-next-line no-control-regex
-  const rxUnprintable = /[\x00-\x1f\x7f-\x9f\u200e\u200f\u202a-\u202e]/g;
-  
-	return name => {
-    if (pref.get("escapeZWJ")) {
-      name = name.replace(/\u200d/g, "");
-    }
-    name = trimString(
-      name.replace(rxUnprintable, "")
-        .replace(rx, escape)
-        .replace(/\s+/g, " ")
-    );
-      
-		const maxLength = pref.get("variableMaxLength");
-		if (name.length > maxLength) {
-			name = trimString(name.slice(0, maxLength));
-		}
-		return name;
-	};
-})();
-
-function escapePath(path) {
-  return path.split(/\\|\//g).map(component =>
-    trimString(component).replace(/^\.+|\.+$/g, m => "．".repeat(m.length))
-  ).join("/");
 }
 
 function propGetter(prop) {
