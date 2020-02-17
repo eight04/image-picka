@@ -190,6 +190,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.12.3 (Feb 18, 2020)
+
+  - Fix: menus API doesn't work on Firefox Android.
+  - Fix: don't generate empty menus on Chrome.
+  - Add: release to Github.
+
 * 0.12.2 (Jan 24, 2020)
 
   - Fix: click/double click download is broken.
