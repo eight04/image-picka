@@ -59,7 +59,8 @@ function getImages() {
 function getEnv() {
   return {
     pageTitle: document.title,
-    pageUrl: location.href
+    pageUrl: location.href,
+    contentType: document.contentType
   };
 }
 

@@ -82,9 +82,23 @@ const root = createUI({
         {
           type: "text",
           key: "filePattern",
+          className: 'has-history',
           label: _("optionFilenamePatternLabel"),
           learnMore: "https://github.com/eight04/image-picka#filename-pattern",
           help: html("optionFilenamePatternHelpHTML")
+        },
+        {
+          type: "checkbox",
+          key: "filePatternStandaloneEnabled",
+          label: _("optionFilenamePatternStandaloneEnabledLabel"),
+          children: [
+            {
+              type: "text",
+              key: "filePatternStandalone",
+              className: 'has-history',
+              label: _("optionFilenamePatternStandaloneLabel")
+            }
+          ]
         },
         {
           type: "checkbox",
@@ -220,7 +234,8 @@ const root = createUI({
           type: "text",
           key: "filePatternBatch",
           label: _("optionFilenamePatternLabel"),
-          learnMore: "https://github.com/eight04/image-picka#filename-pattern"
+          learnMore: "https://github.com/eight04/image-picka#filename-pattern",
+          className: 'has-history'
         },
         {
           type: "checkbox",
@@ -338,7 +353,7 @@ getBrowserInfo().then(info => {
   }
 });
 
-for (const input of document.querySelectorAll("#pref-filePattern, #pref-filePatternBatch")) {
+for (const input of document.querySelectorAll(".has-history input")) {
   input.dataset.history = 5;
   
   const container = document.createElement("div");
