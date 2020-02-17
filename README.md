@@ -50,6 +50,7 @@ Filename may contain following `${variable}`s:
 * `pageTitle`: title of the page.
 * `pageUrl`: URL of the page.
 * `pageHostname`: hostname extracted from `pageUrl`.
+* `pageContentType`: content type of the page.
 * `date`: an instance of JavaScript `Date`.
 * `dateString`: a date string in format `year-month-day hour minute second` e.g. `2018-01-18 08 28 56`.
 

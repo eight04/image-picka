@@ -60,7 +60,7 @@ function getEnv() {
   return {
     pageTitle: document.title,
     pageUrl: location.href,
-    contentType: document.contentType
+    pageContentType: document.contentType
   };
 }
 

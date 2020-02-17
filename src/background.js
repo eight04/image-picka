@@ -526,7 +526,7 @@ async function singleDownload({url, env, tabId, frameId, noReferrer}) {
   env.base = data && data.filename;
   /* eslint-enable */
   expandEnv(env);
-  const filePattern = pref.get("filePatternStandaloneEnabled") && env.contentType.startsWith("image/") ?
+  const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
     pref.get("filePatternStandalone") : pref.get("filePattern");
   const filename = compileStringTemplate(filePattern)(env);
   download({
