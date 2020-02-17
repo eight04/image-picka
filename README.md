@@ -196,6 +196,7 @@ Changelog
   - Fix: menus API doesn't work on Firefox Android.
   - Fix: don't generate empty menus on Chrome.
   - Add: release to Github.
+  - Add: use a different filename pattern for standalone images.
 
 * 0.12.2 (Jan 24, 2020)
 
