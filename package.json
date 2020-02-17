@@ -14,8 +14,9 @@
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s src/static",
     "version": "npm run build && git add .",
-    "postversion": "web-ext build && git push --follow-tags",
-    "server": "node test/server.js"
+    "postversion": "shx rm -rf web-ext-artifacts/* && web-ext build",
+    "server": "node test/server.js",
+    "release": "release-it"
   },
   "eslintIgnore": [
     "build"
@@ -27,6 +28,7 @@
     "expression-eval": "^2.1.0",
     "mime": "^2.4.4",
     "node-sigint": "0.0.1",
+    "release-it": "^12.4.3",
     "rollup": "^1.31.1",
     "rollup-plugin-cjs-es": "^0.9.0",
     "rollup-plugin-copy-glob": "^0.3.1",
@@ -46,5 +48,12 @@
     "webext-tx-fix": "^0.3.3",
     "webextension-polyfill": "^0.6.0"
   },
-  "repository": "eight04/image-picka"
+  "repository": "eight04/image-picka",
+  "private": true,
+  "release-it": {
+    "github": {
+      "release": true,
+      "assets": ["web-ext-artifacts/*"]
+    }
+  }
 }
