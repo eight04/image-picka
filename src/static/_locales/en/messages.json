@@ -140,6 +140,14 @@
 			}
 		}
 	},
+  "optionFilenamePatternStandaloneLabel": {
+		"message": "Filename pattern for standalone images",
+		"description": "Label of filenamePatternStandalone option"
+  },
+	"optionFilenamePatternStandaloneEnabledLabel": {
+		"message": "Use a different pattern for standalone images",
+		"description": "Label of filenamePatternStandaloneEnabled option"
+	},
 	"optionIsolateTabsLabel": {
 		"message": "Isolate the tabs from each other when generating the filenames.",
 		"description": "Label of isolateTabs option"
