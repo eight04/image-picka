@@ -144,6 +144,10 @@
 		"message": "若此选项被选中，文件名将根据下载图像所在的标签页来创建，而非当前标签页。这会影响到 <code>page...</code> 变量与 <code>index</code>。",
 		"description": "Help text of isolateTabs option"
 	},
+	"optionLearnMoreButton": {
+		"message": "详细了解",
+		"description": "'Learn more' link in option page"
+	},
 	"optionSaveAsLabel": {
 		"message": "询问我保存图像到哪里，而非使用默认的下载文件夹。",
 		"description": "Label of saveAs option"
@@ -340,5 +344,9 @@
 	"pickerActionCancel": {
 		"message": "取消",
 		"description": "'Cancel' button in image picker"
+	},
+	"promptCancel": {
+		"message": "取消",
+		"description": ""
 	}
 }

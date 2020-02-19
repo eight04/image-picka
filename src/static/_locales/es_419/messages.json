@@ -1,14 +1,14 @@
 {
 	"commandPickFromCurrentTab": {
-		"message": "Seleccionar imágenes desde la pestaña actual",
+		"message": "Seleccionar imágenes de la pestaña actual",
 		"description": "'Pick images from current tab' command"
 	},
 	"commandPickFromRightTabs": {
-		"message": "Seleccionar imágenes desde la pestaña actual + pestañas a la derecha",
+		"message": "Seleccionar imágenes de la pestaña actual + pestañas de la derecha",
 		"description": "'Pick images from curent tab + right tabs' command"
 	},
 	"commandPickFromRightTabsExcludeCurrent": {
-		"message": "Seleccionar imágenes desde las pestañas a la derecha",
+		"message": "Seleccionar imágenes de las pestañas de la derecha",
 		"description": "'Pick images from right tabs' command"
 	},
 	"extensionDescription": {
@@ -32,7 +32,7 @@
 		"description": "Title of batch download settings"
 	},
 	"optionBrowserActionLabel": {
-		"message": "Acción por defecto del botón en la barra de herramientas",
+		"message": "Acción predeterminada del botón de la barra de herramientas",
 		"description": "Label of browserAction option"
 	},
 	"optionBrowserActionHelp": {
@@ -44,15 +44,15 @@
 		"description": "Label of closeTabsAfterSave option"
 	},
 	"optionCollectFromFramesLabel": {
-		"message": "Seleccionar imágenes desde frames en forma recursiva.",
+		"message": "Extraer imágenes de los frames de forma recursiva.",
 		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
-		"message": "También agregar \"Seleccionar imágenes ...\" al menú contextual",
+		"message": "Agregar \"Seleccionar imágenes...\" al menú contextual",
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomIconLabel": {
-		"message": "Personaliza el color del botón de la barra de herramientas",
+		"message": "Personalizar el color del botón de la barra de herramientas",
 		"description": "Label of customIcon option"
 	},
 	"optionCustomIconColorLabel": {
@@ -60,19 +60,19 @@
 		"description": "Label of customIconColor option"
 	},
 	"optionDetectLinkLabel": {
-		"message": "Detectar URls de imágenes desde los enlaces.",
-		"description": ""
+		"message": "Detectar las URL de las imágenes de los enlaces.",
+		"description": "Label of detectLink option"
 	},
 	"optionDblClickLabel": {
 		"message": "Descargar con doble clic",
 		"description": "Label of dblClick option"
 	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
-		"message": "Valor máximo del control deslizante en el tamaño de las miniaturas",
+		"message": "Valor máximo del control deslizante de tamaño de las miniaturas",
 		"description": "Label of previewMaxHeightUpperBound option"
 	},
 	"optionUseCacheLabel": {
-		"message": "Intentar descargar imágenes desde el caché del navegador",
+		"message": "Intentar descargar imágenes de la caché del navegador",
 		"description": "Label of useCache option"
 	},
 	"optionUseCacheHelp": {
@@ -84,11 +84,11 @@
 		"description": "Label of useExpression option"
 	},
 	"optionDefaultNameLabel": {
-		"message": "Nombre del archivo por defecto",
+		"message": "Nombre de archivo predeterminado",
 		"description": "Label of defaultName"
 	},
 	"optionDefaultExtLabel": {
-		"message": "Extensión por defecto",
+		"message": "Extensión predeterminada",
 		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageSizeUnderThumbnailLabel": {
@@ -100,7 +100,7 @@
 		"description": "Label of enabled option"
 	},
 	"optionVariableMaxLengthLabel": {
-		"message": "Longitud máxima de cada variable en el patrón de nombre del archivo",
+		"message": "Longitud máxima de cada variable en el patrón del nombre de archivo",
 		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
@@ -108,7 +108,7 @@
 		"description": "Label of filenameConflictAction option"
 	},
 	"optionFilenameConflictActionHelp": {
-		"message": "La descarga puede fallar si hay varios archivos descargados con el mismo nombre al mismo tiempo. Es mejor evitar el conflicto de nombre del archivo, utilizando el patrón de nombre del archivo adecuado, especialmente durante la descarga por lotes.",
+		"message": "La descarga puede fallar si hay varios archivos descargados con el mismo nombre al mismo tiempo. Es mejor evitar el conflicto de nombre del archivo, utilizando un patrón de nombre del archivo adecuado, especialmente durante la descarga por lotes.",
 		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
@@ -132,13 +132,33 @@
 			}
 		}
 	},
+	"optionFilenamePatternStandaloneLabel": {
+		"message": "Patrón de nombre del archivo para imágenes independientes",
+		"description": "Label of filenamePatternStandalone option"
+	},
+	"optionFilenamePatternStandaloneEnabledLabel": {
+		"message": "Usar un patrón diferente para imágenes independientes",
+		"description": "Label of filenamePatternStandaloneEnabled option"
+	},
 	"optionIsolateTabsLabel": {
-		"message": "Aislar las pestañas unas de otras al generar los nombres de los archivos.",
+		"message": "Aislar las pestañas entre sí al generar los nombres de los archivos.",
 		"description": "Label of isolateTabs option"
 	},
 	"optionIsolateTabsHelpHTML": {
-		"message": "Si esta opción está marcada, el nombre del archivo se formará de acuerdo con la pestaña donde se descarga la imagen, en lugar de la pestaña actual. Esto afecta <code>página...</code> variables y <code>índice</code>.",
+		"message": "Si esta opción está marcada, el nombre del archivo se construirá de acuerdo con la pestaña de la que se descarga la imagen, en lugar de la pestaña actual. Esto afecta a las variables <code>página...</code> e <code>índice</code>.",
 		"description": "Help text of isolateTabs option"
+	},
+	"optionImportButton": {
+		"message": "Importar configuración",
+		"description": ""
+	},
+	"optionExportButton": {
+		"message": "Exportar configuración",
+		"description": ""
+	},
+	"optionLearnMoreButton": {
+		"message": "Más información",
+		"description": "'Learn more' link in option page"
 	},
 	"optionSaveAsLabel": {
 		"message": "Preguntar dónde guardar la imagen en lugar de usar la carpeta de descarga predeterminada.",
@@ -245,7 +265,7 @@
 		"description": "Title of advanced options"
 	},
 	"optionSelectByDefaultLabel": {
-		"message": "Seleccionar todas las imágenes por defecto",
+		"message": "Seleccionar todas las imágenes de forma predeterminada",
 		"description": "Label of selectByDefault option"
 	},
 	"optionSrcAlternativeLabelHTML": {
@@ -289,6 +309,10 @@
 		"message": "Tamaño mínimo del archivo (KB)",
 		"description": "Help text of minFileSize filter in image picker"
 	},
+	"pickerMatchTypeLabel": {
+		"message": "Coincidir tipo con el filtro URL",
+		"description": "Label of matchType filter in image picker"
+	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Incluir",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -301,9 +325,21 @@
 		"message": "Expresión regular",
 		"description": "Help text of matchUrl filter in image picker"
 	},
+	"pickerPreviewMaxHeightLabel": {
+		"message": "Tamaño vista previa",
+		"description": "Label of previewMaxHeight option in image picker"
+	},
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Altura máxima de la vista previa de la imagen",
 		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerToolbarFilterLabel": {
+		"message": "Filtro",
+		"description": "Label of the filter toolbar in image picker"
+	},
+	"pickerToolbarDownloadOptionsLabel": {
+		"message": "Opciones de descarga",
+		"description": "Label of the download options toolbar in image picker"
 	},
 	"pickerFilenamePatternBatchLabel": {
 		"message": "Patrón de nombre del archivo",
@@ -332,5 +368,13 @@
 	"pickerActionCancel": {
 		"message": "Cancelar",
 		"description": "'Cancel' button in image picker"
+	},
+	"promptOK": {
+		"message": "Aceptar",
+		"description": ""
+	},
+	"promptCancel": {
+		"message": "Cancelar",
+		"description": ""
 	}
 }

@@ -149,11 +149,13 @@
 		"description": "Help text of isolateTabs option"
 	},
 	"optionImportButton": {
-    "message": "Importer les réglages"
-  },
-  "optionExportButton": {
-    "message": "Exporter les réglages"
-  },
+		"message": "Importer les réglages",
+		"description": ""
+	},
+	"optionExportButton": {
+		"message": "Exporter les réglages",
+		"description": ""
+	},
 	"optionLearnMoreButton": {
 		"message": "[en savoir plus]",
 		"description": "'Learn more' link in option page"
@@ -307,10 +309,10 @@
 		"message": "Taille minimale en kilooctets",
 		"description": "Help text of minFileSize filter in image picker"
 	},
-  "pickerMatchTypeLabel": {
-    "message": "Mode :",
-    "description": "Label of matchType filter in image picker"
-  },
+	"pickerMatchTypeLabel": {
+		"message": "Mode :",
+		"description": "Label of matchType filter in image picker"
+	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Inclure",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -327,22 +329,22 @@
 		"message": "expression rationnelle",
 		"description": "Help text of matchUrl filter in image picker"
 	},
-  "pickerPreviewMaxHeightLabel": {
-    "message": "Taille des miniatures :",
-    "description": "Label of previewMaxHeight option in image picker"
-  },
+	"pickerPreviewMaxHeightLabel": {
+		"message": "Taille des miniatures :",
+		"description": "Label of previewMaxHeight option in image picker"
+	},
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Taille des miniatures",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
-  "pickerToolbarFilterLabel": {
-    "message": "Filtre",
-    "description": "Label of the filter toolbar in image picker"
-  },
-  "pickerToolbarDownloadOptionsLabel": {
-    "message": "Options de téléchargement",
-    "description": "Label of the download options toolbar in image picker"
-  },
+	"pickerToolbarFilterLabel": {
+		"message": "Filtre",
+		"description": "Label of the filter toolbar in image picker"
+	},
+	"pickerToolbarDownloadOptionsLabel": {
+		"message": "Options de téléchargement",
+		"description": "Label of the download options toolbar in image picker"
+	},
 	"pickerFilenamePatternBatchLabel": {
 		"message": "Motif des noms de fichier :",
 		"description": "Label of filenamePatternBatch option in image picker"
@@ -371,10 +373,8 @@
 		"message": "Annuler",
 		"description": "'Cancel' button in image picker"
 	},
-  "promptOK": {
-    "message": "OK"
-  },
-  "promptCancel": {
-    "message": "Annuler"
-  }
+	"promptCancel": {
+		"message": "Annuler",
+		"description": ""
+	}
 }
