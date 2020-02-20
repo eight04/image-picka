@@ -140,6 +140,14 @@
 			}
 		}
 	},
+	"optionFilenamePatternStandaloneLabel": {
+		"message": "Motif du nom de fichier des images indépendantes :",
+		"description": "Label of filenamePatternStandalone option"
+  },
+	"optionFilenamePatternStandaloneEnabledLabel": {
+		"message": "Utiliser un motif différent pour les images indépendantes",
+		"description": "Label of filenamePatternStandaloneEnabled option"
+	},
 	"optionIsolateTabsLabel": {
 		"message": "Créer le nom des fichiers en fonction des onglets",
 		"description": "Label of isolateTabs option"
