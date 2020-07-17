@@ -34,9 +34,9 @@ Installation
 
 This extension can be installed on Chrome, but it is not hosted on Chrome Webstore. You have to install the extension manually:
 
-1. Download and extract the [source code](https://github.com/eight04/image-picka/archive/master.zip).
-2. [Build the extension](BUILD.md).
-3. [Install the `build/` folder as an unpacked extension](https://stackoverflow.com/a/49769909/3413125).
+1. Download the latest release from the [release page](https://github.com/eight04/image-picka/releases).
+2. Extract the ZIP file to a folder.
+3. [Install the folder as an unpacked extension](https://stackoverflow.com/a/49769909/3413125).
 
 Filename pattern
 ----------------
