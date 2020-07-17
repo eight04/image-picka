@@ -63,6 +63,9 @@
       "addUntrackedFiles": true,
       "push": false
     },
+    "npm": {
+      "publish": false
+    },
     "hooks": {
       "init": "npm test",
       "after:bump": "npm run build-release",
