@@ -7,6 +7,10 @@ import {IS_CHROME} from "./lib/env.js";
 import {translateDOM} from "./lib/i18n.js";
 import {setupHistory} from "./lib/input-history.js";
 
+import {createCustomCSS} from "./lib/custom-css.js";
+
+createCustomCSS();
+
 const BATCH_ID = getBatchId();
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})

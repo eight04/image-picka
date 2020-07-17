@@ -1,6 +1,10 @@
 import browser from "webextension-polyfill";
 import {translateDOM} from "./lib/i18n.js";
 
+import {createCustomCSS} from "./lib/custom-css.js";
+
+createCustomCSS();
+
 const id = Number(new URLSearchParams(location.search).get("id"));
 
 browser.runtime.sendMessage({
