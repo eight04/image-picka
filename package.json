@@ -10,11 +10,10 @@
     "lint": "eslint \"**/*.js\" --cache",
     "test": "npm run lint && npm run build && web-ext lint",
     "start": "web-ext run",
-    "preversion": "npm test",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s src/static",
-    "version": "npm run build && git add .",
-    "postversion": "shx rm -rf web-ext-artifacts/* && web-ext build",
+    "build-release": "npm run build && shx rm -rf web-ext-artifacts/* && web-ext build",
+    "version": "echo Use release && exit 1",
     "server": "node test/server.js",
     "release": "release-it",
     "changelog": "shx cat README.md | mkcat | mkql \"[content=Changelog] + ul > :first-child > *\" | mkout"
@@ -60,7 +59,14 @@
       ]
     },
     "git": {
-      "changelog": "npm run changelog --silent"
+      "changelog": "npm run changelog --silent",
+      "addUntrackedFiles": true,
+      "push": false
+    },
+    "hooks": {
+      "init": "npm test",
+      "after:bump": "npm run build-release",
+      "after:git:release": "git push --follow-tags"
     }
   }
 }
