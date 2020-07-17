@@ -94,7 +94,7 @@ function injectEntries({prefix = "", transforms}) {
     writeBundle
   };
   
-  function writeBundle(bundle) {
+  function writeBundle(options, bundle) {
     for (const key in bundle) {
       let match, transform;
       for (const trans of transforms) {
