@@ -1,9 +1,8 @@
 import {IS_CHROME} from "./env.js";
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-// eslint-disable-next-line no-undef
 const XHR = location.protocol.startsWith("http") && typeof content !== "undefined" &&
-  content.XMLHttpRequest || XMLHttpRequest;
+  content.XMLHttpRequest || XMLHttpRequest; // eslint-disable-line no-undef
 
 export function fetchXHR(url, type) {
 	return new Promise((resolve, reject) => {
