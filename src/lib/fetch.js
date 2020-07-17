@@ -1,8 +1,12 @@
 import {IS_CHROME} from "./env.js";
 
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
+const XHR = location.protocol.startsWith("http") && typeof content !== "undefined" &&
+  content.XMLHttpRequest || XMLHttpRequest; // eslint-disable-line no-undef
+
 export function fetchXHR(url, type) {
 	return new Promise((resolve, reject) => {
-		const r = new (typeof content !== "undefined" && content.XMLHttpRequest || XMLHttpRequest);
+		const r = new XHR;
 		r.open("GET", url);
 		r.responseType = type;
 		r.onload = () => {
