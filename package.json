@@ -15,7 +15,7 @@
     "build-release": "npm run build && shx rm -rf web-ext-artifacts/* && web-ext build",
     "version": "echo Use release && exit 1",
     "server": "node test/server.js",
-    "release": "release-it",
+    "release": "release-it --verbose",
     "changelog": "shx cat README.md | mkcat | mkql \"[content=Changelog] + ul > :first-child > *\" | mkout"
   },
   "eslintIgnore": [
@@ -67,7 +67,7 @@
       "publish": false
     },
     "hooks": {
-      "init": "npm test",
+      "before:init": "npm test",
       "after:bump": "npm run build-release",
       "after:git:release": "git push --follow-tags"
     }
