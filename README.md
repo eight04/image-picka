@@ -191,6 +191,13 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.13.0 (Jul 18, 2020)
+
+  - Fix: ignore invisible images when drag-n-drop.
+  - Add: custom CSS option.
+  - **Breaking: now the extension may try to fetch from page context.**
+  - Locale: update es_419, fr, tr, zh_CN, zh_TW, ru translation.
+
 * 0.12.3 (Feb 18, 2020)
 
   - Fix: menus API doesn't work on Firefox Android.

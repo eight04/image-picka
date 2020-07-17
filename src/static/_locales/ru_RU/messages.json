@@ -1,0 +1,194 @@
+{
+	"filenameConflictActionUniquify": {
+		"message": "Автоматически переименовать",
+		"description": "Label of uniquify keyword of filenameConflictAction"
+	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "Недавно использовано:",
+		"description": "'Recently used:' label of form history"
+	},
+	"optionGeneralTitle": {
+		"message": "Общие",
+		"description": "Title of general options"
+	},
+	"optionBrowserActionHelp": {
+		"message": "Щелкните правой кнопкой на панели инструментов для других действий.",
+		"description": "Help text of browserAction option"
+	},
+	"optionCloseTabsAfterSaveLabel": {
+		"message": "Закрыть вкладки после сохранения",
+		"description": "Label of closeTabsAfterSave option"
+	},
+	"optionCustomIconLabel": {
+		"message": "Установить цвет кнопки панели инструментов",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "Цвет иконки",
+		"description": "Label of customIconColor option"
+	},
+	"optionDblClickLabel": {
+		"message": "Загрузить двойным кликом",
+		"description": "Label of dblClick option"
+	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "Показать размер изображения под миниатюрой.",
+		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
+	"optionImportButton": {
+		"message": "Настройки импорта",
+		"description": ""
+	},
+	"optionExportButton": {
+		"message": "Настройки экспорта",
+		"description": ""
+	},
+	"optionLearnMoreButton": {
+		"message": "Узнать больше",
+		"description": "'Learn more' link in option page"
+	},
+	"optionSaveAsLabel": {
+		"message": "Спрашивать меня, где сохранить изображение вместо использования директории по умолчанию.",
+		"description": "Label of saveAs option"
+	},
+	"optionSingleClickLabel": {
+		"message": "Загрузка одним кликом",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonPositionHorizontalLabel": {
+		"message": "Горизонтальное положение",
+		"description": "Label of downloadButtonPositionHorizontal option"
+	},
+	"optionDownloadButtonPositionHorizontalLeftOutside": {
+		"message": "Слева, вне изображения",
+		"description": "Label of LEFT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalLeftInside": {
+		"message": "Слева, внутри изображения",
+		"description": "Label of LEFT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalCenter": {
+		"message": "По центру",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionHorizontalRightInside": {
+		"message": "Справа, внутри изображения",
+		"description": "Label of RIGHT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalRightOutside": {
+		"message": "Справа, вне изображения",
+		"description": "Label of RIGHT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalLabel": {
+		"message": "Вертикальное положение",
+		"description": "Label of downloadButtonPositionVertical option"
+	},
+	"optionDownloadButtonPositionVerticalTopOutside": {
+		"message": "Сверху, вне изображения",
+		"description": "Label of TOP_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalTopInside": {
+		"message": "Сверху, внутри изображения",
+		"description": "Label of TOP_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalCenter": {
+		"message": "По центру",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionVerticalBottomInside": {
+		"message": "Сбоку, внутри изображения",
+		"description": "Label of BOTTOM_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalBottomOutside": {
+		"message": "Сбоку, вне изображения",
+		"description": "Label of BOTTOM_OUTSIDE position"
+	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "Размер кнопки",
+		"description": "Label of downloadButtonSize option"
+	},
+	"optionAdvancedTitle": {
+		"message": "Расширенные",
+		"description": "Title of advanced options"
+	},
+	"pickerMinWidthLabel": {
+		"message": "Ширина",
+		"description": "Label of minWith filter in image picker"
+	},
+	"pickerMinWidthHelp": {
+		"message": "Минимальная ширина (px)",
+		"description": "Help text of minWidth filter in image picker"
+	},
+	"pickerMinHeightLabel": {
+		"message": "Высота",
+		"description": "Label of minHeight filter in image picker"
+	},
+	"pickerMinHeightHelp": {
+		"message": "Минимальная высота (px)",
+		"description": "Help text of minHeight filter in image picker"
+	},
+	"pickerMinFileSizeLabel": {
+		"message": "Размер файла",
+		"description": "Label of minFileSize filter in image picker"
+	},
+	"pickerMinFileSizeHelp": {
+		"message": "Минимальный размер файла (Кб)",
+		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeIncludeLabel": {
+		"message": "Включить",
+		"description": "Label of 'include' option of matchType filter in image picker"
+	},
+	"pickerMatchTypeExcludeLabel": {
+		"message": "Исключить",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerPreviewMaxHeightLabel": {
+		"message": "Размер предпросмотра",
+		"description": "Label of previewMaxHeight option in image picker"
+	},
+	"pickerPreviewMaxHeightHelp": {
+		"message": "Макс. высота предпросмотра изображения",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerToolbarFilterLabel": {
+		"message": "Фильтр",
+		"description": "Label of the filter toolbar in image picker"
+	},
+	"pickerToolbarDownloadOptionsLabel": {
+		"message": "Настройки загрузки",
+		"description": "Label of the download options toolbar in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "Закрыть вкладки",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "Инвертировать выделение",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "Сохранить",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "Копировать URL-ы",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCopyUrlCopied": {
+		"message": "Скопировано!",
+		"description": "'Copied!' button shown after successfully copied"
+	},
+	"pickerActionCancel": {
+		"message": "Отмена",
+		"description": "'Cancel' button in image picker"
+	},
+	"promptOK": {
+		"message": "Ок",
+		"description": ""
+	},
+	"promptCancel": {
+		"message": "Отмена",
+		"description": ""
+	}
+}
