@@ -47,6 +47,7 @@ export default function init({downloadImage}) {
 		function update() {
 			IS_BLACKLISTED = pref.get("blacklist").split("\n")
 				.some(pattern => {
+          if (!pattern) return false;
 					if (pattern.startsWith("*.")) {
 						return location.hostname.endsWith(pattern.slice(1));
 					}
@@ -134,7 +135,7 @@ export default function init({downloadImage}) {
 		function onDragStart(e) {
 			var img = e.target;
 			if (img.nodeName == "A") {
-				img = img.querySelector("img");
+				img = [...img.querySelectorAll("img")].find(i => i.offsetParent);
 			}
 			if (!img || !imageUtil.isImage(img)) return;
       
