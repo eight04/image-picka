@@ -9,6 +9,7 @@ const DEFAULT = {
   collectFromFrames: false,
   customIcon: false,
   customIconColor: "#000000",
+  customCSS: "",
   enabled: true,
   dblClick: false,
   dblClickCtrl: false,

@@ -59,6 +59,10 @@
 		"message": "Also add \"Pick Images...\" actions to contextmenu",
 		"description": "Label of contextMenu option"
 	},
+  "optionCustomCSS": {
+    "message": "Customize extension page with CSS",
+    "description": "Label of customCSS option"
+  },
 	"optionCustomIconLabel": {
 		"message": "Customize the color of toolbar button",
 		"description": "Label of customIcon option"

@@ -5,6 +5,9 @@ import {pref} from "./lib/pref";
 import {getBrowserInfo} from "./lib/env.js";
 import {_, html} from "./lib/i18n.js";
 import {setupHistory} from "./lib/input-history.js";
+import {createCustomCSS} from "./lib/custom-css.js";
+
+createCustomCSS();
 
 const root = createUI({
   body: [
@@ -315,6 +318,11 @@ const root = createUI({
           key: "blacklist",
           label: _("optionBlacklistLabel"),
           learnMore: "https://github.com/eight04/image-picka#domain-blacklist"
+        },
+        {
+          type: "textarea",
+          key: "customCSS",
+          label: _("optionCustomCSS")
         }
       ]
     }
