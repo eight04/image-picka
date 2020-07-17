@@ -10,8 +10,9 @@ jobs:
       - uses: actions/setup-node@v1
       
       - run: npm install
+      - run: npm run build
+      - run: npx web-ext build
       - run: npm run changelog --silent > changelog.md
-      - run: npm run build-release
           
       - uses: softprops/action-gh-release@v1
         with:
