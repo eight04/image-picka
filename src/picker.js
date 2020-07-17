@@ -373,17 +373,41 @@ function formatFileSize(size) {
 
 function setupLazyLoad(target) {
   if (typeof IntersectionObserver === "undefined") {
-    target.src = target.dataset.src;
+    // target.src = target.dataset.src;
+    load();
     return;
   }
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
-        target.src = target.dataset.src;
+        // target.src = target.dataset.src;
+        load();
       } else {
-        target.src = "";
+        // target.src = "";
+        unload();
       }
     }
   });
   observer.observe(target);
+  
+  function load() {
+    browser.runtime.sendMessage({
+      method: "getCacheURL",
+      url: target.dataset.src
+    })
+      .then(url => {
+        target.src = url;
+      });
+  }
+  
+  function unload() {
+    browser.runtime.sendMessage({
+      method: "revokeURL",
+      url: target.src
+    })
+      .catch(console.error)
+      .then(() => {
+        target.src = "";
+      });
+  }
 }

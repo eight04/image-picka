@@ -71,6 +71,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
       return URL.revokeObjectURL(message.url);
     case "openDialog":
       return createDialog(message);
+    case "getCacheURL":
+      return imageCache.get(message.url)
+        .then(blob => URL.createObjectURL(blob));
 	}
 });
 

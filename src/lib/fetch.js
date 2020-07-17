@@ -2,7 +2,7 @@ import {IS_CHROME} from "./env.js";
 
 export function fetchXHR(url, type) {
 	return new Promise((resolve, reject) => {
-		const r = new XMLHttpRequest;
+		const r = new (typeof content !== "undefined" && content.XMLHttpRequest || XMLHttpRequest);
 		r.open("GET", url);
 		r.responseType = type;
 		r.onload = () => {
