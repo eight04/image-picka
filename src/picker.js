@@ -1,5 +1,6 @@
 import browser from "webextension-polyfill";
 import {createBinding} from "webext-pref-ui";
+import {createLock} from "@eight04/read-write-lock";
 
 import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
@@ -283,6 +284,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
 	
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
+  imgCover.alt = "";
 	// don't drag
 	if (IS_CHROME) {
 		imgCover.draggable = false;
@@ -376,18 +378,18 @@ function formatFileSize(size) {
 }
 
 function setupLazyLoad(target) {
+  let loadError = false;
+  let bgUrl = "";
+  const lock = createLock();
   if (typeof IntersectionObserver === "undefined") {
-    // target.src = target.dataset.src;
     load();
     return;
   }
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       if (entry.isIntersecting) {
-        // target.src = target.dataset.src;
         load();
       } else {
-        // target.src = "";
         unload();
       }
     }
@@ -395,23 +397,66 @@ function setupLazyLoad(target) {
   observer.observe(target);
   
   function load() {
-    browser.runtime.sendMessage({
+    lock.write(() => {
+      if (loadError) {
+        return loadFromCache();
+      }
+      return loadImage(target, target.dataset.src)
+        .catch(() => {
+          loadError = true;
+          return loadFromCache();
+        });
+    });
+  }
+
+  function loadFromCache() {
+    return browser.runtime.sendMessage({
       method: "getCacheURL",
       url: target.dataset.src
     })
       .then(url => {
-        target.src = url;
+        bgUrl = url;
+        target.style.backgroundImage = `url(${url})`;
+        target.style.backgroundSize = "100%";
       });
   }
   
   function unload() {
-    browser.runtime.sendMessage({
-      method: "revokeURL",
-      url: target.src
-    })
-      .catch(console.error)
-      .then(() => {
+    lock.write(() => {
+      if (!loadError) {
         target.src = "";
-      });
+      }
+      target.style.backgroundImage = "";
+      if (bgUrl) {
+        return browser.runtime.sendMessage({
+          method: "revokeURL",
+          url: bgUrl
+        })
+          .catch(console.error);
+      }
+    });
+  }
+  
+  function loadImage(img, url) {
+    return new Promise((resolve, reject) => {
+      img.src = url;
+      img.addEventListener("load", onLoad);
+      img.addEventListener("error", onError);
+      
+      function onLoad() {
+        resolve();
+        cleanup();
+      }
+      
+      function onError() {
+        reject(new Error(`Failed to load image: ${url}`));
+        cleanup();
+      }
+      
+      function cleanup() {
+        img.removeEventListener("load", onLoad);
+        img.removeEventListener("error", onError);
+      }
+    });
   }
 }
