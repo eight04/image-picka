@@ -3,6 +3,10 @@
 		"message": "Автоматически переименовать",
 		"description": "Label of uniquify keyword of filenameConflictAction"
 	},
+	"filenameConflictActionOverwrite": {
+		"message": "Перезапись старого",
+		"description": "Label of overwrite keyword of filenameConflictAction"
+	},
 	"formHistoryRecentlyUsedLabel": {
 		"message": "Недавно использовано:",
 		"description": "'Recently used:' label of form history"
@@ -30,6 +34,18 @@
 	"optionDblClickLabel": {
 		"message": "Загрузить двойным кликом",
 		"description": "Label of dblClick option"
+	},
+	"optionUseCacheLabel": {
+		"message": "Попытка загрузки изображений из кэша браузера",
+		"description": "Label of useCache option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "Имя файла по умолчанию",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "Расширение по умолчанию",
+		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageSizeUnderThumbnailLabel": {
 		"message": "Показать размер изображения под миниатюрой.",
@@ -110,6 +126,10 @@
 	"optionAdvancedTitle": {
 		"message": "Расширенные",
 		"description": "Title of advanced options"
+	},
+	"optionSelectByDefaultLabel": {
+		"message": "Выбрать все изображения по умолчанию",
+		"description": "Label of selectByDefault option"
 	},
 	"pickerMinWidthLabel": {
 		"message": "Ширина",

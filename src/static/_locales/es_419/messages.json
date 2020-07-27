@@ -51,6 +51,10 @@
 		"message": "Agregar \"Seleccionar imágenes...\" al menú contextual",
 		"description": "Label of contextMenu option"
 	},
+	"optionCustomCSS": {
+		"message": "Personaliza la página de extensión con CSS",
+		"description": "Label of customCSS option"
+	},
 	"optionCustomIconLabel": {
 		"message": "Personalizar el color del botón de la barra de herramientas",
 		"description": "Label of customIcon option"
