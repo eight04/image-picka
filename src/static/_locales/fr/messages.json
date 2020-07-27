@@ -59,6 +59,10 @@
 		"message": "Ajouter les commandes de collecte d’images au menu contextuel",
 		"description": "Label of contextMenu option"
 	},
+	"optionCustomCSS": {
+    "message": "Personnaliser la page de collecte par CSS :",
+    "description": "Label of customCSS option"
+  },
 	"optionCustomIconLabel": {
 		"message": "Personnaliser la couleur du bouton de la barre d’outils",
 		"description": "Label of customIcon option"
