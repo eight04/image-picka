@@ -192,6 +192,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.13.1 (Jul 27, 2020)
+
+  - Fix: use real image URL as thumbnail. Only use blob URL if the browser can't load the real image.
+  - Locale: Update es_419, fr, ru translation.
+
 * 0.13.0 (Jul 18, 2020)
 
   - Fix: ignore invisible images when drag-n-drop.
