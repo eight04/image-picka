@@ -1,11 +1,10 @@
 import contentDisposition from "content-disposition";
 import {createLock} from "@eight04/read-write-lock";
-import {fetchXHR} from "./fetch.js";
+// import {fetchXHR} from "./fetch.js";
 
 const lock = createLock({maxActiveReader: 5});
 
-function getMime(r) {
-  const contentType = r.getResponseHeader("Content-Type");
+function getMime(contentType) {
   if (!contentType) {
     return;
   }
@@ -13,25 +12,27 @@ function getMime(r) {
   return match && match[1].toLowerCase();
 }
 
-function getFilename(r) {
+function getFilename(value) {
   try {
-    const value = r.getResponseHeader("Content-Disposition");
     return contentDisposition.parse(value).parameters.filename;
   } catch (err) {
     // pass
   }
 }
 
-export function fetchImage(url) {
-  return lock.read(() =>
-    fetchXHR(url, "blob").then(r =>
-      ({
-        url,
-        mime: getMime(r),
-        filename: getFilename(r),
-        size: r.response.size,
-        blob: r.response
-      })
-    )
-  );
+export function fetchImage(url, referrer) {
+  return lock.read(async () => {
+    const r = await fetch(url, {referrer});
+    if (!r.ok) {
+      throw new Error(`failed to fetch: ${r.status}`);
+    }
+    const blob = await r.blob();
+    return {
+      url,
+      mime: getMime(r.headers.get("Content-Type")),
+      filename: getFilename(r.headers.get("Content-Disposition")),
+      blob,
+      size: blob.size
+    };
+  });
 }

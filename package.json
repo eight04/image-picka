@@ -36,6 +36,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-write-output": "^0.1.1",
     "shelljs": "^0.8.4",
     "shx": "^0.3.3",
     "stream-throttle": "^0.1.3",

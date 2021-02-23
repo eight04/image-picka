@@ -59,8 +59,8 @@ function init({tabs: originalTabs, env}) {
 		({
 			tabId: tab.tabId,
 			images: [].concat(...tab.frames.map(f => f.images.map(
-				({url, noReferrer}) => {
-          const check = createImageCheckbox(url, f.frameId, tab.tabId, noReferrer);
+				({url, referrer}) => {
+          const check = createImageCheckbox(url, f.frameId, tab.tabId, referrer);
           if (!pref.get("selectByDefault")) {
             check.toggleCheck();
           }
@@ -252,7 +252,7 @@ function initFilter(container, images) {
 	}
 }
 
-function createImageCheckbox(url, frameId, tabId, noReferrer) {
+function createImageCheckbox(url, frameId, tabId, referrer) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
 	let ctrl;
@@ -332,7 +332,7 @@ function createImageCheckbox(url, frameId, tabId, noReferrer) {
       url,
       tabId,
       frameId,
-      noReferrer,
+      referrer,
       batchId: BATCH_ID
     })
 			.then(data => {

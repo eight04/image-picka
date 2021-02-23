@@ -1,9 +1,9 @@
 import {createIDBStorage} from "@eight04/idb-storage";
-import browser from "webextension-polyfill";
+// import browser from "webextension-polyfill";
 
-import {IS_CHROME} from "./env.js";
+// import {IS_CHROME} from "./env.js";
 import {fetchImage} from "./fetch-image.js";
-import {fetchXHR} from "./fetch.js";
+// import {fetchXHR} from "./fetch.js";
 
 export const imageCache = createImageCache();
 
@@ -14,28 +14,13 @@ function createImageCache() {
   });
   return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
-  async function _fetchImage(url, tabId, frameId, noReferrer) {
-    if (IS_CHROME) {
-      if (!noReferrer) {
-        try {
-          // https://github.com/eight04/image-picka/issues/158
-          // this may fail because of mixed content error
-          // FIXME: is there a way to correctly detect error message in order to
-          // know whether to fallback?
-          return await fetchImageFromTab(url, tabId, frameId);
-        } catch (err) {
-          // pass
-        }
-      }
-      return await fetchImage(url);
-    }
-    // always fetch from tab in Firefox
-    return await fetchImageFromTab(url, tabId, frameId);
+  async function _fetchImage(url, tabId, frameId, referrer) {
+    return await fetchImage(url, referrer);
   }
   
-  function add({url, tabId, frameId, noReferrer}) {
+  function add({url, tabId, frameId, referrer}) {
     return cache.set(url, async () => {
-      const data = await _fetchImage(url, tabId, frameId, noReferrer);
+      const data = await _fetchImage(url, tabId, frameId, referrer);
       const resource = data.blob;
       delete data.blob;
       const meta = Object.assign(data, await detectDimension(resource));
@@ -59,28 +44,28 @@ function createImageCache() {
     return cache.clearAll();
   }
   
-  async function fetchImageFromTab(url, tabId, frameId) {
-    const data = await browser.tabs.sendMessage(tabId, {
-      method: "fetchImage",
-      url
-    }, {
-      frameId
-    });
-    if (data.blobUrl) {
+  // async function fetchImageFromTab(url, tabId, frameId) {
+    // const data = await browser.tabs.sendMessage(tabId, {
+      // method: "fetchImage",
+      // url
+    // }, {
+      // frameId
+    // });
+    // if (data.blobUrl) {
       // can't use `fetch` to fetch blob url in Chrome
-      const r = await fetchXHR(data.blobUrl, "blob");
-      data.blob = r.response;
-      delete data.blobUrl;
-      browser.tabs.sendMessage(tabId, {
-        method: "revokeURL",
-        url: data.blobUrl
-      }, {
-        frameId
-      })
-        .catch(console.error);
-    }
-    return data;
-  }
+      // const r = await fetchXHR(data.blobUrl, "blob");
+      // data.blob = r.response;
+      // delete data.blobUrl;
+      // browser.tabs.sendMessage(tabId, {
+        // method: "revokeURL",
+        // url: data.blobUrl
+      // }, {
+        // frameId
+      // })
+        // .catch(console.error);
+    // }
+    // return data;
+  // }
   
   function detectDimension(blob) {
     return new Promise((resolve, reject) => {

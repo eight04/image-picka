@@ -511,11 +511,11 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-async function singleDownload({url, env, tabId, frameId, noReferrer}) {
+async function singleDownload({url, env, tabId, frameId, referrer}) {
   let data;
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
-    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, noReferrer)
+    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, referrer)
       .catch(err => {
         notifyError(err);
         throw err;
