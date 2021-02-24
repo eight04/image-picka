@@ -1,9 +1,9 @@
 import browser from "webextension-polyfill";
 
 import {defer} from "./defer.js";
-import {getBrowserInfo} from "./env.js";
+// import {getBrowserInfo} from "./env.js";
 
-const supportOpener = checkSupportOpener();
+// const supportOpener = checkSupportOpener();
 
 export function waitTab(id) {
   const {resolve, promise} = defer();
@@ -17,73 +17,39 @@ export function waitTab(id) {
   return promise;
 }
 
-export function createTab(options) {
-  let tabId;
+export async function createTab(options) {
+  let tab;
   let openerTabId;
-  const removedTabs = new Set;
-  const {promise, resolve, reject} = defer();
-  browser.tabs.onRemoved.addListener(handleRemove);
-  create()
-    .then(tab => {
-      if (removedTabs.has(tab.id)) {
-        resolve();
-        cleanup();
-        return;
-      }
-      tabId = tab.id;
-    })
-    .catch(err => {
-      reject(err);
-      cleanup();
-    });
-  return promise;
-  
-  function cleanup() {
-    browser.tabs.onRemoved.removeListener(handleRemove);
+  // const removedTabs = new Set;
+  // const {promise, resolve, reject} = defer();
+  // browser.tabs.onRemoved.addListener(handleRemove);
+  // if (browser).get
+  try {
+    tab = await browser.tabs.create(options);
+  } catch (err) {
+    openerTabId = options.openerTabId;
+    delete options.openerTabId;
+    tab = await browser.tabs.create(options);
   }
-  
-  function create() {
-    if (options.openerTabId == null) {
-      return browser.tabs.create(options);
-    }
-    return supportOpener.then(ok => {
-      if (!ok) {
-        openerTabId = options.openerTabId;
-        delete options.openerTabId;
-      }
-      return browser.tabs.create(options);
-    });
-  }
-  
-  function handleRemove(removedTabId) {
-    if (tabId == null || tabId !== removedTabId) {
-      removedTabs.add(removedTabId);
-      return;
-    }
-    resolve();
-    cleanup();
-    if (openerTabId != null) {
-      supportOpener.then(ok => {
-        if (!ok) {
-          browser.tabs.update(openerTabId, {active: true})
-            .catch(console.warn);
-        }
-      });
-    }
+  await waitTab(tab.id); // FIXME: is it possible that the tab is closed before waitTab?
+  if (openerTabId) {
+    // focus parent tab if it doesn't support opener
+    browser.tabs.update(openerTabId, {active: true})
+      .catch(console.warn);
   }
 }
 
-function checkSupportOpener() {
-  return getBrowserInfo()
-    .then(info => {
-      if (!info) {
-        return false;
-      }
-      const name = info.name.toLowerCase();
-      const version = Number(info.version.split(".")[0]);
-      return (
-        name === "firefox" && version >= 57 ||
-        name === "chrome" && version >= 18
-      );
-    });
-}
+// function checkSupportOpener() {
+  // return getBrowserInfo()
+    // .then(info => {
+      // if (!info) {
+        // return false;
+      // }
+      // const name = info.name.toLowerCase();
+      // const version = Number(info.version.split(".")[0]);
+      // return (
+        // name === "firefox" && version >= 57 ||
+        // name === "chrome" && version >= 18
+      // );
+    // });
+// }
