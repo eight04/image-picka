@@ -46,7 +46,7 @@ export default async () => ({
       nested: true
     }),
     copy({
-      targets: [{src: "src/static/**/*", "dest": "build"}]
+      targets: [{src: "src/static/*", "dest": "build"}]
     }),
     iife(),
     terser({
