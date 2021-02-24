@@ -15,7 +15,7 @@ browser.runtime.onMessage.addListener(message => {
     case "getImages":
       return Promise.resolve(getImages());
     case "fetchImage":
-      return fetchImage(message.url)
+      return fetchImage(message.url, message.referrer)
         .then(data => {
           if (IS_CHROME) {
             data.blobUrl = URL.createObjectURL(data.blob);
@@ -36,7 +36,7 @@ function downloadImage(url, referrerPolicy = getDefaultReferrerPolicy()) {
     method: "singleDownload",
     env: window.top === window ? getEnv() : null,
     url,
-    noReferrer: getReferrer(location.href, url, referrerPolicy) !== location.href
+    referrer: getReferrer(location.href, url, referrerPolicy)
   })
     .catch(console.error);
 }
@@ -50,7 +50,7 @@ function getImages() {
     }
     images.set(url, {
       url,
-      noReferrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()) !== location.href
+      referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy())
     });
   }
   return [...images.values()];

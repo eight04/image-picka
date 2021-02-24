@@ -14,28 +14,19 @@ function createImageCache() {
   });
   return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
-  async function _fetchImage(url, tabId, frameId, noReferrer) {
+  async function _fetchImage(url, tabId, frameId, referrer) {
     if (IS_CHROME) {
-      if (!noReferrer) {
-        try {
-          // https://github.com/eight04/image-picka/issues/158
-          // this may fail because of mixed content error
-          // FIXME: is there a way to correctly detect error message in order to
-          // know whether to fallback?
-          return await fetchImageFromTab(url, tabId, frameId);
-        } catch (err) {
-          // pass
-        }
-      }
-      return await fetchImage(url);
+      // fetch in content script no longer works in Chome 85+
+      return await fetchImage(url, referrer);
     }
-    // always fetch from tab in Firefox
-    return await fetchImageFromTab(url, tabId, frameId);
+    // support first party isolation in FF
+    // https://github.com/eight04/image-picka/issues/129
+    return await fetchImageFromTab(url, tabId, frameId, referrer);
   }
   
-  function add({url, tabId, frameId, noReferrer}) {
+  function add({url, tabId, frameId, referrer}) {
     return cache.set(url, async () => {
-      const data = await _fetchImage(url, tabId, frameId, noReferrer);
+      const data = await _fetchImage(url, tabId, frameId, referrer);
       const resource = data.blob;
       delete data.blob;
       const meta = Object.assign(data, await detectDimension(resource));
@@ -59,10 +50,11 @@ function createImageCache() {
     return cache.clearAll();
   }
   
-  async function fetchImageFromTab(url, tabId, frameId) {
+  async function fetchImageFromTab(url, tabId, frameId, referrer) {
     const data = await browser.tabs.sendMessage(tabId, {
       method: "fetchImage",
-      url
+      url,
+      referrer
     }, {
       frameId
     });

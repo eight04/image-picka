@@ -1,11 +1,10 @@
-import fs from "fs";
-
 import cjs from "rollup-plugin-cjs-es";
 import resolve from "rollup-plugin-node-resolve";
 import copy from 'rollup-plugin-copy-glob';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
 import {terser} from "rollup-plugin-terser";
+import output from "rollup-plugin-write-output";
 
 import glob from "tiny-glob";
 
@@ -56,69 +55,30 @@ export default async () => ({
     terser({
       module: false
     }),
-    injectEntries({
-      prefix: "js/",
-      transforms: [
-        {
-          test: /background\.js/,
-          file: "build/manifest.json",
-          transform: (entries, obj) => {
-            obj.background.scripts = entries;
-            return obj;
-          }
-        },
-        {
-          test: /content\.js/,
-          file: "build/manifest.json",
-          transform: (entries, obj) => {
-            obj.content_scripts[0].js = entries;
-            return obj;
-          }
-        },
-        {
-          test: /(dialog|options|picker)\.js/,
-          file: "build/$1.html",
-          transform: (entries, text) => {
-            const html = entries.map(s => `<script src="${s}"></script>`).join("\n");
-            return text.replace("</body>", `${html}\n</body>`);
-          }
+    output([
+      {
+        test: /background\.js/,
+        target: "build/manifest.json",
+        handle: (json, {scripts}) => {
+          json.background.scripts = scripts;
+          return json;
         }
-      ]
-    })
+      },
+      {
+        test: /content\.js/,
+        target: "build/manifest.json",
+        handle: (json, {scripts}) => {
+          json.content_scripts[0].js = scripts;
+          return json;
+        }
+      },
+      {
+        test: /(dialog|options|picker)\.js/,
+        target: "build/$1.html",
+        handle: (content, {htmlScripts}) => {
+          return content.replace("</body>", `${htmlScripts}\n</body>`);
+        }
+      }
+    ])
   ]
 });
-
-function injectEntries({prefix = "", transforms}) {
-  return {
-    name: "rollup-plugin-inject-entries",
-    writeBundle
-  };
-  
-  function writeBundle(options, bundle) {
-    for (const key in bundle) {
-      let match, transform;
-      for (const trans of transforms) {
-        match = key.match(trans.test);
-        if (match) {
-          transform = trans;
-          break;
-        }
-      }
-      if (!match) continue;
-      const entries = [
-        ...bundle[key].imports.map(f => prefix + f),
-        prefix + key
-      ];
-      const file = transform.file.replace(/\$(\d+)/, (m, n) => match[Number(n)]);
-      let content = fs.readFileSync(file, "utf8");
-      if (file.endsWith(".json")) {
-        content = JSON.parse(content);
-      }
-      let output = transform.transform(entries, content);
-      if (typeof output !== "string") {
-        output = JSON.stringify(output, null, 2);
-      }
-      fs.writeFileSync(file, output);
-    }
-  }
-}
