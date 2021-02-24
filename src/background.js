@@ -613,6 +613,14 @@ function expandEnv(env) {
 	// page url
 	url = new URL(env.pageUrl);
 	env.pageHostname = url.hostname;
+  env.pageName = pathToName(url.pathname);
+}
+
+function pathToName(path) {
+  const base = path.match(/\/([^/]*)$/)[1];
+  const i = base.lastIndexOf(".");
+  if (i < 0) return "";
+  return base.slice(0, i);
 }
 
 function nestDecodeURIComponent(s) {
