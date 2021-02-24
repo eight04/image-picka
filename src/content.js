@@ -15,7 +15,7 @@ browser.runtime.onMessage.addListener(message => {
     case "getImages":
       return Promise.resolve(getImages());
     case "fetchImage":
-      return fetchImage(message.url)
+      return fetchImage(message.url, message.referrer)
         .then(data => {
           if (IS_CHROME) {
             data.blobUrl = URL.createObjectURL(data.blob);

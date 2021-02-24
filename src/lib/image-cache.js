@@ -1,9 +1,9 @@
 import {createIDBStorage} from "@eight04/idb-storage";
-// import browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 
-// import {IS_CHROME} from "./env.js";
+import {IS_CHROME} from "./env.js";
 import {fetchImage} from "./fetch-image.js";
-// import {fetchXHR} from "./fetch.js";
+import {fetchXHR} from "./fetch.js";
 
 export const imageCache = createImageCache();
 
@@ -15,7 +15,13 @@ function createImageCache() {
   return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
   async function _fetchImage(url, tabId, frameId, referrer) {
-    return await fetchImage(url, referrer);
+    if (IS_CHROME) {
+      // fetch in content script no longer works in Chome 85+
+      return await fetchImage(url, referrer);
+    }
+    // support first party isolation in FF
+    // https://github.com/eight04/image-picka/issues/129
+    return await fetchImageFromTab(url, tabId, frameId, referrer);
   }
   
   function add({url, tabId, frameId, referrer}) {
@@ -44,28 +50,29 @@ function createImageCache() {
     return cache.clearAll();
   }
   
-  // async function fetchImageFromTab(url, tabId, frameId) {
-    // const data = await browser.tabs.sendMessage(tabId, {
-      // method: "fetchImage",
-      // url
-    // }, {
-      // frameId
-    // });
-    // if (data.blobUrl) {
+  async function fetchImageFromTab(url, tabId, frameId, referrer) {
+    const data = await browser.tabs.sendMessage(tabId, {
+      method: "fetchImage",
+      url,
+      referrer
+    }, {
+      frameId
+    });
+    if (data.blobUrl) {
       // can't use `fetch` to fetch blob url in Chrome
-      // const r = await fetchXHR(data.blobUrl, "blob");
-      // data.blob = r.response;
-      // delete data.blobUrl;
-      // browser.tabs.sendMessage(tabId, {
-        // method: "revokeURL",
-        // url: data.blobUrl
-      // }, {
-        // frameId
-      // })
-        // .catch(console.error);
-    // }
-    // return data;
-  // }
+      const r = await fetchXHR(data.blobUrl, "blob");
+      data.blob = r.response;
+      delete data.blobUrl;
+      browser.tabs.sendMessage(tabId, {
+        method: "revokeURL",
+        url: data.blobUrl
+      }, {
+        frameId
+      })
+        .catch(console.error);
+    }
+    return data;
+  }
   
   function detectDimension(blob) {
     return new Promise((resolve, reject) => {
