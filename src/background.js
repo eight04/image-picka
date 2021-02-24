@@ -617,7 +617,7 @@ function expandEnv(env) {
 }
 
 function pathToName(path) {
-  const base = path.match(/\/([^/]*)$/)[1];
+  const base = path.match(/\/([^/]*)\/?$/)[1];
   const i = base.lastIndexOf(".");
   if (i < 0) return "";
   return base.slice(0, i);
