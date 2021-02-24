@@ -20,13 +20,12 @@ export function waitTab(id) {
 export async function createTab(options) {
   let tab;
   let openerTabId;
-  // const removedTabs = new Set;
-  // const {promise, resolve, reject} = defer();
-  // browser.tabs.onRemoved.addListener(handleRemove);
-  // if (browser).get
   try {
     tab = await browser.tabs.create(options);
   } catch (err) {
+    if (!options.openerTabId) {
+      throw err;
+    }
     openerTabId = options.openerTabId;
     delete options.openerTabId;
     tab = await browser.tabs.create(options);
