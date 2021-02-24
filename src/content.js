@@ -30,27 +30,29 @@ browser.runtime.onMessage.addListener(message => {
 
 initDragndrop({downloadImage});
 
-function downloadImage(url, referrerPolicy = getDefaultReferrerPolicy()) {
+function downloadImage({url, referrerPolicy = getDefaultReferrerPolicy(), alt}) {
   url = transformURL(url);
   browser.runtime.sendMessage({
     method: "singleDownload",
     env: window.top === window ? getEnv() : null,
     url,
-    referrer: getReferrer(location.href, url, referrerPolicy)
+    referrer: getReferrer(location.href, url, referrerPolicy),
+    alt
   })
     .catch(console.error);
 }
 
 function getImages() {
   const images = new Map;
-  for (const {src, referrerPolicy} of getAllImages()) {
+  for (const {src, referrerPolicy, alt} of getAllImages()) {
     const url = transformURL(src);
     if (images.has(url)) {
       continue;
     }
     images.set(url, {
       url,
-      referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy())
+      referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()),
+      alt
     });
   }
   return [...images.values()];

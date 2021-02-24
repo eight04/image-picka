@@ -459,11 +459,12 @@ function batchDownload({tabs, env, batchId}) {
 			Object.assign(env, tab.env);
 			i = 0;
 		}
-		for (const {url, filename} of tab.images) {
+		for (const {url, filename, alt} of tab.images) {
       cachedImages.delete(url);
 			env.url = url;
 			env.index = i + 1;
 			env.base = filename;
+      env.alt = alt;
 			expandEnv(env);
       const fullFileName = renderFilename(env);
       const t = batchDownloadLock.read(async () => {
@@ -511,7 +512,7 @@ function closeTab({tabId, opener}) {
 	browser.tabs.remove(tabId);
 }
 
-async function singleDownload({url, env, tabId, frameId, referrer}) {
+async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
   let data;
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
@@ -527,6 +528,7 @@ async function singleDownload({url, env, tabId, frameId, referrer}) {
   env.dateString = createDateString(env.date);
   env.url = url;
   env.base = data && data.filename;
+  env.alt = alt;
   /* eslint-enable */
   expandEnv(env);
   const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
