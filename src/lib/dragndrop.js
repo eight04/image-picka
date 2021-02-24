@@ -104,7 +104,11 @@ export default function init({downloadImage}) {
 			if (!imageSrc) {
 				return;
 			}
-			downloadImage(imageSrc, e.target.referrerPolicy || undefined);
+			downloadImage({
+        url: imageSrc,
+        referrerPolicy: e.target.referrerPolicy || undefined,
+        alt: e.target.alt
+      });
 			e.preventDefault();
 		}
 		
@@ -162,7 +166,11 @@ export default function init({downloadImage}) {
           e.preventDefault();
           return;
         }
-        downloadImage(imageUtil.getSrc(img), img.referrerPolicy || undefined);
+        downloadImage({
+          url: imageUtil.getSrc(img),
+          referrerPolicy: img.referrerPolicy || undefined,
+          alt: img.alt
+        });
         e.preventDefault();
       }
       
@@ -297,7 +305,11 @@ export default function init({downloadImage}) {
 			updateButtonPosition();
 			button.onclick = () => {
         fadeOut(button);
-				downloadImage(imageUtil.getSrc(image), image.referrerPolicy || undefined);
+				downloadImage({
+          url: imageUtil.getSrc(image),
+          referrerPolicy: image.referrerPolicy || undefined,
+          alt: image.alt
+        });
 			};
 		}
 		

@@ -1,6 +1,6 @@
 import cjs from "rollup-plugin-cjs-es";
 import resolve from "rollup-plugin-node-resolve";
-import copy from 'rollup-plugin-copy-glob';
+import copy from 'rollup-plugin-copy';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
 import {terser} from "rollup-plugin-terser";
@@ -45,12 +45,9 @@ export default async () => ({
     cjs({
       nested: true
     }),
-    copy([
-      {
-        files: "src/static/**/*",
-        dest: "build"
-      }
-    ]),
+    copy({
+      targets: [{src: "src/static/**/*", "dest": "build"}]
+    }),
     iife(),
     terser({
       module: false

@@ -59,8 +59,9 @@ function init({tabs: originalTabs, env}) {
 		({
 			tabId: tab.tabId,
 			images: [].concat(...tab.frames.map(f => f.images.map(
-				({url, referrer}) => {
-          const check = createImageCheckbox(url, f.frameId, tab.tabId, referrer);
+				({url, referrer, alt}) => {
+          // console.log(alt);
+          const check = createImageCheckbox(url, f.frameId, tab.tabId, referrer, alt);
           if (!pref.get("selectByDefault")) {
             check.toggleCheck();
           }
@@ -127,7 +128,8 @@ function init({tabs: originalTabs, env}) {
 							.filter(i => i.selected())
 							.map(i => ({
 								url: i.url,
-								filename: i.data.filename
+								filename: i.data.filename,
+                alt: i.alt
 							}))
 					})
 				),
@@ -252,7 +254,7 @@ function initFilter(container, images) {
 	}
 }
 
-function createImageCheckbox(url, frameId, tabId, referrer) {
+function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
 	let ctrl;
@@ -298,6 +300,7 @@ function createImageCheckbox(url, frameId, tabId, referrer) {
 	return ctrl = {
 		url,
 		data: null,
+    alt,
 		el: label,
 		toggleEnable(enable) {
 			label.classList.toggle("disabled", !enable);

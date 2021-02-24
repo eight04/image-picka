@@ -82,7 +82,8 @@ export function *getAllImages() {
     }
     yield {
       src,
-      referrerPolicy: el.referrerPolicy
+      referrerPolicy: el.referrerPolicy,
+      alt: el.alt
     };
   }
 }
