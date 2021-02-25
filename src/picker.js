@@ -118,27 +118,32 @@ function init({tabs: originalTabs, env}) {
 		invert() {
 			getImages().forEach(i => i.toggleCheck());
 		},
-		save(e) {
+		async save(e) {
       e.target.disabled = true;
-			browser.runtime.sendMessage({
-				method: "batchDownload",
-				tabs: tabs.map(t =>
-					Object.assign({}, t, {
-						images: t.images
-							.filter(i => i.selected())
-							.map(i => ({
-								url: i.url,
-								filename: i.data.filename,
-                alt: i.alt
-							}))
-					})
-				),
-				env,
-        batchId: BATCH_ID
-			})
-				.then(() => {
-					browser.runtime.sendMessage({method: "closeTab"});
-				});
+      try {
+        await browser.runtime.sendMessage({
+          method: "batchDownload",
+          tabs: tabs.map(t =>
+            Object.assign({}, t, {
+              images: t.images
+                .filter(i => i.selected())
+                .map(i => ({
+                  url: i.url,
+                  filename: i.data.filename,
+                  alt: i.alt
+                }))
+            })
+          ),
+          env,
+          batchId: BATCH_ID
+        });
+        await browser.runtime.sendMessage({method: "closeTab"});
+      } catch (err) {
+        console.error(err);
+        alert(err);
+      } finally {
+        e.target.disabled = false;
+      }
 		},
 		copyUrl() {
 			const input = document.createElement("textarea");

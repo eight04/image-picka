@@ -33,7 +33,7 @@ export function compileStringTemplate(template) {
 			if (node.type === "static") {
 				return node.value;
 			}
-			return escapeVariable(node.value(context));
+			return escapeVariable(String(node.value(context)));
 		}).join("")
 	);
 }
