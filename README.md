@@ -192,6 +192,15 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.14.0 (Feb 25, 2021)
+
+  - Fix: unable to execute batch download command in a popup.
+  - Add: `pageName` variable.
+  - Add: `alt` variable.
+  - Add: support referrer when downloading images.
+  - **Change: switch expression compiler to espression, support regex.**
+  - Locale: add nl translation.
+
 * 0.13.1 (Jul 27, 2020)
 
   - Fix: use real image URL as thumbnail. Only use blob URL if the browser can't load the real image.
