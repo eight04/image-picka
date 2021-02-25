@@ -25,7 +25,7 @@
     "@eight04/idb-storage": "^0.4.2",
     "content-disposition": "^0.5.3",
     "eslint": "^7.20.0",
-    "expression-eval": "^4.0.0",
+    "espression": "^1.8.4",
     "mime": "^2.5.2",
     "mkdoc": "^1.0.49",
     "node-sigint": "0.0.1",
