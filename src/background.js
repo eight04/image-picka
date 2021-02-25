@@ -1,5 +1,4 @@
 import webextMenus from "webext-menus";
-import {compile} from "expression-eval";
 import {createLock} from "@eight04/read-write-lock";
 import browser from "webextension-polyfill";
 
@@ -11,7 +10,7 @@ import {imageCache} from "./lib/image-cache.js";
 import {createCounter} from "./lib/counter.js";
 import {IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
-import {escapeVariable, escapePath} from "./lib/escape.js";
+import {compileStringTemplate} from "./lib/string-template.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -38,7 +37,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       message.frameId = sender.frameId;
 			return singleDownload(message);
 		case "batchDownload":
-			return Promise.resolve(batchDownload(message));
+			return batchDownload(message);
 		case "closeTab":
 			if (!message.tabId) {
 				message.tabId = sender.tab.id;
@@ -444,7 +443,7 @@ function openPicker(req, openerTabId) {
 		.catch(console.error);
 }
 
-function batchDownload({tabs, env, batchId}) {
+async function batchDownload({tabs, env, batchId}) {
   const {cachedImages} = batches.get(batchId);
 	const date = new Date;
 	Object.assign(env, {
@@ -542,46 +541,6 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
     conflictAction: pref.get("filenameConflictAction")
   }, true)
     .catch(notifyDownloadError);
-}
-
-function propGetter(prop) {
-	return ctx => ctx[prop];
-}
-
-function exprGetter(expr) {
-	const render = compile(expr);
-	const defaultCtx = {String, Number, Math};
-	return ctx => render(Object.assign({}, defaultCtx, ctx));
-}
-
-function compileStringTemplate(template) {
-	const USE_EXPRESSION = pref.get("useExpression");
-	const re = /\${(.+?)}/g;
-	let match, lastIndex = 0;
-	const output = [];
-	while ((match = re.exec(template))) {
-		if (match.index !== lastIndex) {
-			output.push(template.slice(lastIndex, match.index));
-		}
-		if (USE_EXPRESSION) {
-			output.push(exprGetter(match[1]));
-		} else {
-			output.push(propGetter(match[1]));
-		}
-		lastIndex = re.lastIndex;
-	}
-	if (lastIndex !== template.length) {
-		const text = template.slice(lastIndex);
-		output.push(text);
-	}
-	return context => escapePath(
-		output.map(text => {
-			if (typeof text === "string") {
-				return text;
-			}
-			return escapeVariable(String(text(context)));
-		}).join("")
-	);
 }
 
 function expandEnv(env) {
