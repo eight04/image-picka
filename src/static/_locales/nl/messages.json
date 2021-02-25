@@ -1,0 +1,272 @@
+{
+	"commandPickFromCurrentTab": {
+		"message": "Afbeeldingen op huidig tabblad kiezen",
+		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "Afbeeldingen op het huidige en omliggende tabbladen kiezen",
+		"description": "'Pick images from curent tab + right tabs' command"
+	},
+	"commandPickFromRightTabsExcludeCurrent": {
+		"message": "Afbeeldigen op omliggende tabbladen kiezen",
+		"description": "'Pick images from right tabs' command"
+	},
+	"extensionDescription": {
+		"message": "Een afbeeldingskiezer, gebouwd met webextensions",
+		"description": "Description of the extension"
+	},
+	"filenameConflictActionUniquify": {
+		"message": "Naam automatisch wijzigen",
+		"description": "Label of uniquify keyword of filenameConflictAction"
+	},
+	"filenameConflictActionOverwrite": {
+		"message": "Vorig bestand overschrijven",
+		"description": "Label of overwrite keyword of filenameConflictAction"
+	},
+	"formHistoryRecentlyUsedLabel": {
+		"message": "Onlangs gebruikt:",
+		"description": "'Recently used:' label of form history"
+	},
+	"optionGeneralTitle": {
+		"message": "Algemeen",
+		"description": "Title of general options"
+	},
+	"optionBatchTitle": {
+		"message": "Reeksen downloaden",
+		"description": "Title of batch download settings"
+	},
+	"optionBrowserActionLabel": {
+		"message": "Standaardactie van de werkbalkknop",
+		"description": "Label of browserAction option"
+	},
+	"optionBrowserActionHelp": {
+		"message": "Klik met de rechtermuisknop op het werkbalkpictogram voor meer acties.",
+		"description": "Help text of browserAction option"
+	},
+	"optionCloseTabsAfterSaveLabel": {
+		"message": "Tabbladen sluiten na opslaan",
+		"description": "Label of closeTabsAfterSave option"
+	},
+	"optionCollectFromFramesLabel": {
+		"message": "Verzamel afbeeldingen recursief uit frames.",
+		"description": "Label of collectFromFrames option"
+	},
+	"optionContextMenuLabel": {
+		"message": "'Afbeeldingen kiezen...' toevoegen aan rechtermuisknopmenu",
+		"description": "Label of contextMenu option"
+	},
+	"optionCustomCSS": {
+		"message": "Extensiepagina aanpassen met css",
+		"description": "Label of customCSS option"
+	},
+	"optionCustomIconLabel": {
+		"message": "Werkbalkknopkleur aanpassen",
+		"description": "Label of customIcon option"
+	},
+	"optionCustomIconColorLabel": {
+		"message": "Pictogramkleur",
+		"description": "Label of customIconColor option"
+	},
+	"optionDetectLinkLabel": {
+		"message": "Detecteer afbeeldingsurl's in links.",
+		"description": "Label of detectLink option"
+	},
+	"optionDblClickLabel": {
+		"message": "Downloaden door te dubbelklikken",
+		"description": "Label of dblClick option"
+	},
+	"optionPreviewMaxHeightUpperBoundLabel": {
+		"message": "De maximumwaarde van de miniatuurgrootte-schuifknop",
+		"description": "Label of previewMaxHeightUpperBound option"
+	},
+	"optionUseCacheLabel": {
+		"message": "Probeer afbeeldingen uit de browsercache te downloaden",
+		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "De extensie probeert de afbeelding uit de cache te halen alvorens deze door te sturen naar de downloadbeheerder om te voorkomen dat er een merkbare vertraging ontstaat.",
+		"description": "Help text of useCache option"
+	},
+	"optionUseExpressionLabel": {
+		"message": "Gebruik een eenvoudige uitdrukking in het bestandsnaampatroon",
+		"description": "Label of useExpression option"
+	},
+	"optionDefaultNameLabel": {
+		"message": "Standaard bestandsnaam",
+		"description": "Label of defaultName"
+	},
+	"optionDefaultExtLabel": {
+		"message": "Standaardextensie",
+		"description": "Label of defaultExt"
+	},
+	"optionDisplayImageSizeUnderThumbnailLabel": {
+		"message": "Toon afbeeldingsgroottes onder de miniaturen.",
+		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "Losse afbeelding downloaden",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "Deze instellingen zijn niet van toepassing op het downloaden van reeksen. De reeks-downloadinstellingen kunnen worden ingesteld op het overeenkomstige instellingenscherm.",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "Het bestandsnaampatroon, gelijk aan de Firefox-downloadmap.",
+		"description": "Label of filenamePattern option"
+	},
+	"optionFilenamePatternHelpHTML": {
+		"message": "Het patroon mag een onderliggende map bevatten (gescheiden door $SEPARATOR$).",
+		"description": "Help text of filenamePattern option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>/</code>"
+			}
+		}
+	},
+	"optionImportButton": {
+		"message": "Instellingen importeren",
+		"description": ""
+	},
+	"optionExportButton": {
+		"message": "Instellingen exporteren",
+		"description": ""
+	},
+	"optionLearnMoreButton": {
+		"message": "Meer informatie",
+		"description": "'Learn more' link in option page"
+	},
+	"optionSaveAsLabel": {
+		"message": "Vraag waar een afbeelding moet worden opgeslagen in plaats van de standaardmap te gebruiken.",
+		"description": "Label of saveAs option"
+	},
+	"optionSaveAsHelp": {
+		"message": "Verwijder het onderliggendemapgedeelte uit het bestandsnaampatroon als je deze instelling gebruikt.",
+		"description": "Help text of saveAs option"
+	},
+	"optionDragndropLabel": {
+		"message": "Downloaden middels slepen-en-neerzetten",
+		"description": "Label of dragndrop option"
+	},
+	"optionDragndropHardLabel": {
+		"message": "Standaardfunctie overschrijven",
+		"description": "Label of dragndropHard option"
+	},
+	"optionSingleClickLabel": {
+		"message": "Downloaden met enkele klik",
+		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "Downloadknop tonen bij zweven met cursor",
+		"description": "Label of downloadButton option"
+	},
+	"optionDownloadButtonDelayLabel": {
+		"message": "Vertraging voordat knop wordt getoond (in milliseconden)",
+		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "Vertraging voordat knop wordt verborgen (in milliseconden)",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "Min. hoogte voordat de downloadknop wordt getriggerd",
+		"description": "Label of downloadButtonMinHeight option"
+	},
+	"optionAdvancedTitle": {
+		"message": "Geavanceerd",
+		"description": "Title of advanced options"
+	},
+	"optionSrcAlternativeLabelHTML": {
+		"message": "Overige html-attributen met afbeeldingsurl's (gescheiden door $SEPARATOR$)",
+		"description": "Label of srcAlternative option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>,</code>"
+			}
+		}
+	},
+	"pickerMinWidthLabel": {
+		"message": "Breedte",
+		"description": "Label of minWith filter in image picker"
+	},
+	"pickerMinWidthHelp": {
+		"message": "Minimale breedte (in px)",
+		"description": "Help text of minWidth filter in image picker"
+	},
+	"pickerMinHeightLabel": {
+		"message": "Hoogte",
+		"description": "Label of minHeight filter in image picker"
+	},
+	"pickerMinHeightHelp": {
+		"message": "Minimale hoogte (in px)",
+		"description": "Help text of minHeight filter in image picker"
+	},
+	"pickerMinFileSizeLabel": {
+		"message": "Bestandsgrootte",
+		"description": "Label of minFileSize filter in image picker"
+	},
+	"pickerMinFileSizeHelp": {
+		"message": "Minimale bestandsgrootte (in KB)",
+		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeIncludeLabel": {
+		"message": "Opnemen",
+		"description": "Label of 'include' option of matchType filter in image picker"
+	},
+	"pickerMatchTypeExcludeLabel": {
+		"message": "Uitsluiten",
+		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerMatchUrlHelp": {
+		"message": "Reguliere uitdrukking",
+		"description": "Help text of matchUrl filter in image picker"
+	},
+	"pickerPreviewMaxHeightLabel": {
+		"message": "Voorvertoningsgrootte",
+		"description": "Label of previewMaxHeight option in image picker"
+	},
+	"pickerPreviewMaxHeightHelp": {
+		"message": "Max. hoogte van de voorvertoning",
+		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerToolbarDownloadOptionsLabel": {
+		"message": "Downloadopties",
+		"description": "Label of the download options toolbar in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "Bestandsnaampatroon",
+		"description": "Label of filenamePatternBatch option in image picker"
+	},
+	"pickerCloseTabsAfterSaveLabel": {
+		"message": "Tabbladen sluiten",
+		"description": "Label of closeTabsAfterSave option in image picker"
+	},
+	"pickerActionInvert": {
+		"message": "Selectie omkeren",
+		"description": "'Invert selection' button in image picker"
+	},
+	"pickerActionSave": {
+		"message": "Opslaan",
+		"description": "'Save' button in image picker"
+	},
+	"pickerActionCopyUrl": {
+		"message": "URL's kopiëren",
+		"description": "'Copy URLs' button in image picker"
+	},
+	"pickerActionCopyUrlCopied": {
+		"message": "Gekopieerd!",
+		"description": "'Copied!' button shown after successfully copied"
+	},
+	"pickerActionCancel": {
+		"message": "Annuleren",
+		"description": "'Cancel' button in image picker"
+	},
+	"promptOK": {
+		"message": "Oké",
+		"description": ""
+	},
+	"promptCancel": {
+		"message": "Annuleren",
+		"description": ""
+	}
+}
