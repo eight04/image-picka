@@ -48,10 +48,12 @@ Filename may contain following `${variable}`s:
 * `hostname`: hostname extracted from `url`. (e.g. `http://example.com/abc.jpg` -> `example.com`)
 * `name`: filename extracted from `url`. (e.g. `http://example.com/abc.jpg` -> `abc`)
 * `ext`: file extension extracted from `url`. If the URL doesn't contain the extension, it uses the default extension which can be set in option page.
+* `alt`: the `alt` attribute of the image element.
 * `pageTitle`: title of the page.
 * `pageUrl`: URL of the page.
 * `pageHostname`: hostname extracted from `pageUrl`.
 * `pageContentType`: content type of the page.
+* `pageName`: the filename of the page. Extracted from `pageUrl`.
 * `date`: an instance of JavaScript `Date`.
 * `dateString`: a date string in format `year-month-day hour minute second` e.g. `2018-01-18 08 28 56`.
 
