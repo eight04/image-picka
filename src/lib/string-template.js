@@ -35,11 +35,11 @@ export function compileStringTemplate(template) {
 			if (node.type === "static") {
 				return node.value;
 			}
-      const result = node.value(context);
-      if (result === undefined) {
-        throw new Error(`The filename expression evaluates to undefined: ${node.raw}`);
+      try {
+        return escapeVariable(String(node.value(context)));
+      } catch (err) {
+        throw new Error(`Failed to evaluate ${node.raw}: ${err.message}`);
       }
-			return escapeVariable(String(result));
 		}).join("")
 	);
 }
@@ -48,7 +48,13 @@ function expressionCompiler(template) {
   const parser = new ES6Parser;
   const ast = parser.parse(template);
   const staticEval = new ES6StaticEval;
-  return context => staticEval.evaluate(ast, {Number, String, Math, ...context});
+  return context => {
+    const result = staticEval.evaluate(ast, {Number, String, Math, ...context});
+    if (result === undefined) {
+      throw new Error("The result is undefined");
+    }
+    return result;
+  };
 }
 
 // function simpleCompiler(template) {
