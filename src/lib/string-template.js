@@ -1,10 +1,11 @@
 import {ES6StaticEval, ES6Parser} from "espression";
 
-import {pref} from "./pref.js";
+// import {pref} from "./pref.js";
 import {escapeVariable, escapePath} from "./escape.js";
 
 export function compileStringTemplate(template) {
-  const compile = pref.get("useExpression") ? expressionCompiler : simpleCompiler;
+  // const compile = pref.get("useExpression") ? expressionCompiler : simpleCompiler;
+  const compile = expressionCompiler;
 	const re = /\${(.+?)}/g;
 	let match, lastIndex = 0;
 	const output = [];
@@ -17,7 +18,8 @@ export function compileStringTemplate(template) {
 		}
     output.push({
       type: "variable",
-      value: compile(match[1])
+      value: compile(match[1]),
+      raw: match[1]
     });
 		lastIndex = re.lastIndex;
 	}
@@ -33,7 +35,11 @@ export function compileStringTemplate(template) {
 			if (node.type === "static") {
 				return node.value;
 			}
-			return escapeVariable(String(node.value(context)));
+      const result = node.value(context);
+      if (result === undefined) {
+        throw new Error(`The filename expression evaluates to undefined: ${node.raw}`);
+      }
+			return escapeVariable(String(result));
 		}).join("")
 	);
 }
@@ -45,6 +51,6 @@ function expressionCompiler(template) {
   return context => staticEval.evaluate(ast, {Number, String, Math, ...context});
 }
 
-function simpleCompiler(template) {
-  return context => context[template];
-}
+// function simpleCompiler(template) {
+  // return context => context[template];
+// }

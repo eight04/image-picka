@@ -283,12 +283,12 @@ const root = createUI({
       type: "section",
       label: _("optionAdvancedTitle"),
       children: [
-        {
-          type: "checkbox",
-          key: "useExpression",
-          label: _("optionUseExpressionLabel"),
-          learnMore: "https://github.com/eight04/image-picka#use-expression-in-filename"
-        },
+        // {
+          // type: "checkbox",
+          // key: "useExpression",
+          // label: _("optionUseExpressionLabel"),
+          // learnMore: "https://github.com/eight04/image-picka#use-expression-in-filename"
+        // },
         {
           type: "checkbox",
           key: "escapeWithUnicode",

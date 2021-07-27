@@ -35,7 +35,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
 		case "singleDownload":
 			message.tabId = sender.tab.id;
       message.frameId = sender.frameId;
-			return singleDownload(message);
+			singleDownload(message).catch(notifyDownloadError);
+      return false;
 		case "batchDownload":
 			return batchDownload(message);
 		case "closeTab":
@@ -533,14 +534,13 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
   const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
     pref.get("filePatternStandalone") : pref.get("filePattern");
   const filename = compileStringTemplate(filePattern)(env);
-  download({
+  await download({
     url,
     blob: data && data.blob,
     filename,
     saveAs: pref.get("saveAs"),
     conflictAction: pref.get("filenameConflictAction")
-  }, true)
-    .catch(notifyDownloadError);
+  }, true);
 }
 
 function expandEnv(env) {
