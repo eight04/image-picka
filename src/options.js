@@ -33,7 +33,7 @@ const root = createUI({
           key: "browserAction",
           label: _("optionBrowserActionLabel"),
           options: {
-            PICK_FROM_CURRENT_TAB: _("commandPickFromCurrentTab"),
+            PICK_FROM_CURRENT_TAB: _("commandPickFromHighlightedTab"),
             PICK_FROM_RIGHT_TABS: _("commandPickFromRightTabs"),
             PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT: _("commandPickFromRightTabsExcludeCurrent")
           },

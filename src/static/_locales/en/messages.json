@@ -3,6 +3,10 @@
 		"message": "Pick Images from Current Tab",
 		"description": "'Pick images from current tab' command"
 	},
+	"commandPickFromHighlightedTab": {
+		"message": "Pick Images from Highlighted Tabs",
+		"description": "'Pick images from highlighted tabs' command"
+	},
 	"commandPickFromRightTabs": {
 		"message": "Pick Images from Current Tab + Right Tabs",
 		"description": "'Pick images from curent tab + right tabs' command"
