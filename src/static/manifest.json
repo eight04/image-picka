@@ -53,7 +53,7 @@
   "commands": {
     "_execute_browser_action": {},
     "PICK_FROM_CURRENT_TAB": {
-      "description": "__MSG_commandPickFromCurrentTab__"
+      "description": "__MSG_commandPickFromHighlightedTab__"
     },
     "PICK_FROM_RIGHT_TABS_EXCLUDE_CURRENT": {
       "description": "__MSG_commandPickFromRightTabsExcludeCurrent__"

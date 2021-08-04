@@ -14,8 +14,8 @@ import {compileStringTemplate} from "./lib/string-template.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
-		label: browser.i18n.getMessage("commandPickFromCurrentTab"),
-		handler: pickImagesFromCurrent
+		label: browser.i18n.getMessage("commandPickFromHighlightedTab"),
+		handler: pickImagesFromHighlighted
 	},
 	PICK_FROM_RIGHT_TABS: {
 		label: browser.i18n.getMessage("commandPickFromRightTabs"),
@@ -338,16 +338,26 @@ function tryRequestPermission() {
 	return Promise.resolve();
 }
 
-function pickImagesFromCurrent(tab, frameId) {
-	tryRequestPermission()
-		.then(() => pickImages(tab.id, frameId))
-		.then(result => {
-			return openPicker({
-				env: result.env,
-				tabs: [result]
-			}, tab.id);
-		})
-		.catch(notifyError);
+async function pickImagesFromHighlighted(tab) {
+  try {
+    await tryRequestPermission();
+    const tabs = await browser.tabs.query({currentWindow: true, highlighted: true});
+    
+    // FIXME: how should we handle errors in multiple tabs?
+    const results = await Promise.all(tabs.map(tab => pickImages(tab.id)));
+    
+    // FIXME: does it make sense to move the current tab to the first result?
+    const i = results.findIndex(r => r.tabId === tab.id);
+    results.unshift(results[i]);
+    results.splice(i + 1, 1);
+    await openPicker({
+      env: results[0].env,
+      tabs: results
+    }, tab.id);
+    
+  } catch (err) {
+    notifyError(err);
+  }
 }
 
 function pickImagesToRight(tab, excludeCurrent = false) {
