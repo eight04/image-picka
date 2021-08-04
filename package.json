@@ -24,12 +24,12 @@
   "devDependencies": {
     "@eight04/idb-storage": "^0.4.2",
     "content-disposition": "^0.5.3",
-    "eslint": "^7.20.0",
-    "espression": "^1.8.4",
+    "eslint": "^7.32.0",
+    "espression": "^1.8.5",
     "mime": "^2.5.2",
     "mkdoc": "^1.0.49",
     "node-sigint": "0.0.1",
-    "rollup": "^2.39.1",
+    "rollup": "^2.55.1",
     "rollup-plugin-cjs-es": "^1.0.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-iife": "^0.5.0",
@@ -41,13 +41,13 @@
     "shx": "^0.3.3",
     "stream-throttle": "^0.1.3",
     "sync-version": "^1.0.1",
-    "tiny-glob": "^0.2.8",
-    "web-ext": "^5.5.0",
+    "tiny-glob": "^0.2.9",
+    "web-ext": "^6.2.0",
     "webext-menus": "^0.3.2",
     "webext-pref": "^0.6.0",
     "webext-pref-ui": "^0.2.1",
     "webext-tx-fix": "^0.3.3",
-    "webextension-polyfill": "^0.7.0"
+    "webextension-polyfill": "^0.8.0"
   },
   "repository": "eight04/image-picka",
   "private": true
