@@ -1,4 +1,24 @@
 {
+	"commandPickFromCurrentTab": {
+		"message": "Взять картинки из текущей вкладки",
+		"description": "'Pick images from current tab' command"
+	},
+	"commandPickFromHighlightedTab": {
+		"message": "Взять изображения из выбранных вкладок",
+		"description": "'Pick images from highlighted tabs' command"
+	},
+	"commandPickFromRightTabs": {
+		"message": "Взять изображения из текущей вкладки + вкладки справа",
+		"description": "'Pick images from curent tab + right tabs' command"
+	},
+	"commandPickFromRightTabsExcludeCurrent": {
+		"message": "Взять изображения из вкладок справа",
+		"description": "'Pick images from right tabs' command"
+	},
+	"extensionDescription": {
+		"message": "Image picker созданный в виде веб-расширения",
+		"description": "Description of the extension"
+	},
 	"filenameConflictActionUniquify": {
 		"message": "Автоматически переименовать",
 		"description": "Label of uniquify keyword of filenameConflictAction"
@@ -15,6 +35,14 @@
 		"message": "Общие",
 		"description": "Title of general options"
 	},
+	"optionBatchTitle": {
+		"message": "Массовое скачивание",
+		"description": "Title of batch download settings"
+	},
+	"optionBrowserActionLabel": {
+		"message": "Действие по-умолчанию для кнопки на панели инструментов",
+		"description": "Label of browserAction option"
+	},
 	"optionBrowserActionHelp": {
 		"message": "Щелкните правой кнопкой на панели инструментов для других действий.",
 		"description": "Help text of browserAction option"
@@ -22,6 +50,18 @@
 	"optionCloseTabsAfterSaveLabel": {
 		"message": "Закрыть вкладки после сохранения",
 		"description": "Label of closeTabsAfterSave option"
+	},
+	"optionCollectFromFramesLabel": {
+		"message": "Собирать рекурсивно изображения из фреймов",
+		"description": "Label of collectFromFrames option"
+	},
+	"optionContextMenuLabel": {
+		"message": "Так же добавить \"Взять изображения\" в контекстное меню",
+		"description": "Label of contextMenu option"
+	},
+	"optionCustomCSS": {
+		"message": "Изменить страницу дополнения с помощью CSS",
+		"description": "Label of customCSS option"
 	},
 	"optionCustomIconLabel": {
 		"message": "Установить цвет кнопки панели инструментов",
@@ -31,13 +71,29 @@
 		"message": "Цвет иконки",
 		"description": "Label of customIconColor option"
 	},
+	"optionDetectLinkLabel": {
+		"message": "Искать URL изображений в ссылках",
+		"description": "Label of detectLink option"
+	},
 	"optionDblClickLabel": {
 		"message": "Загрузить двойным кликом",
 		"description": "Label of dblClick option"
 	},
+	"optionPreviewMaxHeightUpperBoundLabel": {
+		"message": "Максимальное значение слайдера размеров превью",
+		"description": "Label of previewMaxHeightUpperBound option"
+	},
 	"optionUseCacheLabel": {
 		"message": "Попытка загрузки изображений из кэша браузера",
 		"description": "Label of useCache option"
+	},
+	"optionUseCacheHelp": {
+		"message": "Это дополнение попытается взять изображения из кэша перед отправкой изображений в менеджер загрузок. Это может вызвать заметную задержку перед стартом менеджера загрузок в случае, если изображение не было кэшировано.",
+		"description": "Help text of useCache option"
+	},
+	"optionUseExpressionLabel": {
+		"message": "Использовать простое выражение в шаблоне имени файла",
+		"description": "Label of useExpression option"
 	},
 	"optionDefaultNameLabel": {
 		"message": "Имя файла по умолчанию",
@@ -50,6 +106,59 @@
 	"optionDisplayImageSizeUnderThumbnailLabel": {
 		"message": "Показать размер изображения под миниатюрой.",
 		"description": "Label of displayImageSizeUnderThumbnail option"
+	},
+	"optionEnabledLabel": {
+		"message": "Включить возможность \"Скачать одно изображение\"",
+		"description": "Label of enabled option"
+	},
+	"optionVariableMaxLengthLabel": {
+		"message": "Максимальная длинна каждой переменной в шаблоне имени файла",
+		"description": "Label of variableMaxLength option"
+	},
+	"optionFilenameConflictActionLabel": {
+		"message": "Разрешение конфликтов в названии файлов",
+		"description": "Label of filenameConflictAction option"
+	},
+	"optionFilenameConflictActionHelp": {
+		"message": "Сохранение может остановиться если несколько файлов с одинаковым именем будут скачиваться одновременно. Лучший способ избежать конфликта имён - использовать правильные шаблоны имён файлов, особенно при массовом сохранении.",
+		"description": "Help text of filenameConflictAction option"
+	},
+	"optionDownloadSingleImageTitle": {
+		"message": "Скачать единственное изображение",
+		"description": "Title of download single image options"
+	},
+	"optionDownloadSingleImageHelp": {
+		"message": "Эти настройки не влияют на массовое сохранение. Настройки массового сохранения можно изменить разделе массового сохранения.",
+		"description": "Help text of download single image option"
+	},
+	"optionFilenamePatternLabel": {
+		"message": "Шаблон имени файла, относительно папки по-умолчанию для сохранения в Firefox.",
+		"description": "Label of filenamePattern option"
+	},
+	"optionFilenamePatternHelpHTML": {
+		"message": "Шаблон может включать в себя поддиректории (разделённые с помощью $SEPARATOR$).",
+		"description": "Help text of filenamePattern option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>/</code>"
+			}
+		}
+	},
+	"optionFilenamePatternStandaloneLabel": {
+		"message": "Шаблон имени файла для одиночных изображений",
+		"description": "Label of filenamePatternStandalone option"
+	},
+	"optionFilenamePatternStandaloneEnabledLabel": {
+		"message": "Использовать отдельный шаблон для одиночных изображений",
+		"description": "Label of filenamePatternStandaloneEnabled option"
+	},
+	"optionIsolateTabsLabel": {
+		"message": "Изолировать вкладки друг от друга при генерации имён файлов",
+		"description": "Label of isolateTabs option"
+	},
+	"optionIsolateTabsHelpHTML": {
+		"message": "Если эта опция будет выбрана, имя файла будет указано исходя из вкладки, из которой скачивается изображение, а не из текущей вкладки. Это влияет на переменные <code>страницы...</code> и <code>индекса</code>.",
+		"description": "Help text of isolateTabs option"
 	},
 	"optionImportButton": {
 		"message": "Настройки импорта",
@@ -67,9 +176,41 @@
 		"message": "Спрашивать меня, где сохранить изображение вместо использования директории по умолчанию.",
 		"description": "Label of saveAs option"
 	},
+	"optionSaveAsHelp": {
+		"message": "Вы должны удалить поддиректории из шаблона имени файла если выбрана эта опция.",
+		"description": "Help text of saveAs option"
+	},
+	"optionDragndropLabel": {
+		"message": "Скачать перетаскиванием (drag-n-drop)",
+		"description": "Label of dragndrop option"
+	},
+	"optionDragndropHardLabel": {
+		"message": "Перезаписать функционал по-умолчанию",
+		"description": "Label of dragndropHard option"
+	},
 	"optionSingleClickLabel": {
 		"message": "Загрузка одним кликом",
 		"description": "Label of singleClick option"
+	},
+	"optionDownloadButtonLabel": {
+		"message": "Показать при наведении кнопку для скачивания",
+		"description": "Label of downloadButton option"
+	},
+	"optionDownloadButtonDelayLabel": {
+		"message": "Задержка перед показом кнопки (миллисекунды)",
+		"description": "Label of downloadButtonDelay option"
+	},
+	"optionDownloadButtonDelayHideLabel": {
+		"message": "Задержка перед скрытием кнопки (миллисекунды)",
+		"description": "Label of downloadButtonDelayHide option"
+	},
+	"optionDownloadButtonMinWidth": {
+		"message": "Мин. ширина для активации кнопки Скачать",
+		"description": "Label of downloadButtonMinWidth option"
+	},
+	"optionDownloadButtonMinHeight": {
+		"message": "Мин. высота для активации кнопки сохранения",
+		"description": "Label of downloadButtonMinHeight option"
 	},
 	"optionDownloadButtonPositionHorizontalLabel": {
 		"message": "Горизонтальное положение",
@@ -123,6 +264,14 @@
 		"message": "Размер кнопки",
 		"description": "Label of downloadButtonSize option"
 	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "Заменить специальные символы в символы Unicode",
+		"description": "Label of escapeWithUnicode option"
+	},
+	"optionEscapeZWJLabel": {
+		"message": "Убрать нулевую ширину соединителя",
+		"description": "Label of escapeZWJ option"
+	},
 	"optionAdvancedTitle": {
 		"message": "Расширенные",
 		"description": "Title of advanced options"
@@ -130,6 +279,23 @@
 	"optionSelectByDefaultLabel": {
 		"message": "Выбрать все изображения по умолчанию",
 		"description": "Label of selectByDefault option"
+	},
+	"optionSrcAlternativeLabelHTML": {
+		"message": "Другие HTML атрибуты, в которых может быть URL изображения (разделённые с помощью $SEPARATOR$)",
+		"description": "Label of srcAlternative option (HTML)",
+		"placeholders": {
+			"SEPARATOR": {
+				"content": "<code>,</code>"
+			}
+		}
+	},
+	"optionUrlMapLabel": {
+		"message": "Трансформировать URL с помощью регулярного выражения",
+		"description": "Label of urlMap option"
+	},
+	"optionBlacklistLabel": {
+		"message": "Отключить Image Picka для следующих доменов. (Один домен на строку)",
+		"description": "Label of blacklist option"
 	},
 	"pickerMinWidthLabel": {
 		"message": "Ширина",
@@ -155,6 +321,10 @@
 		"message": "Минимальный размер файла (Кб)",
 		"description": "Help text of minFileSize filter in image picker"
 	},
+	"pickerMatchTypeLabel": {
+		"message": "Определять тип URL фильтра",
+		"description": "Label of matchType filter in image picker"
+	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Включить",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -162,6 +332,10 @@
 	"pickerMatchTypeExcludeLabel": {
 		"message": "Исключить",
 		"description": "Label of 'exclude' option of matchType filter in image picker"
+	},
+	"pickerMatchUrlHelp": {
+		"message": "Регулярное выражение",
+		"description": "Help text of matchUrl filter in image picker"
 	},
 	"pickerPreviewMaxHeightLabel": {
 		"message": "Размер предпросмотра",
@@ -178,6 +352,10 @@
 	"pickerToolbarDownloadOptionsLabel": {
 		"message": "Настройки загрузки",
 		"description": "Label of the download options toolbar in image picker"
+	},
+	"pickerFilenamePatternBatchLabel": {
+		"message": "Шаблон имени файла",
+		"description": "Label of filenamePatternBatch option in image picker"
 	},
 	"pickerCloseTabsAfterSaveLabel": {
 		"message": "Закрыть вкладки",
