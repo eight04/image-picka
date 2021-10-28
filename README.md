@@ -69,7 +69,7 @@ Feel free to open an issue to discuss this behavior if you think this is not rig
 Use expression in filename
 --------------------------
 
-If this option is checked, the extension would evaluate the content inside `${}` as simple expressions, by using [expression-eval](https://github.com/donmccurdy/expression-eval).
+Image Picka evaluate the content inside `${}` as simple expressions, by using [espression](https://github.com/ianchi/ESpression).
 
 Here are some examples:
 

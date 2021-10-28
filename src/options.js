@@ -48,7 +48,8 @@ const root = createUI({
           type: "checkbox",
           key: "useCache",
           label: _("optionUseCacheLabel"),
-          help: _("optionUseCacheHelp")
+          help: _("optionUseCacheHelp"),
+          learnMore: 'https://github.com/eight04/image-picka/issues/270'
         },
         {
           type: "text",
