@@ -291,6 +291,10 @@
 			}
 		}
 	},
+  "optionRetryOnFailureLabel": {
+    "message": "Retry on failure",
+    "description": "Label of retryOnFailure option"
+  },
 	"optionUrlMapLabel": {
 		"message": "Transform URL with regexp",
 		"description": "Label of urlMap option"

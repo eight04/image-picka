@@ -1,4 +1,5 @@
 import {pref} from "./pref.js";
+import {parseText} from "./readline.js";
 
 let transforms = [];
 
@@ -12,13 +13,8 @@ pref.ready().then(() => {
 });
 
 function update() {
-  const lines = pref.get("urlMap").split(/\r?\n/g).filter(line =>
-    line && /\S/.test(line) && !line.startsWith("#"));
-  const newTransforms = [];
-  for (let i = 0; i < lines.length; i += 2) {
-    newTransforms.push(createTransform(lines[i], lines[i + 1]));
-  }
-  transforms = newTransforms;
+  transforms = [...parseText(pref.get("urlMap"), 2)]
+    .map(lines => createTransform(...lines));
 }
 
 function createTransform(search, repl) {

@@ -118,6 +118,27 @@ pbs.twimg.com/media/$1:orig
 * Lines starting with `#` are ignored.
 * Empty lines are ignored.
 
+Retry on failure
+----------------
+
+Some sites return an error when getting too much traffic. You can make the extension wait some time and try again by defining retry rules:
+
+```
+# example
+example\.com/images/.*
+3 5 1
+```
+
+* Each rule includes:
+	- A line of regex matching the URL.
+	- A line of numbers, representing `maxRetries`, `delay`, and `exponentialBackoff`.
+* `maxRetries` - the extension will retry `maxRetries` times before raising a network error.
+* `delay` - after an error occurs, wait `delay` seconds before the next try.
+* `exponentialBackoff` - increase the delay gradually. For example, when `delay` is `5` and `exponentialBackoff` is `2`, the first delay will be 5s, the second will be 10s, the third will be 20s, etc.
+* Lines starting with `#` are ignored.
+* Empty lines are ignored.
+
+
 Domain blacklist
 ----------------
 
