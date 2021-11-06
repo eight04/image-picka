@@ -40,6 +40,7 @@ const DEFAULT = {
   srcAlternative: "data-src, data-gifsrc, gifsrc",
   previewMaxHeight: 200,
   previewMaxHeightUpperBound: 200,
+  retryOnFailure: "",
   urlMap: "",
   useCache: true,
   useExpression: false,

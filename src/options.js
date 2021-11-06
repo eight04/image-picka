@@ -313,7 +313,14 @@ const root = createUI({
           label: _("optionUrlMapLabel"),
           learnMore: "https://github.com/eight04/image-picka#transform-url-with-regexp",
           className: "form-monospace"
-        },      
+        },
+        {
+          type: "textarea",
+          key: "retryOnFailure",
+          label: _("optionRetryOnFailureLabel"),
+          learnMore: "https://github.com/eight04/image-picka#retry-on-failure",
+          className: "form-monospace"
+        },
         {
           type: "textarea",
           key: "blacklist",
