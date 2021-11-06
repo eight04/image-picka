@@ -66,8 +66,7 @@ Some notes for iframe:
 
 Feel free to open an issue to discuss this behavior if you think this is not right.
 
-Use expression in filename
---------------------------
+### Use expression in filename
 
 Image Picka evaluate the content inside `${}` as simple expressions, by using [espression](https://github.com/ianchi/ESpression).
 
@@ -214,6 +213,13 @@ You can help translating the extension by joining Image Picka team on [Transifex
 
 Changelog
 ---------
+
+* 0.15.0 (Nov 6, 2021)
+
+  - Add: support referrer when not downloading from cache. (Firefox 70+ only)
+  - Add: ability to retry on failure.
+  - Change: always use the espression compiler.
+  - Locale: update ru translation.
 
 * 0.14.0 (Feb 25, 2021)
 
