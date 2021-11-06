@@ -3,6 +3,10 @@
 		"message": "Afbeeldingen op huidig tabblad kiezen",
 		"description": "'Pick images from current tab' command"
 	},
+	"commandPickFromHighlightedTab": {
+		"message": "Afbeeldingen op gemarkeerde tabbladen kiezen",
+		"description": "'Pick images from highlighted tabs' command"
+	},
 	"commandPickFromRightTabs": {
 		"message": "Afbeeldingen op het huidige en omliggende tabbladen kiezen",
 		"description": "'Pick images from curent tab + right tabs' command"
@@ -103,6 +107,22 @@
 		"message": "Toon afbeeldingsgroottes onder de miniaturen.",
 		"description": "Label of displayImageSizeUnderThumbnail option"
 	},
+	"optionEnabledLabel": {
+		"message": "Schakel \"download losse afbeelding\"-functie in",
+		"description": "Label of enabled option"
+	},
+	"optionVariableMaxLengthLabel": {
+		"message": "Maximale lengte van elke variabele in het bestandsnaampatroon",
+		"description": "Label of variableMaxLength option"
+	},
+	"optionFilenameConflictActionLabel": {
+		"message": "Bij optreden bestandsnaamconflict",
+		"description": "Label of filenameConflictAction option"
+	},
+	"optionFilenameConflictActionHelp": {
+		"message": "Het downloaden kan mislukken als er meerdere bestanden met dezelfde naam tegelijk worden gedownload. Bestandsnaamconflicten kunnen het beste worden vermeden door het juiste bestandsnaampatroon te gebruiken, vooral tijdens batchdownload.",
+		"description": "Help text of filenameConflictAction option"
+	},
 	"optionDownloadSingleImageTitle": {
 		"message": "Losse afbeelding downloaden",
 		"description": "Title of download single image options"
@@ -123,6 +143,18 @@
 				"content": "<code>/</code>"
 			}
 		}
+	},
+	"optionFilenamePatternStandaloneLabel": {
+		"message": "Bestandsnaampatroon voor enkele afbeeldingen",
+		"description": "Label of filenamePatternStandalone option"
+	},
+	"optionFilenamePatternStandaloneEnabledLabel": {
+		"message": "Gebruik ander patroon voor enkele afbeeldingen",
+		"description": "Label of filenamePatternStandaloneEnabled option"
+	},
+	"optionIsolateTabsLabel": {
+		"message": "Isoleer de tabbladen van elkaar bij het genereren van bestandsnamen.",
+		"description": "Label of isolateTabs option"
 	},
 	"optionImportButton": {
 		"message": "Instellingen importeren",
@@ -168,13 +200,73 @@
 		"message": "Vertraging voordat knop wordt verborgen (in milliseconden)",
 		"description": "Label of downloadButtonDelayHide option"
 	},
+	"optionDownloadButtonMinWidth": {
+		"message": "Min. breedte voordat de downloadknop wordt getriggerd",
+		"description": "Label of downloadButtonMinWidth option"
+	},
 	"optionDownloadButtonMinHeight": {
 		"message": "Min. hoogte voordat de downloadknop wordt getriggerd",
 		"description": "Label of downloadButtonMinHeight option"
 	},
+	"optionDownloadButtonPositionHorizontalLabel": {
+		"message": "Horizontale positie",
+		"description": "Label of downloadButtonPositionHorizontal option"
+	},
+	"optionDownloadButtonPositionHorizontalLeftOutside": {
+		"message": "Links, buiten de afbeelding",
+		"description": "Label of LEFT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalLeftInside": {
+		"message": "Links, binnen de afbeelding",
+		"description": "Label of LEFT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalCenter": {
+		"message": "Midden",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionHorizontalRightInside": {
+		"message": "Rechts, binnen de afbeelding",
+		"description": "Label of RIGHT_INSIDE position"
+	},
+	"optionDownloadButtonPositionHorizontalRightOutside": {
+		"message": "Rechts, buiten de afbeelding",
+		"description": "Label of RIGHT_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalLabel": {
+		"message": "Verticale positie",
+		"description": "Label of downloadButtonPositionVertical option"
+	},
+	"optionDownloadButtonPositionVerticalTopOutside": {
+		"message": "Boven, buiten de afbeelding",
+		"description": "Label of TOP_OUTSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalTopInside": {
+		"message": "Boven, binnen de afbeelding",
+		"description": "Label of TOP_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalCenter": {
+		"message": "Midden",
+		"description": "Label of CENTER position"
+	},
+	"optionDownloadButtonPositionVerticalBottomInside": {
+		"message": "Onder, binnen de afbeelding",
+		"description": "Label of BOTTOM_INSIDE position"
+	},
+	"optionDownloadButtonPositionVerticalBottomOutside": {
+		"message": "Onder, buiten de afbeelding",
+		"description": "Label of BOTTOM_OUTSIDE position"
+	},
+	"optionDownloadButtonSizeLabel": {
+		"message": "Formaat knop",
+		"description": "Label of downloadButtonSize option"
+	},
 	"optionAdvancedTitle": {
 		"message": "Geavanceerd",
 		"description": "Title of advanced options"
+	},
+	"optionSelectByDefaultLabel": {
+		"message": "Selecteer standaard alle afbeeldingen",
+		"description": "Label of selectByDefault option"
 	},
 	"optionSrcAlternativeLabelHTML": {
 		"message": "Overige html-attributen met afbeeldingsurl's (gescheiden door $SEPARATOR$)",
@@ -184,6 +276,14 @@
 				"content": "<code>,</code>"
 			}
 		}
+	},
+	"optionUrlMapLabel": {
+		"message": "Transformeer URL met regexp uitdrukking",
+		"description": "Label of urlMap option"
+	},
+	"optionBlacklistLabel": {
+		"message": "Image Picka uitzetten in de volgende domeinen. (Één domein per regel)",
+		"description": "Label of blacklist option"
 	},
 	"pickerMinWidthLabel": {
 		"message": "Breedte",
