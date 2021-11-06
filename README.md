@@ -219,7 +219,7 @@ Changelog
   - Add: support referrer when not downloading from cache. (Firefox 70+ only)
   - Add: ability to retry on failure.
   - Change: always use the espression compiler.
-  - Locale: update ru translation.
+  - Locale: update ru, nl translation.
 
 * 0.14.0 (Feb 25, 2021)
 
