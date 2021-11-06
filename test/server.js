@@ -6,6 +6,7 @@ const fs = require("fs");
 const {parse: urlParse} = require("url");
 const {Throttle} = require("stream-throttle");
 const mime = require("mime");
+let i = 1;
 const HANDLES = [
 	{
 		test: /^throttle\.png/,
@@ -13,7 +14,20 @@ const HANDLES = [
 			const image = fs.createReadStream(__dirname + "/test.png");
 			image.pipe(new Throttle({rate: 100})).pipe(res);
 		}
-	}
+	},
+  {
+    test: /503\.png/,
+    handle(req, res) {
+      res.setHeader("Cache-Control", "no-cache");
+      if (i++ % 10) {
+        res.writeHead(503);
+        res.end('503');
+        return;
+      }
+			const image = fs.createReadStream(__dirname + "/test.png");
+			image.pipe(res);
+    }
+  }
 ];
 const server = http.createServer((req, res) => {
 	console.log(`${new Date} ${req.method} ${req.url}`);
