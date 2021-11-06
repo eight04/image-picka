@@ -549,7 +549,8 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
     blob: data && data.blob,
     filename,
     saveAs: pref.get("saveAs"),
-    conflictAction: pref.get("filenameConflictAction")
+    conflictAction: pref.get("filenameConflictAction"),
+    referrer
   }, true);
 }
 
