@@ -1,6 +1,10 @@
 import browser from "webextension-polyfill";
-import {defer} from "./defer.js";
+import versionCompare from 'version-compare';
 
+import {defer} from "./defer.js";
+import {getBrowserInfo} from './env.js';
+
+const pBrowserInfo = getBrowserInfo();
 const tasks = new Map;
 browser.downloads.onChanged.addListener(handleChange);
   
@@ -37,7 +41,7 @@ export function download(options, wait = false) {
       .then(r => r.blob())
       .then(downloadBlob);
   } else {
-    starting = doDownload();
+    starting = doDownload().catch(rejectTask);
   }
   task.q.promise
     .catch(() => {})
@@ -50,19 +54,34 @@ export function download(options, wait = false) {
   function downloadBlob(blob) {
     task.blobUrl = URL.createObjectURL(blob);
     options.url = task.blobUrl;
-    return doDownload();
+    return doDownload().catch(rejectTask);
   }
   
-  function doDownload() {
-    return browser.downloads.download(options)
-      .then(id => {
-        task.id = id;
-        tasks.set(id, task);
-      })
-      .catch(err => {
-        task.q.reject(err);
-        throw err;
+  function rejectTask(err) {
+    task.q.reject(err);
+    throw err;
+  }
+  
+  async function doDownload() {
+    const info = await pBrowserInfo;
+    if (
+      options.url.startsWith('http') &&
+      options.referrer &&
+      info.name === "Firefox" &&
+      versionCompare(info.version, "70") >= 0
+    ) {
+      if (!options.headers) {
+        options.headers = [];
+      }
+      options.headers.push({
+        name: 'Referer',
+        value: options.referrer
       });
+    }
+    delete options.referrer;
+    const id = await browser.downloads.download(options);
+    task.id = id;
+    tasks.set(id, task);
   }
   
   function cleanup() {

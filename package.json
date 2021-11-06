@@ -11,7 +11,7 @@
     "start": "web-ext run",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
     "build-locales": "tx pull -a --mode=developer && webext-tx-fix -s src/static",
-    "build-artifact": "shx rm -rf web-ext-artifacts/* && web-ext build",
+    "build-artifact": "shx rm -rf web-ext-artifacts/* && web-ext build --ignore-files **/*.js.map",
     "preversion": "npm test",
     "version": "npm run build && git add .",
     "postversion": "git push --follow-tags && npm run build-artifact && git archive -o latest.zip HEAD",
@@ -23,6 +23,7 @@
   ],
   "devDependencies": {
     "@eight04/idb-storage": "^0.4.2",
+    "@rollup/plugin-node-resolve": "^13.0.6",
     "content-disposition": "^0.5.3",
     "eslint": "^8.1.0",
     "espression": "^1.8.5",
@@ -33,7 +34,6 @@
     "rollup-plugin-cjs-es": "^1.0.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-iife": "^0.5.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-write-output": "^0.1.1",
@@ -50,5 +50,8 @@
     "webextension-polyfill": "^0.8.0"
   },
   "repository": "eight04/image-picka",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "version-compare": "^1.4.0"
+  }
 }

@@ -1,5 +1,5 @@
 import cjs from "rollup-plugin-cjs-es";
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import copy from 'rollup-plugin-copy';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
@@ -41,7 +41,11 @@ export default async () => ({
         }
       `
     }),
-    resolve(),
+    resolve({
+      exportConditions: [
+        'node'
+      ]
+    }),
     cjs({
       nested: true
     }),
