@@ -214,6 +214,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.15.1 (Dec 1, 2021)
+
+  - Fix: recognize webp images.
+  - Change: only load 3 images simultaneously in batch download.
+  - Locale: update nl translation.
+
 * 0.15.0 (Nov 6, 2021)
 
   - Add: support referrer when not downloading from cache. (Firefox 70+ only)
