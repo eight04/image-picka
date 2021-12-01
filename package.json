@@ -6,7 +6,7 @@
   "author": "eight04 <eight04@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.js\" --cache",
+    "lint": "eslint --ext .js,.mjs . --cache",
     "test": "npm run lint && npm run build && web-ext lint",
     "start": "web-ext run",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
@@ -23,6 +23,7 @@
   ],
   "devDependencies": {
     "@eight04/idb-storage": "^0.4.2",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "content-disposition": "^0.5.3",
     "eslint": "^8.1.0",
@@ -52,6 +53,7 @@
   "repository": "eight04/image-picka",
   "private": true,
   "dependencies": {
+    "image-extensions": "^1.1.0",
     "version-compare": "^1.4.0"
   }
 }

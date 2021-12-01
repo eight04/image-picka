@@ -5,6 +5,7 @@ import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
 import {terser} from "rollup-plugin-terser";
 import output from "rollup-plugin-write-output";
+import json from "@rollup/plugin-json";
 
 import glob from "tiny-glob";
 
@@ -46,6 +47,7 @@ export default async () => ({
         'node'
       ]
     }),
+    json(),
     cjs({
       nested: true
     }),
