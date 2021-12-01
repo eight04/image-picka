@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 import {createBinding} from "webext-pref-ui";
-import {createLock} from "@eight04/read-write-lock";
+import {createLock, createLockPool} from "@eight04/read-write-lock";
 
 import {pref} from "./lib/pref.js";
 import {createProgressBar} from "./lib/progress.js";
@@ -13,6 +13,7 @@ import {createCustomCSS} from "./lib/custom-css.js";
 createCustomCSS();
 
 const BATCH_ID = getBatchId();
+const loadLock = createLockPool({maxActiveReader: 3});
 
 browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
 	.then(req => pref.ready().then(() => init(req)));
@@ -331,45 +332,57 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 		}
 	}
 	
-	function load() {
-    if (!validUrl(url)) {
-      return Promise.reject(new Error(`Invalid URL: ${url}`));
+	async function load() {
+    let origin;
+    try {
+      origin = new URL(url).origin;
+    } catch (err) {
+      // pass
     }
-    return browser.runtime.sendMessage({
-      method: "cacheImage",
-      url,
-      tabId,
-      frameId,
-      referrer,
-      batchId: BATCH_ID
-    })
-			.then(data => {
-				ctrl.data = data;
-        imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
-        imgCover.dataset.src = url;
-        setupLazyLoad(imgCover);
-				if (pref.get("displayImageSizeUnderThumbnail")) {
-					const info = document.createElement("span");
-					info.className = "image-checkbox-info";
-					info.textContent = `${data.width} x ${data.height}`;
-					label.append(info);
-				} else {
-					if (data.width) {
-						label.title += ` (${data.width} x ${data.height})`;
-					}
-				}
-				label.title += ` [${formatFileSize(data.size)}]`;
-				// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
-				imgCover.dispatchEvent(new CustomEvent("imageLoad", {
-					bubbles: true,
-					detail: {image: ctrl}
-				}));
-			})
-			.catch(err => {
-				ctrl.error = true;
-        label.classList.add("error");
-        throw err;
-			});
+    try {
+      if (origin) {
+        return await loadLock.read([origin], doLoad);
+      }
+      return await doLoad();
+    } catch (err) {
+      ctrl.error = true;
+      label.classList.add("error");
+      throw err;
+    }
+    
+    async function doLoad() {
+      if (!validUrl(url)) {
+        throw new Error(`Invalid URL: ${url}`);
+      }
+      const data = await browser.runtime.sendMessage({
+        method: "cacheImage",
+        url,
+        tabId,
+        frameId,
+        referrer,
+        batchId: BATCH_ID
+      });
+      ctrl.data = data;
+      imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
+      imgCover.dataset.src = url;
+      setupLazyLoad(imgCover);
+      if (pref.get("displayImageSizeUnderThumbnail")) {
+        const info = document.createElement("span");
+        info.className = "image-checkbox-info";
+        info.textContent = `${data.width} x ${data.height}`;
+        label.append(info);
+      } else {
+        if (data.width) {
+          label.title += ` (${data.width} x ${data.height})`;
+        }
+      }
+      label.title += ` [${formatFileSize(data.size)}]`;
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=329509
+      imgCover.dispatchEvent(new CustomEvent("imageLoad", {
+        bubbles: true,
+        detail: {image: ctrl}
+      }));
+    }
 	}
 }
 
