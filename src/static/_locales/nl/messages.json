@@ -44,7 +44,7 @@
 		"description": "Label of browserAction option"
 	},
 	"optionBrowserActionHelp": {
-		"message": "Klik met de rechtermuisknop op het werkbalkpictogram voor meer acties.",
+		"message": "Klik met de rechtermuisknop op het werkbalkpictogram om meer acties te tonen.",
 		"description": "Help text of browserAction option"
 	},
 	"optionCloseTabsAfterSaveLabel": {
@@ -56,7 +56,7 @@
 		"description": "Label of collectFromFrames option"
 	},
 	"optionContextMenuLabel": {
-		"message": "'Afbeeldingen kiezen...' toevoegen aan rechtermuisknopmenu",
+		"message": "‘Afbeeldingen kiezen…’ toevoegen aan rechtermuisknopmenu",
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomCSS": {
@@ -108,7 +108,7 @@
 		"description": "Label of displayImageSizeUnderThumbnail option"
 	},
 	"optionEnabledLabel": {
-		"message": "Schakel \"download losse afbeelding\"-functie in",
+		"message": "‘Losse afbeelding downloaden’-functie inschakelen",
 		"description": "Label of enabled option"
 	},
 	"optionVariableMaxLengthLabel": {
@@ -116,7 +116,7 @@
 		"description": "Label of variableMaxLength option"
 	},
 	"optionFilenameConflictActionLabel": {
-		"message": "Bij optreden bestandsnaamconflict",
+		"message": "Bestandsnaamconflicten afhandelen",
 		"description": "Label of filenameConflictAction option"
 	},
 	"optionFilenameConflictActionHelp": {
@@ -153,8 +153,12 @@
 		"description": "Label of filenamePatternStandaloneEnabled option"
 	},
 	"optionIsolateTabsLabel": {
-		"message": "Isoleer de tabbladen van elkaar bij het genereren van bestandsnamen.",
+		"message": "Isoleer de tabbladen bij het genereren van bestandsnamen.",
 		"description": "Label of isolateTabs option"
+	},
+	"optionIsolateTabsHelpHTML": {
+		"message": "Kruis deze optie aan om de bestandsnaam op te maken op basis van het tabblad waarvan de afbeelding wordt gedownload in plaats van van het huidige tabblad. Dit is van toepassing op <code>pagina…</code>-variabelen en <code>index</code>.",
+		"description": "Help text of isolateTabs option"
 	},
 	"optionImportButton": {
 		"message": "Instellingen importeren",
@@ -257,8 +261,16 @@
 		"description": "Label of BOTTOM_OUTSIDE position"
 	},
 	"optionDownloadButtonSizeLabel": {
-		"message": "Formaat knop",
+		"message": "Knopformaat",
 		"description": "Label of downloadButtonSize option"
+	},
+	"optionEscapeWithUnicodeLabel": {
+		"message": "Zet speciale Unicode-tekens tussen aanhalingstekens.",
+		"description": "Label of escapeWithUnicode option"
+	},
+	"optionEscapeZWJLabel": {
+		"message": "Verwijder de nulbreedte-samenvoeging.",
+		"description": "Label of escapeZWJ option"
 	},
 	"optionAdvancedTitle": {
 		"message": "Geavanceerd",
@@ -277,12 +289,16 @@
 			}
 		}
 	},
+	"optionRetryOnFailureLabel": {
+		"message": "Opnieuw proberen na mislukte poging",
+		"description": "Label of retryOnFailure option"
+	},
 	"optionUrlMapLabel": {
-		"message": "Transformeer URL met regexp uitdrukking",
+		"message": "URL aanpassen met reguliere uitdrukking",
 		"description": "Label of urlMap option"
 	},
 	"optionBlacklistLabel": {
-		"message": "Image Picka uitzetten in de volgende domeinen. (Één domein per regel)",
+		"message": "Image Picka uitschakelen op de volgende domeinen. (één domein per regel)",
 		"description": "Label of blacklist option"
 	},
 	"pickerMinWidthLabel": {
@@ -308,6 +324,10 @@
 	"pickerMinFileSizeHelp": {
 		"message": "Minimale bestandsgrootte (in KB)",
 		"description": "Help text of minFileSize filter in image picker"
+	},
+	"pickerMatchTypeLabel": {
+		"message": "Overeenkomsttype van het url-filter",
+		"description": "Label of matchType filter in image picker"
 	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "Opnemen",
