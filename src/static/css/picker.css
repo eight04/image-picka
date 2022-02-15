@@ -172,9 +172,13 @@
 	left: 1em;
 	background: white;
 	border: 1px solid var(--main-border);
+	border-bottom: 2px solid var(--main-border);
 	padding: 0.1em 0.6em;
 	font-family: monospace;
 	transform: translateY(-50%);
+}
+.tab-image-counter:hover {
+	border-bottom: 1px solid var(--main-border);
 }
 .tab-image-counter::before {
 	content: counter(images-tab-selected) "/" counter(images-tab-total);

@@ -104,6 +104,16 @@ function init({tabs: originalTabs, env}) {
 			}
 			const counter = document.createElement("div");
 			counter.className = "tab-image-counter";
+			counter.dataset.i18n = "pickerGroupCounterClicked|title";
+			counter.onclick = (e) => {
+				let imagesInGroup = getImages().filter(i => i.el.parentNode.lastElementChild === e.target);
+				let someUnchecked = imagesInGroup.some((i) =>
+					!i.el.classList.contains("disabled") && !i.el.classList.contains("checked"));
+				imagesInGroup.forEach(i => {
+					if (i.el.classList.contains("disabled")) return;
+					i.setCheck(e.shiftKey ? !someUnchecked : someUnchecked);
+				});
+				};
 			li.appendChild(counter);
 			ul.appendChild(li);
 		}
@@ -111,6 +121,7 @@ function init({tabs: originalTabs, env}) {
 	}
 	
 	container.appendChild(frag);
+	translateDOM(container);
 	
 	initFilter(container, getImages());
 	initUI();
@@ -120,7 +131,7 @@ function init({tabs: originalTabs, env}) {
 			getImages().forEach(i => i.toggleCheck());
 		},
 		async save(e) {
-      e.target.disabled = true;
+			e.target.disabled = true;
       try {
         await browser.runtime.sendMessage({
           method: "batchDownload",
@@ -250,7 +261,7 @@ function initFilter(container, images) {
 	}
 	
 	function filter(image) {
-		image.toggleEnable(valid(image));
+		image.setEnabled(valid(image));
 	}
 
 	function filterAll() {
@@ -292,7 +303,7 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 	
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
-  imgCover.alt = "";
+	imgCover.alt = "";
 	// don't drag
 	if (IS_CHROME) {
 		imgCover.draggable = false;
@@ -306,15 +317,19 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 	return ctrl = {
 		url,
 		data: null,
-    alt,
+		alt,
 		el: label,
-		toggleEnable(enable) {
+		setEnabled(enable) {
 			label.classList.toggle("disabled", !enable);
 			input.disabled = !enable;
 		},
 		toggleCheck() {
 			label.classList.toggle("checked");
 			input.checked = !input.checked;
+		},
+		setCheck(checked) {
+			label.classList.toggle("checked", checked);
+			input.checked = checked;
 		},
 		selected() {
 			return !input.disabled && input.checked;
@@ -333,65 +348,65 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 	}
 	
 	async function load() {
-    let origin;
-    try {
-      origin = new URL(url).origin;
-    } catch (err) {
-      // pass
-    }
-    try {
-      if (origin) {
-        return await loadLock.read([origin], doLoad);
-      }
-      return await doLoad();
-    } catch (err) {
-      ctrl.error = true;
-      label.classList.add("error");
-      throw err;
-    }
-    
-    async function doLoad() {
-      if (!validUrl(url)) {
-        throw new Error(`Invalid URL: ${url}`);
-      }
-      const data = await browser.runtime.sendMessage({
-        method: "cacheImage",
-        url,
-        tabId,
-        frameId,
-        referrer,
-        batchId: BATCH_ID
-      });
-      ctrl.data = data;
-      imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
-      imgCover.dataset.src = url;
-      setupLazyLoad(imgCover);
-      if (pref.get("displayImageSizeUnderThumbnail")) {
-        const info = document.createElement("span");
-        info.className = "image-checkbox-info";
-        info.textContent = `${data.width} x ${data.height}`;
-        label.append(info);
-      } else {
-        if (data.width) {
-          label.title += ` (${data.width} x ${data.height})`;
-        }
-      }
-      label.title += ` [${formatFileSize(data.size)}]`;
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=329509
-      imgCover.dispatchEvent(new CustomEvent("imageLoad", {
-        bubbles: true,
-        detail: {image: ctrl}
-      }));
-    }
+		let origin;
+		try {
+			origin = new URL(url).origin;
+		} catch (err) {
+			// pass
+		}
+		try {
+			if (origin) {
+				return await loadLock.read([origin], doLoad);
+			}
+			return await doLoad();
+		} catch (err) {
+			ctrl.error = true;
+			label.classList.add("error");
+			throw err;
+		}
+		
+		async function doLoad() {
+			if (!validUrl(url)) {
+				throw new Error(`Invalid URL: ${url}`);
+			}
+			const data = await browser.runtime.sendMessage({
+				method: "cacheImage",
+				url,
+				tabId,
+				frameId,
+				referrer,
+				batchId: BATCH_ID
+			});
+			ctrl.data = data;
+			imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
+			imgCover.dataset.src = url;
+			setupLazyLoad(imgCover);
+			if (pref.get("displayImageSizeUnderThumbnail")) {
+				const info = document.createElement("span");
+				info.className = "image-checkbox-info";
+				info.textContent = `${data.width} x ${data.height}`;
+				label.append(info);
+			} else {
+				if (data.width) {
+					label.title += ` (${data.width} x ${data.height})`;
+				}
+			}
+			label.title += ` [${formatFileSize(data.size)}]`;
+			// https://bugzilla.mozilla.org/show_bug.cgi?id=329509
+			imgCover.dispatchEvent(new CustomEvent("imageLoad", {
+				bubbles: true,
+				detail: {image: ctrl}
+			}));
+		}
 	}
 }
 
 function createPlacehold(width, height) {
 	const placehold = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 	placehold.classList.add("image-checkbox-image");
-  placehold.setAttribute("height", height);
-  placehold.setAttribute("viewBox", `0 0 ${width} ${height}`);
-  return placehold;
+	placehold.setAttribute("height", height);
+	placehold.setAttribute("viewBox", `0 0 ${width} ${height}`);
+	return placehold;
 }
 
 function formatFileSize(size) {

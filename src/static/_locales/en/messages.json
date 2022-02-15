@@ -391,6 +391,10 @@
 		"message": "Cancel",
 		"description": "'Cancel' button in image picker"
 	},
+	"pickerGroupCounterClicked": {
+		"message": "Will be downloaded / totaled images\n\nYou can click here to toggle the entire group. Press and hold the Shift key to reverse the initial action.",
+		"description": "Tooltip about click a counter to toggle the checked status of the entire group"
+	},
   "promptOK": {
     "message": "OK"
   },
