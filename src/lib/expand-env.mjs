@@ -3,7 +3,29 @@ import {pref} from "./pref.js";
 
 const IMG_RE = new RegExp("^(.+)(\\.(?:" + imageExtensions.join("|") + "))\\b", "i");
 
-export function expandEnv(env) {
+function createDateString(date) {
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())} ${pad(date.getMinutes())} ${pad(date.getSeconds())}`;
+	function pad(n) {
+		return String(n).padStart(2, "0");
+	}
+}
+
+export function expandDate(env) {
+  const date = new Date;
+  env.date = date;
+  env.dateString = createDateString(date);
+}
+
+/*
+const props = {
+  index,
+  url,
+  base,
+  alt
+}
+*/
+export function expandEnv(env, props) {
+  Object.assign(env, props);
 	// image url
 	var url = new URL(env.url);
 	env.hostname = url.hostname;

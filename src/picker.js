@@ -9,6 +9,8 @@ import {translateDOM} from "./lib/i18n.js";
 import {setupHistory} from "./lib/input-history.js";
 
 import {createCustomCSS} from "./lib/custom-css.js";
+import {compileStringTemplate} from "./lib/string-template.js";
+import {expandDate, expandEnv} from "./lib/expand-env.mjs";
 
 createCustomCSS();
 
@@ -33,19 +35,8 @@ createBinding({
 
 translateDOM(document.body);
 
-pref.on("change", onPrefChange);
-onPrefChange(pref.getAll());
 for (const input of document.querySelectorAll(".history-container input")) {
   setupHistory(input, input.id);
-}
-
-function onPrefChange(change) {
-  if (change.previewMaxHeight) {
-    document.documentElement.style.setProperty(`--previewMaxHeight`, change.previewMaxHeight);
-  }
-  if (change.previewMaxHeightUpperBound) {
-    document.querySelector("#previewMaxHeight").max = change.previewMaxHeightUpperBound;
-  }
 }
 
 function getBatchId() {
@@ -113,7 +104,7 @@ function init({tabs: originalTabs, env}) {
 	container.appendChild(frag);
 	
 	initFilter(container, getImages());
-	initUI();
+	initUI(tabs);
 	
 	var handler = {
 		invert() {
@@ -186,17 +177,65 @@ function init({tabs: originalTabs, env}) {
 	}
 }
 
-function initUI() {
+function findSelectedImage(tabs) {
+  let env, image;
+  for (const tab of tabs) {
+    env = tab.env;
+    for (const i of tab.images) {
+      if (i.selected()) {
+        image = i;
+        return [env, image];
+      }
+    }
+  }
+  // use the first image in this case
+  for (const tab of tabs) {
+    if (tab.images.length) {
+      return [tab.env, tab.images[0]];
+    }
+  }
+  throw new Error("failed finding selected image, no image available");
+}
+
+function updateFilenamePreviewFactory(tabs) {
+  // FIXME: should we update image when the selection change?
+  let env, image;
+  return pattern => {
+    if (!image || !image.selected) {
+      const [newEnv, newImage] = findSelectedImage(tabs);
+      env = Object.assign({}, newEnv);
+      image = newImage;
+    }
+    expandDate(env);
+    expandEnv(env, {
+      // FIXME: do we want to use real index number?
+      index: 1,
+      url: image.url,
+      base: image.data && image.data.filename,
+      alt: image.alt
+    });
+    const filename = compileStringTemplate(pattern)(env);
+    document.querySelector("#filePatternBatch").closest(".toolbar-control").title = `Preview: ${filename}`;
+  };
+}
+
+function initUI(tabs) {
+  const HANDLES = {
+    previewMaxHeight: value => document.documentElement.style.setProperty(`--previewMaxHeight`, value),
+    previewMaxHeightUpperBound: value => document.querySelector("#previewMaxHeight").max = value,
+    filePatternBatch: updateFilenamePreviewFactory(tabs)
+  };
 	pref.on("change", changes => {
-		if (changes.previewMaxHeightUpperBound != null) {
-			update();
-		}
+    for (const key in changes) {
+      if (HANDLES[key]) {
+        HANDLES[key](changes[key]);
+      }
+    }
 	});
-	update();
-	
-	function update() {
-		document.querySelector("#previewMaxHeight").max = pref.get("previewMaxHeightUpperBound");
-	}
+
+  for (const key in HANDLES) {
+    HANDLES[key](pref.get(key));
+  }
 }
 
 function initFilter(container, images) {
