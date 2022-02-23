@@ -95,7 +95,7 @@ export function download(options, wait = false) {
       tasks.delete(task);
     }
     if (task.completed && erase) {
-      browser.downlaods.erase({id: task.id})
+      browser.downloads.erase({id: task.id})
         .catch(console.error);
     }
     if (oncomplete) {
