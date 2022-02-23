@@ -355,6 +355,28 @@
 		"message": "Max height of image preview",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
+  "pickerProgress": {
+    "message": "$PERCENTAGE$% ($LOADED$ / $TOTAL$), failed: $FAILED$",
+    "description": "Status of the loading progress in image picker",
+    "placeholders": {
+      "PERCENTAGE": {
+        "content": "$1",
+        "example": "100"
+      },
+      "LOADED": {
+        "content": "$2",
+        "example": "1"
+      },
+      "TOTAL": {
+        "content": "$3",
+        "example": "7"
+      },
+      "FAILED": {
+        "content": "$4",
+        "example": "3"
+      }
+    }
+  },
   "pickerToolbarFilterLabel": {
     "message": "Filter",
     "description": "Label of the filter toolbar in image picker"
