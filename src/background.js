@@ -11,7 +11,7 @@ import {createCounter} from "./lib/counter.js";
 import {IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
-import {expandEnv} from "./lib/expand-env.mjs";
+import {expandEnv, expandDate} from "./lib/expand-env.mjs";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -457,11 +457,7 @@ function openPicker(req, openerTabId) {
 
 async function batchDownload({tabs, env, batchId}) {
   const {cachedImages} = batches.get(batchId);
-	const date = new Date;
-	Object.assign(env, {
-		date,
-		dateString: createDateString(date)
-	});
+  expandDate(env);
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
 	let i = 0;
 	const pending = [];
@@ -472,11 +468,12 @@ async function batchDownload({tabs, env, batchId}) {
 		}
 		for (const {url, filename, alt} of tab.images) {
       cachedImages.delete(url);
-			env.url = url;
-			env.index = i + 1;
-			env.base = filename;
-      env.alt = alt;
-			expandEnv(env);
+			expandEnv(env, {
+        url,
+        index: i + 1,
+        base: filename,
+        alt
+      });
       const fullFileName = renderFilename(env);
       const t = batchDownloadLock.read(async () => {
         const blob = await imageCache.get(url);
@@ -509,13 +506,6 @@ async function batchDownload({tabs, env, batchId}) {
   }
 }
 
-function createDateString(date) {
-	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())} ${pad(date.getMinutes())} ${pad(date.getSeconds())}`;
-	function pad(n) {
-		return String(n).padStart(2, "0");
-	}
-}
-
 function closeTab({tabId, opener}) {
 	if (opener) {
 		browser.tabs.update(opener, {active: true});
@@ -533,15 +523,11 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
         throw err;
       })
   ]);
-  // https://github.com/eslint/eslint/issues/11911
-  /* eslint-disable require-atomic-updates */
-  env.date = new Date;
-  env.dateString = createDateString(env.date);
-  env.url = url;
-  env.base = data && data.filename;
-  env.alt = alt;
-  /* eslint-enable */
-  expandEnv(env);
+  expandEnv(env, {
+    url,
+    base: data && data.filename,
+    alt
+  });
   const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
     pref.get("filePatternStandalone") : pref.get("filePattern");
   const filename = compileStringTemplate(filePattern)(env);
