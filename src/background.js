@@ -354,7 +354,7 @@ async function pickImagesFromHighlighted(tab) {
     await openPicker({
       env: results[0].env,
       tabs: results
-    }, tab.id);
+    }, tab);
     
   } catch (err) {
     notifyError(err);
@@ -379,7 +379,7 @@ function pickImagesToRight(tab, excludeCurrent = false) {
 			return openPicker({
 				env: results[0].env,
 				tabs: excludeCurrent ? results.slice(1) : results
-			}, tab.id);
+			}, tab);
 		})
 		.catch(notifyError);
 }
@@ -408,7 +408,7 @@ function notifyDownloadError(err) {
 	}
 }
 
-function openPicker(req, openerTabId) {
+function openPicker(req, openerTab) {
 	const hasImages = () => {
 		for (const tab of req.tabs) {
 			for (const frame of tab.frames) {
@@ -441,11 +441,19 @@ function openPicker(req, openerTabId) {
 	
 	const batchId = INC++;
 	batches.set(batchId, req);
+  
+  const createTabOptions = {
+    url: `/picker.html?batchId=${batchId}`,
+    openerTabId: openerTab.id
+  };
+
+  if (IS_CHROME) {
+    // Chrome always places tab at the end
+    // https://github.com/eight04/image-picka/issues/289
+    createTabOptions.index = openerTab.index + 1;
+  }
 	
-	createTab({
-		url: `/picker.html?batchId=${batchId}`,
-		openerTabId
-	})
+	createTab(createTabOptions)
 		.then(() => {
 			batches.delete(batchId);
       if (req.cachedImages) {
