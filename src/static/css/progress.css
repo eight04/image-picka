@@ -19,9 +19,12 @@
 .progress-bar.started {
   display: block;
 }
-.progress-bar.finished:not(.error) {
+.progress-bar.finished {
   opacity: 0;
   transition: opacity 1s linear;
+}
+.progress-bar.finished.error {
+  opacity: 0.2;
 }
 .progress-bar.error::before {
   background-color: red;
