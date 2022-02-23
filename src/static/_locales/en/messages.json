@@ -75,6 +75,19 @@
 		"message": "Icon color",
 		"description": "Label of customIconColor option"
 	},
+  "optionClearDownloadHistoryLabel": {
+    "message": "Clean up download history",
+    "description": "Label of clearDownloadHistory option"
+  },
+  "optionClearDownloadHistoryNever": {
+    "message": "Never"
+  },
+  "optionClearDownloadHistoryAll": {
+    "message": "Erase all"
+  },
+  "optionClearDownloadHistoryKeepOne": {
+    "message": "Keep one item"
+  },
   "optionDetectLinkLabel": {
     "message": "Detect image URLs from links.",
     "description": "Label of detectLink option"

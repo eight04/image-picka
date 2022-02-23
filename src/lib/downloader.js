@@ -10,27 +10,29 @@ browser.downloads.onChanged.addListener(handleChange);
   
 function handleChange(changes) {
   // FIXME: is it possible that the task state changes before the id is set?
-  if (!tasks.has(changes.id)) {
+  const task = tasks.get(changes.id);
+  if (!task) {
     return;
   }
   const state = changes.state && changes.state.current;
   const err = changes.error && changes.error.current;
   if (err) {
-    tasks.get(changes.id).q.reject(err);
+    task.q.reject(err);
   } else if (state === "complete") {
-    tasks.get(changes.id).q.resolve();
+    task.completed = true;
+    task.q.resolve();
   }
-  }
+}
   
-// options: {blob, oncomplete, ...apiOptions}
+// options: {blob, oncomplete, erase, ...apiOptions}
 export function download(options, wait = false) {
   const task = {
     q: defer()
   };
-  // always delete blob property
-  const blob = options.blob;
+  // extract non-api options
+  const {blob, erase, oncomplete} = options;
   delete options.blob;
-  const oncomplete = options.oncomplete;
+  delete options.erase;
   delete options.oncomplete;
   let starting;
   if (blob) {
@@ -91,6 +93,10 @@ export function download(options, wait = false) {
     }
     if (task.id) {
       tasks.delete(task);
+    }
+    if (task.completed && erase) {
+      browser.downlaods.erase({id: task.id})
+        .catch(console.error);
     }
     if (oncomplete) {
       oncomplete();
