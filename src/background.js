@@ -483,6 +483,7 @@ async function batchDownload({tabs, env, batchId}) {
         alt
       });
       const fullFileName = renderFilename(env);
+      const isFirstImage = i === 0;
       const t = batchDownloadLock.read(async () => {
         const blob = await imageCache.get(url);
         let err;
@@ -492,7 +493,9 @@ async function batchDownload({tabs, env, batchId}) {
             blob,
             filename: fullFileName,
             saveAs: false,
-            conflictAction: pref.get("filenameConflictAction")
+            conflictAction: pref.get("filenameConflictAction"),
+            erase: pref.get("clearDownloadHistory") === "all" ? true :
+              pref.get("clearDownloadHistory") === "keepOne" ? !isFirstImage : false
           }, true);
         } catch (_err) {
           err = _err;
@@ -545,7 +548,8 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
     filename,
     saveAs: pref.get("saveAs"),
     conflictAction: pref.get("filenameConflictAction"),
-    referrer
+    referrer,
+    erase: pref.get("clearDownloadHistory") === "all"
   }, true);
 }
 

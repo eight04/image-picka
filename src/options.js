@@ -76,6 +76,16 @@ const root = createUI({
           },
           help: _("optionFilenameConflictActionHelp")
         },
+        {
+          type: "select",
+          key: "clearDownloadHistory",
+          label: _("optionClearDownloadHistoryLabel"),
+          options: {
+            never: _("optionClearDownloadHistoryNever"),
+            all: _("optionClearDownloadHistoryAll"),
+            keepOne: _("optionClearDownloadHistoryKeepOne")
+          }
+        }
       ]
     },
     {

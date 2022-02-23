@@ -10,6 +10,7 @@ const DEFAULT = {
   customIcon: false,
   customIconColor: "#000000",
   customCSS: "",
+  clearDownloadHistory: "never",
   enabled: true,
   dblClick: false,
   dblClickCtrl: false,
