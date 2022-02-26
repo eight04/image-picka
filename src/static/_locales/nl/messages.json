@@ -71,6 +71,22 @@
 		"message": "Pictogramkleur",
 		"description": "Label of customIconColor option"
 	},
+	"optionClearDownloadHistoryLabel": {
+		"message": "Downloadgeschiedenis wissen",
+		"description": "Label of clearDownloadHistory option"
+	},
+	"optionClearDownloadHistoryNever": {
+		"message": "Nooit",
+		"description": ""
+	},
+	"optionClearDownloadHistoryAll": {
+		"message": "Alles wissen",
+		"description": ""
+	},
+	"optionClearDownloadHistoryKeepOne": {
+		"message": "Eén item behouden",
+		"description": ""
+	},
 	"optionDetectLinkLabel": {
 		"message": "Detecteer afbeeldingsurl's in links.",
 		"description": "Label of detectLink option"
@@ -348,6 +364,28 @@
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Max. hoogte van de voorvertoning",
 		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerProgress": {
+		"message": "$PERCENTAGE$% ($LOADED$ / $TOTAL$) - mislukt: $FAILED$",
+		"description": "Status of the loading progress in image picker",
+		"placeholders": {
+			"PERCENTAGE": {
+				"content": "$1",
+				"example": "100"
+			},
+			"LOADED": {
+				"content": "$2",
+				"example": "1"
+			},
+			"TOTAL": {
+				"content": "$3",
+				"example": "7"
+			},
+			"FAILED": {
+				"content": "$4",
+				"example": "3"
+			}
+		}
 	},
 	"pickerToolbarDownloadOptionsLabel": {
 		"message": "Downloadopties",

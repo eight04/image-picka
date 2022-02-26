@@ -15,10 +15,6 @@
 		"message": "抓取右侧标签页的图像",
 		"description": "'Pick images from right tabs' command"
 	},
-	"extensionName": {
-		"message": "Image Picka",
-		"description": "Name of the extension"
-	},
 	"extensionDescription": {
 		"message": "一个图像抓取下载器，基于 WebExtensions 技术",
 		"description": "Description of the extension"
@@ -63,10 +59,10 @@
 		"message": "添加“抓取...的标签页图像”动作到右键菜单",
 		"description": "Label of contextMenu option"
 	},
-  "optionCustomCSS": {
-    "message": "通过 CSS 定制扩展页面",
-    "description": "Label of customCSS option"
-  },
+	"optionCustomCSS": {
+		"message": "通过 CSS 定制扩展页面",
+		"description": "Label of customCSS option"
+	},
 	"optionCustomIconLabel": {
 		"message": "自定义工具栏按钮的颜色",
 		"description": "Label of customIcon option"
@@ -148,10 +144,10 @@
 			}
 		}
 	},
-  "optionFilenamePatternStandaloneLabel": {
+	"optionFilenamePatternStandaloneLabel": {
 		"message": "为单张图片标签页使用单独的文件名模式",
 		"description": "Label of filenamePatternStandalone option"
-  },
+	},
 	"optionFilenamePatternStandaloneEnabledLabel": {
 		"message": "保存呈现单张图片的标签页时使用的文件名模式",
 		"description": "Label of filenamePatternStandaloneEnabled option"
@@ -164,12 +160,14 @@
 		"message": "若此选项被选中，文件名将根据下载图像所在的标签页来创建，而非当前标签页。这会影响到 <code>page...</code> 变量与 <code>index</code>。",
 		"description": "Help text of isolateTabs option"
 	},
-  "optionImportButton": {
-    "message": "导入设置"
-  },
-  "optionExportButton": {
-    "message": "导出设置"
-  },
+	"optionImportButton": {
+		"message": "导入设置",
+		"description": ""
+	},
+	"optionExportButton": {
+		"message": "导出设置",
+		"description": ""
+	},
 	"optionLearnMoreButton": {
 		"message": "详细了解",
 		"description": "'Learn more' link in option page"
@@ -291,10 +289,10 @@
 			}
 		}
 	},
-  "optionRetryOnFailureLabel": {
-    "message": "失败时重试",
-    "description": "Label of retryOnFailure option"
-  },
+	"optionRetryOnFailureLabel": {
+		"message": "失败时重试",
+		"description": "Label of retryOnFailure option"
+	},
 	"optionUrlMapLabel": {
 		"message": "用正则表达式转换网址",
 		"description": "Label of urlMap option"
@@ -327,10 +325,10 @@
 		"message": "最小文件大小（KB）",
 		"description": "Help text of minFileSize filter in image picker"
 	},
-  "pickerMatchTypeLabel": {
-    "message": "网址过滤框的匹配类型",
-    "description": "Label of matchType filter in image picker"
-  },
+	"pickerMatchTypeLabel": {
+		"message": "网址过滤框的匹配类型",
+		"description": "Label of matchType filter in image picker"
+	},
 	"pickerMatchTypeIncludeLabel": {
 		"message": "包括",
 		"description": "Label of 'include' option of matchType filter in image picker"
@@ -347,22 +345,22 @@
 		"message": "正则表达式",
 		"description": "Help text of matchUrl filter in image picker"
 	},
-  "pickerPreviewMaxHeightLabel": {
-    "message": "预览尺寸",
-    "description": "Label of previewMaxHeight option in image picker"
-  },
+	"pickerPreviewMaxHeightLabel": {
+		"message": "预览尺寸",
+		"description": "Label of previewMaxHeight option in image picker"
+	},
 	"pickerPreviewMaxHeightHelp": {
 		"message": "图像预览最大高度",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
-  "pickerToolbarFilterLabel": {
-    "message": "过滤器",
-    "description": "Label of the filter toolbar in image picker"
-  },
-  "pickerToolbarDownloadOptionsLabel": {
-    "message": "下载选项",
-    "description": "Label of the download options toolbar in image picker"
-  },
+	"pickerToolbarFilterLabel": {
+		"message": "过滤器",
+		"description": "Label of the filter toolbar in image picker"
+	},
+	"pickerToolbarDownloadOptionsLabel": {
+		"message": "下载选项",
+		"description": "Label of the download options toolbar in image picker"
+	},
 	"pickerFilenamePatternBatchLabel": {
 		"message": "文件名模式",
 		"description": "Label of filenamePatternBatch option in image picker"
@@ -391,10 +389,12 @@
 		"message": "取消",
 		"description": "'Cancel' button in image picker"
 	},
-  "promptOK": {
-    "message": "确定"
-  },
-  "promptCancel": {
-    "message": "取消"
-  }
+	"promptOK": {
+		"message": "确定",
+		"description": ""
+	},
+	"promptCancel": {
+		"message": "取消",
+		"description": ""
+	}
 }
