@@ -1,6 +1,9 @@
 import imageExtensions from "image-extensions";
 import {pref} from "./pref.js";
 
+// FIXME: https://github.com/arthurvr/image-extensions/issues/37
+imageExtensions.push("jpe", "jif", "jfi");
+
 const IMG_RE = new RegExp("^(.+)(\\.(?:" + imageExtensions.join("|") + "))\\b", "i");
 
 function createDateString(date) {
