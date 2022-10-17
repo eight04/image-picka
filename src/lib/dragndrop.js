@@ -304,7 +304,7 @@ export default function init({downloadImage}) {
 			`;
 			updateButtonPosition();
 			button.onclick = () => {
-        fadeOut(button);
+        buttonAni = fadeOut(button);
 				downloadImage({
           url: imageUtil.getSrc(image),
           referrerPolicy: image.referrerPolicy || undefined,
