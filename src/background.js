@@ -485,7 +485,7 @@ async function batchDownload({tabs, env, batchId}) {
       const fullFileName = renderFilename(env);
       const isFirstImage = i === 0;
       const t = batchDownloadLock.read(async () => {
-        const blob = await imageCache.get(url);
+        let blob = await imageCache.get(url);
         let err;
         try {
           await download({
@@ -503,6 +503,7 @@ async function batchDownload({tabs, env, batchId}) {
         // we have to delete the cache after download complete
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1541864
         await imageCache.delete(url);
+        blob = null;
         if (err) {
           throw err;
         }
