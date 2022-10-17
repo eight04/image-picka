@@ -39,7 +39,7 @@ function getSrcFromSrcset(set) {
       maxRule = rule;
     }
   }
-  return maxRule.url;
+  return toAbsoluateUrl(maxRule.url);
 }
   
 export function getSrc(img) {
@@ -51,22 +51,21 @@ export function getSrc(img) {
   }
   // prefer srcset first
   // https://www.harakis.com/hara-elite/large-2br-apartment-gallery/
-  let srcset;
   if (img.srcset) {
-    srcset = img.srcset;
-  } else if (
-    img.previousElementSibling && 
-    img.previousElementSibling.nodeName === "SOURCE" &&
-    img.previousElementSibling.srcset
-  ) {
-    srcset = img.previousElementSibling.srcset;
-  }
-  if (srcset) {
-    return toAbsoluateUrl(getSrcFromSrcset(srcset));
+    return (getSrcFromSrcset(img.srcset));
   }
   if (img.src) {
     return img.src;
   }
+}
+
+export function getSrcFromElement(el) {
+  const picture = el.closest("picture");
+  if (picture) {
+    return getSrcFromPicture(picture);
+  }
+  return el.localName === "a" ? getSrcFromLink(el) :
+    getSrc(el);
 }
 
 export function isImage(node) {
@@ -75,8 +74,8 @@ export function isImage(node) {
 }
 
 export function *getAllImages() {
-  for (const el of document.querySelectorAll('img, input[type="image"], a')) {
-    const src = el.localName === "a" ? getSrcFromLink(el) : getSrc(el);
+  for (const el of document.querySelectorAll('img, input[type="image"], a, picture')) {
+    const src = getSrcFromElement(el);
     if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
       continue;
     }
@@ -94,6 +93,29 @@ function getSrcFromLink(el) {
   return pref.get("detectLink") &&
     /^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url) &&
     url;
+}
+
+function getSrcFromPicture(el) {
+  const allSources = el.querySelectorAll("source");
+  let source;
+  for (const s of allSources) {
+    // FIXME: should we get a full media query matcher?
+    if (s.media && /max-width/.test(s.media)) {
+      continue;
+    }
+    if (s.media && /min-width/.test(s.media)) {
+      source = s;
+      break;
+    }
+    source = s;
+    break;
+  }
+  if (source) return getSrcFromSrcset(source.srcset);
+  const img = el.querySelector("img");
+  if (img) return getSrc(img);
+  if (allSources.length) {
+    return getSrcFromSrcset(allSources[allSources.length - 1].srcset);
+  }
 }
 
 function toAbsoluateUrl(url) {
