@@ -214,6 +214,18 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.16.0 (Nov 26, 2022)
+
+  - Locale: update es_419, nl, zh_CN translation.
+  - Fix: parse more image extensions.
+  - Fix: try to find the maximum image in picture element.
+  - Fix: button animation is never canceled.
+  - Fix: release memory immediately after download.
+  - Fix: open tab next to current in Chrome.
+  - Add: option to clear download history.
+  - Add: show progress on the title, down't hide the progress bar if there is an error.
+  - Add: preview filename.
+
 * 0.15.1 (Dec 1, 2021)
 
   - Fix: recognize webp images.
