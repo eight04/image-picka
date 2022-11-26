@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import copy from 'rollup-plugin-copy';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
-import {terser} from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import output from "rollup-plugin-write-output";
 import json from "@rollup/plugin-json";
 
@@ -60,7 +60,7 @@ export default async () => ({
     }),
     output([
       {
-        test: /background\.js/,
+        test: /background\.js$/,
         target: "build/manifest.json",
         handle: (json, {scripts}) => {
           json.background.scripts = scripts;
@@ -68,7 +68,7 @@ export default async () => ({
         }
       },
       {
-        test: /content\.js/,
+        test: /content\.js$/,
         target: "build/manifest.json",
         handle: (json, {scripts}) => {
           json.content_scripts[0].js = scripts;
@@ -76,7 +76,7 @@ export default async () => ({
         }
       },
       {
-        test: /(dialog|options|picker)\.js/,
+        test: /(dialog|options|picker)\.js$/,
         target: "build/$1.html",
         handle: (content, {htmlScripts}) => {
           return content.replace("</body>", `${htmlScripts}\n</body>`);

@@ -3,6 +3,10 @@
 		"message": "Seleccionar imágenes de la pestaña actual",
 		"description": "'Pick images from current tab' command"
 	},
+	"commandPickFromHighlightedTab": {
+		"message": "Elegir imágenes de las pestañas resaltadas",
+		"description": "'Pick images from highlighted tabs' command"
+	},
 	"commandPickFromRightTabs": {
 		"message": "Seleccionar imágenes de la pestaña actual + pestañas de la derecha",
 		"description": "'Pick images from curent tab + right tabs' command"
@@ -62,6 +66,22 @@
 	"optionCustomIconColorLabel": {
 		"message": "Color del icono",
 		"description": "Label of customIconColor option"
+	},
+	"optionClearDownloadHistoryLabel": {
+		"message": "Limpiar historial de descargas",
+		"description": "Label of clearDownloadHistory option"
+	},
+	"optionClearDownloadHistoryNever": {
+		"message": "Nunca",
+		"description": ""
+	},
+	"optionClearDownloadHistoryAll": {
+		"message": "Borrar todo",
+		"description": ""
+	},
+	"optionClearDownloadHistoryKeepOne": {
+		"message": "Conservar un elemento",
+		"description": ""
 	},
 	"optionDetectLinkLabel": {
 		"message": "Detectar las URL de las imágenes de los enlaces.",
@@ -281,6 +301,10 @@
 			}
 		}
 	},
+	"optionRetryOnFailureLabel": {
+		"message": "Reintentar en caso de fallo",
+		"description": "Label of retryOnFailure option"
+	},
 	"optionUrlMapLabel": {
 		"message": "Transformar la URL con expresiones regulares (regexp)",
 		"description": "Label of urlMap option"
@@ -336,6 +360,28 @@
 	"pickerPreviewMaxHeightHelp": {
 		"message": "Altura máxima de la vista previa de la imagen",
 		"description": "Help text of previewMaxHeight option in image picker"
+	},
+	"pickerProgress": {
+		"message": "$PERCENTAGE$% ($LOADED$ / $TOTAL$), fallidos: $FAILED$",
+		"description": "Status of the loading progress in image picker",
+		"placeholders": {
+			"PERCENTAGE": {
+				"content": "$1",
+				"example": "100"
+			},
+			"LOADED": {
+				"content": "$2",
+				"example": "1"
+			},
+			"TOTAL": {
+				"content": "$3",
+				"example": "7"
+			},
+			"FAILED": {
+				"content": "$4",
+				"example": "3"
+			}
+		}
 	},
 	"pickerToolbarFilterLabel": {
 		"message": "Filtro",
