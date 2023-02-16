@@ -535,6 +535,7 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
         throw err;
       })
   ]);
+  expandDate(env);
   expandEnv(env, {
     url,
     base: data && data.filename,
