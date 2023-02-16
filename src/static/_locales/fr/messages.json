@@ -3,6 +3,10 @@
 		"message": "Collecter les images de cet onglet",
 		"description": "'Pick images from current tab' command"
 	},
+	"commandPickFromHighlightedTab": {
+		"message": "Collecter les images des onglets sélectionnés",
+		"description": "'Pick images from highlighted tabs' command"
+	},
 	"commandPickFromRightTabs": {
 		"message": "Collecter les images de cet onglet et des onglets situés à droite",
 		"description": "'Pick images from curent tab + right tabs' command"
@@ -16,7 +20,7 @@
 		"description": "Name of the extension"
 	},
 	"extensionDescription": {
-		"message": "Extension web pour collecter des images.",
+		"message": "Une extension pour collecter des images.",
 		"description": "Description of the extension"
 	},
 	"filenameConflictActionUniquify": {
@@ -28,7 +32,7 @@
 		"description": "Label of overwrite keyword of filenameConflictAction"
 	},
 	"formHistoryRecentlyUsedLabel": {
-		"message": "Récemment utilisés :",
+		"message": "Récemment utilisé :",
 		"description": "'Recently used:' label of form history"
 	},
 	"optionGeneralTitle": {
@@ -60,17 +64,30 @@
 		"description": "Label of contextMenu option"
 	},
 	"optionCustomCSS": {
-		"message": "Personnaliser la page de collecte par CSS :",
+		"message": "Personnalisation par CSS de la page de collecte :",
 		"description": "Label of customCSS option"
 	},
 	"optionCustomIconLabel": {
 		"message": "Personnaliser la couleur du bouton de la barre d’outils",
 		"description": "Label of customIcon option"
 	},
-	"optionCustomIconColorLabel": {
-		"message": "Couleur de l’icône",
+  "optionCustomIconColorLabel": {
+		"message": "Couleur de l’icône :",
 		"description": "Label of customIconColor option"
 	},
+	"optionClearDownloadHistoryLabel": {
+    "message": "Nettoyage de l’historique des téléchargements :",
+    "description": "Label of clearDownloadHistory option"
+  },
+  "optionClearDownloadHistoryNever": {
+    "message": "Ne jamais nettoyer"
+  },
+  "optionClearDownloadHistoryAll": {
+    "message": "Effacer tout"
+  },
+  "optionClearDownloadHistoryKeepOne": {
+    "message": "Conserver un élément"
+  },
 	"optionDetectLinkLabel": {
 		"message": "Détecter l’adresse des images à partir des liens",
 		"description": "Label of detectLink option"
@@ -80,7 +97,7 @@
 		"description": "Label of dblClick option"
 	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
-		"message": "Taille maximale des miniatures :",
+		"message": "Taille maximale des vignettes :",
 		"description": "Label of previewMaxHeightUpperBound option"
 	},
 	"optionUseCacheLabel": {
@@ -104,7 +121,7 @@
 		"description": "Label of defaultExt"
 	},
 	"optionDisplayImageSizeUnderThumbnailLabel": {
-		"message": "Afficher les dimensions de l’image sous la miniature",
+		"message": "Afficher les dimensions de l’image sous la vignette",
 		"description": "Label of displayImageSizeUnderThumbnail option"
 	},
 	"optionEnabledLabel": {
@@ -120,7 +137,7 @@
 		"description": "Label of filenameConflictAction option"
 	},
 	"optionFilenameConflictActionHelp": {
-		"message": "Le téléchargement peut échouer si plusieurs portant le même nom sont téléchargés en même temps. Il vaut mieux éviter les conflits de nom en utilisant un motif de nom de fichier correct, particulièrement pour un téléchargement par lot.",
+		"message": "Le téléchargement peut échouer si plusieurs fichiers portant le même nom sont téléchargés en même temps. Il vaut mieux éviter les conflits de nom en utilisant un motif de nom de fichier correct, particulièrement pour un téléchargement par lot.",
 		"description": "Help text of filenameConflictAction option"
 	},
 	"optionDownloadSingleImageTitle": {
@@ -161,12 +178,10 @@
 		"description": "Help text of isolateTabs option"
 	},
 	"optionImportButton": {
-		"message": "Importer les réglages",
-		"description": ""
+		"message": "Importer les réglages"
 	},
 	"optionExportButton": {
-		"message": "Exporter les réglages",
-		"description": ""
+		"message": "Exporter les réglages"
 	},
 	"optionLearnMoreButton": {
 		"message": "[en savoir plus]",
@@ -289,6 +304,10 @@
 			}
 		}
 	},
+  "optionRetryOnFailureLabel": {
+    "message": "Reprise en cas d’échec :",
+    "description": "Label of retryOnFailure option"
+  },
 	"optionUrlMapLabel": {
 		"message": "Transformation de l’adresse par expression rationnelle :",
 		"description": "Label of urlMap option"
@@ -342,14 +361,36 @@
 		"description": "Help text of matchUrl filter in image picker"
 	},
 	"pickerPreviewMaxHeightLabel": {
-		"message": "Taille des miniatures :",
+		"message": "Taille des vignettes :",
 		"description": "Label of previewMaxHeight option in image picker"
 	},
 	"pickerPreviewMaxHeightHelp": {
-		"message": "Taille des miniatures",
+		"message": "Taille des vignettes",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
-	"pickerToolbarFilterLabel": {
+	"pickerProgress": {
+    "message": "$PERCENTAGE$% ($LOADED$/$TOTAL$) - échecs : $FAILED$",
+    "description": "Status of the loading progress in image picker",
+    "placeholders": {
+      "PERCENTAGE": {
+        "content": "$1",
+        "example": "100"
+      },
+      "LOADED": {
+        "content": "$2",
+        "example": "1"
+      },
+      "TOTAL": {
+        "content": "$3",
+        "example": "7"
+      },
+      "FAILED": {
+        "content": "$4",
+        "example": "3"
+      }
+    }
+  },
+  "pickerToolbarFilterLabel": {
 		"message": "Filtre",
 		"description": "Label of the filter toolbar in image picker"
 	},
@@ -385,8 +426,10 @@
 		"message": "Annuler",
 		"description": "'Cancel' button in image picker"
 	},
+	"promptOK": {
+		"message": "OK"
+	},
 	"promptCancel": {
-		"message": "Annuler",
-		"description": ""
+		"message": "Annuler"
 	}
 }
