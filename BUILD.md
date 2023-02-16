@@ -8,8 +8,8 @@ Preparation
 
 2. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers like this:
     ```
-    v13.5.0
-    6.13.4
+    v18.7.0
+    8.15.0
     ```
     
 3. Go to the project root, run `npm install`.
@@ -34,7 +34,7 @@ npm test
 Update translation
 ------------------
 
-If you want to pull translation from https://www.transifex.com/, you have to install [Python](https://www.python.org/) then install the [official transifex CLI](https://docs.transifex.com/client/introduction).
+If you want to pull translation from https://www.transifex.com/, you have to install [transifex CLI](https://github.com/transifex/cli).
 
 After `tx` CLI is prepared, run `npm run build-locales`.
   
@@ -46,12 +46,12 @@ Before generating the ZIP file, you may want to:
 1. Update translation - `npm run build-locales`.
 2. Make sure there is no error in the extension - `npm test`.
 
-To generate the ZIP file, run `npx web-ext build`.
+To generate the ZIP file, run `npm run build-artifact`.
 
 Push a new release to Github
 ----------------------------
 
-A release is just a commit tagged with a specific version. Before bumping the version, you should:
+A release is just a commit tagged with a version number. Before bumping the version, you should:
 
 1. Make sure you are on the master branch.
 2. Update the changelog in README.md.
