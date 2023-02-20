@@ -214,6 +214,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.16.1 (Feb 20, 2023)
+
+  - Locale: update fr translation.
+  - Fix: dateString is broken in single download.
+
 * 0.16.0 (Nov 26, 2022)
 
   - Locale: update es_419, nl, zh_CN translation.
