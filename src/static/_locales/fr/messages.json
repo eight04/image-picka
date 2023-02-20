@@ -71,23 +71,23 @@
 		"message": "Personnaliser la couleur du bouton de la barre d’outils",
 		"description": "Label of customIcon option"
 	},
-  "optionCustomIconColorLabel": {
+	"optionCustomIconColorLabel": {
 		"message": "Couleur de l’icône :",
 		"description": "Label of customIconColor option"
 	},
 	"optionClearDownloadHistoryLabel": {
-    "message": "Nettoyage de l’historique des téléchargements :",
-    "description": "Label of clearDownloadHistory option"
-  },
-  "optionClearDownloadHistoryNever": {
-    "message": "Ne jamais nettoyer"
-  },
-  "optionClearDownloadHistoryAll": {
-    "message": "Effacer tout"
-  },
-  "optionClearDownloadHistoryKeepOne": {
-    "message": "Conserver un élément"
-  },
+		"message": "Nettoyage de l’historique des téléchargements :",
+		"description": "Label of clearDownloadHistory option"
+	},
+	"optionClearDownloadHistoryNever": {
+		"message": "Ne jamais nettoyer"
+	},
+	"optionClearDownloadHistoryAll": {
+		"message": "Effacer tout"
+	},
+	"optionClearDownloadHistoryKeepOne": {
+		"message": "Conserver un élément"
+	},
 	"optionDetectLinkLabel": {
 		"message": "Détecter l’adresse des images à partir des liens",
 		"description": "Label of detectLink option"
@@ -304,10 +304,10 @@
 			}
 		}
 	},
-  "optionRetryOnFailureLabel": {
-    "message": "Reprise en cas d’échec :",
-    "description": "Label of retryOnFailure option"
-  },
+	"optionRetryOnFailureLabel": {
+		"message": "Reprise en cas d’échec :",
+		"description": "Label of retryOnFailure option"
+	},
 	"optionUrlMapLabel": {
 		"message": "Transformation de l’adresse par expression rationnelle :",
 		"description": "Label of urlMap option"
@@ -369,28 +369,28 @@
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
 	"pickerProgress": {
-    "message": "$PERCENTAGE$% ($LOADED$/$TOTAL$) - échecs : $FAILED$",
-    "description": "Status of the loading progress in image picker",
-    "placeholders": {
-      "PERCENTAGE": {
-        "content": "$1",
-        "example": "100"
-      },
-      "LOADED": {
-        "content": "$2",
-        "example": "1"
-      },
-      "TOTAL": {
-        "content": "$3",
-        "example": "7"
-      },
-      "FAILED": {
-        "content": "$4",
-        "example": "3"
-      }
-    }
-  },
-  "pickerToolbarFilterLabel": {
+		"message": "$PERCENTAGE$% ($LOADED$/$TOTAL$) - échecs : $FAILED$",
+		"description": "Status of the loading progress in image picker",
+		"placeholders": {
+			"PERCENTAGE": {
+				"content": "$1",
+				"example": "100"
+			},
+			"LOADED": {
+				"content": "$2",
+				"example": "1"
+			},
+			"TOTAL": {
+				"content": "$3",
+				"example": "7"
+			},
+			"FAILED": {
+				"content": "$4",
+				"example": "3"
+			}
+		}
+	},
+	"pickerToolbarFilterLabel": {
 		"message": "Filtre",
 		"description": "Label of the filter toolbar in image picker"
 	},
@@ -425,9 +425,6 @@
 	"pickerActionCancel": {
 		"message": "Annuler",
 		"description": "'Cancel' button in image picker"
-	},
-	"promptOK": {
-		"message": "OK"
 	},
 	"promptCancel": {
 		"message": "Annuler"
