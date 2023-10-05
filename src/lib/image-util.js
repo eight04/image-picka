@@ -1,3 +1,4 @@
+import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
 
 let SRC_PROP = [];
@@ -17,25 +18,11 @@ function update() {
 }
 
 function getSrcFromSrcset(set) {
-  const rules = set.split(/\s*,\s*/).map(rule =>
-    rule.split(/\s+/).reduce((result, token) => {
-      if (token) {
-        let match;
-        if ((match = token.match(/^(\d+)[wx]$/))) {
-          result.scale = +match[1];
-        } else {
-          result.url = token;
-        }
-      }
-      return result;
-    }, {
-      scale: 1
-    })
-  );
-  
+  const rules = parseSrcset(set);
   let maxRule;
   for (const rule of rules) {
-    if (!maxRule || rule.scale > maxRule.scale) {
+    // FIXME: what if the rules have both density and width?
+    if (!maxRule || (rule.density || rule.width || 0) > (maxRule.density || maxRule.width || 0)) {
       maxRule = rule;
     }
   }
