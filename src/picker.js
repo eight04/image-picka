@@ -7,6 +7,7 @@ import {createProgressBar} from "./lib/progress.js";
 import {IS_CHROME} from "./lib/env.js";
 import {translateDOM} from "./lib/i18n.js";
 import {setupHistory} from "./lib/input-history.js";
+import {createTab} from "./lib/tab.js";
 
 import {createCustomCSS} from "./lib/custom-css.js";
 import {compileStringTemplate} from "./lib/string-template.js";
@@ -338,6 +339,20 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 	} else {
 		imgCover.ondragstart = () => false;
 	}
+  let middleClick = false;
+  imgCover.onmousedown = e => {
+    if (e.button == 1) {
+      e.preventDefault();
+      middleClick = true;
+    }
+  };
+  imgCover.onmouseup = e => {
+    if (middleClick && e.button == 1) {
+      middleClick = false;
+      createTab({url, openerTabId: "CURRENT_TAB", active: false});
+      e.preventDefault();
+    }
+  };
 	imgContainer.append(imgCover);
 	
 	label.append(input, imgContainer);
