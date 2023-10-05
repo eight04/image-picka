@@ -1,6 +1,8 @@
 import browser from "webextension-polyfill";
 
 import {defer} from "./defer.js";
+
+const currentTab = browser.tabs.getCurrent();
 // import {getBrowserInfo} from "./env.js";
 
 // const supportOpener = checkSupportOpener();
@@ -20,6 +22,9 @@ export function waitTab(id) {
 export async function createTab(options) {
   let tab;
   let openerTabId;
+  if (options.openerTabId === "CURRENT_TAB") {
+    options.openerTabId = (await currentTab).id;
+  }
   try {
     tab = await browser.tabs.create(options);
   } catch (err) {
