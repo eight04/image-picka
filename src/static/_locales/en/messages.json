@@ -92,9 +92,13 @@
     "message": "Detect image URLs from links.",
     "description": "Label of detectLink option"
   },
-	"optionDblClickLabel": {
-		"message": "Download with double click",
-		"description": "Label of dblClick option"
+  "optionDblClickLabel": {
+    "message": "Download with double click",
+    "description": "Label of dblClick option"
+  },
+	"optionFetchDelayLabel": {
+		"message": "Delay between each image fetch",
+		"description": "Label of fetchDelay option"
 	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "The maximum value of the thumbnail size slider",

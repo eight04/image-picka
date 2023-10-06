@@ -31,7 +31,25 @@ let INC = 0;
 const batches = new Map;
 const batchDownloadLock = createLock({maxActiveReader: 5});
 
-browser.runtime.onMessage.addListener((message, sender) => {
+// this is used to log error raised by onMessage handler,
+// otherwise the stack trace will be removed after passing the error to the content script.
+function logError(fn) {
+  return (...args) => {
+    try {
+      const result = fn(...args);
+      if (!result || !result.catch) return result;
+      return result.catch(err => {
+        console.error(err);
+        throw err;
+      });
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+}
+
+browser.runtime.onMessage.addListener(logError((message, sender) => {
 	switch (message.method) {
 		case "singleDownload":
 			message.tabId = sender.tab.id;
@@ -76,7 +94,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
       return imageCache.get(message.url)
         .then(blob => URL.createObjectURL(blob));
 	}
-});
+}));
 
 browser.browserAction.onClicked.addListener(tab => {
 	MENU_ACTIONS[pref.get("browserAction")].handler(tab);

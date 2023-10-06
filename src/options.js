@@ -326,6 +326,13 @@ const root = createUI({
         },
         {
           type: "textarea",
+          key: "fetchDelay",
+          label: _("optionFetchDelayLabel"),
+          learnMore: "https://github.com/eight04/image-picka#fetch-delay",
+          className: "form-monospace"
+        },
+        {
+          type: "textarea",
           key: "retryOnFailure",
           label: _("optionRetryOnFailureLabel"),
           learnMore: "https://github.com/eight04/image-picka#retry-on-failure",
