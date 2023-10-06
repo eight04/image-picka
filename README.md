@@ -117,6 +117,20 @@ pbs.twimg.com/media/$1:orig
 * Lines starting with `#` are ignored.
 * Empty lines are ignored.
 
+Fetch delay
+------------
+
+You can set a delay between each download:
+
+```
+https://i.imgur.com 5
+http://example.com 10
+```
+
+* Each line includes
+  - The origin of the image.
+  - The delay (in seconds).
+
 Retry on failure
 ----------------
 

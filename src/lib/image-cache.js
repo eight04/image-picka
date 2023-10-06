@@ -5,6 +5,7 @@ import {IS_CHROME} from "./env.js";
 import {fetchImage} from "./fetch-image.js";
 import {fetchXHR} from "./fetch.js";
 import {retry} from "./retry.js";
+import {fetchDelay} from "./fetch-delay.js";
 
 export const imageCache = createImageCache();
 
@@ -27,11 +28,13 @@ function createImageCache() {
   
   function add({url, tabId, frameId, referrer}) {
     return cache.set(url, async () => {
-      const data = await retry(() => _fetchImage(url, tabId, frameId, referrer), url);
-      const resource = data.blob;
-      delete data.blob;
-      const meta = Object.assign(data, await detectDimension(resource));
-      return {resource, meta};
+      return await fetchDelay(url, async () => {
+        const data = await retry(() => _fetchImage(url, tabId, frameId, referrer), url);
+        const resource = data.blob;
+        delete data.blob;
+        const meta = Object.assign(data, await detectDimension(resource));
+        return {resource, meta};
+      });
     });
   }
   
