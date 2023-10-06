@@ -230,9 +230,9 @@ Changelog
 
 * 0.17.0 (Oct 6, 2023)
 
-  Fix: srcset parsing issue.
-  Add: open image via middle click during batch download.
-  Add: fetch delay option.
+  - Fix: srcset parsing issue.
+  - Add: open image via middle click during batch download.
+  - Add: fetch delay option.
 
 * 0.16.1 (Feb 20, 2023)
 
