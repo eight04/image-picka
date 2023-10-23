@@ -96,6 +96,10 @@
 		"message": "Télécharger par double-clic",
 		"description": "Label of dblClick option"
 	},
+	"optionFetchDelayLabel": {
+		"message": "Délai entre chaque téléchargement :",
+		"description": "Label of fetchDelay option"
+	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "Taille maximale des vignettes :",
 		"description": "Label of previewMaxHeightUpperBound option"
