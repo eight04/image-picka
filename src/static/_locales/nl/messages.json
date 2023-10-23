@@ -95,6 +95,10 @@
 		"message": "Downloaden door te dubbelklikken",
 		"description": "Label of dblClick option"
 	},
+	"optionFetchDelayLabel": {
+		"message": "Wachttijd tussen ophalen van afbeeldingen",
+		"description": "Label of fetchDelay option"
+	},
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "De maximumwaarde van de miniatuurgrootte-schuifknop",
 		"description": "Label of previewMaxHeightUpperBound option"
