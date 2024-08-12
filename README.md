@@ -235,6 +235,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.18.0 (Aug 13, 2024)
+
+  - Fix: compare image information before removing duplicates.
+  - Fix: run the extension on `blob:` and `data:` pages.
+  - Fix: do not parse empty srcset.
+  - Add: an option to escape dot, space, and percentage in the filename.
+  - Locale: update fr, nl translation.
+
 * 0.17.0 (Oct 6, 2023)
 
   - Fix: srcset parsing issue.
