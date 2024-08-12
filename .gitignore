@@ -1,6 +1,7 @@
 node_modules
 web-ext-artifacts
 build
+chrome
 
 *.zip
 *.xpi

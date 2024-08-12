@@ -19,6 +19,9 @@ function update() {
 
 function getSrcFromSrcset(set) {
   const rules = parseSrcset(set);
+  if (!rules.length) {
+    throw new Error("No rules in srcset");
+  }
   let maxRule;
   for (const rule of rules) {
     // FIXME: what if the rules have both density and width?
@@ -39,7 +42,11 @@ export function getSrc(img) {
   // prefer srcset first
   // https://www.harakis.com/hara-elite/large-2br-apartment-gallery/
   if (img.srcset) {
-    return (getSrcFromSrcset(img.srcset));
+    try {
+      return getSrcFromSrcset(img.srcset);
+    } catch (err) {
+      console.warn("Error parsing srcset", img.srcset);
+    }
   }
   if (img.src) {
     return img.src;
@@ -97,11 +104,24 @@ function getSrcFromPicture(el) {
     source = s;
     break;
   }
-  if (source) return getSrcFromSrcset(source.srcset);
+  if (source && source.srcset) {
+    try {
+      return getSrcFromSrcset(source.srcset);
+    } catch (err) {
+      console.warn("Error parsing srcset", source.srcset);
+    }
+  }
   const img = el.querySelector("img");
   if (img) return getSrc(img);
   if (allSources.length) {
-    return getSrcFromSrcset(allSources[allSources.length - 1].srcset);
+    const srcset = allSources[allSources.length - 1].srcset
+    if (srcset) {
+      try {
+        return getSrcFromSrcset(srcset);
+      } catch (err) {
+        console.warn("Error parsing srcset", srcset);
+      }
+    }
   }
 }
 

@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js,.mjs . --cache",
     "test": "npm run lint && npm run build && web-ext lint",
     "start": "web-ext run",
+    "start-chrome": "web-ext run --target chromium",
     "build": "sync-version src/static/manifest.json && shx rm -rf build/* && rollup -c",
     "build-locales": "tx pull -a --use-git-timestamps && webext-tx-fix -s src/static",
     "build-artifact": "shx rm -rf web-ext-artifacts/* && web-ext build --ignore-files **/*.js.map",
@@ -19,7 +20,8 @@
     "changelog": "shx cat README.md | mkcat | mkql \"[content=Changelog] + ul > :first-child > *\" | mkout"
   },
   "eslintIgnore": [
-    "build"
+    "build",
+    "chrome"
   ],
   "devDependencies": {
     "@eight04/idb-storage": "^0.4.2",

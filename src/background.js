@@ -255,59 +255,53 @@ function createDynamicIcon({file, enabled, onupdate}) {
 	return {update};
 }
 
-function pickImages(tabId, frameId = 0) {
+async function pickImages(tabId, frameId = 0) {
 	const result = {
 		tabId,
 		frames: [],
 		env: null
 	};
-	return Promise.all([
+	await Promise.all([
 		getImages(),
 		getEnv(),
 		pref.get("collectFromFrames") && getImagesFromChildFrames()
-	]).then(() => {
-		// make sure the main frame is the first frame
-		const index = result.frames.findIndex(f => f.frameId === frameId);
-		if (index !== 0) {
-			const mainFrame = result.frames[index];
-			result.frames[index] = result.frames[0];
-			result.frames[0] = mainFrame;
-		}
-		return result;
-	});
+	]);
+  // make sure the main frame is the first frame
+  const index = result.frames.findIndex(f => f.frameId === frameId);
+  if (index !== 0) {
+    const mainFrame = result.frames[index];
+    result.frames[index] = result.frames[0];
+    result.frames[0] = mainFrame;
+  }
+  return result;
 		
-	function getImages() {
-		return browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
-			.then(images => {
-				result.frames.push({
-					frameId,
-					images
-				});
-			});
+	async function getImages() {
+		const images = await browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
+    result.frames.push({
+      frameId,
+      images
+    });
 	}	
 	
-	function getEnv() {
-		return browser.tabs.sendMessage(tabId, {method: "getEnv"}, {frameId})
-			.then(env => {
-				result.env = env;
-			});
+	async function getEnv() {
+		const env = await browser.tabs.sendMessage(tabId, {method: "getEnv"}, {frameId})
+    result.env = env;
 	}
 	
-	function getImagesFromChildFrames() {
-		return getChildFrames()
-			.then(frameIds =>
-				Promise.all(frameIds.map(frameId =>
-					browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId})
-						.then(images => {
-							result.frames.push({
-								frameId,
-								images
-							});
-						})
-						// https://github.com/eight04/image-picka/issues/100
-						.catch(console.warn)
-				))
-			);
+	async function getImagesFromChildFrames() {
+		const frameIds = await getChildFrames();
+    await Promise.all(frameIds.map(frameId => async () => {
+      try {
+        const images = await browser.tabs.sendMessage(tabId, {method: "getImages"}, {frameId});
+        result.frames.push({
+          frameId,
+          images
+        });
+      } catch (err) {
+        // https://github.com/eight04/image-picka/issues/100
+        console.warn(err);
+      }
+    }));
 	}
 	
 	function getChildFrames() {
