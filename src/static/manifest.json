@@ -8,7 +8,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "image-picka@eight04.blogspot.com",
-      "strict_min_version": "55.0"
+      "strict_min_version": "58.0"
 		}
 	},
 	"permissions": [
@@ -31,6 +31,7 @@
 			"matches": [
 				"<all_urls>"
 			],
+      "match_origin_as_fallback": true,
 			"js": [],
 			"run_at": "document_start"
 		}

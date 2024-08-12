@@ -381,7 +381,7 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 		try {
 			new URL(url);
 			return true;
-		} catch (err) {
+		} catch {
 			return false;
 		}
 	}
@@ -390,7 +390,7 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
     let origin;
     try {
       origin = new URL(url).origin;
-    } catch (err) {
+    } catch {
       // pass
     }
     try {

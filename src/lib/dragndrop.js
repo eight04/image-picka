@@ -364,7 +364,7 @@ export default function init({downloadImage}) {
         duration: 600,
         fill: "forwards"
       });
-    } catch (err) {
+    } catch {
       el.style.opacity = 0;
       return {
         cancel: () => {

@@ -1,6 +1,4 @@
-/* eslint-env node */
-
-module.exports = {
+export default {
 	sourceDir: "build",
 	build: {
 		overwriteDest: true
