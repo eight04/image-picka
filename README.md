@@ -220,6 +220,13 @@ If you find that the filename includes an emoji and the browser can't save the i
 
 See also: [#175](https://github.com/eight04/image-picka/issues/175)
 
+Illegal filename bug in Firefox 127
+----------------------------------
+
+There is a bug in Firefox 127 that throws an error when downloading a file with a filename that contains a percentage, spaces, or dot.
+
+See also: [#347](https://github.com/eight04/image-picka/issues/347)
+
 Translation
 -----------
 

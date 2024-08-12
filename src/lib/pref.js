@@ -30,6 +30,7 @@ const DEFAULT = {
   downloadButtonPositionVertical: "TOP_OUTSIDE",
   escapeWithUnicode: true,
   escapeZWJ: false,
+  escapeFF127: shouldEscapeFF127(),
   isolateTabs: false,
   filenameConflictAction: "uniquify",
   saveAs: false,
@@ -86,4 +87,14 @@ async function init() {
   }
   await Promise.all(pending);
   await browser.storage.local.set({prefInSync: true});
+}
+
+function shouldEscapeFF127() {
+  const ua = navigator.userAgent;
+  const isFirefox = /Firefox/.test(ua);
+  if (!isFirefox) {
+    return false;
+  }
+  const version = ua.match(/Firefox\/(\d+)/)[1];
+  return parseInt(version, 10) >= 127;
 }
