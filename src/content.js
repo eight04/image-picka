@@ -45,17 +45,38 @@ function downloadImage({url, referrerPolicy = getDefaultReferrerPolicy(), alt}) 
 function getImages() {
   const images = new Map;
   for (const {src, referrerPolicy, alt} of getAllImages()) {
-    const url = transformURL(src);
-    if (images.has(url)) {
-      continue;
-    }
-    images.set(url, {
+    const url = transformURL(src)
+    const image = {
       url,
       referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()),
       alt
-    });
+    };
+    const old = images.get(image.url);
+    if (old && cmpInfo(old, image) >= 0) {
+      continue;
+    }
+    images.set(url, image);
   }
   return [...images.values()];
+}
+
+function cmpInfo(a, b) {
+  return cmp(a.url, b.url) ||
+    cmp(a.referrer, b.referrer) ||
+    cmp(a.alt, b.alt);
+
+  function cmp(x, y) {
+    if (x === y) {
+      return 0;
+    }
+    if (x == null) {
+      return -1;
+    }
+    if (y == null) {
+      return 1;
+    }
+    return x < y ? -1 : x > y ? 1 : 0;
+  }
 }
 
 function getEnv() {
