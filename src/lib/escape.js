@@ -61,7 +61,16 @@ function trimString(s) {
 }
 
 export function escapePath(path) {
-  return path.split(/\\|\//g).map(component =>
-    trimString(component).replace(/^\.+|\.+$/g, m => "．".repeat(m.length))
+  const parts = path.split(/\\|\//g);
+  return parts.map((component, i) => {
+    component = trimString(component).replace(/^\.+|\.+$/g, m => "．".repeat(m.length))
+    if (pref.get("escapeFF127")) {
+      component = component.replace(/%/g, "％");
+      if (i < parts.length - 1) {
+        component = component.replace(/\./g, "．");
+      }
+    }
+    return component;
+  }
   ).join("/");
 }

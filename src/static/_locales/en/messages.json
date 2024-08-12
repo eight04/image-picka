@@ -283,6 +283,10 @@
 		"message": "Button size",
 		"description": "Label of downloadButtonSize option"
 	},
+  "optionEscapeFF127Label": {
+    "message": "Escape dot and percentage in the filename to avoid Firefox 127 bug.",
+    "description": "Label of escapeFF127 option"
+  },
 	"optionEscapeWithUnicodeLabel": {
 		"message": "Escape special characters into Unicode glyphs.",
 		"description": "Label of escapeWithUnicode option"

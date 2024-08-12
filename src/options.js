@@ -313,6 +313,12 @@ const root = createUI({
           learnMore: "https://github.com/eight04/image-picka#zero-width-joiner"
         },
         {
+          type: "checkbox",
+          key: "escapeFF127",
+          label: _("optionEscapeFF127Label"),
+          learnMore: "https://github.com/eight04/image-picka#illegal-filename-bug-in-firefox-127"
+        },
+        {
           type: "text",
           key: "srcAlternative",
           label: html("optionSrcAlternativeLabelHTML")
