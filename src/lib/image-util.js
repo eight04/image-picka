@@ -20,7 +20,7 @@ function update() {
 function getSrcFromSrcset(set) {
   const rules = parseSrcset(set);
   if (!rules.length) {
-    return null;
+    throw new Error("No rules in srcset");
   }
   let maxRule;
   for (const rule of rules) {
