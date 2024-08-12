@@ -15,7 +15,7 @@ function getMime(contentType) {
 function getFilename(value) {
   try {
     return contentDisposition.parse(value).parameters.filename;
-  } catch (err) {
+  } catch {
     // pass
   }
 }

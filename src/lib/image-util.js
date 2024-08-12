@@ -20,7 +20,7 @@ function update() {
 function getSrcFromSrcset(set) {
   const rules = parseSrcset(set);
   if (!rules.length) {
-    throw new Error("No rules in srcset");
+    throw new Error(`No rules in srcset: ${set}`);
   }
   let maxRule;
   for (const rule of rules) {
@@ -45,7 +45,7 @@ export function getSrc(img) {
     try {
       return getSrcFromSrcset(img.srcset);
     } catch (err) {
-      console.warn("Error parsing srcset", img.srcset);
+      console.warn(err);
     }
   }
   if (img.src) {
@@ -108,7 +108,7 @@ function getSrcFromPicture(el) {
     try {
       return getSrcFromSrcset(source.srcset);
     } catch (err) {
-      console.warn("Error parsing srcset", source.srcset);
+      console.warn(err);
     }
   }
   const img = el.querySelector("img");
@@ -119,7 +119,7 @@ function getSrcFromPicture(el) {
       try {
         return getSrcFromSrcset(srcset);
       } catch (err) {
-        console.warn("Error parsing srcset", srcset);
+        console.warn(err);
       }
     }
   }

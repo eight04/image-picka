@@ -40,13 +40,13 @@ export function expandEnv(env, props) {
 	} else {
 		try {
 			base = url.href.match(/([^/]+)\/?$/)[1];
-		} catch (err) {
+		} catch {
 			base = pref.get("defaultName");
 		}
 	}
 	try {
 		[, name, ext] = base.match(IMG_RE);
-	} catch (err) {
+	} catch {
 		name = base;
 		ext = pref.get("defaultExt");
 	}
@@ -71,7 +71,7 @@ function nestDecodeURIComponent(s) {
 	while (/%[0-9a-f]{2}/i.test(s)) {
 		try {
 			s = decodeURIComponent(s);
-		} catch (err) {
+		} catch {
 			break;
 		}
 	}
