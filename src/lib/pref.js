@@ -89,12 +89,19 @@ async function init() {
   await browser.storage.local.set({prefInSync: true});
 }
 
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1903780
 function shouldEscapeFF127() {
   const ua = navigator.userAgent;
   const isFirefox = /Firefox/.test(ua);
   if (!isFirefox) {
     return false;
   }
-  const version = ua.match(/Firefox\/(\d+)/)[1];
-  return parseInt(version, 10) >= 127;
+  try {
+    const versionText = ua.match(/Firefox\/(\d+)/)[1];
+    const version = parseInt(versionText, 10);
+    return version >= 127 && version < 131;
+  } catch {
+    // pass
+  }
+  return false;
 }
