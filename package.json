@@ -14,7 +14,7 @@
     "build-watch": "rollup -c -w",
     "build-locales": "tx pull -a --use-git-timestamps && webext-tx-fix -s src/static",
     "build-artifact": "shx rm -rf web-ext-artifacts/* && web-ext build --ignore-files **/*.js.map",
-    "dev": "run-p build-watch start",
+    "dev": "run-p -r build-watch start",
     "preversion": "npm test",
     "version": "npm run build && git add .",
     "postversion": "git push --follow-tags && npm run build-artifact && git archive -o latest.zip HEAD",
