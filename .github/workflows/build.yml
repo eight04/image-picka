@@ -8,5 +8,4 @@ jobs:
         with:
           node-version: 21
           
-      - run: npm install
-      - run: npm test
+      - run: npm cit
