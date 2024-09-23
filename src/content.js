@@ -61,8 +61,7 @@ function getImages() {
 }
 
 function cmpInfo(a, b) {
-  return cmp(a.url, b.url) ||
-    cmp(a.referrer, b.referrer) ||
+  return cmpReferrer(a.referrer, b.referrer) ||
     cmp(a.alt, b.alt);
 
   function cmp(x, y) {
@@ -76,6 +75,19 @@ function cmpInfo(a, b) {
       return 1;
     }
     return x < y ? -1 : x > y ? 1 : 0;
+  }
+
+  function cmpReferrer(a, b) {
+    if (a === b) {
+      return 0;
+    }
+    if (a === location.href) {
+      return -1;
+    }
+    if (b === location.href) {
+      return 1;
+    }
+    return cmp(a, b);
   }
 }
 
