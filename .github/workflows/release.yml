@@ -11,7 +11,7 @@ jobs:
         with:
           node-version: 21
       
-      - run: npm install
+      - run: npm ci
       - run: npm run build
       - run: npm run changelog --silent > changelog.md
           
