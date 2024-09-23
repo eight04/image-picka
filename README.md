@@ -235,6 +235,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.18.1 (Sep 23, 2024)
+
+  - Fix: no-referrer images has lower priority when there are duplicated images.
+  - Fix: donnot escape dot, space, and percentage by default on Firefox 131+.
+
 * 0.18.0 (Aug 13, 2024)
 
   - Fix: compare image information before removing duplicates.
