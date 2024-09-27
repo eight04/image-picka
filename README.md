@@ -234,6 +234,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.18.3 (Sep 27, 2024)
+
+  - Fix: build artifact error.
+
+* 0.18.2 (Sep 23, 2024)
+
+  - Fix: install error.
+
 * 0.18.1 (Sep 23, 2024)
 
   - Fix: no-referrer images has lower priority when there are duplicated images.
