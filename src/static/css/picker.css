@@ -191,3 +191,11 @@
 	border: 5px dashed var(--main-border);
 	position: relative;
 }
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  .toolbar {
+    background: var(--c-bg);
+    border-color: var(--c-text-d2);
+  }
+}

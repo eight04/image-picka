@@ -1,13 +1,24 @@
-/* global browser chrome */
+/* global chrome */
+import browser from "webextension-polyfill";
 
 export const IS_CHROME = typeof chrome !== "undefined" && Boolean(chrome.app);
 
 export function getBrowserInfo() {
-  if (typeof browser !== "undefined" && browser.runtime.getBrowserInfo) {
+  if (browser.runtime.getBrowserInfo) {
     return browser.runtime.getBrowserInfo();
   }
   return new Promise(resolve => {
-    const match = navigator.userAgent.match(/(firefox|chrome)\/([\d.]+)/i);
+    const rxs = [
+      /(firefox|edg)\/([\d.]+)/i,
+      /(chrome)\/([\d.]+)/i
+    ]
+    let match;
+    for (const rx of rxs) {
+      match = navigator.userAgent.match(rx);
+      if (match) {
+        break;
+      }
+    }
     if (match) {
       resolve({
         name: match[1],
