@@ -1,4 +1,5 @@
-/* global browser chrome */
+/* global chrome */
+import browser from "webextension-polyfill";
 
 export const IS_CHROME = typeof chrome !== "undefined" && Boolean(chrome.app);
 
