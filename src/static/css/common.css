@@ -38,6 +38,7 @@ input, button, select, textarea {
 	background: white;
 	overflow: auto;
 	box-shadow: 0 0 5px #737373;
+  z-index: 1;
 }
 .history-list::before {
 	content: attr(data-label);
@@ -70,3 +71,61 @@ input, button, select, textarea {
 	background: #0a84ff;
 	color: white;
 }
+
+/* add dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-text: #e0e0e0;
+    --c-text-d: #a0a0a0;
+    --c-text-d2: #737373;
+    --c-bg: #23222b;
+    /* a lighter background */
+    --c-bg-l: #2b2a33;
+  }
+  body {
+    color: #e0e0e0;
+    background-color: #23222B;
+  }
+  a {
+    color: #64b5f6;
+  }
+  a:hover {
+    color: #2196f3;
+  }
+  fieldset[disabled] label,
+  fieldset[disabled] input {
+    color: #999;
+    opacity: .5;
+  }
+  .webext-pref-help {
+    color: #a0a0a0;
+  }
+  .webext-pref-checkbox > input,
+  .webext-pref-checkbox > label::before {
+    background-color: var(--c-bg-l);
+  }
+  input[type=text],
+  input[type=number],
+  select,
+  textarea,
+  button {
+    background-color: var(--c-bg-l);
+    color: #e0e0e0;
+    border: 1px solid var(--c-text-d);
+  }
+  button:hover {
+    background-color: #444;
+  }
+  button:active {
+    background-color: #666;
+  }
+  .history-list {
+    border-color: #737373;
+    background-color: var(--c-bg-l);
+  }
+  .history-list::before {
+    background-color: #444;
+    color: #a0a0a0;
+  }
+}
+

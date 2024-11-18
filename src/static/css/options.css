@@ -9,9 +9,14 @@ body.version-lt-57 {
 	background-color: #fbfbfb;
 	overflow: hidden;
 }
-body[data-browser=Chrome] {
+body[data-browser=Chrome],
+body[data-browser=Edg] {
   padding: 0 1em 1em 1em;
   min-width: 520px;
+}
+body[data-browser=Edg] {
+  padding-top: 4px;
+  min-width: 0;
 }
 
 a {
@@ -114,4 +119,14 @@ fieldset[disabled] input {
 }
 .webext-pref-nav {
   display: none;
+}
+
+/* dark theme text color */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #fbfbfe;
+  }
+  .webext-pref-help {
+    color: #a0a0a0;
+  }
 }

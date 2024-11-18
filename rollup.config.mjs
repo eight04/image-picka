@@ -1,6 +1,6 @@
 import cjs from "rollup-plugin-cjs-es";
 import resolve from "@rollup/plugin-node-resolve";
-import copy from 'rollup-plugin-copy';
+import {copy} from '@web/rollup-plugin-copy';
 import shim from "rollup-plugin-shim";
 import iife from "rollup-plugin-iife";
 import terser from "@rollup/plugin-terser";
@@ -13,7 +13,7 @@ export default async () => ({
   input: await glob("src/*.js"),
   output: {
     format: "es",
-    dir: "build/js",
+    dir: "build",
     sourcemap: true
   },
   plugins: [
@@ -52,7 +52,8 @@ export default async () => ({
       nested: true
     }),
     copy({
-      targets: [{src: "src/static/*", "dest": "build"}]
+      patterns: "**/*",
+      rootDir: "src/static"
     }),
     iife(),
     terser({
