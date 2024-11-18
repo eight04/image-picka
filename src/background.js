@@ -4,6 +4,7 @@ import browser from "webextension-polyfill";
 
 import {pref} from "./lib/pref.js";
 import {createTab} from "./lib/tab.js";
+import {tabMonitor} from "./lib/tab-monitor.js";
 import {fetchImage} from "./lib/fetch-image.js";
 import {download} from "./lib/downloader.js";
 import {imageCache} from "./lib/image-cache.js";
@@ -143,7 +144,7 @@ const MENU_OPTIONS = [
 			handler(tab, info.frameId);
 		},
 		contexts: ["page", "image"],
-		oncontext: () => pref.get("contextMenu")
+		oncontext: () => pref.get("contextMenu") && !tabMonitor.isExtensionPage()
 	}))
 ];
 
@@ -166,6 +167,7 @@ if (menus) {
       }
     });
   });
+  tabMonitor.on("change", () => menus.update());
 }
 
 // setup dynamic icon
