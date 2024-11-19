@@ -13,34 +13,48 @@ pref.ready().then(() => {
 });
 
 const lock = createLockPool({maxActiveReader: 3});
-let meta = new Map;
+let rules = [];
 
 function update() {
-  const newMeta = new Map;
+  const newRules = [];
   for (const lines of parseText(pref.get('fetchDelay'))) {
     const [origin, delay] = lines[0].trim().split(/\s+/);
     const delayMs = Number(delay) * 1000;
-    newMeta.set(origin, {
-      ...meta.get(origin),
+    const oldRule = rules.find(rule => rule.origin === origin);
+    newRules.push({
+      ...oldRule,
+      origin,
       delayMs
     });
   }
-  meta = newMeta;
+  rules = newRules;
+}
+
+function matchGlob(pattern, string) {
+  if (!pattern.includes("*")) {
+    return pattern === string;
+  }
+  // compile a glob pattern to a regular expression, also escape special characters
+  const rx = new RegExp(`^${pattern.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&").replace(/\*/g, ".*")}$`);
+  return rx.test(string);
 }
 
 export async function fetchDelay(url, cb) {
   const origin = new URL(url).origin;
-  if (meta.has(origin)) {
-    return await lock.write([origin], async () => {
-      const t = (meta.get(origin).lastFetch || 0) + meta.get(origin).delayMs - Date.now();
+  const rule = rules.find(rule => matchGlob(rule.origin, origin));
+  // calculate the delay if there is a matching rule
+  if (rule) {
+    return await lock.write([rule.origin], async () => {
+      const t = (rule.lastFetch || 0) + rule.delayMs - Date.now();
       await delay(t > 0 ? t : 0);
       try {
         return await cb();
       } finally {
-        meta.get(origin).lastFetch = Date.now();
+        rule.lastFetch = Date.now();
       }
     });
   }
+  // no matching rule, just fetch, still restricted by the maxActiveReader
   return await lock.read([origin], cb);
 }
 
