@@ -243,6 +243,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.19.0 (Nov 19, 2024)
+
+  - Add: support wildcard in fetch delay.
+  - Add: right click on the thumbnail in the batch download UI to view the source element.
+  - Add: dark theme.
+
 * 0.18.3 (Sep 27, 2024)
 
   - Fix: build artifact error.
