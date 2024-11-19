@@ -137,6 +137,8 @@ https://*.imgur.com 5
 * 10
 ```
 
+Note that rules are applied from top to bottom. The first matched rule will be used.
+
 Retry on failure
 ----------------
 
