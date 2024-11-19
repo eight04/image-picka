@@ -4,6 +4,7 @@ import browser from "webextension-polyfill";
 
 import {pref} from "./lib/pref.js";
 import {createTab} from "./lib/tab.js";
+import {tabMonitor} from "./lib/tab-monitor.js";
 import {fetchImage} from "./lib/fetch-image.js";
 import {download} from "./lib/downloader.js";
 import {imageCache} from "./lib/image-cache.js";
@@ -143,8 +144,17 @@ const MENU_OPTIONS = [
 			handler(tab, info.frameId);
 		},
 		contexts: ["page", "image"],
-		oncontext: () => pref.get("contextMenu")
-	}))
+		oncontext: () => pref.get("contextMenu") && !tabMonitor.isExtensionPage()
+	})),
+  {
+    title: browser.i18n.getMessage("commandViewSourceElement"),
+    onclick(info, tab) {
+      browser.tabs.sendMessage(tab.id, {method: "viewSourceElementClicked", elementId: info.targetElementId})
+        .catch(notifyError);
+    },
+    contexts: ["image"],
+    oncontext: () => tabMonitor.isExtensionPage()
+  }
 ];
 
 let menus;
@@ -166,6 +176,7 @@ if (menus) {
       }
     });
   });
+  tabMonitor.on("change", () => menus.update());
 }
 
 // setup dynamic icon
@@ -401,6 +412,7 @@ function pickImagesToRightNoCurrent(tab) {
 }
 
 function notifyError(err) {
+  console.error(err);
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",

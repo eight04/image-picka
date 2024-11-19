@@ -18,8 +18,13 @@ createCustomCSS();
 const BATCH_ID = getBatchId();
 const loadLock = createLockPool({maxActiveReader: 3});
 
+let picker;
+
 browser.runtime.sendMessage({method: "getBatchData", batchId: BATCH_ID})
-	.then(req => pref.ready().then(() => init(req)));
+	.then(async req => {
+    await pref.ready();
+    picker = init(req);
+  });
   
 // toolbar expand
 for (const el of document.querySelectorAll(".toolbar")) {
@@ -40,6 +45,37 @@ for (const input of document.querySelectorAll(".history-container input")) {
   setupHistory(input, input.id);
 }
 
+let lastContextTarget;
+document.addEventListener("contextmenu", e => {
+  lastContextTarget = e.target;
+});
+
+browser.runtime.onMessage.addListener(req => {
+  if (req.method === "viewSourceElementClicked") {
+    return onViewSourceElementClicked(req);
+  }
+});
+
+async function onViewSourceElementClicked(req) {
+  let element;
+  if (req.elementId) {
+    element = browser.menus.getTargetElement(req.elementId);
+  } else {
+    element = lastContextTarget;
+  }
+  if (!element) {
+    throw new Error("No element found");
+  }
+  const imageCheck = picker.coverToCheck(element);
+  await Promise.all([
+    browser.tabs.update(imageCheck.tabId, {active: true}),
+    browser.tabs.sendMessage(imageCheck.tabId, {
+      method: "viewSourceElement",
+      pickaId: imageCheck.pickaId
+    }, {frameId: imageCheck.frameId})
+  ]);
+}
+
 function getBatchId() {
 	const id = new URL(location.href).searchParams.get("batchId");
 	return +id;
@@ -52,9 +88,12 @@ function init({tabs: originalTabs, env}) {
 		({
 			tabId: tab.tabId,
 			images: [].concat(...tab.frames.map(f => f.images.map(
-				({url, referrer, alt}) => {
-          // console.log(alt);
-          const check = createImageCheckbox(url, f.frameId, tab.tabId, referrer, alt);
+				(imageData) => {
+          const check = createImageCheckbox({
+            frameId: f.frameId,
+            tabId: tab.tabId,
+            ...imageData
+          });
           if (!pref.get("selectByDefault")) {
             check.toggleCheck();
           }
@@ -168,6 +207,8 @@ function init({tabs: originalTabs, env}) {
 	for (var [cls, cb] of Object.entries(handler)) {
 		actions.querySelector(`.${cls}`).onclick = cb;
 	}
+
+  return {coverToCheck};
 	
 	function getUrls(images) {
 		return images.filter(i => i.selected()).map(i => i.url);
@@ -176,6 +217,15 @@ function init({tabs: originalTabs, env}) {
 	function getImages() {
 		return [].concat(...tabs.map(t => t.images));
 	}
+
+  function coverToCheck(cover) {
+    for (const image of getImages()) {
+      if (image.cover === cover) {
+        return image;
+      }
+    }
+    throw new Error("Failed converting cover to check");
+  }
 }
 
 function findSelectedImage(tabs) {
@@ -300,7 +350,7 @@ function initFilter(container, images) {
 	}
 }
 
-function createImageCheckbox(url, frameId, tabId, referrer, alt) {
+function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
 	const label = document.createElement("label");
 	const input = document.createElement("input");
 	let ctrl;
@@ -361,7 +411,11 @@ function createImageCheckbox(url, frameId, tabId, referrer, alt) {
 		url,
 		data: null,
     alt,
+    pickaId,
 		el: label,
+    cover: imgCover,
+    tabId,
+    frameId,
 		toggleEnable(enable) {
 			label.classList.toggle("disabled", !enable);
 			input.disabled = !enable;

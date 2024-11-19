@@ -25,10 +25,21 @@ browser.runtime.onMessage.addListener(message => {
         });
     case "revokeURL":
       return URL.revokeObjectURL(message.url);
+    case "viewSourceElement":
+      return viewSourceElement(message.pickaId);
   }
 });
 
 initDragndrop({downloadImage});
+
+function viewSourceElement(pickaId) {
+  const el = document.querySelector(`[data-picka-id="${pickaId}"]`);
+  if (!el) {
+    console.error(`Element with pickaId ${pickaId} not found`);
+    return;
+  }
+  el.scrollIntoView({behavior: "smooth"});
+}
 
 function downloadImage({url, referrerPolicy = getDefaultReferrerPolicy(), alt}) {
   url = transformURL(url);
@@ -44,12 +55,13 @@ function downloadImage({url, referrerPolicy = getDefaultReferrerPolicy(), alt}) 
 
 function getImages() {
   const images = new Map;
-  for (const {src, referrerPolicy, alt} of getAllImages()) {
+  for (const {src, referrerPolicy, alt, pickaId} of getAllImages()) {
     const url = transformURL(src)
     const image = {
       url,
       referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()),
-      alt
+      alt,
+      pickaId
     };
     const old = images.get(image.url);
     if (old && cmpInfo(old, image) >= 0) {
