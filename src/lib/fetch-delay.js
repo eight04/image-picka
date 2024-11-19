@@ -34,7 +34,9 @@ function matchGlob(pattern, string) {
   if (!pattern.includes("*")) {
     return pattern === string;
   }
-  return new RegExp(`^${pattern.replace(/\*/g, ".*")}$`).test(string);
+  // compile a glob pattern to a regular expression, also escape special characters
+  const rx = new RegExp(`^${pattern.replace(/[-/\\^$+?.()|[\]{}]/g, "\\$&").replace(/\*/g, ".*")}$`);
+  return rx.test(string);
 }
 
 export async function fetchDelay(url, cb) {
