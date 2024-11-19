@@ -130,6 +130,13 @@ http://example.com 10
   - The origin of the image.
   - The delay (in seconds).
 
+After v0.19.0, you can use wildcard in the origin. This also allows you to set a default delay for all origins. For example, set a default delay to 10s and 5s for imgur:
+
+```
+https://*.imgur.com 5
+* 10
+```
+
 Retry on failure
 ----------------
 
