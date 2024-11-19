@@ -31,7 +31,7 @@ class TabMonitor extends EventLite {
   }
 
   _onUpdated(tabId, changeInfo, tab) {
-    if (!this._tabId) {
+    if (!this._tabId || tabId !== this._tabId) {
       return;
     }
     if (!tab.url) {
@@ -42,17 +42,11 @@ class TabMonitor extends EventLite {
         return;
       }
     }
-    if (tabId === this._tabId) {
-      this._tab = tab;
-      this.emit("change");
-    }
+    this._tab = tab;
+    this.emit("change");
   }
 
   getTab() {
-    // if (!this._tab) {
-    //   const tabs = await browser.tabs.query({active: true, currentWindow: true});
-    //   this._tab = tabs[0];
-    // }
     return this._tab;
   }
 
