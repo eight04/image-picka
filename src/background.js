@@ -145,7 +145,16 @@ const MENU_OPTIONS = [
 		},
 		contexts: ["page", "image"],
 		oncontext: () => pref.get("contextMenu") && !tabMonitor.isExtensionPage()
-	}))
+	})),
+  {
+    title: browser.i18n.getMessage("commandViewSourceElement"),
+    onclick(info, tab) {
+      browser.tabs.sendMessage(tab.id, {method: "viewSourceElementClicked", elementId: info.targetElementId})
+        .catch(notifyError);
+    },
+    contexts: ["image"],
+    oncontext: () => tabMonitor.isExtensionPage()
+  }
 ];
 
 let menus;
@@ -403,6 +412,7 @@ function pickImagesToRightNoCurrent(tab) {
 }
 
 function notifyError(err) {
+  console.error(err);
 	browser.notifications.create({
 		type: "basic",
 		title: "Image Picka",

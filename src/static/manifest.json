@@ -17,6 +17,7 @@
 		"contextMenus",
 		"activeTab",
 		"notifications",
+    "tabs",
 		"<all_urls>"
 	],
 	"optional_permissions": [

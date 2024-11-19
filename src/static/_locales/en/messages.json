@@ -15,6 +15,10 @@
 		"message": "Pick Images from Right Tabs",
 		"description": "'Pick images from right tabs' command"
 	},
+  "commandViewSourceElement": {
+    "message": "View source element",
+    "description": "'View source element' command in image picker"
+  },
 	"extensionName": {
 		"message": "Image Picka",
 		"description": "Name of the extension"

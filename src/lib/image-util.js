@@ -2,6 +2,7 @@ import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
 
 let SRC_PROP = [];
+let PICKA_ID = 1;
 update();
 pref.on("change", change => {
   if (change.srcAlternative != null) {
@@ -73,10 +74,14 @@ export function *getAllImages() {
     if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
       continue;
     }
+    if (!el.dataset.pickaId) {
+      el.dataset.pickaId = PICKA_ID++;
+    }
     yield {
       src,
       referrerPolicy: el.referrerPolicy,
-      alt: el.alt
+      alt: el.alt,
+      pickaId: el.dataset.pickaId,
     };
   }
 }

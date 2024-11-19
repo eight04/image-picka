@@ -5,24 +5,44 @@ import EventLite from "event-lite";
 class TabMonitor extends EventLite {
   constructor() {
     super();
+    this._tabId = null;
     this._tab = null;
     this._onActivated = this._onActivated.bind(this);
+    this._onUpdated = this._onUpdated.bind(this);
     // FIXME: make it work with multiple windows
-    browser.tabs.onActivated.addListener(this._onActivated.bind(this));
-    browser.tabs.onUpdated.addListener(this._onUpdated.bind(this), {properties: ["url"]});
+    // NOTE: in Chrome MV2, these requires the "tabs" permission
+    browser.tabs.onActivated.addListener(this._onActivated);
+    try {
+      browser.tabs.onUpdated.addListener(this._onUpdated, {properties: ["url"]});
+    } catch (err) {
+      if (/filters/.test(err.message)) {
+        // Chrome doesn't support filters
+        browser.tabs.onUpdated.addListener(this._onUpdated);
+      }
+    }
   }
 
-  async _onActivated({tabId}) {
-    // FIXME: 
-    this._tab = await browser.tabs.get(tabId);
-    this.emit("change");
+  _onActivated({tabId}) {
+    this._tabId = tabId;
+    browser.tabs.get(tabId)
+      .then(tab => {
+        this._onUpdated(tabId, null, tab);
+      });
   }
 
   _onUpdated(tabId, changeInfo, tab) {
-    if (!this._tab) {
+    if (!this._tabId) {
       return;
     }
-    if (tabId === this._tab.id) {
+    if (!tab.url) {
+      if (tab.finalUrl) {
+        tab.url = tab.finalUrl;
+      } else {
+        console.warn(`Tab ${tabId} has no url`);
+        return;
+      }
+    }
+    if (tabId === this._tabId) {
       this._tab = tab;
       this.emit("change");
     }
