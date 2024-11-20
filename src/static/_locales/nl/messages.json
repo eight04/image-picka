@@ -15,6 +15,10 @@
 		"message": "Afbeeldigen op omliggende tabbladen kiezen",
 		"description": "'Pick images from right tabs' command"
 	},
+	"commandViewSourceElement": {
+		"message": "Broncode-element bekijken",
+		"description": "'View source element' command in image picker"
+	},
 	"extensionDescription": {
 		"message": "Een afbeeldingskiezer, gebouwd met webextensions",
 		"description": "Description of the extension"
@@ -283,6 +287,10 @@
 	"optionDownloadButtonSizeLabel": {
 		"message": "Knopformaat",
 		"description": "Label of downloadButtonSize option"
+	},
+	"optionEscapeFF127Label": {
+		"message": "Pas de punt en het percentage in de bestandsnaam aan om een bug in Firefox 127 te omzeilen.",
+		"description": "Label of escapeFF127 option"
 	},
 	"optionEscapeWithUnicodeLabel": {
 		"message": "Zet speciale Unicode-tekens tussen aanhalingstekens.",
