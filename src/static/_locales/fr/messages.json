@@ -15,8 +15,12 @@
 		"message": "Collecter les images des onglets situés à droite",
 		"description": "'Pick images from right tabs' command"
 	},
+  "commandViewSourceElement": {
+    "message": "Voir l’élément source",
+    "description": "'View source element' command in image picker"
+  },
 	"extensionName": {
-		"message": "Collectimages",
+		"message": "Image Picka",
 		"description": "Name of the extension"
 	},
 	"extensionDescription": {
@@ -283,6 +287,10 @@
 		"message": "Taille du bouton :",
 		"description": "Label of downloadButtonSize option"
 	},
+  "optionEscapeFF127Label": {
+    "message": "Échapper . et % dans le nom de fichier pour contourner le bogue de Firefox 127",
+    "description": "Label of escapeFF127 option"
+  },
 	"optionEscapeWithUnicodeLabel": {
 		"message": "Échapper les caractères spéciaux dans les glyphes Unicode",
 		"description": "Label of escapeWithUnicode option"
@@ -430,6 +438,9 @@
 		"message": "Annuler",
 		"description": "'Cancel' button in image picker"
 	},
+  "promptOK": {
+    "message": "OK"
+  },
 	"promptCancel": {
 		"message": "Annuler"
 	}
