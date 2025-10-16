@@ -8,6 +8,7 @@ export function observeRequest(url, tabId, callback) {
     let streamFilter;
     let requestId;
 
+    // FIXME: is it better to use a specific URL pattern instead of "<all_urls>"?
     const requestFilter = { tabId, urls: ["<all_urls>"], types: ["image"] };
     browser.webRequest.onHeadersReceived.addListener( onHeadersReceived, requestFilter, ["blocking", "responseHeaders"]);
     browser.webRequest.onErrorOccurred.addListener(onError, requestFilter);
@@ -23,8 +24,8 @@ export function observeRequest(url, tabId, callback) {
     }
 
     function onHeadersReceived(details) {
-      if (removeFragment(details.url) !== url) return;
       if (streamFilter) return;
+      if (removeFragment(details.url) !== url) return;
       requestId = details.requestId;
       streamFilter = browser.webRequest.filterResponseData(details.requestId);
       const datas = [];
