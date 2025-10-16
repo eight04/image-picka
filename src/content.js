@@ -35,20 +35,27 @@ browser.runtime.onMessage.addListener(message => {
 initDragndrop({downloadImage});
 
 function injectImage({url, referrer}) {
-  const img = new Image;
-  img.src = `${url}#${Date.now()}`; // trigger webRequest
-  if (referrer === "") {
-    img.referrerPolicy = "no-referrer";
-  }
-  img.style.maxWidth = "0";
-  img.style.maxHeight = "0";
-  img.style.position = "absolute";
-  img.style.left = "-9999px";
-  img.style.top = "-9999px";
-  document.body.appendChild(img);
-  img.onload = img.onerror = () => {
-    img.remove();
-  }
+  return new Promise((resolve, reject) => {
+    const img = new Image;
+    img.src = `${url}#${Date.now()}`; // trigger webRequest
+    if (referrer === "") {
+      img.referrerPolicy = "no-referrer";
+    }
+    img.style.maxWidth = "0";
+    img.style.maxHeight = "0";
+    img.style.position = "absolute";
+    img.style.left = "-9999px";
+    img.style.top = "-9999px";
+    document.body.appendChild(img);
+    img.onload = () => {
+      resolve();
+      img.remove();
+    }
+    img.onerror = () => {
+      reject(new Error(`Failed to load image: ${url}`));
+      img.remove();
+    }
+  });
 }
 
 function viewSourceElement(pickaId) {

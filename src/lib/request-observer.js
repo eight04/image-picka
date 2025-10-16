@@ -23,7 +23,6 @@ export function observeRequest(url, tabId, callback) {
     }
 
     function onHeadersReceived(details) {
-      console.log(details);
       if (removeFragment(details.url) !== url) return;
       if (streamFilter) return;
       requestId = details.requestId;
