@@ -5,7 +5,7 @@ const http = require("http");
 const fs = require("fs");
 const {parse: urlParse} = require("url");
 const {Throttle} = require("stream-throttle");
-const mime = require("mime");
+const mime = require("mime").default;
 let i = 1;
 const HANDLES = [
 	{

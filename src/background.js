@@ -351,15 +351,19 @@ function pickEnv(tabId, frameId = 0) {
 }
 
 function tryRequestPermission() {
-	if (pref.get("collectFromFrames")) {
-		return browser.permissions.request({permissions: ["webNavigation"]})
-			.then(success => {
-				if (!success) {
-					throw new Error("webNavigation permission is required for iframe information");
-				}
-			});
-	}
-	return Promise.resolve();
+  const permissions = {permissions: []};
+  if (pref.get("collectFromFrames")) {
+    permissions.permissions.push("webNavigation");
+  }
+  if (pref.get("useCache") && pref.get("useWebRequest")) {
+    permissions.permissions.push("webRequest", "webRequestBlocking");
+  }
+  return browser.permissions.request(permissions)
+    .then(success => {
+      if (!success) {
+        throw new Error("webNavigation permission is required for iframe information");
+      }
+    });
 }
 
 async function pickImagesFromHighlighted(tab) {

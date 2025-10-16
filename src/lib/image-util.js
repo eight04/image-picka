@@ -9,7 +9,6 @@ pref.on("change", change => {
     update();
   }
 });
-  // return {getSrc, isImage, getAllImages};
   
 function update() {
   SRC_PROP = pref.get("srcAlternative")

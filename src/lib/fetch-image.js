@@ -27,12 +27,16 @@ export function fetchImage(url, referrer) {
       throw new Error(`failed to fetch: ${r.status}`);
     }
     const blob = await r.blob();
-    return {
-      url,
-      mime: getMime(r.headers.get("Content-Type")),
-      filename: getFilename(r.headers.get("Content-Disposition")),
-      blob,
-      size: blob.size
-    };
+    return createImage(url, blob, r.headers.get("Content-Type"), r.headers.get("Content-Disposition"));
   });
+}
+
+export function createImage(url, blob, contentType, contentDisposition) {
+  return {
+    url,
+    blob,
+    mime: getMime(contentType),
+    filename: getFilename(contentDisposition),
+    size: blob.size
+  };
 }

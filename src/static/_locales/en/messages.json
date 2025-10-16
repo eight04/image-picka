@@ -116,6 +116,14 @@
 		"message": "The extension would try to get the image from cache before sending the image to download manager, which causes a noticeable delay before download manager starts if the image is not cached.",
 		"description": "Help text of useCache option"
 	},
+  "optionUseWebRequestLabel": {
+    "message": "Use webRequest API to collect images",
+    "description": "Label of useWebRequest option"
+  },
+  "optionUseWebRequestHelp": {
+    "message": "This is the only way to access cached images in Firefox 141+. It has no effect in Chrome.",
+    "description": "Help text of useWebRequest option"
+  },
 	"optionUseExpressionLabel": {
 		"message": "Use simple expression in the filename pattern",
 		"description": "Label of useExpression option"
