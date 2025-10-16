@@ -350,12 +350,12 @@ function pickEnv(tabId, frameId = 0) {
 		.then(env => ({tabId, env}));
 }
 
-function tryRequestPermission({singleDownload} = {}) {
+function tryRequestPermission({batch = true} = {}) {
   const permissions = {permissions: []};
-  if (pref.get("collectFromFrames")) {
+  if (batch && pref.get("collectFromFrames")) {
     permissions.permissions.push("webNavigation");
   }
-  if (pref.get("useWebRequest") && (!singleDownload || pref.get("useCache"))) {
+  if ((batch || pref.get("useCache")) && pref.get("useWebRequest")) {
     permissions.permissions.push("webRequest", "webRequestBlocking");
   }
   return browser.permissions.request(permissions)
@@ -557,7 +557,7 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
   let data;
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
-    pref.get("useCache") && tryRequestPermission({singleDownload: true})
+    pref.get("useCache") && tryRequestPermission({batch: false})
       .then(() => imageCache.fetchImage(url, tabId, frameId, referrer))
       .catch(err => {
         notifyError(err);
