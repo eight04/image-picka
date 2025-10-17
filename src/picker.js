@@ -441,6 +441,7 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
 	}
 	
 	async function load() {
+    label.classList.add("loading");
     let origin;
     try {
       origin = new URL(url).origin;
@@ -456,6 +457,8 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
       ctrl.error = true;
       label.classList.add("error");
       throw err;
+    } finally {
+      label.classList.remove("loading");
     }
     
     async function doLoad() {
