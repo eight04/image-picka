@@ -140,7 +140,7 @@ function createThumbnail(image, {width: imgW, height: imgH}, fileSize) {
   let thumbW;
   let thumbH;
   if (imgW <= maxSize && imgH <= maxSize) {
-    return;
+    return null;
   }
   if (imgW > imgH) {
     thumbW = maxSize;
@@ -153,7 +153,9 @@ function createThumbnail(image, {width: imgW, height: imgH}, fileSize) {
   canvas.height = thumbH;
   ctx.drawImage(image, 0, 0, imgW, imgH, 0, 0, thumbW, thumbH);
   const dataurl = canvas.toDataURL("image/jpeg", 0.5);
-  if (fileSize < dataurl.length) {
+  // FIXME: what is the best way to check if thumbnail is useful? Does loading dataturl cost more than just loading the original image?
+  // SVG?
+  if (fileSize < dataurl.length * 0.75) {
     return null;
   }
   return dataurl;
