@@ -22,4 +22,9 @@ if (!firstEntryMatch) {
 }
 const startIndex = firstEntryMatch.index;
 const endIndex = lastEntryMatch ? lastEntryMatch.index : readmeContent.length;
-console.log(readmeContent.slice(startIndex, endIndex).trim());
+console.log(readmeContent.slice(startIndex, endIndex).trim().replace(/^( *)([*-] +)/gm, (match, p1, p2) => {
+  if (p1) {
+    return p2;
+  }
+  return "";
+}));
