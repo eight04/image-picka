@@ -476,9 +476,11 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
       ctrl.data = data;
       imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
       imgCover.dataset.src = data.thumbnail || data.url;
-      imgCover.oncontextmenu = () => {
-        imgCover.src = data.url;
-      }
+      // FIXME: is there a way to keep real img while still using the low-res thumbnail?
+      // https://github.com/eight04/image-picka/issues/237
+      // imgCover.addEventListener("mouseover", () => {
+      //   imgCover.src = data.url;
+      // });
       setupLazyLoad(imgCover);
       if (pref.get("displayImageSizeUnderThumbnail")) {
         const info = document.createElement("span");

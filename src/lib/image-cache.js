@@ -118,7 +118,7 @@ function createImageCache() {
           o.width = i.offsetWidth;
           o.height = i.offsetHeight;
         }
-        if (o.width && o.height) {
+        if (o.width && o.height && pref.get("lowResPreview")) {
           o.thumbnail = createThumbnail(i, o, blob.size);
         } 
         resolve(o);
@@ -136,19 +136,14 @@ function createImageCache() {
 function createThumbnail(image, {width: imgW, height: imgH}, fileSize) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  const maxSize = pref.get("previewMaxHeight");
+  const maxHeight = pref.get("previewMaxHeight");
   let thumbW;
   let thumbH;
-  if (imgW <= maxSize && imgH <= maxSize) {
+  if (imgH <= maxHeight) {
     return null;
   }
-  if (imgW > imgH) {
-    thumbW = maxSize;
-    thumbH = Math.round(imgH * maxSize / imgW);
-  } else {
-    thumbH = maxSize;
-    thumbW = Math.round(imgW * maxSize / imgH);
-  }
+  thumbH = maxHeight;
+  thumbW = Math.round(imgW * (thumbH / imgH));
   canvas.width = thumbW;
   canvas.height = thumbH;
   ctx.drawImage(image, 0, 0, imgW, imgH, 0, 0, thumbW, thumbH);

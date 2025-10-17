@@ -13,10 +13,18 @@ export function observeRequest(url, tabId, callback) {
     browser.webRequest.onHeadersReceived.addListener( onHeadersReceived, requestFilter, ["blocking", "responseHeaders"]);
     browser.webRequest.onErrorOccurred.addListener(onError, requestFilter);
 
-    callback().catch(err => {
-      reject(err);
-      cleanup();
-    });
+    callback()
+      .then(() => {
+        // NOTE: in some cases onHeadersReceived may not be called 
+        // e.g., when the image is already loading, the connection is reused, and doesn't trigger webRequest
+        if (!streamFilter) {
+          return callback();
+        }
+      })
+      .catch(err => {
+        reject(err);
+        cleanup();
+      });
 
     function removeFragment(u) {
       const i = u.indexOf("#");
@@ -24,6 +32,7 @@ export function observeRequest(url, tabId, callback) {
     }
 
     function onHeadersReceived(details) {
+      // console.log(`fromCache: ${details.fromCache}, url: ${details.url}`);
       if (streamFilter) return;
       if (removeFragment(details.url) !== url) return;
       requestId = details.requestId;

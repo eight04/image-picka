@@ -288,6 +288,12 @@ const root = createUI({
         },
         {
           type: "checkbox",
+          key: "lowResPreview",
+          label: _("optionLowResPreviewLabel"),
+          help: _("optionLowResPreviewHelp")
+        },
+        {
+          type: "checkbox",
           key: "displayImageSizeUnderThumbnail",
           label: _("optionDisplayImageSizeUnderThumbnailLabel")
         },
