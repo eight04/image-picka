@@ -97,7 +97,6 @@ function createImageCache() {
   
   function detectDimension(blob) {
     return new Promise((resolve, reject) => {
-      // console.log(blob.size);
       const i = new Image;
       i.src = URL.createObjectURL(blob);
       i.onerror = () => {
