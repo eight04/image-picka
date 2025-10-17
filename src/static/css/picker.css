@@ -90,6 +90,12 @@
 }
 .image-checkbox-image-container {
 	position: relative;
+
+  /* default size for loading and error states */
+  .image-checkbox:is(.loading, .error) & {
+    width: 32px;
+    height: 32px;
+  }
 }
 .image-checkbox-cover {
 	position: absolute;

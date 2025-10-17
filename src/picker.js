@@ -383,6 +383,7 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
 	const imgCover = new Image;
 	imgCover.className = "image-checkbox-cover";
   imgCover.alt = "";
+  imgCover.src = "about:blank";
 	// don't drag
 	if (IS_CHROME) {
 		imgCover.draggable = false;
