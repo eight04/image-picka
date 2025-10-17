@@ -557,9 +557,9 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
   let data;
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
-    pref.get("useCache") && tryRequestPermission({batch: false})
-      .then(() => imageCache.fetchImage(url, tabId, frameId, referrer))
+    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, referrer)
       .catch(err => {
+        // TODO: if this generates a permission error, we should notify the user to grant permission using browser action
         notifyError(err);
         throw err;
       })
