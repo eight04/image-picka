@@ -243,6 +243,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.20.0 (Oct 17, 2025)
+
+  - Fix: make error image larger in batch download.
+  - Add: loading animation for each image in batch download.
+  - Add: option to generate low-resolution preview images in batch download.
+  - Add: use webRequest API to fetch images in Firefox.
+  - Locale: update fr, nl translation.
+
 * 0.19.0 (Nov 19, 2024)
 
   - Add: support wildcard in fetch delay.
