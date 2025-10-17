@@ -459,6 +459,9 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
       throw err;
     } finally {
       label.classList.remove("loading");
+      label.addEventListener("transitionend", () => {
+        label.classList.add("loaded");
+      }, {once: true});
     }
     
     async function doLoad() {

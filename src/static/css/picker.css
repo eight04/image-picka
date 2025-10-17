@@ -55,6 +55,10 @@
 .image-checkbox.loading::before {
   opacity: 1;
 }
+.image-checkbox.loaded::before {
+  display: none;
+  animation: none;
+}
 @keyframes loading-border {
   /* https://www.zhangxinxu.com/study/201808/border-solid-loading-animation.php */
   0%, 100% {
