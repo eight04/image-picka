@@ -1,5 +1,7 @@
 :root {
 	--main-border: hsl(197, 91%, 63%);
+  --loading-border: color-mix(in srgb, var(--main-border) 50%, var(--c-bg) 50%);
+  --loading-border-size: 0.4em;
 }
 
 /* container */
@@ -34,6 +36,39 @@
 .image-checkbox.error {
   background: red;
   border-color: red;
+}
+/* loading border */
+.image-checkbox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: var(--loading-border-size) solid var(--loading-border);
+  box-sizing: border-box;
+  pointer-events: none;
+  animation: loading-border 1s linear infinite;
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+.image-checkbox.loading::before {
+  opacity: 1;
+}
+@keyframes loading-border {
+  /* https://www.zhangxinxu.com/study/201808/border-solid-loading-animation.php */
+  0%, 100% {
+    clip-path: rect(0 100% var(--loading-border-size) 0);
+  }
+  25% {
+    clip-path: rect(0 100% 100% calc(100% - var(--loading-border-size)));
+  }
+  50% {
+    clip-path: rect(calc(100% - var(--loading-border-size)) 100% 100% 0);
+  }
+  75% {
+    clip-path: rect(0 var(--loading-border-size) 100% 0);
+  }
 }
 .image-checkbox input {
 	position: absolute;

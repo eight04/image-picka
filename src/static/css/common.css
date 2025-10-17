@@ -71,6 +71,10 @@ input, button, select, textarea {
 	background: #0a84ff;
 	color: white;
 }
+:root {
+  /* FIXME: this is only used to generate loading border in picker */
+  --c-bg: #ffffff;
+}
 
 /* add dark theme */
 @media (prefers-color-scheme: dark) {
@@ -83,8 +87,9 @@ input, button, select, textarea {
     --c-bg-l: #2b2a33;
   }
   body {
-    color: #e0e0e0;
-    background-color: #23222B;
+    /* FIXME: do we want to move these to :root? does Firefox still provide a default scheme */
+    color: var(--c-text);
+    background-color: var(--c-bg);
   }
   a {
     color: #64b5f6;
