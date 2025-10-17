@@ -37,7 +37,7 @@ initDragndrop({downloadImage});
 function injectImage({url, referrer}) {
   return new Promise((resolve, reject) => {
     const img = new Image;
-    img.src = `${url}#${Math.random().toFixed(4).slice(2)}`; // trigger webRequest
+    img.src = `${url}#${Date.now()}`; // trigger webRequest
     if (referrer === "") {
       img.referrerPolicy = "no-referrer";
     }

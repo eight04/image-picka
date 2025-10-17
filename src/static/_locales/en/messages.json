@@ -141,7 +141,7 @@
     "description": "Label of lowResPreview option"
   },
   "optionLowResPreviewHelp": {
-    "message": "This can reduce memory usage and improve loading speed. The original image would still be downloaded.",
+    "message": "This can reduce memory usage and improve loading speed. The original image will still be downloaded.",
     "description": "Help text of lowResPreview option"
   },
 	"optionDisplayImageSizeUnderThumbnailLabel": {

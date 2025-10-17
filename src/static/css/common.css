@@ -87,7 +87,7 @@ input, button, select, textarea {
     --c-bg-l: #2b2a33;
   }
   body {
-    /* FIXME: do we wnat to move these to :root? does Firefox still provide a default scheme */
+    /* FIXME: do we want to move these to :root? does Firefox still provide a default scheme */
     color: var(--c-text);
     background-color: var(--c-bg);
   }

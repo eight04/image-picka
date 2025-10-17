@@ -85,13 +85,14 @@ function createImageCache() {
   }
 
   async function fetchImageFromWebRequest(url, tabId, frameId, referrer) {
-    const data = await observeRequest(url, tabId, () => browser.tabs.sendMessage(tabId, {
+    const injectImage = () => browser.tabs.sendMessage(tabId, {
       method: "injectImage",
       url,
       referrer
     }, {
       frameId
-    }));
+    });
+    const data = await observeRequest({url, tabId, callback: injectImage});
     return data;
   }
   
