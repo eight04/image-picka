@@ -49,7 +49,15 @@ const root = createUI({
           key: "useCache",
           label: _("optionUseCacheLabel"),
           help: _("optionUseCacheHelp"),
-          learnMore: 'https://github.com/eight04/image-picka/issues/270'
+          learnMore: 'https://github.com/eight04/image-picka/issues/270',
+          children: [
+            {
+              type: "checkbox",
+              key: "useWebRequest",
+              label: _("optionUseWebRequestLabel"),
+              help: _("optionUseWebRequestHelp"),
+            }
+          ]
         },
         {
           type: "text",

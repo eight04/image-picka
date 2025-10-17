@@ -350,16 +350,20 @@ function pickEnv(tabId, frameId = 0) {
 		.then(env => ({tabId, env}));
 }
 
-function tryRequestPermission() {
-	if (pref.get("collectFromFrames")) {
-		return browser.permissions.request({permissions: ["webNavigation"]})
-			.then(success => {
-				if (!success) {
-					throw new Error("webNavigation permission is required for iframe information");
-				}
-			});
-	}
-	return Promise.resolve();
+function tryRequestPermission({batch = true} = {}) {
+  const permissions = {permissions: []};
+  if (batch && pref.get("collectFromFrames")) {
+    permissions.permissions.push("webNavigation");
+  }
+  if ((batch || pref.get("useCache")) && pref.get("useWebRequest")) {
+    permissions.permissions.push("webRequest", "webRequestBlocking");
+  }
+  return browser.permissions.request(permissions)
+    .then(success => {
+      if (!success) {
+        throw new Error("webNavigation permission is required for iframe information");
+      }
+    });
 }
 
 async function pickImagesFromHighlighted(tab) {
@@ -553,7 +557,8 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
   let data;
   [env, data] = await Promise.all([
     env || browser.tabs.sendMessage(tabId, {method: "getEnv"}),
-    pref.get("useCache") && imageCache.fetchImage(url, tabId, frameId, referrer)
+    pref.get("useCache") && tryRequestPermission({batch: false})
+      .then(() => imageCache.fetchImage(url, tabId, frameId, referrer))
       .catch(err => {
         notifyError(err);
         throw err;

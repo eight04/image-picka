@@ -6,6 +6,8 @@ import {fetchImage} from "./fetch-image.js";
 import {fetchXHR} from "./fetch.js";
 import {retry} from "./retry.js";
 import {fetchDelay} from "./fetch-delay.js";
+import {observeRequest} from "./request-observer.js";
+import {pref} from "./pref.js";
 
 export const imageCache = createImageCache();
 
@@ -20,6 +22,10 @@ function createImageCache() {
     if (IS_CHROME) {
       // fetch in content script no longer works in Chome 85+
       return await fetchImage(url, referrer);
+    }
+    if (pref.get("useWebRequest") && url.startsWith("http")) {
+      // NOTE: this won't work for data url, blob url, and file url
+      return await fetchImageFromWebRequest(url, tabId, frameId, referrer);
     }
     // support first party isolation in FF
     // https://github.com/eight04/image-picka/issues/129
@@ -75,6 +81,17 @@ function createImageCache() {
       })
         .catch(console.error);
     }
+    return data;
+  }
+
+  async function fetchImageFromWebRequest(url, tabId, frameId, referrer) {
+    const data = await observeRequest(url, tabId, () => browser.tabs.sendMessage(tabId, {
+      method: "injectImage",
+      url,
+      referrer
+    }, {
+      frameId
+    }));
     return data;
   }
   

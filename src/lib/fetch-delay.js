@@ -39,6 +39,7 @@ function matchGlob(pattern, string) {
   return rx.test(string);
 }
 
+// Delay cb execution according to the fetch delay rules.
 export async function fetchDelay(url, cb) {
   const origin = new URL(url).origin;
   const rule = rules.find(rule => matchGlob(rule.origin, origin));

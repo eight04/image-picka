@@ -46,6 +46,7 @@ const DEFAULT = {
   urlMap: "",
   useCache: true,
   useExpression: false,
+  useWebRequest: false,
   fetchDelay: "",
   variableMaxLength: 128,
   filePattern: "Image Picka/${pageTitle}/${name}${ext}",

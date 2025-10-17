@@ -27,10 +27,36 @@ browser.runtime.onMessage.addListener(message => {
       return URL.revokeObjectURL(message.url);
     case "viewSourceElement":
       return viewSourceElement(message.pickaId);
+    case "injectImage":
+      return injectImage(message);
   }
 });
 
 initDragndrop({downloadImage});
+
+function injectImage({url, referrer}) {
+  return new Promise((resolve, reject) => {
+    const img = new Image;
+    img.src = `${url}#${Date.now()}`; // trigger webRequest
+    if (referrer === "") {
+      img.referrerPolicy = "no-referrer";
+    }
+    img.style.maxWidth = "0";
+    img.style.maxHeight = "0";
+    img.style.position = "absolute";
+    img.style.left = "-9999px";
+    img.style.top = "-9999px";
+    document.body.appendChild(img);
+    img.onload = () => {
+      resolve();
+      img.remove();
+    }
+    img.onerror = () => {
+      reject(new Error(`Failed to load image: ${url}`));
+      img.remove();
+    }
+  });
+}
 
 function viewSourceElement(pickaId) {
   const el = document.querySelector(`[data-picka-id="${pickaId}"]`);

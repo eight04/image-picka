@@ -21,7 +21,9 @@
 		"<all_urls>"
 	],
 	"optional_permissions": [
-		"webNavigation"
+		"webNavigation",
+    "webRequest",
+    "webRequestBlocking"
 	],
 	"background": {
 		"scripts": []
