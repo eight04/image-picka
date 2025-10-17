@@ -472,7 +472,10 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
       });
       ctrl.data = data;
       imgCover.parentNode.insertBefore(createPlacehold(data.width, data.height), imgCover);
-      imgCover.dataset.src = url;
+      imgCover.dataset.src = data.thumbnail || data.url;
+      imgCover.oncontextmenu = () => {
+        imgCover.src = data.url;
+      }
       setupLazyLoad(imgCover);
       if (pref.get("displayImageSizeUnderThumbnail")) {
         const info = document.createElement("span");

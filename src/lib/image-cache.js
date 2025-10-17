@@ -97,6 +97,7 @@ function createImageCache() {
   
   function detectDimension(blob) {
     return new Promise((resolve, reject) => {
+      // console.log(blob.size);
       const i = new Image;
       i.src = URL.createObjectURL(blob);
       i.onerror = () => {
@@ -104,24 +105,24 @@ function createImageCache() {
         cleanup();
       };
       i.onload = () => {
+        const o = {
+          thumbnail: null,
+          width: 0,
+          height: 0
+        };
         if (i.naturalWidth) {
-          resolve({
-            width: i.naturalWidth,
-            height: i.naturalHeight
-          });
+          o.width = i.naturalWidth;
+          o.height = i.naturalHeight;
         } else if (i.offsetWidth) {
           // FIXME: default width for svg? Maybe we should remove this since
           // this affects the batch download filter
-          resolve({
-            width: i.offsetWidth,
-            height: i.offsetHeight
-          });
-        } else {
-          resolve({
-            width: 0,
-            height: 0
-          });
+          o.width = i.offsetWidth;
+          o.height = i.offsetHeight;
         }
+        if (o.width && o.height) {
+          o.thumbnail = createThumbnail(i, o, blob.size);
+        } 
+        resolve(o);
         cleanup();
       };
       document.body.append(i);
@@ -131,4 +132,30 @@ function createImageCache() {
       }
     });
   }
+}
+
+function createThumbnail(image, {width: imgW, height: imgH}, fileSize) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  const maxSize = pref.get("previewMaxHeight");
+  let thumbW;
+  let thumbH;
+  if (imgW <= maxSize && imgH <= maxSize) {
+    return;
+  }
+  if (imgW > imgH) {
+    thumbW = maxSize;
+    thumbH = Math.round(imgH * maxSize / imgW);
+  } else {
+    thumbH = maxSize;
+    thumbW = Math.round(imgW * maxSize / imgH);
+  }
+  canvas.width = thumbW;
+  canvas.height = thumbH;
+  ctx.drawImage(image, 0, 0, imgW, imgH, 0, 0, thumbW, thumbH);
+  const dataurl = canvas.toDataURL("image/jpeg", 0.5);
+  if (fileSize < dataurl.length) {
+    return null;
+  }
+  return dataurl;
 }
