@@ -1,7 +1,7 @@
 import {createPref, createWebextStorage} from "webext-pref";
 import browser from "webextension-polyfill";
 
-const IS_ANDROID = /Android/.test(navigator.userAgent);
+import {IS_ANDROID} from "./env.js";
 
 const DEFAULT = {
   browserAction: "PICK_FROM_CURRENT_TAB",
