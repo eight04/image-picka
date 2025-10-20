@@ -541,7 +541,6 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
 function createPlacehold(width, height) {
 	const placehold = document.createElement("div");
 	placehold.classList.add("image-checkbox-image");
-  /* NOTE: min() requires FF 75+ */
   placehold.style.maxWidth = `calc(var(--previewMaxHeight) * ${width} / ${height} * 1px)`;
   placehold.style.width = `${width}px`;
   placehold.style.paddingTop = `${(height / width) * 100}%`;
