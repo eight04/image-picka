@@ -368,6 +368,15 @@ const root = createUI({
           type: "textarea",
           key: "customCSS",
           label: _("optionCustomCSS")
+        },
+        {
+          type: "select",
+          key: "packer",
+          label: "packer",
+          options: {
+            none: "None",
+            tar: "TAR"
+          },
         }
       ]
     }

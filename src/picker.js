@@ -152,8 +152,9 @@ function init({tabs: originalTabs, env}) {
 		},
 		async save(e) {
       e.target.disabled = true;
+      e.target.classList.add("loading");
       try {
-        await browser.runtime.sendMessage({
+        const result = await browser.runtime.sendMessage({
           method: "batchDownload",
           tabs: tabs.map(t =>
             Object.assign({}, t, {
@@ -169,12 +170,28 @@ function init({tabs: originalTabs, env}) {
           env,
           batchId: BATCH_ID
         });
+        if (pref.get("packer") === "tar") {
+          const root = await navigator.storage.getDirectory();
+          const fileHandle = await root.getFileHandle(result.tarName);
+          const file = await fileHandle.getFile();
+          const url = URL.createObjectURL(file);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = result.downloadName || result.tarName;
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          await root.removeEntry(result.tarName);
+        }
         await browser.runtime.sendMessage({method: "closeTab"});
       } catch (err) {
         console.error(err);
         alert(err);
       } finally {
         e.target.disabled = false;
+        e.target.classList.remove("loading");
       }
 		},
 		copyUrl() {
