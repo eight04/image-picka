@@ -372,11 +372,12 @@ const root = createUI({
         {
           type: "select",
           key: "packer",
-          label: "packer",
+          label: _("optionPackerLabel"),
           options: {
-            none: "None",
-            tar: "TAR"
+            none: _("optionPackerNone"),
+            tar: _("optionPackerTar")
           },
+          help: _("optionPackerHelp")
         }
       ]
     }

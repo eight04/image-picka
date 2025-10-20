@@ -12,6 +12,7 @@ import {createTab} from "./lib/tab.js";
 import {createCustomCSS} from "./lib/custom-css.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandDate, expandEnv} from "./lib/expand-env.mjs";
+import { IS_ANDROID } from "./lib/env.js";
 
 createCustomCSS();
 
@@ -151,6 +152,13 @@ function init({tabs: originalTabs, env}) {
 			getImages().forEach(i => i.toggleCheck());
 		},
 		async save(e) {
+      // make it easier to close tab on Android
+      if (IS_ANDROID) {
+        history.pushState(null, "", location.href);
+        addEventListener("popstate", () => {
+          browser.runtime.sendMessage({method: "closeTab"});
+        }, {once: true});
+      }
       e.target.disabled = true;
       e.target.classList.add("loading");
       try {
@@ -183,9 +191,13 @@ function init({tabs: originalTabs, env}) {
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          await root.removeEntry(result.tarName);
+          // NOTE: can't remove file until download complete
+          // await root.removeEntry(result.tarName);
         }
-        await browser.runtime.sendMessage({method: "closeTab"});
+        if (!IS_ANDROID) {
+          // NOTE: closing the tab will close the download confirmation in Firefox Android
+          await browser.runtime.sendMessage({method: "closeTab"});
+        }
       } catch (err) {
         console.error(err);
         alert(err);
