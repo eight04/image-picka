@@ -14,6 +14,8 @@ import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandEnv, expandDate} from "./lib/expand-env.mjs";
 import {getTarPacker} from "./lib/tar-packer.js";
+import {IS_ANDROID} from "./lib/env.js";
+import {createPopup} from "./lib/popup.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -450,7 +452,7 @@ function notifyDownloadError(err) {
 	}
 }
 
-function openPicker(req, openerTab) {
+async function openPicker(req, openerTab) {
 	const hasImages = () => {
 		for (const tab of req.tabs) {
 			for (const frame of tab.frames) {
@@ -483,26 +485,27 @@ function openPicker(req, openerTab) {
 	
 	const batchId = INC++;
 	batches.set(batchId, req);
-  
-  const createTabOptions = {
-    url: `/picker.html?batchId=${batchId}`,
-    openerTabId: openerTab.id
-  };
 
-  if (IS_CHROME) {
-    // Chrome always places tab at the end
-    // https://github.com/eight04/image-picka/issues/289
-    createTabOptions.index = openerTab.index + 1;
+  await openInTab();
+  batches.delete(batchId);
+  if (req.cachedImages) {
+    await imageCache.deleteMany(req.cachedImages.toList());
   }
-	
-	createTab(createTabOptions)
-		.then(() => {
-			batches.delete(batchId);
-      if (req.cachedImages) {
-        return imageCache.deleteMany(req.cachedImages.toList());
-      }
-		})
-		.catch(console.error);
+
+  async function openInTab() {
+    const createTabOptions = {
+      url: `/picker.html?batchId=${batchId}`,
+      openerTabId: openerTab.id
+    };
+
+    if (IS_CHROME) {
+      // Chrome always places tab at the end
+      // https://github.com/eight04/image-picka/issues/289
+      createTabOptions.index = openerTab.index + 1;
+    }
+    
+    await createTab(createTabOptions);
+  }
 }
 
 function getRawPacker() {

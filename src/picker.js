@@ -58,6 +58,20 @@ browser.runtime.onMessage.addListener(req => {
   }
 });
 
+initPopup();
+
+function initPopup() {
+  const u = new URL(location.href);
+  const popupId = u.searchParams.get("popup");
+  if (!popupId) {
+    return;
+  }
+  // FIXME: do we have to keep the port variable?
+  browser.runtime.connect({
+    name: `popup-${popupId}`
+  });
+}
+
 async function onViewSourceElementClicked(req) {
   let element;
   if (req.elementId) {
@@ -154,12 +168,12 @@ function init({tabs: originalTabs, env}) {
 		},
 		async save(e) {
       // make it easier to close tab on Android
-      if (IS_ANDROID) {
-        history.pushState(null, "", location.href);
-        addEventListener("popstate", () => {
-          browser.runtime.sendMessage({method: "closeTab"});
-        }, {once: true});
-      }
+      // if (IS_ANDROID) {
+      //   history.pushState(null, "", location.href);
+      //   addEventListener("popstate", () => {
+      //     browser.runtime.sendMessage({method: "closeTab"});
+      //   }, {once: true});
+      // }
       e.target.disabled = true;
       e.target.classList.add("loading");
       try {
