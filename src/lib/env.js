@@ -3,6 +3,8 @@ import browser from "webextension-polyfill";
 
 export const IS_CHROME = typeof chrome !== "undefined" && Boolean(chrome.app);
 
+export const IS_ANDROID = /Android/.test(navigator.userAgent);
+
 export function getBrowserInfo() {
   if (browser.runtime.getBrowserInfo) {
     return browser.runtime.getBrowserInfo();

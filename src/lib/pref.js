@@ -1,6 +1,8 @@
 import {createPref, createWebextStorage} from "webext-pref";
 import browser from "webextension-polyfill";
 
+import {IS_ANDROID} from "./env.js";
+
 const DEFAULT = {
   browserAction: "PICK_FROM_CURRENT_TAB",
   blacklist: "",
@@ -34,6 +36,7 @@ const DEFAULT = {
   isolateTabs: false,
   filenameConflictAction: "uniquify",
   lowResPreview: true,
+  packer: IS_ANDROID ? "tar" : "none",
   saveAs: false,
   selectByDefault: true,
   singleClick: false,

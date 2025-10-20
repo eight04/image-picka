@@ -12,6 +12,8 @@ import {createTab} from "./lib/tab.js";
 import {createCustomCSS} from "./lib/custom-css.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandDate, expandEnv} from "./lib/expand-env.mjs";
+import { IS_ANDROID } from "./lib/env.js";
+import {timeout} from "./lib/timeout.js";
 
 createCustomCSS();
 
@@ -151,9 +153,17 @@ function init({tabs: originalTabs, env}) {
 			getImages().forEach(i => i.toggleCheck());
 		},
 		async save(e) {
+      // make it easier to close tab on Android
+      if (IS_ANDROID) {
+        history.pushState(null, "", location.href);
+        addEventListener("popstate", () => {
+          browser.runtime.sendMessage({method: "closeTab"});
+        }, {once: true});
+      }
       e.target.disabled = true;
+      e.target.classList.add("loading");
       try {
-        await browser.runtime.sendMessage({
+        const result = await browser.runtime.sendMessage({
           method: "batchDownload",
           tabs: tabs.map(t =>
             Object.assign({}, t, {
@@ -169,12 +179,34 @@ function init({tabs: originalTabs, env}) {
           env,
           batchId: BATCH_ID
         });
-        await browser.runtime.sendMessage({method: "closeTab"});
+        if (pref.get("packer") === "tar") {
+          const root = await navigator.storage.getDirectory();
+          const fileHandle = await root.getFileHandle(result.tarName);
+          const file = await fileHandle.getFile();
+          const url = URL.createObjectURL(file);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = result.downloadName || result.tarName;
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          // copilot suggested adding a delay here or download may abort in some browsers becuase of URL.revokeObjectURL being called too early
+          await timeout(1000);
+          URL.revokeObjectURL(url);
+          // NOTE: can't remove file until download complete
+          // await root.removeEntry(result.tarName);
+        }
+        if (!IS_ANDROID) {
+          // NOTE: closing the tab will close the download confirmation in Firefox Android
+          await browser.runtime.sendMessage({method: "closeTab"});
+        }
       } catch (err) {
         console.error(err);
         alert(err);
       } finally {
         e.target.disabled = false;
+        e.target.classList.remove("loading");
       }
 		},
 		copyUrl() {

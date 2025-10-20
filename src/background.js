@@ -13,6 +13,7 @@ import {IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandEnv, expandDate} from "./lib/expand-env.mjs";
+import {getTarPacker} from "./lib/tar-packer.js";
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -201,6 +202,19 @@ browser.commands.onCommand.addListener(name => {
 });
 
 imageCache.clearAll();
+cleanupOPFS().catch(console.error);
+
+async function cleanupOPFS() {
+  const root = await navigator.storage.getDirectory();
+  for await (const entry of root.values()) {
+    if (entry.kind === "directory") {
+      continue;
+    }
+    if (entry.name.startsWith("temp-")) {
+      await root.removeEntry(entry.name);
+    }
+  }
+}
 
 function createDynamicIcon({file, enabled, onupdate}) {
 	const SIZES = [16, 32, 64];
@@ -491,7 +505,28 @@ function openPicker(req, openerTab) {
 		.catch(console.error);
 }
 
+function getRawPacker() {
+  return {
+    prepare: async () => {},
+    pack: async ({url, blob, filename, index}) => {
+      await download({
+        url,
+        blob,
+        filename,
+        saveAs: false,
+        conflictAction: pref.get("filenameConflictAction"),
+        erase: pref.get("clearDownloadHistory") === "all" ? true :
+          pref.get("clearDownloadHistory") === "keepOne" ? index > 0 : false
+      }, true);
+    },
+    save: async () => {}
+  };
+}
+
 async function batchDownload({tabs, env, batchId}) {
+  const packer = pref.get("packer") === "tar" ? getTarPacker() : getRawPacker();
+  await packer.prepare();
+
   const {cachedImages} = batches.get(batchId);
   expandDate(env);
 	const renderFilename = compileStringTemplate(pref.get("filePatternBatch"));
@@ -511,20 +546,11 @@ async function batchDownload({tabs, env, batchId}) {
         alt
       });
       const fullFileName = renderFilename(env);
-      const isFirstImage = i === 0;
       const t = batchDownloadLock.read(async () => {
         let blob = await imageCache.get(url);
         let err;
         try {
-          await download({
-            url,
-            blob,
-            filename: fullFileName,
-            saveAs: false,
-            conflictAction: pref.get("filenameConflictAction"),
-            erase: pref.get("clearDownloadHistory") === "all" ? true :
-              pref.get("clearDownloadHistory") === "keepOne" ? !isFirstImage : false
-          }, true);
+          await packer.pack({index: i, url, blob, filename: fullFileName});
         } catch (_err) {
           err = _err;
         }
@@ -536,14 +562,25 @@ async function batchDownload({tabs, env, batchId}) {
           throw err;
         }
       });
-			pending.push(t);
+      if (packer.singleThread) {
+        await t;
+      } else {
+        pending.push(t);
+      }
 			i++;
 		}
 	}
-	Promise.all(pending).catch(notifyDownloadError);
-  if (pref.get("closeTabsAfterSave")) {
-    tabs.forEach(t => browser.tabs.remove(t.tabId));
+	const response = Promise.all(pending)
+    .then(() => packer.save())
+    .catch(notifyDownloadError);
+  let result;
+  if (packer.waitResponse) {
+    result = await response;
   }
+  if (pref.get("closeTabsAfterSave")) {
+    browser.tabs.remove(tabs.map(t => t.tabId));
+  }
+  return result;
 }
 
 function closeTab({tabId, opener}) {

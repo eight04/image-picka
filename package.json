@@ -61,6 +61,7 @@
   "private": true,
   "dependencies": {
     "image-extensions": "^1.1.0",
+    "modern-tar": "^0.5.4",
     "srcset": "^5.0.2",
     "version-compare": "^3.12.0"
   }

@@ -104,6 +104,20 @@
 		"message": "Delay between each image fetch",
 		"description": "Label of fetchDelay option"
 	},
+  "optionPackerLabel": {
+    "message": "Pack images into one file for batch download",
+    "description": "Label of packer option"
+  },
+  "optionPackerHelp": {
+    "message": "Firefox Android doesn't support downloads API so a packer is required. This may take a while for large number of images.",
+    "description": "Help text of the packer option"
+  },
+  "optionPackerNone": {
+    "message": "None"
+  },
+  "optionPackerTar": {
+    "message": "TAR archive"
+  },
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "The maximum value of the thumbnail size slider",
 		"description": "Label of previewMaxHeightUpperBound option"
