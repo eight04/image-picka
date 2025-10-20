@@ -83,22 +83,22 @@
 .image-checkbox input:focus + img {
 	outline: 2px dotted rgba(0, 0, 0, 0.4);
 }
-.image-checkbox-image {
-	display: block;
-  max-width: 100%;
-	/* max-height: calc(var(--previewMaxHeight, 200) * 1px); */
-	margin: 0 auto;
-	position: relative;
-  overflow: hidden;
-}
 .image-checkbox-image-container {
 	position: relative;
+  max-width: 100%;
+  overflow: hidden;
 
   /* default size for loading and error states */
   .image-checkbox:is(.loading, .error) & {
     width: 32px;
     height: 32px;
   }
+}
+.image-checkbox-image {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
 .image-checkbox-cover {
 	position: absolute;
