@@ -86,7 +86,7 @@
 .image-checkbox-image {
 	display: block;
   max-width: 100%;
-	max-height: calc(var(--previewMaxHeight, 200) * 1px);
+	/* max-height: calc(var(--previewMaxHeight, 200) * 1px); */
 	margin: 0 auto;
 	position: relative;
   overflow: hidden;
