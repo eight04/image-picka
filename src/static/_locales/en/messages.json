@@ -110,7 +110,7 @@
   },
   "optionPackerHelp": {
     "message": "Firefox Android doesn't support downloads API so a packer is required. This may take a while for large number of images.",
-    "description": "Help text of packer option"
+    "description": "Help text of the packer option"
   },
   "optionPackerNone": {
     "message": "None"

@@ -1,7 +1,7 @@
 import {createTarPacker} from "modern-tar";
 
 export function getTarPacker() {
-  const tarName = `tar-packer-${Date.now()}-${Math.random().toString(16).slice(2)}.tar`;
+  const tarName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.tar`;
   const {readable, controller} = createTarPacker();
   let pendingPipe = null;
   return {

@@ -210,7 +210,7 @@ async function cleanupOPFS() {
     if (entry.kind === "directory") {
       continue;
     }
-    if (entry.name.startsWith("image-picka-")) {
+    if (entry.name.startsWith("temp-")) {
       await root.removeEntry(entry.name);
     }
   }

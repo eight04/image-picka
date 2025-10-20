@@ -13,6 +13,7 @@ import {createCustomCSS} from "./lib/custom-css.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandDate, expandEnv} from "./lib/expand-env.mjs";
 import { IS_ANDROID } from "./lib/env.js";
+import {timeout} from "./lib/timeout.js";
 
 createCustomCSS();
 
@@ -190,6 +191,8 @@ function init({tabs: originalTabs, env}) {
           document.body.appendChild(a);
           a.click();
           a.remove();
+          // copilot suggested adding a delay here or download may abort in some browsers becuase of URL.revokeObjectURL being called too early
+          await timeout(1000);
           URL.revokeObjectURL(url);
           // NOTE: can't remove file until download complete
           // await root.removeEntry(result.tarName);

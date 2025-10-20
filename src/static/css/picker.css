@@ -241,7 +241,7 @@
 button.loading {
   background-image: repeating-linear-gradient(-45deg, transparent, rgb(from var(--c-text) r g b / 0.2), transparent 25%);
   background-size: 200% 200%;
-  animation: loading-button 1s linear infinite;
+  animation: loading-button 3s linear infinite;
 }
 
 @keyframes loading-button {
