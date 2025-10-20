@@ -243,6 +243,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.21.0 (Oct 20, 2025)
+
+  - Add: option to pack images into a tar file in batch download. *Now the extension finally supports Android again!*
+
 * 0.20.0 (Oct 17, 2025)
 
   - Fix: make error image larger in batch download.
