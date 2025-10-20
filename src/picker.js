@@ -539,10 +539,10 @@ function createImageCheckbox({url, frameId, tabId, referrer, alt, pickaId}) {
 }
 
 function createPlacehold(width, height) {
-	const placehold = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	const placehold = document.createElement("div");
 	placehold.classList.add("image-checkbox-image");
-  placehold.setAttribute("height", height);
-  placehold.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  placehold.style.width = `min(${width}px, calc(var(--previewMaxHeight) * ${width} / ${height} * 1px))`;
+  placehold.style.paddingTop = `${(height / width) * 100}%`;
   return placehold;
 }
 

@@ -26,6 +26,7 @@
 	background: transparent;
 	-moz-user-select: none;
 	-webkit-user-select: none;
+  min-width: 0;
 }
 .image-checkbox.checked {
 	background: var(--main-border);
@@ -84,9 +85,11 @@
 }
 .image-checkbox-image {
 	display: block;
+  max-width: 100%;
 	max-height: calc(var(--previewMaxHeight, 200) * 1px);
 	margin: 0 auto;
 	position: relative;
+  overflow: hidden;
 }
 .image-checkbox-image-container {
 	position: relative;
