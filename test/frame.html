@@ -1,6 +1,7 @@
 <img src="test.png" alt="some-alt">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMTczbp9jAAABpElEQVRIS+2SoZLCMBCGEQhkBQKBqKhAIBA8AAKBQCAqkAgkAonjMRAIJAJRUYnoAyAQFRUVCAQCgUAgELlv2FyHyzGX683h+otO9u8m32Y3JfVmFQCrCoBVBcAqE5CmaRRFOsijy+Wy2Wx08CQTMJ/PO52ODvKIskqlF/34YpE0GAwajcZqtQqCQExKIwT8XOD9fl+v15jL5fJ6vcZxPJvNAJCJ+KvzDMBisWi1WrVabTQasQHncDi4ruv7/mQycRxnOBxKJk673QZAQZCoptfrAWAjoiZJQ5YWcdB4PJb1brfjCL6sy+WyMapftQgZAKqmdrk4qlQqfPGp1/M8mpZ1448AuTVmpiRJ8Ok7a5oJZr/f4+QA0FwdKMURjFEH3wSm2+32+33WAsCRX5lMAHOmv6fTSVKn0ymPilGzphvb7fZ2u/E3DMNHumLsMnluBgDfYJgANvNsSG02m4S8B+ZMyFWYB2+M/Zj1eh2nWq3iCB7JQ6K+n14RolL2UKmOH63AOZ/POn4Ih2p08Knj8fh8OnoB+F8VAKsKgFUFwKo3A5T6AC7sFmeUSgp3AAAAAElFTkSuQmCC" class="dataurl">
 <iframe src="frame2.html"></iframe>
+<img src="test3.svg" alt="svg-image">
 <script>
 const src = document.querySelector(".dataurl").src;
 fetch(src)
@@ -10,4 +11,17 @@ fetch(src)
     img.src = URL.createObjectURL(b);
     document.body.append(img);
   });
+
+{
+  const src = document.querySelector("[alt='svg-image']").src;
+  fetch(src)
+    .then(r => r.blob())
+    .then(b => {
+      console.log(b)
+      const img = new Image;
+      img.src = URL.createObjectURL(b);
+      document.body.append(img);
+      img.onerror = console.error;
+    });
+}
 </script>
