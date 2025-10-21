@@ -17,7 +17,6 @@ fetch(src)
   fetch(src)
     .then(r => r.blob())
     .then(b => {
-      console.log(b)
       const img = new Image;
       img.src = URL.createObjectURL(b);
       document.body.append(img);
