@@ -32,10 +32,15 @@ export function fetchImage(url, referrer) {
 }
 
 export function createImage(url, blob, contentType, contentDisposition) {
+  const mime = getMime(contentType);
+  if (mime && !blob.type) {
+    // create a new blob with correct mime type
+    blob = new Blob([blob], {type: mime});
+  }
   return {
     url,
     blob,
-    mime: getMime(contentType),
+    mime,
     filename: getFilename(contentDisposition),
     size: blob.size
   };
