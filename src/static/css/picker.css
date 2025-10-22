@@ -239,11 +239,34 @@
 
 /* loading button */
 button.loading {
-  background-image: repeating-linear-gradient(-45deg, transparent, rgb(from var(--c-text) r g b / 0.2), transparent 25%);
-  background-size: 200% 200%;
-  animation: loading-button 3s linear infinite;
+  position: relative;
+  padding-left: 1.8em;
+}
+button.loading::before {
+  --loading-color: currentColor;
+  --loading-margin: 0.5em;
+  content: "";
+  display: block;
+  position: absolute;
+  top: var(--loading-margin);
+  left: var(--loading-margin);
+  bottom: var(--loading-margin);
+  aspect-ratio: 1 / 1; /* stylelint-disable-line */
+  border-radius: 50%;
+  background-image: conic-gradient(var(--loading-color), transparent); /* stylelint-disable-line */
+  mask-image: radial-gradient(
+    closest-side, 
+    transparent 70%,
+    black 70%
+  );
+  animation: rotate 3s linear infinite;
 }
 
+@keyframes rotate {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
 @keyframes loading-button {
   0% {
     background-position: 0% 0%;

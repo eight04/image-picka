@@ -25,6 +25,9 @@ input, button, select, textarea {
 	font-family: inherit;
 	font-size: 0.9em;
 }
+:disabled {
+  opacity: 0.5;
+}
 
 .history-container {
 	position: relative;
@@ -118,10 +121,10 @@ input, button, select, textarea {
     color: #e0e0e0;
     border: 1px solid var(--c-text-d);
   }
-  button:hover {
+  button:not(:disabled):hover {
     background-color: #444;
   }
-  button:active {
+  button:not(:disabled):active {
     background-color: #666;
   }
   .history-list {
