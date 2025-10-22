@@ -77,7 +77,7 @@ input, button, select, textarea {
 }
 
 /* add dark theme */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) { /* stylelint-disable-line */
   :root {
     --c-text: #e0e0e0;
     --c-text-d: #a0a0a0;

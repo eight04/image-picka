@@ -1,6 +1,6 @@
 :root {
 	--main-border: hsl(197, 91%, 63%);
-  --loading-border: color-mix(in srgb, var(--main-border) 50%, var(--c-bg) 50%);
+  --loading-border: color-mix(in srgb, var(--main-border) 50%, var(--c-bg) 50%); /* stylelint-disable-line */
   --loading-border-size: 0.4em;
 }
 
@@ -80,16 +80,13 @@
 	height: 100%;
 	left: -99999px;
 }
-.image-checkbox input:focus + img {
-	outline: 2px dotted rgba(0, 0, 0, 0.4);
-}
 .image-checkbox-image-container {
 	position: relative;
   max-width: 100%;
   overflow: hidden;
 
   /* default size for loading and error states */
-  .image-checkbox:is(.loading, .error) & {
+  .image-checkbox:is(.loading, .error) & { /* stylelint-disable-line */
     width: 32px;
     height: 32px;
   }
@@ -257,7 +254,7 @@ button.loading {
 }
 
 /* dark mode */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) { /* stylelint-disable-line */
   .toolbar {
     background: var(--c-bg);
     border-color: var(--c-text-d2);
