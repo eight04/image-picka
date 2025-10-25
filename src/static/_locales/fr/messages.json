@@ -104,6 +104,20 @@
 		"message": "Délai entre chaque téléchargement :",
 		"description": "Label of fetchDelay option"
 	},
+  "optionPackerLabel": {
+    "message": "Regrouper les images dans un seul fichier pour un téléchargement en lot",
+    "description": "Label of packer option"
+  },
+  "optionPackerHelp": {
+    "message": "Firefox Android ne prend pas en charge l’API de téléchargement, un encapsuleur est donc nécessaire. Cela peut prendre un certain temps pour un grand nombre d’images.",
+    "description": "Help text of the packer option"
+  },
+  "optionPackerNone": {
+    "message": "Aucun"
+  },
+  "optionPackerTar": {
+    "message": "Archive TAR"
+  },
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "Taille maximale des vignettes :",
 		"description": "Label of previewMaxHeightUpperBound option"
@@ -116,6 +130,14 @@
 		"message": "L’extension recherche l’image dans le cache et l’envoie au gestionnaire de téléchargement. Si elle n’y est pas, le téléchargement s’en trouve sensiblement retardé.",
 		"description": "Help text of useCache option"
 	},
+  "optionUseWebRequestLabel": {
+    "message": "Utiliser l’API webRequest pour collecter les images",
+    "description": "Label of useWebRequest option"
+  },
+  "optionUseWebRequestHelp": {
+    "message": "C’est la seule façon d’accéder aux images mises en cache dans Firefox 141+. Cela n’a aucun effet dans Chrome.",
+    "description": "Help text of useWebRequest option"
+  },
 	"optionUseExpressionLabel": {
 		"message": "Utiliser une expression simple dans le motif du nom de fichier",
 		"description": "Label of useExpression option"
@@ -128,6 +150,14 @@
 		"message": "Extension par défaut :",
 		"description": "Label of defaultExt"
 	},
+  "optionLowResPreviewLabel": {
+    "message": "Générer une image basse résolution pour l’aperçu",
+    "description": "Label of lowResPreview option"
+  },
+  "optionLowResPreviewHelp": {
+    "message": "Cela permet de réduire l’utilisation de la mémoire et d’améliorer la vitesse de chargement. L’image originale sera tout de même téléchargée.",
+    "description": "Help text of lowResPreview option"
+  },
 	"optionDisplayImageSizeUnderThumbnailLabel": {
 		"message": "Afficher les dimensions de l’image sous la vignette",
 		"description": "Label of displayImageSizeUnderThumbnail option"
