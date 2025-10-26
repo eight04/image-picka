@@ -243,6 +243,14 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.22.0 (Oct 26, 2025)
+
+  - Change: don't use webRequest API by default.
+  - Change: use a better loading animation on buttons in batch download.
+  - Fix: unable to download SVG images.
+  - Fix: data collection permission warning.
+  - Locale: update fr translation.
+
 * 0.21.0 (Oct 20, 2025)
 
   - Add: option to pack images into a tar file in batch download. *Now the extension finally supports Android again!*
