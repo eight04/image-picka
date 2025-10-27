@@ -431,11 +431,24 @@ function cap(s) {
   return s[0].toUpperCase() + s.slice(1);
 }
 
-document.querySelector("#pref-useWebRequest").addEventListener("change", e => {
+document.querySelector("#pref-useWebRequest").addEventListener("change", async e => {
   const checked = e.target.checked;
   if (checked) {
-    browser.permissions.request({
-      permissions: ["webRequest", "webRequestBlocking"]
-    }).catch(console.error);
+    let success = false;
+    try {
+      success = await browser.permissions.request({
+        permissions: ["webRequest", "webRequestBlocking"]
+      });
+    } catch (err) {
+      // I wonder when this happens, this always success silently in my tests
+      browser.runtime.sendMessage({
+        method: "notifyError",
+        error: err.message
+      });
+    } finally {
+      if (!success) {
+        await pref.set("useWebRequest", false);
+      }
+    }
   }
 });
