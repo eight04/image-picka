@@ -430,3 +430,13 @@ for (const input of document.querySelectorAll(".has-history input")) {
 function cap(s) {
   return s[0].toUpperCase() + s.slice(1);
 }
+
+document.querySelector("#pref-useWebRequest").addEventListener("change", e => {
+  const checked = e.target.checked;
+  if (checked) {
+    browser.permissions.request({
+      permissions: ["webRequest", "webRequestBlocking"],
+      origins: ["<all_urls>"]
+    }).catch(console.error);
+  }
+});

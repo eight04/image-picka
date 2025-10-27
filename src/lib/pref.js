@@ -50,6 +50,7 @@ const DEFAULT = {
   urlMap: "",
   useCache: true,
   useExpression: false,
+  // NOTE: After enabling this option, users have to grant the permission manually. Although permission.request() succeeds silently, it must be triggered in options page/browser action.
   useWebRequest: false,
   fetchDelay: "",
   variableMaxLength: 128,
