@@ -435,8 +435,7 @@ document.querySelector("#pref-useWebRequest").addEventListener("change", e => {
   const checked = e.target.checked;
   if (checked) {
     browser.permissions.request({
-      permissions: ["webRequest", "webRequestBlocking"],
-      origins: ["<all_urls>"]
+      permissions: ["webRequest", "webRequestBlocking"]
     }).catch(console.error);
   }
 });
