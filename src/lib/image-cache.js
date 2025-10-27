@@ -85,6 +85,9 @@ function createImageCache() {
   }
 
   async function fetchImageFromWebRequest(url, tabId, frameId, referrer) {
+    if (browser.webRequest === undefined) {
+      throw new Error("webRequest API is not available. Try disable and re-enable the 'use webRequest API' setting in the options page.");
+    }
     const injectImage = () => browser.tabs.sendMessage(tabId, {
       method: "injectImage",
       url,
