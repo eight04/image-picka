@@ -243,6 +243,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.22.1 (Oct 27, 2025)
+
+  - Fix: grant permission error when using webRequest API.
+  - Fix: improve error message when permission is denied.
+
 * 0.22.0 (Oct 26, 2025)
 
   - Change: don't use webRequest API by default.
