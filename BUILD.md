@@ -6,7 +6,7 @@ Preparation
 
 1. Install [Node.js](https://nodejs.org/en/). Make sure the `npm` binary is added to the `PATH` environment variable.
 
-1. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers similar to this:
+2. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers similar to this:
     <!-- $inline.start("cmd:node --version && npm --version|markdown:codeblock|indent") -->
     ```
     v24.4.1
