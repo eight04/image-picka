@@ -6,11 +6,14 @@ Preparation
 
 1. Install [Node.js](https://nodejs.org/en/). Make sure the `npm` binary is added to the `PATH` environment variable.
 
-2. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers like this:
+1. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers similar to this:
+    <!-- $inline.start("cmd:node --version && npm --version|markdown:codeblock|indent") -->
     ```
-    v18.7.0
-    8.15.0
+    v24.4.1
+    11.6.2
+    
     ```
+    <!-- $inline.end -->
     
 3. Go to the project root, run `npm install`.
 
@@ -26,10 +29,17 @@ Extension will be ready under the `build` directory after the task completes.
 Testing
 --------
 
-Currently, there are two types of tests in this project (`eslint` and `web-ext lint`). Execute them all with the following command:
+Execute the following command:
 ```
 npm test
 ```
+
+The command executes four tasks:
+
+1. `eslint` to check js source code.
+2. `stylelint` to check css source code.
+3. build the extension.
+4. `web-ext lint` to check built extension.
 
 Update translation
 ------------------
