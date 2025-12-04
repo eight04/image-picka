@@ -1,5 +1,6 @@
 import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
+import {parseBackgroundImage} from "./parse-background-image.js";
 
 let SRC_PROP = [];
 let PICKA_ID = 1;
@@ -9,6 +10,13 @@ pref.on("change", change => {
     update();
   }
 });
+
+const SRC_EXTRACTORS = [
+  getSrcFromPicture,
+  getSrcFromLink,
+  getSrcFromBackground,
+  getSrc,
+];
   
 function update() {
   SRC_PROP = pref.get("srcAlternative")
@@ -54,12 +62,30 @@ export function getSrc(img) {
 }
 
 export function getSrcFromElement(el) {
-  const picture = el.closest("picture");
-  if (picture) {
-    return getSrcFromPicture(picture);
+  for (const extractor of SRC_EXTRACTORS) {
+    const src = extractor(el);
+    if (src) {
+      return src;
+    }
   }
-  return el.localName === "a" ? getSrcFromLink(el) :
-    getSrc(el);
+}
+
+export function* getSrcFromBackground(el) {
+  if (!pref.get("detectBackground")) {
+    return;
+  }
+  const style = getComputedStyle(el);
+  const bgImage = style.backgroundImage;
+  if (!bgImage || bgImage === "none") {
+    return;
+  }
+  for (const url of parseBackgroundImage(bgImage)) {
+    if (isRelativeUrl(url)) {
+      yield toAbsoluateUrl(url);
+    } else {
+      yield url;
+    }
+  }
 }
 
 export function isImage(node) {
@@ -68,7 +94,13 @@ export function isImage(node) {
 }
 
 export function *getAllImages() {
-  for (const el of document.querySelectorAll('img, input[type="image"], a, picture')) {
+  let selector;
+  if (pref.get("collectFromBackground")) {
+    selector = "*";
+  } else {
+    selector = "img, input[type=\"image\"], a, picture";
+  }
+  for (const el of document.querySelectorAll(selector)) {
     const src = getSrcFromElement(el);
     if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
       continue;
@@ -86,14 +118,19 @@ export function *getAllImages() {
 }
 
 function getSrcFromLink(el) {
+  if (!pref.get("detectLink")) {
+    return;
+  }
+  el = el.closest("a");
+  if (!el || !el.href) return;
   const url = el.href;
   //https://github.com/eight04/linkify-plus-plus-core/blob/3d1e4dc1ced4cfc85a7bd96eb5be4fbdcc47bf71/lib/linkifier.js#L225
-  return pref.get("detectLink") &&
-    /^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url) &&
-    url;
+  return /^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url) && url;
 }
 
 function getSrcFromPicture(el) {
+  el = el.closest("picture");
+  if (!el) return;
   const allSources = el.querySelectorAll("source");
   let source;
   for (const s of allSources) {
