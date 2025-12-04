@@ -25,7 +25,15 @@ function createImageCache() {
     }
     if (pref.get("useWebRequest") && url.startsWith("http")) {
       // NOTE: this won't work for data url, blob url, and file url
-      return await fetchImageFromWebRequest(url, tabId, frameId, referrer);
+      try {
+        return await fetchImageFromWebRequest(url, tabId, frameId, referrer);
+      } catch (err) {
+        if (/failed to observe/i.test(err.message)) {
+          console.warn(`fetchImageFromWebRequest failed for ${url}, fallback to fetchImageFromTab`);
+        } else {
+          throw err;
+        }
+      }
     }
     // support first party isolation in FF
     // https://github.com/eight04/image-picka/issues/129
