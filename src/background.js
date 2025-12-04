@@ -9,7 +9,7 @@ import {fetchImage} from "./lib/fetch-image.js";
 import {download} from "./lib/downloader.js";
 import {imageCache} from "./lib/image-cache.js";
 import {createCounter} from "./lib/counter.js";
-import {IS_CHROME} from "./lib/env.js";
+import {IS_ANDROID, IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandEnv, expandDate} from "./lib/expand-env.mjs";
@@ -364,7 +364,7 @@ function pickEnv(tabId, frameId = 0) {
 		.then(env => ({tabId, env}));
 }
 
-function tryRequestPermission({batch = true} = {}) {
+async function tryRequestPermission({batch = true} = {}) {
   const permissions = {permissions: []};
   if (batch && pref.get("collectFromFrames")) {
     permissions.permissions.push("webNavigation");
@@ -372,12 +372,20 @@ function tryRequestPermission({batch = true} = {}) {
   if ((batch || pref.get("useCache")) && pref.get("useWebRequest")) {
     permissions.permissions.push("webRequest", "webRequestBlocking");
   }
-  return browser.permissions.request(permissions)
-    .then(success => {
-      if (!success) {
-        throw new Error("webNavigation permission is required for iframe information");
-      }
-    });
+  let success;
+  try {
+    success = await browser.permissions.request(permissions);
+  } catch (err) {
+    // FIXME: cant grant permission from menu in FF68 android
+    if (/user input/.test(err.message)) {
+      console.warn(err);
+      return;
+    }
+    throw err;
+  }
+  if (!success) {
+    throw new Error("webNavigation permission is required for iframe information");
+  }
 }
 
 async function pickImagesFromHighlighted(tab) {
@@ -509,6 +517,12 @@ function getRawPacker() {
   return {
     prepare: async () => {},
     pack: async ({url, blob, filename, index}) => {
+      // can't use '/' in filename on android firefox 68
+      if (IS_ANDROID) {
+        // filename = filename.replace(/\/+/g, "_").replace(/^_+|_+$/g, "");
+        filename = filename.replace(/[[\]&=]/g, "_");
+      }
+      console.log(filename);
       await download({
         url,
         blob,
@@ -523,8 +537,19 @@ function getRawPacker() {
   };
 }
 
+function getPacker() {
+  if (pref.get("packer") === "tar") {
+    try {
+      return getTarPacker();
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  return getRawPacker();
+}
+
 async function batchDownload({tabs, env, batchId}) {
-  const packer = pref.get("packer") === "tar" ? getTarPacker() : getRawPacker();
+  const packer = getPacker();
   await packer.prepare();
 
   const {cachedImages} = batches.get(batchId);

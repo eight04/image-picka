@@ -1,6 +1,9 @@
 import {createTarPacker} from "modern-tar";
 
 export function getTarPacker() {
+  if (typeof navigator.storage?.getDirectory !== 'function') {
+    throw new Error('File System Access API is not supported in this browser.');
+  }
   const tarName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.tar`;
   const {readable, controller} = createTarPacker();
   let pendingPipe = null;

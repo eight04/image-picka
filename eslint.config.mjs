@@ -1,11 +1,13 @@
 import js from "@eslint/js";
 import globals from "globals";
+// import compat from "eslint-plugin-compat";
 
 export default [
   {
     ignores: ["dist-extension/*", "build", "chrome"]
   },
   js.configs.recommended,
+  // compat.configs["flat/recommended"],
   {
     "rules": {
       "dot-notation": 2,

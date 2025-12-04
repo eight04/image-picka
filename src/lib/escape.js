@@ -1,3 +1,4 @@
+import {IS_ANDROID} from "./env.js";
 import {pref} from "./pref.js";
 
 const table = {
@@ -13,7 +14,7 @@ const table = {
   "~": "～"
 };
 
-if (navigator.userAgent.includes("android")) {
+if (IS_ANDROID) {
   // https://dxr.mozilla.org/mozilla-central/source/toolkit/components/downloads/DownloadPaths.jsm
   Object.assign(table, {
     ";": "；",
