@@ -70,9 +70,9 @@ export default async () => ({
       rootDir: "src/static"
     }),
     iife(),
-    // terser({
-    //   module: false
-    // }),
+    terser({
+      module: false
+    }),
     output([
       {
         test: /background\.js$/,

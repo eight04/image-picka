@@ -15,7 +15,7 @@ const table = {
 };
 
 if (IS_ANDROID) {
-  // https://dxr.mozilla.org/mozilla-central/source/toolkit/components/downloads/DownloadPaths.jsm
+  // https://github.com/mozilla-firefox/firefox/blob/8bc7f4beac1c93f7e93d1426c5354e8b1b5b3b0c/xpcom/base/nsCRTGlue.h#L135
   Object.assign(table, {
     ";": "；",
     ",": "，",

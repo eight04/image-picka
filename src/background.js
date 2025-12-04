@@ -517,12 +517,6 @@ function getRawPacker() {
   return {
     prepare: async () => {},
     pack: async ({url, blob, filename, index}) => {
-      // can't use '/' in filename on android firefox 68
-      if (IS_ANDROID) {
-        // filename = filename.replace(/\/+/g, "_").replace(/^_+|_+$/g, "");
-        filename = filename.replace(/[[\]&=]/g, "_");
-      }
-      console.log(filename);
       await download({
         url,
         blob,
