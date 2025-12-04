@@ -9,7 +9,7 @@ import {fetchImage} from "./lib/fetch-image.js";
 import {download} from "./lib/downloader.js";
 import {imageCache} from "./lib/image-cache.js";
 import {createCounter} from "./lib/counter.js";
-import {IS_ANDROID, IS_CHROME} from "./lib/env.js";
+import {IS_CHROME} from "./lib/env.js";
 import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandEnv, expandDate} from "./lib/expand-env.mjs";
