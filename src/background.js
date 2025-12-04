@@ -364,7 +364,7 @@ function pickEnv(tabId, frameId = 0) {
 		.then(env => ({tabId, env}));
 }
 
-function tryRequestPermission({batch = true} = {}) {
+async function tryRequestPermission({batch = true} = {}) {
   const permissions = {permissions: []};
   if (batch && pref.get("collectFromFrames")) {
     permissions.permissions.push("webNavigation");
@@ -372,12 +372,20 @@ function tryRequestPermission({batch = true} = {}) {
   if ((batch || pref.get("useCache")) && pref.get("useWebRequest")) {
     permissions.permissions.push("webRequest", "webRequestBlocking");
   }
-  return browser.permissions.request(permissions)
-    .then(success => {
-      if (!success) {
-        throw new Error("webNavigation permission is required for iframe information");
-      }
-    });
+  let success;
+  try {
+    success = await browser.permissions.request(permissions);
+  } catch (err) {
+    // FIXME: cant grant permission from menu in FF68 android
+    if (/user input/.test(err.message)) {
+      console.warn(err);
+      return;
+    }
+    throw err;
+  }
+  if (!success) {
+    throw new Error("webNavigation permission is required for iframe information");
+  }
 }
 
 async function pickImagesFromHighlighted(tab) {
@@ -523,8 +531,19 @@ function getRawPacker() {
   };
 }
 
+function getPacker() {
+  if (pref.get("packer") === "tar") {
+    try {
+      return getTarPacker();
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  return getRawPacker();
+}
+
 async function batchDownload({tabs, env, batchId}) {
-  const packer = pref.get("packer") === "tar" ? getTarPacker() : getRawPacker();
+  const packer = getPacker();
   await packer.prepare();
 
   const {cachedImages} = batches.get(batchId);

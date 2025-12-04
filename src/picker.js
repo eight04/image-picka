@@ -179,7 +179,7 @@ function init({tabs: originalTabs, env}) {
           env,
           batchId: BATCH_ID
         });
-        if (pref.get("packer") === "tar") {
+        if (result?.tarName) {
           const root = await navigator.storage.getDirectory();
           const fileHandle = await root.getFileHandle(result.tarName);
           const file = await fileHandle.getFile();

@@ -6,6 +6,7 @@ import iife from "rollup-plugin-iife";
 import terser from "@rollup/plugin-terser";
 import output from "rollup-plugin-write-output";
 import json from "@rollup/plugin-json";
+import { babel } from '@rollup/plugin-babel';
 
 import glob from "tiny-glob";
 
@@ -50,6 +51,19 @@ export default async () => ({
     json(),
     cjs({
       nested: true
+    }),
+    babel({
+      babelHelpers: 'bundled',
+      presets: [
+        ['@babel/preset-env', {
+          targets: {
+            firefox: '68',
+          },
+          modules: false,
+          bugfixes: true,
+          // shippedProposals: true
+        }]
+      ],
     }),
     copy({
       patterns: "**/*",

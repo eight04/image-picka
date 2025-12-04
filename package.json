@@ -29,13 +29,15 @@
     "chrome"
   ],
   "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
     "@eight04/idb-storage": "^0.4.2",
     "@eslint/js": "^9.39.1",
+    "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@web/rollup-plugin-copy": "^0.5.1",
-    "content-disposition": "^0.5.4",
+    "content-disposition": "^1.0.1",
     "eslint": "^9.39.1",
     "espression": "^1.8.5",
     "globals": "^16.5.0",
@@ -43,7 +45,7 @@
     "mime": "^4.1.0",
     "node-sigint": "0.0.1",
     "npm-run-all": "^4.1.5",
-    "rollup": "^4.53.1",
+    "rollup": "^4.53.3",
     "rollup-plugin-cjs-es": "^3.0.0",
     "rollup-plugin-iife": "^0.7.1",
     "rollup-plugin-shim": "^1.0.0",
@@ -53,7 +55,7 @@
     "stylelint-config-standard": "^39.0.1",
     "sync-version": "^1.1.0",
     "tiny-glob": "^0.2.9",
-    "web-ext": "^9.1.0",
+    "web-ext": "^9.2.0",
     "webext-menus": "^0.3.2",
     "webext-pref": "^0.6.0",
     "webext-pref-ui": "^0.2.1",
@@ -63,12 +65,15 @@
   "repository": "eight04/image-picka",
   "private": true,
   "dependencies": {
-    "browserslist": "^4.27.0",
+    "browserslist": "^4.28.1",
     "image-extensions": "^1.1.0",
-    "modern-tar": "^0.6.1",
+    "modern-tar": "^0.7.2",
     "srcset": "^5.0.2",
-    "stylelint": "^16.25.0",
-    "stylelint-browser-compat": "^1.0.0-beta.179",
+    "stylelint": "^16.26.1",
+    "stylelint-browser-compat": "^1.0.0-beta.180",
     "version-compare": "^3.12.0"
-  }
+  },
+  "browserslist": [
+    "Firefox >= 68"
+  ]
 }
