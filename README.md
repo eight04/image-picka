@@ -243,6 +243,11 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.23.0 (Next)
+
+  - Change: remove `data_collection_permissions` for backwards compatibility.
+  - Add: support Firefox Android 68.
+
 * 0.22.2 (Nov 8, 2025)
 
   - Update build instruction.
