@@ -9,6 +9,7 @@ const DEFAULT = {
   closeTabsAfterSave: false,
   contextMenu: true,
   collectFromFrames: false,
+  collectFromBackground: false,
   customIcon: false,
   customIconColor: "#000000",
   customCSS: "",

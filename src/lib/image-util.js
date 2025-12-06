@@ -1,5 +1,6 @@
 import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
+import {parseBackgroundImage} from "css-prop-parser";
 
 let SRC_PROP = [];
 let PICKA_ID = 1;
@@ -9,6 +10,13 @@ pref.on("change", change => {
     update();
   }
 });
+
+const SRC_EXTRACTORS = [
+  getSrcFromPicture,
+  getSrcFromLink,
+  getSrc,
+  getSrcFromBackground,
+];
   
 function update() {
   SRC_PROP = pref.get("srcAlternative")
@@ -17,7 +25,7 @@ function update() {
     .filter(Boolean);
 }
 
-function getSrcFromSrcset(set) {
+function* getSrcFromSrcset(set) {
   const rules = parseSrcset(set);
   if (!rules.length) {
     throw new Error(`No rules in srcset: ${set}`);
@@ -29,37 +37,70 @@ function getSrcFromSrcset(set) {
       maxRule = rule;
     }
   }
-  return toAbsoluateUrl(maxRule.url);
+  yield toAbsoluateUrl(maxRule.url);
 }
   
-export function getSrc(img) {
+export function* getSrc(img) {
   for (const prop of SRC_PROP) {
     const src = img.getAttribute(prop);
     if (src) {
-      return toAbsoluateUrl(src);
+      yield toAbsoluateUrl(src);
+      return;
     }
   }
   // prefer srcset first
   // https://www.harakis.com/hara-elite/large-2br-apartment-gallery/
   if (img.srcset) {
     try {
-      return getSrcFromSrcset(img.srcset);
+      yield* getSrcFromSrcset(img.srcset);
+      return;
     } catch (err) {
       console.warn(err);
     }
   }
   if (img.src) {
-    return img.src;
+    yield img.src;
   }
 }
 
-export function getSrcFromElement(el) {
-  const picture = el.closest("picture");
-  if (picture) {
-    return getSrcFromPicture(picture);
+export function* getSrcFromElement(el) {
+  for (const extractor of SRC_EXTRACTORS) {
+    yield* extractor(el);
   }
-  return el.localName === "a" ? getSrcFromLink(el) :
-    getSrc(el);
+}
+
+function* getSrcFromBackground(el) {
+  if (!pref.get("detectBackground")) {
+    return;
+  }
+  const style = getComputedStyle(el);
+  const bgImage = style.backgroundImage;
+  if (!bgImage || bgImage === "none") {
+    return;
+  }
+  for (const o of parseBackgroundImage(bgImage)) {
+    if (o.type === "url") {
+      yield toAbsoluateUrl(o.url);
+    } else if (o.type === "image-set") {
+      const sources = o.sources.filter(s => s.url);
+      sources.sort((a, b) => {
+        if (!a.resolution) {
+          return -1;
+        }
+        if (!b.resolution) {
+          return 1;
+        }
+        const result = parseInt(a.resolution, 10) - parseInt(b.resolution, 10);
+        if (Number.isNaN(result)) {
+          return -1;
+        }
+        return result;
+      });
+      if (sources.length) {
+        yield toAbsoluateUrl(sources[sources.length - 1].url);
+      }
+    }
+  }
 }
 
 export function isImage(node) {
@@ -68,32 +109,49 @@ export function isImage(node) {
 }
 
 export function *getAllImages() {
-  for (const el of document.querySelectorAll('img, input[type="image"], a, picture')) {
-    const src = getSrcFromElement(el);
-    if (!src || /^[\w]+-extension/.test(src) || /^about/.test(src)) {
+  let selector;
+  if (pref.get("collectFromBackground")) {
+    selector = "*";
+  } else {
+    selector = "img, input[type=\"image\"], a, picture";
+  }
+  for (const el of document.querySelectorAll(selector)) {
+    const srcs = [...new Set(getSrcFromElement(el))]
+      .filter(src => !/^[\w]+-extension/.test(src) && !/^about/.test(src));
+
+    if (!srcs.length) {
       continue;
     }
     if (!el.dataset.pickaId) {
       el.dataset.pickaId = PICKA_ID++;
     }
-    yield {
-      src,
-      referrerPolicy: el.referrerPolicy,
-      alt: el.alt,
-      pickaId: el.dataset.pickaId,
-    };
+    for (const src of srcs) {
+      yield {
+        src,
+        referrerPolicy: el.referrerPolicy,
+        alt: el.alt,
+        pickaId: el.dataset.pickaId,
+      };
+    }
   }
 }
 
-function getSrcFromLink(el) {
+function* getSrcFromLink(el) {
+  if (!pref.get("detectLink")) {
+    return;
+  }
+  el = el.closest("a");
+  if (!el || !el.href) return;
   const url = el.href;
   //https://github.com/eight04/linkify-plus-plus-core/blob/3d1e4dc1ced4cfc85a7bd96eb5be4fbdcc47bf71/lib/linkifier.js#L225
-  return pref.get("detectLink") &&
-    /^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url) &&
-    url;
+  if (/^[^?#]+\.(?:jpg|png|gif|jpeg|svg|webp)(?:$|[?#])/i.test(url)) {
+    yield toAbsoluateUrl(url);
+  }
 }
 
-function getSrcFromPicture(el) {
+function* getSrcFromPicture(el) {
+  el = el.closest("picture");
+  if (!el) return;
   const allSources = el.querySelectorAll("source");
   let source;
   for (const s of allSources) {
@@ -110,18 +168,21 @@ function getSrcFromPicture(el) {
   }
   if (source && source.srcset) {
     try {
-      return getSrcFromSrcset(source.srcset);
+      yield* getSrcFromSrcset(source.srcset);
+      return;
     } catch (err) {
       console.warn(err);
     }
   }
   const img = el.querySelector("img");
-  if (img) return getSrc(img);
+  if (img) {
+    yield* getSrc(img);
+  }
   if (allSources.length) {
     const srcset = allSources[allSources.length - 1].srcset
     if (srcset) {
       try {
-        return getSrcFromSrcset(srcset);
+        yield* getSrcFromSrcset(srcset);
       } catch (err) {
         console.warn(err);
       }
@@ -130,5 +191,8 @@ function getSrcFromPicture(el) {
 }
 
 function toAbsoluateUrl(url) {
+  if (url.startsWith("data:") || url.startsWith("blob:")) {
+    return url;
+  }
   return new URL(url, location.href).href;
 }

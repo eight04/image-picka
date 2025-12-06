@@ -100,7 +100,7 @@ export default function init({downloadImage}) {
 			if (!imageUtil.isImage(e.target) || !testEvent(e, context)) {
 				return;
 			}
-			const imageSrc = imageUtil.getSrcFromElement(e.target);
+			const imageSrc = imageUtil.getSrcFromElement(e.target).next().value;
 			if (!imageSrc) {
 				return;
 			}
@@ -167,7 +167,7 @@ export default function init({downloadImage}) {
           return;
         }
         downloadImage({
-          url: imageUtil.getSrcFromElement(img),
+          url: imageUtil.getSrcFromElement(img).next().value,
           referrerPolicy: img.referrerPolicy || undefined,
           alt: img.alt
         });
@@ -306,7 +306,7 @@ export default function init({downloadImage}) {
 			button.onclick = () => {
         buttonAni = fadeOut(button);
 				downloadImage({
-          url: imageUtil.getSrcFromElement(image),
+          url: imageUtil.getSrcFromElement(image).next().value,
           referrerPolicy: image.referrerPolicy || undefined,
           alt: image.alt
         });
