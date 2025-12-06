@@ -1,7 +1,8 @@
-node_modules
-web-ext-artifacts
-build
-chrome
+/node_modules
+/web-ext-artifacts
+/build
+/chrome
+/test.js
 
 *.zip
 *.xpi
