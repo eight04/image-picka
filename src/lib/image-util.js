@@ -41,6 +41,9 @@ function* getSrcFromSrcset(set) {
 }
   
 export function* getSrc(img) {
+  if (!isImage(img)) {
+    return;
+  }
   for (const prop of SRC_PROP) {
     const src = img.getAttribute(prop);
     if (src) {
@@ -70,7 +73,7 @@ export function* getSrcFromElement(el) {
 }
 
 function* getSrcFromBackground(el) {
-  if (!pref.get("detectBackground")) {
+  if (!pref.get("collectFromBackground")) {
     return;
   }
   const style = getComputedStyle(el);

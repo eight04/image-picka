@@ -59,6 +59,10 @@
 		"message": "Close tabs after saving",
 		"description": "Label of closeTabsAfterSave option"
 	},
+  "optionCollectFromBackgroundLabel": {
+    "message": "Detect background images.",
+    "description": "Label of collectFromBackground option"
+  },
 	"optionCollectFromFramesLabel": {
 		"message": "Collect images from frames recursively.",
 		"description": "Label of collectFromFrames option"

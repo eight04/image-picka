@@ -288,6 +288,11 @@ const root = createUI({
         },
         {
           type: "checkbox",
+          key: "collectFromBackground",
+          label: _("optionCollectFromBackgroundLabel"),
+        },
+        {
+          type: "checkbox",
           key: "lowResPreview",
           label: _("optionLowResPreviewLabel"),
           help: _("optionLowResPreviewHelp")
