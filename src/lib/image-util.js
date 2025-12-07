@@ -11,6 +11,10 @@ pref.on("change", change => {
   }
 });
 
+// FIXME: change the extractor to something like
+// {tagName: string, getSrc: (el: Element) => Iterable<string>}[]
+// so that we can avoid unnecessary calls by checking the tagName first
+// also detect `closest` only when necessary e.g. during single download.
 const SRC_EXTRACTORS = [
   getSrcFromPicture,
   getSrcFromLink,
@@ -76,6 +80,9 @@ function* getSrcFromBackground(el) {
   if (!pref.get("collectFromBackground")) {
     return;
   }
+  if (!el.offsetWidth || !el.offsetHeight) {
+    return;
+  }
   const style = getComputedStyle(el);
   const bgImage = style.backgroundImage;
   if (!bgImage || bgImage === "none") {
@@ -87,17 +94,9 @@ function* getSrcFromBackground(el) {
     } else if (o.type === "image-set") {
       const sources = o.sources.filter(s => s.url);
       sources.sort((a, b) => {
-        if (!a.resolution) {
-          return -1;
-        }
-        if (!b.resolution) {
-          return 1;
-        }
-        const result = parseInt(a.resolution, 10) - parseInt(b.resolution, 10);
-        if (Number.isNaN(result)) {
-          return -1;
-        }
-        return result;
+        const an = parseInt(a.resolution, 10) || 0;
+        const bn = parseInt(b.resolution, 10) || 0;
+        return an - bn;
       });
       if (sources.length) {
         yield toAbsoluateUrl(sources[sources.length - 1].url);
@@ -118,6 +117,7 @@ export function *getAllImages() {
   } else {
     selector = "img, input[type=\"image\"], a, picture";
   }
+  const elMap = new Map(); // element -> pickId
   for (const el of document.querySelectorAll(selector)) {
     const srcs = [...new Set(getSrcFromElement(el))]
       .filter(src => !/^[\w]+-extension/.test(src) && !/^about/.test(src));
@@ -125,17 +125,21 @@ export function *getAllImages() {
     if (!srcs.length) {
       continue;
     }
-    if (!el.dataset.pickaId) {
-      el.dataset.pickaId = PICKA_ID++;
+    if (!elMap.has(el)) {
+      elMap.set(el, PICKA_ID++);
     }
     for (const src of srcs) {
       yield {
         src,
         referrerPolicy: el.referrerPolicy,
         alt: el.alt,
-        pickaId: el.dataset.pickaId,
+        pickaId: elMap.get(el)
       };
     }
+  }
+  // delay setting pickaId to avoid style recalculation
+  for (const [el, id] of elMap) {
+    el.dataset.pickaId = id;
   }
 }
 
@@ -182,7 +186,7 @@ function* getSrcFromPicture(el) {
     yield* getSrc(img);
   }
   if (allSources.length) {
-    const srcset = allSources[allSources.length - 1].srcset
+    const srcset = allSources[allSources.length - 1].srcset;
     if (srcset) {
       try {
         yield* getSrcFromSrcset(srcset);
