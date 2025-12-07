@@ -66,6 +66,7 @@
   "private": true,
   "dependencies": {
     "browserslist": "^4.28.1",
+    "css-prop-parser": "^0.1.0",
     "image-extensions": "^1.1.0",
     "modern-tar": "^0.7.2",
     "srcset": "^5.0.2",
