@@ -243,10 +243,12 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
-* 0.23.0 (Next)
+* 0.23.0 (Dec 7, 2025)
 
   - Change: remove `data_collection_permissions` for backwards compatibility.
   - Add: support Firefox Android 68.
+  - Add: option to collect background images in batch download.
+  - Fix: fallback to normal fetch if webRequest fetch fails.
 
 * 0.22.2 (Nov 8, 2025)
 
