@@ -59,6 +59,10 @@
 		"message": "Fermer les onglets après l’enregistrement",
 		"description": "Label of closeTabsAfterSave option"
 	},
+  "optionCollectFromBackgroundLabel": {
+    "message": "Détecter les images d’arrière-plan",
+    "description": "Label of collectFromBackground option"
+  },
 	"optionCollectFromFramesLabel": {
 		"message": "Collecter les images des cadres récursivement",
 		"description": "Label of collectFromFrames option"
