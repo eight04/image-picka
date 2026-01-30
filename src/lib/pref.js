@@ -7,7 +7,7 @@ const DEFAULT = {
   browserAction: "PICK_FROM_CURRENT_TAB",
   blacklist: "",
   closeTabsAfterSave: false,
-  closePickerAfterSave: true,
+  closePickerAfterSave: IS_ANDROID ? false : true,
   contextMenu: true,
   collectFromFrames: false,
   collectFromBackground: false,
