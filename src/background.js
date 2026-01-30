@@ -14,6 +14,12 @@ import {createDialog} from "./lib/popup-dialog.js";
 import {compileStringTemplate} from "./lib/string-template.js";
 import {expandEnv, expandDate} from "./lib/expand-env.mjs";
 import {getTarPacker} from "./lib/tar-packer.js";
+import {getZipPacker} from "./lib/zip-packer.js";
+
+const PACKERS = {
+  tar: getTarPacker,
+  zip: getZipPacker
+}
 
 const MENU_ACTIONS = {
 	PICK_FROM_CURRENT_TAB: {
@@ -532,12 +538,11 @@ function getRawPacker() {
 }
 
 function getPacker() {
-  if (pref.get("packer") === "tar") {
-    try {
-      return getTarPacker();
-    } catch (err) {
-      console.warn(err);
-    }
+  try {
+    const getPacker = PACKERS[pref.get("packer")];
+    return getPacker();
+  } catch (err) {
+    console.warn(err);
   }
   return getRawPacker();
 }

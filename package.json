@@ -66,6 +66,7 @@
   "private": true,
   "dependencies": {
     "browserslist": "^4.28.1",
+    "client-zip": "^2.5.0",
     "css-prop-parser": "^0.1.0",
     "image-extensions": "^1.1.0",
     "modern-tar": "^0.7.2",

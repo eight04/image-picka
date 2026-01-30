@@ -122,6 +122,9 @@
   "optionPackerTar": {
     "message": "TAR archive"
   },
+  "optionPackerZip": {
+    "message": "ZIP archive"
+  },
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "The maximum value of the thumbnail size slider",
 		"description": "Label of previewMaxHeightUpperBound option"

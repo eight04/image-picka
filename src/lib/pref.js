@@ -37,7 +37,7 @@ const DEFAULT = {
   isolateTabs: false,
   filenameConflictAction: "uniquify",
   lowResPreview: true,
-  packer: IS_ANDROID ? "tar" : "none",
+  packer: IS_ANDROID ? "zip" : "none",
   saveAs: false,
   selectByDefault: true,
   singleClick: false,

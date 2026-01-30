@@ -380,6 +380,7 @@ const root = createUI({
           label: _("optionPackerLabel"),
           options: {
             none: _("optionPackerNone"),
+            zip: _("optionPackerZip"),
             tar: _("optionPackerTar")
           },
           help: _("optionPackerHelp")
