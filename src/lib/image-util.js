@@ -2,8 +2,6 @@ import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
 import {parseBackgroundImage} from "css-prop-parser";
 
-import { transformURL } from "./url-map.js";
-
 let SRC_PROP = [];
 let PICKA_ID = 1;
 update();
