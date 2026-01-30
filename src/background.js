@@ -635,8 +635,9 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
     url,
     base: data && data.filename,
     alt,
-    ext: data && data.ext
+    ext: data?.ext ? `.${data.ext}` : undefined
   });
+  expandEnv(env);
   const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
     pref.get("filePatternStandalone") : pref.get("filePattern");
   const filename = compileStringTemplate(filePattern)(env);

@@ -296,7 +296,7 @@ function updateFilenamePreviewFactory(tabs) {
       url: image.url,
       base: image.data && image.data.filename,
       alt: image.alt,
-      ext: image.data && image.data.ext
+      ext: image.data?.ext ? `.${image.data.ext}` : null
     });
     expandEnv(env);
     const filename = compileStringTemplate(pattern)(env);

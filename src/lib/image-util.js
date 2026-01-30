@@ -2,6 +2,8 @@ import {parseSrcset} from "srcset";
 import {pref} from "./pref.js";
 import {parseBackgroundImage} from "css-prop-parser";
 
+import { transformURL } from "./url-map.js";
+
 let SRC_PROP = [];
 let PICKA_ID = 1;
 update();
@@ -106,6 +108,9 @@ function* getSrcFromBackground(el) {
 }
 
 export function isImage(node) {
+  if (node.src && !transformURL(node.src)) {
+    return false;
+  }
   return node.localName === "img" ||
     node.localName === "input" && node.type === "image";
 }

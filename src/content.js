@@ -83,6 +83,9 @@ function getImages() {
   const images = new Map;
   for (const {src, referrerPolicy, alt, pickaId} of getAllImages()) {
     const url = transformURL(src)
+    if (!url) {
+      continue;
+    }
     const image = {
       url,
       referrer: getReferrer(location.href, url, referrerPolicy || getDefaultReferrerPolicy()),

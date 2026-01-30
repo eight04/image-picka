@@ -29,6 +29,15 @@ function createTransform(search, repl) {
       return fn(...match);
     };
   }
+  if (repl === "-") {
+    const re = new RegExp(search, "i");
+    return url => {
+      if (re.test(url)) {
+        return "";
+      }
+      return url;
+    };
+  }
   const re = new RegExp(search, "ig");
   return url => url.replace(re, repl);
 }

@@ -95,7 +95,7 @@ Transform URL with regexp
 
 If the site displays a thumbnail image, you can transform the URL to its full size URL with this feature, by defining multiple replace rules in the code box. For example:
 
-```
+```cfg
 # baidu
 imgsa\.baidu\.com/.+/(\w+\.\w+)$
 imgsrc.baidu.com/forum/pic/item/$1
@@ -107,6 +107,14 @@ ${$1}://${decodeURIComponent($2)}
 # twitter
 pbs\.twimg\.com/media/(.+\.\w+)$
 pbs.twimg.com/media/$1:orig
+```
+
+You can also use it to exclude images from being picked, by setting the replacement to a single hyphen (`-`):
+
+```cfg
+# exclude images from example.com
+example\.com/.*
+-
 ```
 
 * Each replace rule includes:
