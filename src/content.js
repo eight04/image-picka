@@ -68,7 +68,6 @@ function viewSourceElement(pickaId) {
 }
 
 function downloadImage({url, referrerPolicy = getDefaultReferrerPolicy(), alt}) {
-  url = transformURL(url);
   browser.runtime.sendMessage({
     method: "singleDownload",
     env: window.top === window ? getEnv() : null,

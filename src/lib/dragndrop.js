@@ -3,6 +3,7 @@ import browser from "webextension-polyfill";
 import * as imageUtil from "./image-util.js";
 import {IS_CHROME} from "./env.js";
 import {pref} from "./pref.js";
+import {transformURL} from "./url-map.js";
 
 export default function init({downloadImage}) {
 	const EVENT_OPTIONS = {passive: true};	
@@ -100,12 +101,13 @@ export default function init({downloadImage}) {
 			if (!imageUtil.isImage(e.target) || !testEvent(e, context)) {
 				return;
 			}
-			const imageSrc = imageUtil.getSrcFromElement(e.target).next().value;
-			if (!imageSrc) {
+			let url = imageUtil.getSrcFromElement(e.target).next().value;
+      url = transformURL(url);
+			if (!url) {
 				return;
 			}
 			downloadImage({
-        url: imageSrc,
+        url,
         referrerPolicy: e.target.referrerPolicy || undefined,
         alt: e.target.alt
       });
@@ -142,6 +144,11 @@ export default function init({downloadImage}) {
 				img = [...img.querySelectorAll("img")].find(i => i.offsetParent);
 			}
 			if (!img || !imageUtil.isImage(img)) return;
+      let url = imageUtil.getSrcFromElement(img).next().value;
+      url = transformURL(url);
+      if (!url) {
+        return;
+      }
       
       const events = [
         ["dragover", dragOver, pref.get("dragndropHard")],
@@ -167,7 +174,7 @@ export default function init({downloadImage}) {
           return;
         }
         downloadImage({
-          url: imageUtil.getSrcFromElement(img).next().value,
+          url,
           referrerPolicy: img.referrerPolicy || undefined,
           alt: img.alt
         });
@@ -189,6 +196,7 @@ export default function init({downloadImage}) {
 			closeTimer,
 			decideHideTimer;
     let buttonAni;
+    let imageUrl;
 			
 		const state = createSwitch(
 			() => pref.get("downloadButton") && !IS_BLACKLISTED && !button && pref.get("enabled"),
@@ -225,6 +233,11 @@ export default function init({downloadImage}) {
 				// not an image
 				return;
 			}
+      let url = imageUtil.getSrcFromElement(el).next().value;
+      url = transformURL(url);
+      if (!url) {
+        return;
+      }
 			if (timer == null) {
 				// start countdown
 				timer = setTimeout(() => {
@@ -232,6 +245,7 @@ export default function init({downloadImage}) {
 					showDownloadButton();
 				}, pref.get("downloadButtonDelay"));
 				image = el;
+        imageUrl = url;
 				return;
 			}
 		}
@@ -249,13 +263,17 @@ export default function init({downloadImage}) {
 		function decideHideButton(e) {
 			var el = e.type == "mouseover" ? e.target : e.relatedTarget,
 				_isImage = el && isImage(el);
+      let url = _isImage ? transformURL(imageUtil.getSrcFromElement(el).next().value) : null;
+      _isImage = _isImage && url;
 			if (_isImage || el && el.closest(".image-picka-download-button")) {
 				if (closeTimer != null) {
 					clearTimeout(closeTimer);
 					closeTimer = null;
 				}
 				if (_isImage && el != image) {
+          // moved to another image
 					image = el;
+          imageUrl = url;
 					updateButtonPosition();
 				}
 				return;
@@ -306,7 +324,7 @@ export default function init({downloadImage}) {
 			button.onclick = () => {
         buttonAni = fadeOut(button);
 				downloadImage({
-          url: imageUtil.getSrcFromElement(image).next().value,
+          url: imageUrl,
           referrerPolicy: image.referrerPolicy || undefined,
           alt: image.alt
         });

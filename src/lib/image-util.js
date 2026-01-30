@@ -108,9 +108,6 @@ function* getSrcFromBackground(el) {
 }
 
 export function isImage(node) {
-  if (node.src && !transformURL(node.src)) {
-    return false;
-  }
   return node.localName === "img" ||
     node.localName === "input" && node.type === "image";
 }
