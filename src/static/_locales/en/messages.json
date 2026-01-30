@@ -59,6 +59,10 @@
 		"message": "Close tabs after saving",
 		"description": "Label of closeTabsAfterSave option"
 	},
+  "optionClosePickerAfterSaveLabel": {
+    "message": "Close image picker after saving",
+    "description": "Label of closePickerAfterSave option"
+  },
   "optionCollectFromBackgroundLabel": {
     "message": "Detect background images.",
     "description": "Label of collectFromBackground option"

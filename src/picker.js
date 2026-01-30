@@ -197,7 +197,7 @@ function init({tabs: originalTabs, env}) {
           // NOTE: can't remove file until download complete
           // await root.removeEntry(result.tempName);
         }
-        if (!IS_ANDROID) {
+        if (pref.get("closePickerAfterSave")) {
           // NOTE: closing the tab will close the download confirmation in Firefox Android
           await browser.runtime.sendMessage({method: "closeTab"});
         }

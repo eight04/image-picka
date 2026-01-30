@@ -271,6 +271,11 @@ const root = createUI({
         },
         {
           type: "checkbox",
+          key: "closePickerAfterSave",
+          label: _("optionClosePickerAfterSaveLabel")
+        },
+        {
+          type: "checkbox",
           key: "isolateTabs",
           label: _("optionIsolateTabsLabel"),
           help: html("optionIsolateTabsHelpHTML")
