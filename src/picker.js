@@ -290,13 +290,15 @@ function updateFilenamePreviewFactory(tabs) {
       image = newImage;
     }
     expandDate(env);
-    expandEnv(env, {
+    Object.assign(env, {
       // FIXME: do we want to use real index number?
       index: 1,
       url: image.url,
       base: image.data && image.data.filename,
-      alt: image.alt
+      alt: image.alt,
+      ext: image.data && image.data.ext
     });
+    expandEnv(env);
     const filename = compileStringTemplate(pattern)(env);
     document.querySelector("#filePatternBatch").closest(".toolbar-control").title = `Preview: ${filename}`;
   };

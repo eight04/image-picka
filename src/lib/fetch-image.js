@@ -1,16 +1,8 @@
 import contentDisposition from "content-disposition";
 import {createLock} from "@eight04/read-write-lock";
-// import {fetchXHR} from "./fetch.js";
+import * as mimelib from "./mime.js";
 
 const lock = createLock({maxActiveReader: 5});
-
-function getMime(contentType) {
-  if (!contentType) {
-    return;
-  }
-  const match = contentType.match(/^\s*([^\s;]+)/);
-  return match && match[1].toLowerCase();
-}
 
 function getFilename(value) {
   try {
@@ -32,7 +24,23 @@ export function fetchImage(url, referrer) {
 }
 
 export function createImage(url, blob, contentType, contentDisposition) {
-  const mime = getMime(contentType);
+  let mime, ext, filename;
+  if (contentType) {
+    mime = mimelib.fromContentType(contentType);
+  }
+  if (contentDisposition) {
+    filename = getFilename(contentDisposition);
+    ext = filename?.match(/\.([^.]+)$/)?.[1];
+  }
+  if (!mime && ext) {
+    mime = mimelib.fromExt(ext)
+  }
+  if (!mime && blob.type) {
+    mime = blob.type;
+  }
+  if (mime && !ext) {
+    ext = mimelib.toExt(mime);
+  }
   if (mime && !blob.type) {
     // create a new blob with correct mime type
     blob = new Blob([blob], {type: mime});
@@ -41,7 +49,9 @@ export function createImage(url, blob, contentType, contentDisposition) {
     url,
     blob,
     mime,
-    filename: getFilename(contentDisposition),
+    ext,
+    filename,
     size: blob.size
   };
 }
+

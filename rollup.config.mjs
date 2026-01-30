@@ -20,6 +20,12 @@ export default async () => ({
   plugins: [
     shim({
       path: `
+        export function extname(s) {
+          const base = basename(s);
+          const i = base.lastIndexOf(".");
+          if (i < 0) return "";
+          return base.slice(i);
+          }
         export function basename(s) {
           const parts = s.split(/[\\/]/);
           return parts[parts.length - 1];

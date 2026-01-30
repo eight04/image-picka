@@ -16,7 +16,7 @@ function createImageCache() {
     name: "image-cache",
     conflictAction: "stack"
   });
-  return {add, get, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
+  return {add, get, getMeta, delete: delete_, deleteMany, clearAll, fetchImage: _fetchImage};
   
   async function _fetchImage(url, tabId, frameId, referrer) {
     if (IS_CHROME) {
@@ -54,6 +54,10 @@ function createImageCache() {
   
   function get(url) {
     return cache.get(url);
+  }
+
+  function getMeta(url) {
+    return cache.getMeta(url);
   }
   
   function delete_(url) {

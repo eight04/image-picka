@@ -27,29 +27,32 @@ const props = {
   alt
 }
 */
-export function expandEnv(env, props) {
-  Object.assign(env, props);
+export function expandEnv(env) {
 	// image url
 	var url = new URL(env.url);
 	env.hostname = url.hostname;
 	
 	// image filename
-	var base, name, ext;
-	if (env.base) {
-		base = env.base;
-	} else {
+  let {base, ext, name} = env;
+
+  if (!base) {
 		try {
 			base = url.href.match(/([^/]+)\/?$/)[1];
 		} catch {
 			base = pref.get("defaultName");
 		}
 	}
-	try {
-		[, name, ext] = base.match(IMG_RE);
-	} catch {
-		name = base;
-		ext = pref.get("defaultExt");
-	}
+  if (!name) {
+    const match = base.match(IMG_RE);
+    if (match) {
+      name = match[1];
+      ext = ext || match[2];
+    } else {
+      // base is not like an image filename?
+      name = base;
+      ext = ext || pref.get("defaultExt");
+    }
+  }
 	env.base = nestDecodeURIComponent(base);
 	env.name = nestDecodeURIComponent(name);
 	env.ext = nestDecodeURIComponent(ext);

@@ -9,7 +9,7 @@ Preparation
 2. Test if the installation succeeded. Run `node --version && npm --version`. You should get version numbers similar to this:
     <!-- $inline.start("cmd:node --version && npm --version|markdown:codeblock|indent") -->
     ```
-    v24.4.1
+    v25.5.0
     11.6.2
     
     ```

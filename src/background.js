@@ -558,15 +558,20 @@ async function batchDownload({tabs, env, batchId}) {
 		}
 		for (const {url, filename, alt} of tab.images) {
       cachedImages.delete(url);
-			expandEnv(env, {
+      const thisEnv = Object.assign({}, env, {
         url,
         index: i + 1,
         base: filename,
         alt
       });
-      const fullFileName = renderFilename(env);
       const t = batchDownloadLock.read(async () => {
         let blob = await imageCache.get(url);
+        const meta = await imageCache.getMeta(url);
+        if (meta.ext) {
+          thisEnv.ext = "." + meta.ext;
+        }
+        expandEnv(thisEnv);
+        const fullFileName = renderFilename(thisEnv);
         let err;
         try {
           await packer.pack({index: i, url, blob, filename: fullFileName});
@@ -621,10 +626,11 @@ async function singleDownload({url, env, tabId, frameId, referrer, alt}) {
       })
   ]);
   expandDate(env);
-  expandEnv(env, {
+  Object.assign(env, {
     url,
     base: data && data.filename,
-    alt
+    alt,
+    ext: data && data.ext
   });
   const filePattern = pref.get("filePatternStandaloneEnabled") && env.pageContentType.startsWith("image/") ?
     pref.get("filePatternStandalone") : pref.get("filePattern");
