@@ -7,7 +7,7 @@ export function getZipPacker() {
   if (typeof navigator.storage?.getDirectory !== 'function') {
     throw new Error('File System Access API is not supported in this browser.');
   }
-  const tarName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.${EXT}`;
+  const tempName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.${EXT}`;
   let pendingPipe = null;
   let itemReady = defer();
   let zipReady = defer();
@@ -21,7 +21,7 @@ export function getZipPacker() {
 
   async function prepare() {
     const root = await navigator.storage.getDirectory();
-    const handle = await root.getFileHandle(tarName, {create: true});
+    const handle = await root.getFileHandle(tempName, {create: true});
     const writable = await handle.createWritable();
     const zipStream = makeZip(async function*() {
       let item;
@@ -46,6 +46,6 @@ export function getZipPacker() {
   async function save() {
     itemReady.resolve(null); // signal end of items
     await pendingPipe;
-    return {tarName, downloadName: `image-picka-${new Date().toISOString()}.${EXT}`};
+    return {tempName, downloadName: `image-picka-${new Date().toISOString()}.${EXT}`};
   }
 }

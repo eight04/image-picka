@@ -179,14 +179,14 @@ function init({tabs: originalTabs, env}) {
           env,
           batchId: BATCH_ID
         });
-        if (result?.tarName) {
+        if (result?.tempName) {
           const root = await navigator.storage.getDirectory();
-          const fileHandle = await root.getFileHandle(result.tarName);
+          const fileHandle = await root.getFileHandle(result.tempName);
           const file = await fileHandle.getFile();
           const url = URL.createObjectURL(file);
           const a = document.createElement("a");
           a.href = url;
-          a.download = result.downloadName || result.tarName;
+          a.download = result.downloadName || result.tempName;
           a.style.display = "none";
           document.body.appendChild(a);
           a.click();
@@ -195,7 +195,7 @@ function init({tabs: originalTabs, env}) {
           await timeout(1000);
           URL.revokeObjectURL(url);
           // NOTE: can't remove file until download complete
-          // await root.removeEntry(result.tarName);
+          // await root.removeEntry(result.tempName);
         }
         if (!IS_ANDROID) {
           // NOTE: closing the tab will close the download confirmation in Firefox Android

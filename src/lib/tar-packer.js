@@ -4,7 +4,7 @@ export function getTarPacker() {
   if (typeof navigator.storage?.getDirectory !== 'function') {
     throw new Error('File System Access API is not supported in this browser.');
   }
-  const tarName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.tar`;
+  const tempName = `temp-${Date.now()}-${Math.random().toString(16).slice(2)}.tar`;
   const {readable, controller} = createTarPacker();
   let pendingPipe = null;
   return {
@@ -17,7 +17,7 @@ export function getTarPacker() {
 
   async function prepare() {
     const root = await navigator.storage.getDirectory();
-    const handle = await root.getFileHandle(tarName, {create: true});
+    const handle = await root.getFileHandle(tempName, {create: true});
     const writable = await handle.createWritable();
     pendingPipe = readable.pipeTo(writable);
   }
@@ -35,6 +35,6 @@ export function getTarPacker() {
   async function save() {
     controller.finalize();
     await pendingPipe;
-    return {tarName, downloadName: `image-picka-${new Date().toISOString()}.tar`};
+    return {tempName, downloadName: `image-picka-${new Date().toISOString()}.tar`};
   }
 }
