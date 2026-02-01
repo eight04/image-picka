@@ -59,6 +59,14 @@
 		"message": "Fermer les onglets après l’enregistrement",
 		"description": "Label of closeTabsAfterSave option"
 	},
+  "optionClosePickerAfterSaveLabel": {
+    "message": "Fermer le sélecteur d’images après l’enregistrement",
+    "description": "Label of closePickerAfterSave option"
+  },
+  "optionCollectFromBackgroundLabel": {
+    "message": "Détecter les images d’arrière-plan",
+    "description": "Label of collectFromBackground option"
+  },
 	"optionCollectFromFramesLabel": {
 		"message": "Collecter les images des cadres récursivement",
 		"description": "Label of collectFromFrames option"
@@ -117,6 +125,9 @@
   },
   "optionPackerTar": {
     "message": "Archive TAR"
+  },
+  "optionPackerZip": {
+    "message": "Archive ZIP"
   },
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "Taille maximale des vignettes :",
