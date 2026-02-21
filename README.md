@@ -251,6 +251,10 @@ You can help translating the extension by joining Image Picka team on [Transifex
 Changelog
 ---------
 
+* 0.23.2 (Feb 21, 2026)
+
+  - Locale: update fr translation.
+
 * 0.23.1 (Jan 30, 2026)
 
   - Add: support URL blacklist by transforming a URL to a single hyphen.
