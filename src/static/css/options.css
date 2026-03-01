@@ -12,7 +12,7 @@ body.version-lt-57 {
 body[data-browser=Chrome],
 body[data-browser=Edg] {
   padding: 0 1em 1em 1em;
-  min-width: 520px;
+  min-width: auto;
 }
 body[data-browser=Edg] {
   padding-top: 4px;
