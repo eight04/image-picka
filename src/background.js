@@ -190,7 +190,10 @@ if (menus) {
 const icon = createDynamicIcon({
 	file: "images/icon.svg",
 	enabled: () => pref.get("customIcon"),
-	onupdate: svg => svg.replace(/context-fill(?!-)/g, pref.get("customIconColor"))
+	onupdate: svg => {
+		const color = pref.get("customIcon") ? pref.get("customIconColor") : "#000000";
+		return svg.replace(/context-fill(?!-)/g, color);
+	}
 });
 pref.ready().then(() => {
 	icon.update();
@@ -246,7 +249,7 @@ function createDynamicIcon({file, enabled, onupdate}) {
 	function update() {
 		if (!enabled()) {
 			cache = null;
-			browser.browserAction.setIcon({path: file});
+			browser.browserAction.setIcon({path: "images/icon-48.png"});
 			return;
 		}
 		getSVG().then(svg => {
@@ -449,7 +452,7 @@ function notifyError(err) {
 		type: "basic",
 		title: "Image Picka",
 		message: err.message || String(err),
-		iconUrl: "images/icon.svg"
+		iconUrl: "images/icon-48.png"
 	});
 }
 
