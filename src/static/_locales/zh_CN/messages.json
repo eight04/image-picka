@@ -71,6 +71,19 @@
 		"message": "图标颜色",
 		"description": "Label of customIconColor option"
 	},
+  "optionClearDownloadHistoryLabel": {
+    "message": "清除下载历史",
+    "description": "Label of clearDownloadHistory option"
+  },
+  "optionClearDownloadHistoryNever": {
+    "message": "从不"
+  },
+  "optionClearDownloadHistoryAll": {
+    "message": "全部清除"
+  },
+  "optionClearDownloadHistoryKeepOne": {
+    "message": "保留一项"
+  },
 	"optionDetectLinkLabel": {
 		"message": "检测链接中的图像网址",
 		"description": "Label of detectLink option"
@@ -79,6 +92,24 @@
 		"message": "双击下载",
 		"description": "Label of dblClick option"
 	},
+	"optionFetchDelayLabel": {
+		"message": "下载每张图像之间间隔",
+		"description": "Label of fetchDelay option"
+	},
+  "optionPackerLabel": {
+    "message": "批量下载时将图像打包到一个文件",
+    "description": "Label of packer option"
+  },
+  "optionPackerHelp": {
+    "message": "Firefox Android 版不支持 downloads API，因此批量下载必须打包。下载大量图像可能需要一些时间。",
+    "description": "Help text of the packer option"
+  },
+  "optionPackerNone": {
+    "message": "无"
+  },
+  "optionPackerTar": {
+    "message": "TAR 文件"
+  },
 	"optionPreviewMaxHeightUpperBoundLabel": {
 		"message": "缩略图大小滑块的最大值",
 		"description": "Label of previewMaxHeightUpperBound option"
@@ -91,6 +122,14 @@
 		"message": "本扩展将在将图像发送到下载管理器前尝试从缓存获取图像，如果图像没有被缓存，这会使图像开始下载有一个明显的延迟。",
 		"description": "Help text of useCache option"
 	},
+  "optionUseWebRequestLabel": {
+    "message": "使用 webRequest API 来获取图像",
+    "description": "Label of useWebRequest option"
+  },
+  "optionUseWebRequestHelp": {
+    "message": "在 Firefox 141 及以上版本中，用此方法才能获取已缓存的图像。Chrome 浏览器中此选项无效果。",
+    "description": "Help text of useWebRequest option"
+  },
 	"optionUseExpressionLabel": {
 		"message": "在文件名模式中使用简单的 JavaScript 表达式",
 		"description": "Label of useExpression option"
@@ -103,6 +142,14 @@
 		"message": "默认扩展名",
 		"description": "Label of defaultExt"
 	},
+  "optionLowResPreviewLabel": {
+    "message": "预览时生成低分辨率图像",
+    "description": "Label of lowResPreview option"
+  },
+  "optionLowResPreviewHelp": {
+    "message": "这可能减少内存占用和优化加载速度。仍会下载原始图像。",
+    "description": "Help text of lowResPreview option"
+  },
 	"optionDisplayImageSizeUnderThumbnailLabel": {
 		"message": "在缩略图下方显示图像大小",
 		"description": "Label of displayImageSizeUnderThumbnail option"
@@ -264,6 +311,10 @@
 		"message": "按钮大小",
 		"description": "Label of downloadButtonSize option"
 	},
+  "optionEscapeFF127Label": {
+    "message": "转义文件名中的点和百分号，以避免 Firefox 127 bug。",
+    "description": "Label of escapeFF127 option"
+  },
 	"optionEscapeWithUnicodeLabel": {
 		"message": "将特殊字符转换为 Unicode 字形",
 		"description": "Label of escapeWithUnicode option"
@@ -353,6 +404,28 @@
 		"message": "图像预览最大高度",
 		"description": "Help text of previewMaxHeight option in image picker"
 	},
+  "pickerProgress": {
+    "message": "$PERCENTAGE$% ($LOADED$ / $TOTAL$), 失败: $FAILED$",
+    "description": "Status of the loading progress in image picker",
+    "placeholders": {
+      "PERCENTAGE": {
+        "content": "$1",
+        "example": "100"
+      },
+      "LOADED": {
+        "content": "$2",
+        "example": "1"
+      },
+      "TOTAL": {
+        "content": "$3",
+        "example": "7"
+      },
+      "FAILED": {
+        "content": "$4",
+        "example": "3"
+      }
+    }
+  },
 	"pickerToolbarFilterLabel": {
 		"message": "过滤器",
 		"description": "Label of the filter toolbar in image picker"
