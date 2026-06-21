@@ -48,10 +48,10 @@
   ],
 	"browser_action": {
 		"default_title": "Pick Images",
-		"default_icon": "images/icon.svg"
+		"default_icon": "images/icon-48.png"
 	},
 	"icons": {
-		"32": "images/icon.svg"
+		"48": "images/icon-48.png"
 	},
 	"default_locale": "en",
   "commands": {
